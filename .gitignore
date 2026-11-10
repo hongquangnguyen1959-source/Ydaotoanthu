@@ -1,0 +1,11 @@
+node_modules/
+build/
+dist/
+coverage/
+.aistudio/
+public/assets/aistudio/*.pdf
+*.pdf
+.DS_Store
+*.log
+.env*
+!.env.example

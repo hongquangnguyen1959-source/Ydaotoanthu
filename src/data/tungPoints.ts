@@ -1,0 +1,11022 @@
+export interface TungPoint {
+  id: string;
+  code: string;
+  name: string;
+  chineseName: string;
+  vietnameseName: string;
+  zone: string;
+  zoneDescription: string;
+  location: string;
+  anatomy: string;
+  indications: string[];
+  needlingMethod: string;
+  dongQiInstruction: string;
+  westernMechanism: string;
+  contraindications?: string;
+  sourceBook: string;
+}
+
+export interface TungFormula {
+  id: string;
+  category: string;
+  diseaseName: string;
+  chineseDisease?: string;
+  mainPoints: string[];
+  adjunctPoints?: string[];
+  bloodlettingPoints?: string[];
+  dongQiMethod: string;
+  clinicalNotes: string;
+}
+
+export interface WhoExtraPoint {
+  id: string;
+  code: string;
+  name: string;
+  region: string;
+  location: string;
+  actions: string;
+  indications: string[];
+  needling: string;
+}
+
+export interface ClassicalProtocol {
+  id: string;
+  title: string;
+  source: string;
+  category: string;
+  syndrome: string;
+  mainPoints: string[];
+  customPointsByType: string[];
+  mangChamTechnique: string;
+}
+
+export interface TungAppendix {
+  id: string;
+  title: string;
+  summary: string;
+  content: string[];
+}
+
+export const TUNG_POINTS: TungPoint[] = [
+  {
+    "id": "tung-1-11-01",
+    "code": "11.01",
+    "name": "Đại Gian",
+    "chineseName": "大間穴",
+    "vietnameseName": "Huyệt Đại Gian",
+    "zone": "Khu 11 (Ngón tay)",
+    "zoneDescription": "Hệ thống huyệt ngón tay Thủ Chỉ Bộ",
+    "location": "Phía lòng bàn tay, chính giữa đốt thứ nhất ngón tay trỏ lệch ra ngoài 3 phân (xem hình | Cách lấy huyệt: Bàn tay ngửa, chính giữa đốt thứ nhất ngón trỏ lệch ra ngoài 3 phân là huyệt",
+    "anatomy": "Giải phẫu: Có dây thần kinh gan ngón. Liên quan kinh Tâm và lục phủ, kinh Can | Quy kinh: Nhập hai kinh Tâm, Phế | Tính huyệt: Thanh tâm hoả, tả phế nhiệt, lợi yết hầu",
+    "indications": [
+      "Viêm nội tâm mạc",
+      "đánh trống ngực",
+      "thở hổn hển",
+      "sán khí",
+      "viêm amidan",
+      "đầy hơi",
+      "đau dây thần kinh sinh ba",
+      "trẻ em hen suyễn",
+      "cam tích",
+      "viêm ruột"
+    ],
+    "needlingMethod": "Châm thẳng 5 phân, vào kim 1-4 phân. Châm thẳng 1 phân là phân nhánh thần kinh tạng Tâm, 2-4 phân là thần kinh Can và Đại, Tiểu trường. Hoặc dùng kim tam lăng chích máu | Cảm giác châm: Tại chỗ căng tức, tê như điện",
+    "dongQiInstruction": "Ứng dụng: Lấy huyệt bên đối, bên trái bệnh lấy huyệt bên phải, bên phải bệnh lấy huyệt bên trái. 10. Kinh nghiệm: Các huyệt Đại gian, Tiểu gian, Ngoại gian là các điểm phản ứng trong lòng bàn tay dùng chẫn đoán khí quản phổi, nếu như có điểm phản ứng châm kim sẽ hiệu quả. Huyệt này nông vào kinh Tâm. Do vậy, châm nông hiệu quả ngay, huyệt này cũng có thể điều trị hen suyễn, nhưng hiệu quả kém hơn huyệt Định suyễn và huyệt Song suyễn, như thầy Đổng đã dạy chỉ có thể châm huyệt một bên tay, nhưng kinh nghiệm lâm sàng cho thầy dùng huyệt hai bên cũng không sợ • Phối huyệt: (1Khí suyễn (bệnh suyễn: Huyệt Đại gian có thể phối các huyệt Thiên sĩ, Địa sĩ, Nhân sĩ có hiệu quả. Có thể thêm các huyệt Trấn tĩnh, Thượng lý, Linh cốt, Đại bạch, Thần nhĩ, Thuỷ kim, Thuỷ thông, Tiểu gian, Trung gian. Kết hợp với cứu ngải vùng Tâm Phế sau lưng, vùng Thận thuỷ ở eo lưng, 7 huyệt Vị mao cùng 23 huyệt Phủ sào vùng bụng. (2Biển đào tuyến viêm (viêm amidan: Chích máu huyệt Hầu linh, Hầu trung, lại lấy huyệt Đại gian, Linh cốt, Đại bạch. (3 Biển đào tuyến viêm (viêm amidan: - Các huyệt Đại gian, Tiểu gian, Trung gian, Linh cốt, Tứ mã, Hầu linh, phối hợp chích huyết các huyệt Hầu linh, Hầu trung. - Các huyệt Linh cốt, Đại bạch, Đại gian, phối hợp chích huyết các huyệt Hầu linh, Hầu trung. (4 Viêm mẫũi: Các huyệt Đại gian, Tiểu gian, Trung gian, Tứ mã, Thuỷ kim, Thuỷ thông và các huyệt trên kinh Thủ thái âm Phế. (5 Viêm ruột: - Dùng các huyệt Tứ hoa hạ huyệt, Trường môn, Can môn, Phủ trường. - Dùng các huyệt Tứ hoa thượng, Trường môn, Can môn, Môn kim, Linh cốt. - Dùng các huyệt Đại gian, Trắc gian, Trường môn, Phủ trường, cứu cách gừng hoặc cách muối lỗ rốn. (6 Sán khí: Dùng các huyệt Đại gian, Tiểu gian, Trung gian, Trắc gian và chỗ nổi khác thường (có điểm hoặc đường màu đen, có thể cấy chỉ (7 Phúc trướng khí (Đầy bụng - Dùng các huyệt Đại gian, Phủ trường, Tứ hoa hạ, Môn kim. - Dùng huyệt Tiêu tích (có thể gia huyệt Tam kỳ (8 Cam tích: Dùng kim tam lăng khêu tại huyệt Đại gian cho chảy nước vàng. (9Tâm hành bất chỉnh (loạn nhịp tim Dùng các huyệt Đại gian, Thần nhĩ (còn gọi là huyệt Phục mạch (10Tâm quý (đánh trống ngực: Dùng các huyệt Đại gian, Tâm linh, phối hợp chích máu huyệt Tứ hoa",
+    "westernMechanism": "Kích thích mật độ cao thụ thể cảm giác da và thần kinh gan ngón / mu ngón (dây giữa, trụ, quay), điều hòa phản xạ phân đoạn tủy cổ C6-T1 và vùng đại diện bàn tay rộng lớn trên vỏ não cảm giác - vận động.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-2-11-02",
+    "code": "11.02",
+    "name": "Tiểu Gian",
+    "chineseName": "小間穴",
+    "vietnameseName": "Huyệt Tiểu Gian",
+    "zone": "Khu 11 (Ngón tay)",
+    "zoneDescription": "Hệ thống huyệt ngón tay Thủ Chỉ Bộ",
+    "location": "Phía lòng bàn tay, chính giữa đốt thứ nhất ngón tay trỏ lệch ra ngoài 3 phân, lên 2,5 phân (Đại gian lên 2,5 phân | Cách lấy huyệt: Bàn tay ngửa, chính giữa đốt thứ nhất ngón trỏ lệch ra ngoài 3 phân, lên 2,5 phân là huyệt (Đại gian lên 2,5 phân",
+    "anatomy": "Giải phẫu: Có dây thần kinh gan ngón; liên quan tạng Tâm và Phế, lục phủ | Quy kinh: Nhập hai kinh Tâm, Phế | Tính huyệt: Tuyên phế chỉ khái, tiêu thũng chỉ thống",
+    "indications": [
+      "Đờm màu vàng",
+      "khò khè phế quản",
+      "tức ngực",
+      "đánh trống ngực",
+      "đau đầu gối",
+      "hiệu quả đặc biệt với sán khí (bệnh thoát vị",
+      "sưng hòn dái",
+      "đầy hơi đường ruột",
+      "viêm giác mạc",
+      "viêm amidan",
+      "trẻ em hen suyễn",
+      "cam tích"
+    ],
+    "needlingMethod": "Châm 5 phân, châm thẳng 2-4 phân. Hoặc dùng kim chích máu, hiệu quả tương tự huyệt Đại gian | Cảm giác châm: Tại chỗ hơi căng tức",
+    "dongQiInstruction": "Ứng dụng: Theo kinh nghiệm lâm sàng của thầy Hồ (胡5 huyệt Đại gian, Tiểu gian, Trắc gian, Trung gian, Hạ gian hiệu quả đặc biệt để điều trị sán khí (bệnh thoát vị, sưng hòn dái. Trong 120 trường hợp điều trị thoát vị, 98 trường hợp được chữa khỏi hoàn toàn, 17 trường hợp thuyên giảm và 5 trường hợp không hiệu quả. Tác dụng đặc biệt để điều trị viêm ruột cấp tính và mãn tính. Khi châm kim cần quan sát điểm phản ứng, nếu không hiệu quả không cao. 10. Kinh nghiệm: Nếu bệnh nhân bị thoát vị trong phần chẫn đoán lòng bàn tay độc nhất của thầy Đổng đây là khí quản và bộ phận sinh dục nam, nếu có màu gân xanh, thì các huyệt liên quan ở trên được dùng trong điều trị thoát vị hiệu quả rất cao • Phối huyệt: (1 Trừ hoàng đàm: Dùng các huyệt Đại gian, Tiểu gian, Trung gian. (2 Bách nhật khái (ho Dùng các huyệt Đại gian, Tiểu gian, Trung gian, huyệt Tam sĩ (Thiên sĩ, Địa sĩ, Nhân sĩ",
+    "westernMechanism": "Kích thích mật độ cao thụ thể cảm giác da và thần kinh gan ngón / mu ngón (dây giữa, trụ, quay), điều hòa phản xạ phân đoạn tủy cổ C6-T1 và vùng đại diện bàn tay rộng lớn trên vỏ não cảm giác - vận động.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-3-11-03",
+    "code": "11.03",
+    "name": "Phù Gian",
+    "chineseName": "浮間",
+    "vietnameseName": "Huyệt Phù Gian",
+    "zone": "Khu 11 (Ngón tay)",
+    "zoneDescription": "Hệ thống huyệt ngón tay Thủ Chỉ Bộ",
+    "location": "Mặt lòng ngón tay trỏ, chính giữa đốt thứ 2 lệch ra ngoài (phía ngón cái) 2 phân, cách lằn chỉ khớp liên đốt trên 3,3 phân (chia đốt giữa làm 3 phần, lấy ở 1/3 trên).",
+    "anatomy": "Thần kinh gan ngón tay của dây thần kinh giữa. Quy kinh: Tâm, Lục phủ (Đại trường, Vị).",
+    "indications": [
+      "Thoát vị bẹn (Sán khí)",
+      "Viêm niệu đạo, tiểu buốt, tiểu rắt",
+      "Đau răng, đau dạ dày, sôi bụng",
+      "Đau tức vùng tim"
+    ],
+    "needlingMethod": "Châm thẳng sâu 1 - 2 phân bằng kim hào châm 5 phân. Kỵ châm hai tay cùng lúc.",
+    "dongQiInstruction": "Phối hợp Ngoại Gian, Đại Gian, Tiểu Gian, Trung Gian tạo thành nhóm Ngũ Gian chuyên trị sán khí, viêm đường tiết niệu và đau bụng khí trệ.",
+    "westernMechanism": "Kích thích mật độ cao thụ thể cảm giác da và thần kinh gan ngón / mu ngón (dây giữa, trụ, quay), điều hòa phản xạ phân đoạn tủy cổ C6-T1 và vùng đại diện bàn tay rộng lớn trên vỏ não cảm giác - vận động.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-4-11-04",
+    "code": "11.04",
+    "name": "Ngoại Gian",
+    "chineseName": "外間",
+    "vietnameseName": "Huyệt Ngoại Gian",
+    "zone": "Khu 11 (Ngón tay)",
+    "zoneDescription": "Hệ thống huyệt ngón tay Thủ Chỉ Bộ",
+    "location": "Mặt lòng ngón tay trỏ, tại đốt thứ 2 lệch ra ngoài (phía ngón cái) 2 phân, cách lằn chỉ khớp liên đốt dưới 3,3 phân (nằm ngay dưới huyệt Phù Gian 3,3 phân).",
+    "anatomy": "Thần kinh gan ngón tay của dây thần kinh giữa. Quy kinh: Tâm, Lục phủ.",
+    "indications": [
+      "Thoát vị bẹn (Sán khí)",
+      "Viêm niệu đạo, viêm bàng quang",
+      "Đau răng, đau bụng dưới, sôi ruột"
+    ],
+    "needlingMethod": "Châm thẳng sâu 1 - 2 phân. Kỵ châm cả hai tay cùng lúc.",
+    "dongQiInstruction": "Thường châm Đảo mã cùng Phù Gian (11.03) để tăng hiệu lực sơ tiết khí cơ hạ tiêu và chỉ thống.",
+    "westernMechanism": "Kích thích mật độ cao thụ thể cảm giác da và thần kinh gan ngón / mu ngón (dây giữa, trụ, quay), điều hòa phản xạ phân đoạn tủy cổ C6-T1 và vùng đại diện bàn tay rộng lớn trên vỏ não cảm giác - vận động.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-5-11-05",
+    "code": "11.05",
+    "name": "Trung Gian",
+    "chineseName": "中間穴",
+    "vietnameseName": "Huyệt Trung Gian",
+    "zone": "Khu 11 (Ngón tay)",
+    "zoneDescription": "Hệ thống huyệt ngón tay Thủ Chỉ Bộ",
+    "location": "Phía lòng bàn tay, chính giữa đốt thứ nhất ngón tay trỏ | Cách lấy huyệt: Bàn tay ngửa, chính giữa đốt đầu tiên ngón tay trỏ",
+    "anatomy": "Giải phẫu: Có dây thần kinh gan ngón bên cạnh; liên quan tạng Tâm và Phế, lục phủ | Quy kinh: Nhập hai kinh Tâm, Phế | Tính huyệt: Điều tâm khí, khoan hung (giãn ngực) lợi cách (cơ hoành",
+    "indications": [
+      "Đánh trống ngực",
+      "thoát vị",
+      "tức ngực",
+      "đau đầu gối",
+      "chóng mặt",
+      "đau mỏi mắt",
+      "đau lưng loá mắt"
+    ],
+    "needlingMethod": "Châm thẳng 5 phân, châm sâu 2-3 phân | Cảm giác châm: Căng chướng và đau nhức tại chỗ",
+    "dongQiInstruction": "Kinh nghiệm: Một bà mẹ học sinh, hơn 60 tuổi, quanh năm bị bênh suyễn mà đốt thứ nhất của ngón trỏ, nghĩa là các huyệt Trung gian, Đại gian, Trắc gian, Tiểu gian mỗi khi xuất hiện các điểm thâm đen sâu, châm thì dừng bệnh, hiệu quả khá tốt. Để điều trị triệt để, nên kết hợp với các huyệt đạo khác, như huyệt song suyễn, điểm trung khí quản nhĩ huyệt, định suyễn, thần môn và nếu kết hợp với thuốc và chế độ ăn kiêng Trung Quốc, hiệu quả sẽ tốt hơn • Phối huyệt: (1 Điều trị tâm quý (đánh trống ngực Phối huyệt Tâm linh, Trấn tĩnh cùng huyệt Thượng tinh đảo mã, huyệt Thủ tam sĩ (Thiên sĩ, Địa sĩ và Nhân sĩLinh cốt, Đại bạch, Thuỷ kim, Thuỷ thông, Thủ tam gian (gồm Đại gian, Tiểu gian, Trung gian(hoặc đảo mã Phế điểm, Thủ trửu huyệt Thần nhĩ trên tai. (2 Khi lấy huyệt, có thể châm đồng thời 3 kim theo phép đảo mã",
+    "westernMechanism": "Kích thích mật độ cao thụ thể cảm giác da và thần kinh gan ngón / mu ngón (dây giữa, trụ, quay), điều hòa phản xạ phân đoạn tủy cổ C6-T1 và vùng đại diện bàn tay rộng lớn trên vỏ não cảm giác - vận động.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-6-11-06",
+    "code": "11.06",
+    "name": "Hoàn Sào",
+    "chineseName": "枕還枕穴",
+    "vietnameseName": "Huyệt Hoàn Sào",
+    "zone": "Khu 11 (Ngón tay)",
+    "zoneDescription": "Hệ thống huyệt ngón tay Thủ Chỉ Bộ",
+    "location": "Phía lòng bàn tay, chính giữa đốt thứ hai ngón vô danh ra ngoài (phía ngón cái5 phân là huyệt. (Lưu ý: Theo tài liệu của thầy Đổng huyệt Hoàn sào nằm ở phía ngón út, xem hình vẽ | Cách lấy huyệt: Bàn tay ngửa, chính giữa đốt thứ hai ngón vô danh lệch ra ngoài (phía ngón cái5 phân là huyệt. (Lưu ý: Theo tài liệu của thầy Đổng huyệt Hoàn sào nằm ở phía ngón út, xem hình vẽ",
+    "anatomy": "Giải phẫu: Bên cạnh có dây thần kinh gan ngón; liên quan kinh Can, Thận | Quy kinh: Nhập hai kinh Can, Thận | Tính huyệt: Điều kinh lý đới, tuyên thông hạ tiêu",
+    "indications": [
+      "Viêm buồng trứng (noãn sào viêmu nang buồng trứng (noãn sào nang thũng",
+      "ung thư tử cung (tử cung nham đau tử cung (tử cung thống kinh nguyệt không đều (nguyệt kinh bất điệu",
+      "xích bạch đới",
+      "vòi trứng không thông",
+      "tử cung không đều",
+      "an thai",
+      "viêm âm đạo",
+      "viêm niệu đạo"
+    ],
+    "needlingMethod": "Kim 5 phân châm thẳng 2-3 phân | Cảm giác châm: Tại chỗ căng trướng, đau rát",
+    "dongQiInstruction": "Ứng dụng: Phối huyệt Phụ khoa trị bách bệnh phụ khoa • Thuyết minh: (1Huyệt Hoàn sào có thể phối huyệt Phượng sào (đốt thứ nhất ngón vô danh ra ngoài, 5 huyệt Phụ khoa, hiệu quả tốt. (2 Lấy huyệt phụ khoa gia huyệt Thông thận, Thông vị an thai hiệu quả. Khi có mang, không được châm pháp đảo mã, không được châm Linh cốt, Tam âm giao cùng ngón tay, ngón chân, lòng bàn chân cùng các huyệt vị kích thích mạnh tránh dẫn tới đẻ non, sẫy thai và các vấn đề khác. (3 Khối u tử cung (tử cung lựu, ung thư tử cung (tử cung nham Huyệt Hoàn sào phối huyệt Tam trọng, gia huyệt Phụ khoa, Thượng tam hoàng (Thiên hoàng, Minh hoàng, Kỳ hoàng châm huyệt bất định, chích máu ở vùng mông, xương cùng. (4 Châm kim từ phía lòng bàn tay rất đau, có thể vào kim từ phía mu bàn tay. (5Xích bạch đới hạ: Huyệt Hoàn sào phối các huyệt túc Mộc phụ, Lý bạch, Vân bạch • Phối huyệt: (1U xơ tử cung (tử cung cơ lựuCan đảm thấp nhiệt hoặc can kinh thực hoả, có thể dùng long đảm tả can thang, thể hư gia bổ trung ích khí thang. (2 Kinh nguyệt không đều (nguyệt kinh bất điều: Huyệt Hoàn sào phối huyệt Thượng tam hoàng (Thiên hoàng, Minh hoàng, Kỳ hoàng Hạ tam hoàng (Thiên hoàng, Địa hoàng, Nhân hoànghuyệt Phụ khoa, chích máu ở vùng mông, xương cùng, cứu ngải 23 huyệt Phủ sào. (3Xích bạch đới hạ: Phụ khoa, Thượng tam hoàng (Thiên hoàng, Minh hoàng, Kỳ hoàngHạ tam hoàng (Thiên hoàng, Địa hoàng, Nhân hoàng Thiên tông, Vân bạch, Lý bạch. Thường ăn trứng chiên chín tầng (cửu tầng tháp: trứng chiên với rau húng quế thêm dầu mè; bệnh nghiêm trọng sử dụng thuốc tây nhanh hơn. (4Viêm tử cung, khối u, ung thư (tử cung viêm, lựu, nham Huyệt Hoàn sào phối huyệt Phụ khoa, Tam kỳ, Tam trọng, Môn kim, phối châm bất định huyệt. (5 Ung thư (Thẫũng lựu nham chứng: Huyệt Hoàn sào phối huyệt Tam trọng. (6 Đi ngoài ra máu, tiêu chảy (lạp huyết, lạp đỗ tử: Huyệt Hoàn sào phối huyệt Tam trọng, lưu kim bất định huyệt, chích huyết vùng Tỳ Vị ở lưng dưới",
+    "westernMechanism": "Kích thích mật độ cao thụ thể cảm giác da và thần kinh gan ngón / mu ngón (dây giữa, trụ, quay), điều hòa phản xạ phân đoạn tủy cổ C6-T1 và vùng đại diện bàn tay rộng lớn trên vỏ não cảm giác - vận động.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-7-11-07",
+    "code": "11.07",
+    "name": "Chỉ Tứ Mã",
+    "chineseName": "指駟馬穴",
+    "vietnameseName": "Huyệt Chỉ Tứ Mã",
+    "zone": "Khu 11 (Ngón tay)",
+    "zoneDescription": "Hệ thống huyệt ngón tay Thủ Chỉ Bộ",
+    "location": "Huyệt Tứ mã 2: Lưng ngón tay trỏ, chính giữa đốt thứ 2 ra ngoài (phía ngón út3 phân là huyệt. - Huyệt Tứ mã 1: Huyệt tứ mã 2 xuống 2,5 phân là huyệt. - Huyệt Tứ mã 3: Huyệt tứ mã 2 lên 2,5 phân là huyệt",
+    "anatomy": "Giải phẫu: Các nhánh nông của thần kinh giữa, liên quan đến Phế | Quy kinh: Nhập kinh Phế | Tính huyệt: Sơ phong giải biểu, điều hoà khí huyết",
+    "indications": [
+      "Bệnh ngoài da (bì phu bệnhđốm đen trên mặt (kiểm thượng hắc ban tàn nhang (tước ban",
+      "viêm mũi (tỵ viêmù tai (nhĩ minhviêm tai giữa (trung nhĩ viêm đau ngực (hung thống viêm màng phổi (lặc mạc viêm"
+    ],
+    "needlingMethod": "Châm thẳng 1-2 phân | Cảm giác châm: Tại chỗ căng đau, rát",
+    "dongQiInstruction": "Thuyết minh: Huyệt Chỉ tứ mã với huyệt Chỉ ngũ kim, Chỉ thiên kim cùng nằm trên một đường thẳng, Chỉ ngũ kim tại đốt thứ nhất ngón trỏ, Chỉ tứ mã tại đốt thứ hai, tài liệu ban đầu của thầy Đổng ra ngoài 2 phân, tài liệu của thầy Hồ là 3 phân, như vậy hai thầy không thống nhất. 10. Kinh nghiệm: Huyệt Tứ mã có huyệt Chỉ tứ mã, huyệt Túc tứ mã, cả hai đều nhập kinh phế, là chủ huyệt điều khí, là huyệt vị chủ điều trị các vấn đề liên quan đến da, đối với các bệnh về da, mụn trứng cá (thanh xuân đậu, đốm đen (hắc bancó hiệu quả • Phối huyệt: (1 Điều trị đốm đen (hắc ban: - Huyệt Túc tứ mã phối Thông quan, Thông sơn, Linh cốt, Thượng tam hoàng (Thiên hoàng, Minh hoàng, Kỳ hoàng Hạ tam hoàng (Thiên hoàng, Địa hoàng, Nhân hoàng, hiệu quả tốt. - Huyệt Chỉ tứ mã gia huyệt Phụ khoa hoặc chích máu vùng bệnh. Châm Linh cốt, Đại bạch, cấy chỉ huyệt Bì phu (trên tai - Huyệt Chỉ tứ mã, Tam sĩ (thiên địa nhân trên mặt dụng tam châm. (2 Điều trị mụn sưng đỏ, trứng cá lớn (trị liệu hồng thũng đại khoả thanh xuân đậu Huyệt Chỉ tứ mã phối huyệt Tam trọng, Linh cốt, Hạ tam hoàng (Thiên hoàng, Địa hoàng, Nhân hoàng, Thượng tam hoàng (Thiên hoàng, Minh hoàng, Kỳ hoàngTúc tứ mã. (3 Ù tai (nhĩ minh, viêm tai giữa (trung nhĩ viêm Tam trọng, Tứ mã, Uyển thuận làm chủ, vùng bệnh lấy huyệt dụng tam châm",
+    "westernMechanism": "Kích thích mật độ cao thụ thể cảm giác da và thần kinh gan ngón / mu ngón (dây giữa, trụ, quay), điều hòa phản xạ phân đoạn tủy cổ C6-T1 và vùng đại diện bàn tay rộng lớn trên vỏ não cảm giác - vận động.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-8-11-08",
+    "code": "11.08",
+    "name": "Chỉ Ngũ Kim & Chỉ Thiên Kim",
+    "chineseName": "指五金",
+    "vietnameseName": "Huyệt Chỉ Ngũ Kim & Chỉ Thiên Kim",
+    "zone": "Khu 11 (Ngón tay)",
+    "zoneDescription": "Hệ thống huyệt ngón tay Thủ Chỉ Bộ",
+    "location": "Mặt lưng đốt thứ nhất ngón tay trỏ, lệch vào phía trong (phía ngón giữa): Chia đốt 1 thành 3 phần, Chỉ Ngũ Kim ở 1/3 dưới, Chỉ Thiên Kim ở 1/3 trên.",
+    "anatomy": "Nhánh thần kinh mu ngón của thần kinh quay. Quy kinh: Phế, Đại trường, Can.",
+    "indications": [
+      "Viêm ruột cấp và mạn tính, đau bụng dưới",
+      "Hóc xương cá ở họng",
+      "Viêm họng, sưng amidan, đờm tắc cổ họng"
+    ],
+    "needlingMethod": "Châm thẳng hoặc xiên sát xương sâu 1 - 2 phân (châm Đảo mã 2 huyệt).",
+    "dongQiInstruction": "Tương ứng với Thủ Ngũ Kim (33.08) và Thủ Thiên Kim (33.09) ở cẳng tay, chuyên giải độc họng và thông trệ đại trường.",
+    "westernMechanism": "Kích thích mật độ cao thụ thể cảm giác da và thần kinh gan ngón / mu ngón (dây giữa, trụ, quay), điều hòa phản xạ phân đoạn tủy cổ C6-T1 và vùng đại diện bàn tay rộng lớn trên vỏ não cảm giác - vận động.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-9-11-09",
+    "code": "11.09",
+    "name": "Tâm Tất",
+    "chineseName": "心膝穴",
+    "vietnameseName": "Huyệt Tâm Tất",
+    "zone": "Khu 11 (Ngón tay)",
+    "zoneDescription": "Hệ thống huyệt ngón tay Thủ Chỉ Bộ",
+    "location": "Huyệt Tâm tất 1: Lưng ngón tay giữa, chính giữa đốt thứ 2 sang bên cạnh (về phía ngón cái5 phân là huyệt. - Huyệt Tâm tất 2: Lưng ngón tay giữa, chính giữa đốt thứ 2 sang bên cạnh (về phía ngón út5 phân là huyệt",
+    "anatomy": "Giải phẫu: Dưới da có thần kinh mu ngón tay, liên quan tới tạng Tâm | Quy kinh: Nhập kinh Tâm | Tính huyệt: Tiêu thũng chỉ thống",
+    "indications": [
+      "Đau giữa hai vai (kiên giáp thống",
+      "đau cổ (cảnh hạng thống bắp chân sung đau nhức (tiểu thối trướng thống cập toan thống",
+      "đau đầu gối (tất cái thống"
+    ],
+    "needlingMethod": "Huyệt Tâm tất 1: Châm nghiêng từ trong ra ngoài (nghiêng sát xương 2-3 phân. - Huyệt Tâm tất 2: Châm nghiêng từ ngoài vào trong (nghiêng sát xương 2-3 phân | Cảm giác châm: Căng tức đau rát tại chỗ",
+    "dongQiInstruction": "Ứng dụng: Không kỵ châm huyệt ở hai tay cùng lúc • Thuyết minh: Huyệt Tâm tất trong tài liệu của thầy Đổng có khác biệt, vị trí chỉ nói là ở lưng ngón giữa, chính giữa đốt thứ hai ra hai bên, không nói rõ khoảng cách; thầy Hồ đã chỉ mốc ra mỗi bên 5 phân là huyệt. - Khi không có kim châm cứu, bạn có thể dùng móng tay bấm huyệt, hiệu quả cũng tốt • Phối huyệt: (1 Trị đau đầu gối (tất cái thống, bắp chân sung đau (tiểu thối trướng thống: Có thể phối huyệt Kiên trung, hiệu quả tốt hơn. (2 Trị đau giữa hai vai (kiên giáp thống đau cổ (cảnh hạng thống: Có thể phối huyệt Thiên kiên, huyệt Nhân hoàng. (3 Trị thoái hóa đầu gối (tất cái thoái hoá, bị thương đầu gối (tất thâu thương: Lấy chích máu làm chủ, châm huyệt Kiến trung, Kiên trung, Thổ thuỷ. (4Trị dây chằng chéo trước bị thương (tiền thập tự nhận đới lạp thương: Châm huyệt Kiến trung, Kiên trung, Thổ thuỷ",
+    "westernMechanism": "Kích thích mật độ cao thụ thể cảm giác da và thần kinh gan ngón / mu ngón (dây giữa, trụ, quay), điều hòa phản xạ phân đoạn tủy cổ C6-T1 và vùng đại diện bàn tay rộng lớn trên vỏ não cảm giác - vận động.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-10-11-10",
+    "code": "11.10",
+    "name": "4 Mộc Hỏa",
+    "chineseName": "木火四穴",
+    "vietnameseName": "4 Huyệt Mộc Hỏa",
+    "zone": "Khu 11 (Ngón tay)",
+    "zoneDescription": "Hệ thống huyệt ngón tay Thủ Chỉ Bộ",
+    "location": "Huyệt Mộc hỏa 1: Mặt lưng ngón tay trỏ, tại khe khớp với đốt ngoài cùng, giữa nếp văn ngang là huyệt. - Huyệt Mộc hỏa 2: Mặt lưng ngón tay giữa, tại khe khớp với đốt ngoài cùng, giữa nếp văn ngang là huyệt. - Huyệt Mộc hỏa 3: Mặt lưng ngón tay áp út (vô danh tại khe khớp với đốt ngoài cùng, giữa nếp văn ngang là huyệt. - Huyệt Mộc hỏa 4: Mặt lưng ngón tay út, tại khe khớp với đốt ngoài cùng, giữa nếp văn ngang là huyệt",
+    "anatomy": "Giải phẫu: Có các nhánh thần kinh mu ngón và thần kinh gan ngón tay dưới da, liên quan tạng Can và Tâm | Quy kinh: Nhập kinh Can | Tính huyệt: Sơ kinh hoạt lạc, hoạt huyết khư ứ",
+    "indications": [
+      "Liệt nửa người (Bán thân bất toại",
+      "chân đùi đau (thoái thống",
+      "di chứng sau trúng gió (trúng phong hậu di chứng sưng đau quanh mắt cá chân khó đi lại (thảo hài phong"
+    ],
+    "needlingMethod": "Hướng kim từ trên xuống nghiêng 15 độ, châm sâu 1-2 phân. Hoặc dùng kim tiêm châm nông xuất huyết | Cảm giác châm: Đau rát chút ít. 9. Chú ý: 1. Bốn huyệt Mộc hoả hiệu lực nhanh chóng, thông thường châm một thời gian không quá 5 phút làm nguyên tắc. Sau 5 ngày châm liên tục, thời gian giới hạn là 3 phút. Nếu châm quá lâu, sau đó sẽ bị chóng mặt, vô thần buồn ngủ (chấn thương y tế, có thể châm huyệt Thủ giải để xử lý. 2. Di chứng sau trúng phong hoặc liệt nửa người (bán thân bất toại, nếu trên vùng huyệt có sắc đen sẫm, châm hoặc chích máu rất hiệu quả",
+    "dongQiInstruction": "Phối huyệt: Huyệt Mộc hỏa là 1 trong 72 tuyệt kỹ của thầy Đổng, huyệt đặc hiệu dùng điều trị liệt nửa người (bán thân bất toại nếu phối huyệt Bát quan hiệu quả gấp bội. (1 Eo lưng cong về sau đau (yêu hậu ngưỡng hội thống - Bốn huyệt Mộc hỏa phối huyệt Phân thuỷ, Tam hà. - Bốn huyệt Mộc hỏa phối huyệt Chính cân, Chính tông, Chính sĩ, An tích. (2 Eo lưng cúi, ngửa đau (yêu tiền hậu ngưỡng thống Bốn huyệt Mộc hỏa phối huyệt Chính cân , Chính sĩ, An tích, Hoả ngạnh, Hoả chủ, Uyển thuận 1. (3 Eo lưng quay nghiêng đau (yêu trắc chuyển hội thống Bốn huyệt Mộc hỏa phối huyệt Thuỷ yêu. (4 Eo lưng cúi đau (yêu tiền phủ hội thống Bốn huyệt Mộc hỏa phối huyệt Nhị giác minh, huyệt Đảm. (5 Cổ cứng quay 2 bên đau (cảnh cường tả hữu trắc loan hội thống: Bốn huyệt Mộc hỏa phối huyệt Uyển thuận hạ, Tam trọng, Thượng bạch, Phân bạch. (6 Đầu cổ cúi thấp gây đau ngực (đầu cảnh hướng hạ đê dẫn khởi hung thống Bốn huyệt Mộc hỏa phối huyệt Tâm linh 1, 2, 3. (7 Đầu cổ ngửa về sau đau (đầu cảnh hướng hậu ngưỡng hội thống Bốn huyệt Mộc hỏa phối huyệt Chính cân, Chính tông, Nhị giác minh. (8 Đầu cổ quay 2 bên đau (đầu cảnh tả hữu chuyển hội thống: Bốn huyệt Mộc hỏa phối huyệt Uyển thuận hạ, Kiên ngưng (Điều khẫu",
+    "westernMechanism": "Kích thích mật độ cao thụ thể cảm giác da và thần kinh gan ngón / mu ngón (dây giữa, trụ, quay), điều hòa phản xạ phân đoạn tủy cổ C6-T1 và vùng đại diện bàn tay rộng lớn trên vỏ não cảm giác - vận động.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-11-11-11",
+    "code": "11.11",
+    "name": "Phế Tâm",
+    "chineseName": "肺心穴",
+    "vietnameseName": "Huyệt Phế Tâm",
+    "zone": "Khu 11 (Ngón tay)",
+    "zoneDescription": "Hệ thống huyệt ngón tay Thủ Chỉ Bộ",
+    "location": "Có 3 huyệt (có tài liệu chỉ có 2 huyệt, xem hình - Huyệt Phế tâm 1: Lưng ngón tay giữa, chính giữa đốt thứ 2 xuống 2,5 phân là huyệt. - Huyệt Phế tâm 2: Lưng ngón tay giữa, chính giữa đốt thứ 2 là huyệt. - Huyệt Phế tâm 3: Lưng ngón tay giữa, chính giữa đốt thứ 2 lên 2,5 phân là huyệt",
+    "anatomy": "Giải phẫu: Dưới da có thần kinh mu ngón tay, liên quan tới nhánh kinh Tâm, Phế | Quy kinh: Nhập hai kinh Tâm, Phế | Tính huyệt: Tuyên thông khí huyết, thông lạc chỉ thống",
+    "indications": [
+      "gai xương cổ (cảnh hạng cốt thích - cốt thích:骨刺",
+      "Bone Spur",
+      "osteophytes gai cột sống (tích truỳ cốt cốt thích cổ căng đau (hạng khẫn thốngđau thần kinh màng phổi (lặc mạc thần kinh thống đau ngực (hung thống đau lưng (bối thống",
+      "đau thần kinh ngón cái (đại mẫu chỉ thần kinh thống",
+      "đau thần kinh tọa đau đầu sau gáy",
+      "đau bắp chân (tiểu thối thống"
+    ],
+    "needlingMethod": "Châm nghiêng từ thượng tới hạ 1-2 phân | Cảm giác châm: Đau tức tại chỗ",
+    "dongQiInstruction": "Thuyết minh: Huyệt Phế tâm, huyệt Nhị giác minh theo một tuyến ở lưng ngón tay giữa như phần lưng của cơ thể; Mộc hỏa 2, huyệt Phế tâm, huyệt Nhị giác minh liền một đường biểu thị cột sống, đốc mạch; vì vậy huyệt Phế tâm hữu hiệu trong trị cổ căng đau, gai xương cổ, gai cột sống. 10. Kinh nghiệm: Huyệt Phế tâm có 3 huyệt, có thể châm xuyên thấu huyệt, một kim châm xuyên 3 huyệt hiệu quả tốt, có thể dùng kim 2 thốn từ huyệt Phế tâm xuyên đến huyệt Nhị giác minh. Cũng có thể cấy chỉ",
+    "westernMechanism": "Kích thích mật độ cao thụ thể cảm giác da và thần kinh gan ngón / mu ngón (dây giữa, trụ, quay), điều hòa phản xạ phân đoạn tủy cổ C6-T1 và vùng đại diện bàn tay rộng lớn trên vỏ não cảm giác - vận động.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-12-11-12",
+    "code": "11.12",
+    "name": "Nhị Giác Minh",
+    "chineseName": "二角明穴",
+    "vietnameseName": "Huyệt Nhị Giác Minh",
+    "zone": "Khu 11 (Ngón tay)",
+    "zoneDescription": "Hệ thống huyệt ngón tay Thủ Chỉ Bộ",
+    "location": "Có hai huyệt. - Huyệt Nhị giác minh 1: Lưng ngón tay giữa, tuyến chính chính giữa đốt thứ nhất chia 3 phần, giữa phần thứ nhất và hai (từ bàn tay ralà huyệt. - Huyệt Nhị giác minh 2: Lưng ngón tay giữa, tuyến chính chính giữa đốt thứ nhất chia 3 phần, giữa phần thứ hai và ba (từ bàn tay ra là huyệt",
+    "anatomy": "Giải phẫu: Dưới da có thần kinh mu ngón tay, liên quan tới kinh Thận | Quy kinh: Nhập kinh Thận | Tính huyệt: Sơ khí hóa ứ, tiêu thũng chỉ thống",
+    "indications": [
+      "Nhãn áp quá cao sưng đau (Nhãn áp thái cao chi trướng thốngđau nhức gờ xương lông mày (my lăng cốt toan thống đau thắt lưng (yêu thống bong gân thắt lưng cấp tính (thiểm yêu xá khísống mũi đau nhức (tỵ cốt toan thống"
+    ],
+    "needlingMethod": "Châm nghiêng từ trên xuống 1-2 phân. Hoặc dùng kim tam lăng chích máu | Cảm giác châm: Đau tức tại chỗ",
+    "dongQiInstruction": "Thuyết minh: Từ huyệt Mộc hoả 2, huyệt Phế tâm, huyệt Nhị giác minh xuống thành một trục đại diện cho cột sống, cho mạch Đốc; theo ngón tay giữa mà mói, vị trí của huyệt Nhị giác minh tương ứng vùng đốt sống thắt lưng, vì thế nó trị đau thắt lưng, bong gân thắt lưng cấp tinh. 10. Kinh nghiệm: Nhị giác minh có 2 huyệt, dùng 1 kim châm xuyên qua 2 huyệt, hiệu quả tốt hơn so với châm một huyệt • Phối huyệt: Huyệt Nhị giác minh hiệu quả hơn với đau thắt lưng do đốt sống thắt lưng, có thể phối thêm huyệt Uyển thuận, huyệt Phân thuỷ, huyệt Tam hà, cùng với chích máu vùng bệnh",
+    "westernMechanism": "Kích thích mật độ cao thụ thể cảm giác da và thần kinh gan ngón / mu ngón (dây giữa, trụ, quay), điều hòa phản xạ phân đoạn tủy cổ C6-T1 và vùng đại diện bàn tay rộng lớn trên vỏ não cảm giác - vận động.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-13-11-13",
+    "code": "11.13",
+    "name": "Đảm",
+    "chineseName": "膽穴",
+    "vietnameseName": "Huyệt Đảm",
+    "zone": "Khu 11 (Ngón tay)",
+    "zoneDescription": "Hệ thống huyệt ngón tay Thủ Chỉ Bộ",
+    "location": "Huyệt Đảm 1: Lưng ngón tay giữa, chính giữa đốt thứ nhất lệch về phía ngón cái 5 phân. - Huyệt Đảm 2: Lưng ngón tay giữa, chính giữa đốt thứ nhất lệch về phía ngón út 5 phân",
+    "anatomy": "Giải phẫu: Dưới da có thần kinh mu ngón tay, liên quan tới kinh Tâm, Đảm | Quy kinh: Nhập kinh Tâm và Đảm | Tính huyệt: Trấn định, lý khí, chỉ thống",
+    "indications": [
+      "Trẻ em khóc đêm (tiểu nhi dạ khốc đầy bụng (phúc trướng chân sưng đau (thối toan trướng",
+      "đau dây thần kinh cẳng chân (tiểu thối thần kinh thốngchóng mặt (đầu hôn",
+      "nhức đầu (đầu thốngbệnh vàng da (hoàng đảm bệnh",
+      "đánh trống ngực (kinh quý"
+    ],
+    "needlingMethod": "Huyệt Đảm 1: Châm nghiêng từ phía ngón cái hướng sang phía ngón út, sâu 2-3 phân. - Huyệt Đảm 2: Châm nghiêng từ phía ngón út hướng sang phía ngón cái, sâu 2-3 phân | Cảm giác châm: Tại chỗ căng tức, đau rát",
+    "dongQiInstruction": "Thuyết minh: Trong tài liệu ban đầu của thầy Đổng chỉ liệt kê huyệt Đảm trị chứng kinh sợ (tâm kinh và trẻ em khóc đêm (tiểu nhi dạ khốc thầy Hồ đã bổ sung thêm nhiều nội dung, không giữ cho riêng mình mà công bố nhiều yếu quyết của Đổng thị kỳ huyệt. - Huyệt Nhị giác minh trị thắt lưng và huyệt Đảm có thể phối huyệt Uyển thuận 1, huyệt Tam hà, huyệt Phân thuỷ trị đau thắt lưng (yêu thống - Người bị viêm túi mật mãn tính gây đau vùng vị quản hoặc hạ sườn thì có thể dùng huyệt Đảm hiệu quả tốt. Phối huyệt: (1 Trị chân sung đau (thối trướng thống, kim đến bệnh lui. (2Trị bệnh vàng da (hoàng đảm bệnh, phối huyệt Mộc hoàng hiệu quả thần kỳ. (3 Leo núi chân sưng đau nhức có thể trị. (4Tay không nâng được vật nặng (Thủ đề bất khởi trùng vật), có thể châm bên đối các huyệt Tứ hoa thượng, Tứ hoa trung, Tứ hoa hạ",
+    "westernMechanism": "Kích thích mật độ cao thụ thể cảm giác da và thần kinh gan ngón / mu ngón (dây giữa, trụ, quay), điều hòa phản xạ phân đoạn tủy cổ C6-T1 và vùng đại diện bàn tay rộng lớn trên vỏ não cảm giác - vận động.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-14-11-14",
+    "code": "11.14",
+    "name": "Chỉ Tam Trọng",
+    "chineseName": "指三重穴",
+    "vietnameseName": "Huyệt Chỉ Tam Trọng",
+    "zone": "Khu 11 (Ngón tay)",
+    "zoneDescription": "Hệ thống huyệt ngón tay Thủ Chỉ Bộ",
+    "location": "Huyệt Chỉ tam trọng 1: Lưng bàn tay, chính gữa đốt thứ 2 ngón áp út (vô danhra ngoài 3 phân, xuống dưới 2,5 phân là huyệt. - Huyệt Chỉ tam trọng 2: Lưng bàn tay, chính gữa đốt thứ 2 ngón áp út (vô danhra ngoài 3 phân. - Huyệt Chỉ tam trọng 3: Lưng bàn tay, chính gữa đốt thứ 2 ngón áp út (vô danhra ngoài 3 phân, lên trên 2,5 phân là huyệt",
+    "anatomy": "Giải phẫu: Dưới da là nhánh thần kinh mu ngón tay, liên hệ kinh Can và Thận | Quy kinh: Nhập 2 kinh can và Thận | Tính huyệt: Hoạt huyết hoá ứ, sơ phong tiêu thũng",
+    "indications": [
+      "Nhọt sưng đỏ ở vú (nhũ ung-乳癰-Deep Rooted Breast Carbuncles khối u ở vú (nhũ lựu-乳瘤- breast neoplasms sưng núm vú (nhũ đầu thũng đại-乳頭腫大- papillary hypertrophy teo cơ (cơ nhục nuy súc-肌肉萎縮- myatrophy",
+      "myophagism",
+      "giải trừ phong (khu phong-驅風 liệt dây thần kinh mặt (kiểm/diện bộ thần kinh ma tý-臉/面部神經麻痺-prosopoplegia"
+    ],
+    "needlingMethod": "Châm nghiêng 1-2 phân | Cảm giác châm: Căng tức đau rát tại chỗ",
+    "dongQiInstruction": "Ứng dụng: Phối hợp huyệt Kiên phong đặc hiệu trị ung thư vú (nhũ nham, khối u ở vú (nhũ lựu • Thuyết minh: Vị trí huyệt trong tài liệu của thầy Đổng đường chính giữa đốt giữa ngón áp út ra ngoài 2 phân, không chỉ rõ mặt lưng ngón tay, vì sợ thiếu sót, nay thầy Hồ đã sửa thành ra ngoài 3 phân, đã được thầy Đổng thông qua. 11. Phân biệt: - Huyệt Tam trọng có hai: Một là huyệt Chỉ tam trọng, một là huyệt Túc tam trọng, chủ trị giống nhau, huyệt Túc tam trọng phạm vi sử dụng rộng hơn. Trong lâm sàng, huyệt Túc tam trọng dùng nhiều hơn và tác dụng tốt hơn, huyệt Chỉ tam trọng chỉ tập trung dùng trị phần vú. - Huyệt Tam trọng cùng huyệt Túc tam quan: là những huyệt chính trị các khối u, huyệt Tam trọng được chỉ định nhiều hơn huyệt Tam quan, nếu nói về trị các khối u, có thể sử dụng luân phiên hai huyệt này • Phối huyệt: (1 Khối u vú (nhẫũ phòng thũng lựu-乳房腫瘤: Huyệt Song long, Tứ hoa, Tam trọng. (2Ung thư xương (cốt nham lựu-骨癌瘤- bone tumor osteoma: Huyệt Ngũ hổ, Phục nguyên, Tam trọng hoặc Ngoại tam quan. (3 Ung thư bàng quang (bàng quang nham lựu-膀胱癌瘤- neoplasm of bladder, bladder cancer: Huyệt Thông thận, Thông vị, Thông bối, Tam trọng hoặc Ngoại tam quan, phối huyệt bất định. (4Ung thư não (não nham lựu-坐腦癌瘤- Brain tumor Huyệt Chính cân, Chính tông, Chính não, Linh cốt, Đại bạch, phối hợp chích máu vùng mắt cá chân trong bên đối. (5 Ung thư đường tiêu hóa (trường vị nham lựu-坐癌瘤 Huyệt Tứ hoa thượng, trung, hạ, Ngoại tam quan hoặc Tam trọng. (6Ung thư gan (Can nham lựu-肝癌瘤-liver Tumor, liver cancer: Huyệt Thượng tam hoàng (Thiên hoàng, Minh hoàng, Kỳ hoàngm trọng. (7 Việc điều trị khối u nên phối huyệt tại vị trí bệnh, nhưng cần phải châm huyệt Tam trọng. (8 Không được châm vào khối u, nhưng có thể châm trên dưới, phải trái",
+    "westernMechanism": "Kích thích mật độ cao thụ thể cảm giác da và thần kinh gan ngón / mu ngón (dây giữa, trụ, quay), điều hòa phản xạ phân đoạn tủy cổ C6-T1 và vùng đại diện bàn tay rộng lớn trên vỏ não cảm giác - vận động.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-15-11-15",
+    "code": "11.15",
+    "name": "Chỉ Thận",
+    "chineseName": "指腎穴",
+    "vietnameseName": "Huyệt Chỉ Thận",
+    "zone": "Khu 11 (Ngón tay)",
+    "zoneDescription": "Hệ thống huyệt ngón tay Thủ Chỉ Bộ",
+    "location": "Huyệt Chỉ thận 1: Lưng bàn tay, chính giữa đốt thứ nhất ngón áp út (vô danh ra ngoài (về phía ngón út3 phân, xuống dưới 2,5 phân là huyệt. - Huyệt Chỉ thận 2: Lưng bàn tay, chính giữa đốt thứ nhất ngón áp út (vô danh ra ngoài (về phía ngón út3 phân là huyệt. - Huyệt Chỉ thận 3: Lưng bàn tay, chính giữa đốt thứ nhất ngón áp út (vô danh ra ngoài (về phía ngón út3 phân, lên trên 2,5 phân là huyệt",
+    "anatomy": "Giải phẫu: Thần kinh mu ngón tay, liên hệ kinh Can, Thận và Tâm | Quy kinh: Nhập hai kinh Tâm, Thận | Tính huyệt: Điều Tâm khí, tư Thận âm",
+    "indications": [
+      "Hen do tim (tâm tạng tính khí suyễn đau ngực (hung thống thận yếu (thận khuy yếu tim (tâm tạng suy nhược đau lưng (bối thống khô miệng (khẫu càn"
+    ],
+    "needlingMethod": "Châm thẳng 1-2 phân | Cảm giác châm: Căng tức đau rát tại chỗ",
+    "dongQiInstruction": "Thuyết minh: Huyệt Chỉ thận vào 2 kinh Tâm, Thận, vì vậy hiệu quả cho bệnh Tâm và Thận; nhưng trị các bệnh tim kèm theo rối loạn chức năng thận như thận yếu hiệu quả tốt hơn. - Tài liệu của thầy Đổng ra ngoài 2 phân là huyệt, tài liệu của thầy Hồ hiệu đính là ra ngoài 3 phân. - Khi châm cứu, nếu châm sát xương thì hiệu quả càng cao • Phối huyệt: Trị đau lưng ngực (hung bối thống: nên châm 3 kim (3 huyệt Chỉ thận cùng lúc. - Trị bệnh liệt tim (tâm tạng ma tý - 心臟麻痺: \"Heart palsy\" Huyệt Chỉ thận phối huyệt Thủ tâm linh đặc hiệu. - Trị bệnh tim to (tâm tạng khuếch đại -心臟擴大: Cardiomegalytràn dịch màng tim (tâm tạng tích thuỷ - 心臟積水: Pericardial effusion: Huyệt Chỉ thận phối huyệt Địa tông thần hiệu",
+    "westernMechanism": "Kích thích mật độ cao thụ thể cảm giác da và thần kinh gan ngón / mu ngón (dây giữa, trụ, quay), điều hòa phản xạ phân đoạn tủy cổ C6-T1 và vùng đại diện bàn tay rộng lớn trên vỏ não cảm giác - vận động.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-16-11-16",
+    "code": "11.16",
+    "name": "Hỏa Tất",
+    "chineseName": "火膝",
+    "vietnameseName": "Huyệt Hỏa Tất",
+    "zone": "Khu 11 (Ngón tay)",
+    "zoneDescription": "Hệ thống huyệt ngón tay Thủ Chỉ Bộ",
+    "location": "Mặt lưng ngón tay út, tại góc trong gốc móng tay út cách chân móng 2 phân (tương ứng vị trí huyệt Thiếu Trạch kinh Tiểu Trường).",
+    "anatomy": "Nhánh thần kinh mu ngón của thần kinh trụ. Quy kinh: Tâm, Tiểu trường, Thận.",
+    "indications": [
+      "Đau sưng khớp gối, thoái hóa khớp gối",
+      "Đau khớp vai, không giơ tay lên được",
+      "Đờm mê tâm khiếu, rối loạn tâm thần, nói nhảm",
+      "Đau tức vùng tim"
+    ],
+    "needlingMethod": "Châm xiên sâu 1 - 2 phân hoặc dùng kim tam lăng chích nặn 2 - 3 giọt máu.",
+    "dongQiInstruction": "Hỏa Tất phối hợp Tâm Tất (11.09) là cặp huyệt đặc hiệu trị đau khớp gối lạnh buốt hoặc sưng đỏ do phong thấp.",
+    "westernMechanism": "Kích thích mật độ cao thụ thể cảm giác da và thần kinh gan ngón / mu ngón (dây giữa, trụ, quay), điều hòa phản xạ phân đoạn tủy cổ C6-T1 và vùng đại diện bàn tay rộng lớn trên vỏ não cảm giác - vận động.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-17-11-17",
+    "code": "11.17",
+    "name": "Mộc",
+    "chineseName": "木",
+    "vietnameseName": "Huyệt Mộc",
+    "zone": "Khu 11 (Ngón tay)",
+    "zoneDescription": "Hệ thống huyệt ngón tay Thủ Chỉ Bộ",
+    "location": "Phía lòng bàn tay, chính giữa đốt thứ nhất ngón tay trỏ vào cạnh trong 3 phân (là huyệt Mộc 2, xuống 2,5 phân là huyệt Mộc 1 | Phía lòng bàn tay, chính giữa đốt thứ nhất ngón tay trỏ (huyệt Trung gian vào cạnh trong 3 phân là huyệt Mộc 2 | Phía lòng bàn tay, chính giữa đốt thứ nhất ngón tay trỏ (huyệt Trung gian vào cạnh trong 3 phân (là huyệt Mộc 2 lên 2,5 phân là huyệt | Cách lấy huyệt: Bàn tay ngửa, chính giữa đốt thứ nhất ngón tay trỏ vào cạnh trong 3 phân (là huyệt Mộc 2, xuống 2,5 phân là huyệt Mộc 1 | Bàn tay ngửa, chính giữa đốt thứ nhất ngón tay trỏ (huyệt Trung gian vào cạnh trong 3 phân là huyệt Mộc 2 | Bàn tay ngửa, huyệt Mộc 2 lên trên 2,5 thốn là huyệt Mộc 3",
+    "anatomy": "Giải phẫu: Có dây thần kinh gan ngón; liên quan kinh Can | Có dây thần kinh gan ngón; liên quan kinh Can | Có dây thần kinh gan ngón; liên quan kinh Can | Quy kinh: Nhập 3 kinh Can, Vị, Phế | Nhập kinh Can | Nhập 3 kinh Can, Vị, Phế | Tính huyệt: Tả Can Đảm nhiệt, khai uất thông khiếu | Sơ can lý khí, hoạt huyết khư phong | Tả Can Đảm nhiệt, khai uất thông khiếu",
+    "indications": [
+      "Miệng đắng tai ù",
+      "Can hoả vượng thịnh",
+      "tính nết nóng nảy",
+      "vai đau mỏi",
+      "đau dưới mạng sườn phải",
+      "gáy căng đau | Tính nết gắt gỏng",
+      "Can hoả thịnh vượng",
+      "vai sưng căng đau",
+      "đau dưới mạng sườn phải",
+      "gáy căng đau",
+      "cholesterol cao",
+      "Vị chướng đau | Miệng đắng"
+    ],
+    "needlingMethod": "Kim 5 phân, châm thẳng 2-4 phân | Kim 5 phân, châm thẳng 2-4 phân | Kim 5 phân, châm thẳng 2-4 phân | Cảm giác châm: Đau rát, căng tại chỗ | Đau rát, căng tại chỗ | Đau rát, căng tại chỗ",
+    "dongQiInstruction": "Ứng dụng: Lấy huyệt hai tay hiệu quả càng cao. 10. Kinh nghiệm: (1Châm nông sâu có hiệu quả khác biệt, huyệt Mộc 1, Mộc 2, Mộc 3 do thầy Hồ đưa vào, trong tài liệu của thầy Đổng có 2 hình huyệt Mộc, tài liệu chỉ có 1 huyệt Mộc, vậy mà có 3 huyệt; dùng kim 5 phân, châm nông 1 phân nhập kinh Phế, châm sâu 2-4 phân nhập hai kinh Can, Vị; đây cũng là điểm đặc biệt của Đổng thị kỳ huyệt, thường tuỳ mức độ châm nông sâu mà có thể dẫn vào kinh khác nhau, đây là điểm chung cần đặc biệt chú ý. (2Ba huyệt mộc có thể châm đồng thời thành pháp đảo mã châm hữu hiệu với chứng đau dưới mạng sườn phải. Đồng thời, nó cũng có tác dụng chữa nhiệt miệng. (3Ba huyệt Mộc nhất, Mộc nhị, Mộc tam: điều trị chức năng gan. Huyệt Thượng tam hoàng (Thiên hoàng, Minh hoàng, Kỳ hoàngtrị các chứng thực thể của gan. b HUYỆT MỘC 2 (木二穴) (Nguồn http://www.tungs-acupuncture.com/木二穴/ | Lấy huyệt hai tay hiệu quả càng cao. 10. Kinh nghiệm: (1 Trong các tác phẫm của thầy Đổng, phạm vi châm cứu của huyệt Mộc không rộng, nhưng thầy Hồ (胡師mở rộng phạm vi sử dụng, trong tài liệu huyệt Mộc còn được gọi là huyệt cảm mạo, lại nói huyệt Mộc thông lệ, phát hãn, chỉ hãn, cảm mạo hiệu quả tốt. Ông cho rằằng huyệt Mộc có thể ngăn chặn cảm mạo và sổ mũi trong giây lát, tác giả nghĩ rằằng nếu muốn chữa cảm mạo và chảy nước mũi, chỉ cần lấy huyệt Mộc, tốt hơn là phối huyệt Tam xoa (3 huyệt Linh cốt, Đại bạch, lại thêm huyệt Cảm mạo ở chân, hiệu quả tốt hơn. (2 Mộc huyệt tương ứng bộ phận Gan trên hình chiếu 3 chiều cơ thể, nên được gọi là huyệt Mộc, vì vậy nó có tác dụng đặc hiệu trong điều trị đau hạ sườn phải. \u0000 | các huyệt Mộc 1, Mộc 2, Mộc 3 trên lâm sàng có thể lấy 1-2 huyệt, dùng kim chích máu trị dạ dày chướng đau, đau sườn rất hiệu quả. Không kị châm hai tay. 10. Kinh nghiệm: Dựa vào kinh nghiệm trong tài liệu, huyệt Mộc có thể trị chảy nước mắt, khô mắt, riêng huyệt Mộc có thể chữa ngoại cảm phong tà không giải, da mẫn ngứa, vì huyệt này vào kinh Can, mắt thông với Can vì thế có thể trị các chứng nêu trên, tác giả tin rằằng huyệt Mộc lại phối hợp các huyệt Đổng thị Thượng tam hoàng (Thiên hoàng, Minh hoàng, Kỳ hoànghuyệt Bì phu 1, 2, 3, trên loa tai hiệu quả lại càng tốt • Phối huyệt: (1Đau ngực (Hung lặc cốt thống: Bệnh nhẹ châm huyệt Mộc phối hợp mát-xa dẫn khí, bệnh nặng lâu năm chích huyết tại vị trí bệnh, sau châm huyệt Mộc. (2 Sườn ngực sưng đau (Hung lặc thống thũng trướng: Dùng các huyệt Thất hổ, huyệt Mộc, phối hợp chích huyết chỗ bệnh. (3 Hai bên hông sườn đau (Lưỡng hiếp lặc thống Các huyệt Mộc 1, Mộc 2, Mộc 3 và Tam trùng; phối hợp chích máu nơi bệnh. (4Sườn phải đau (Hữu hiếp thống: Châm các huyệt Mộc 1, Mộc 2, Mộc 3 bên đối. (5 Can hoả vượng thịnh: Châm các huyệt Mộc 1, Mộc 2, Mộc 3. (6 Cảm mạo: Các huyệt Linh cốt, Đại bạch, Thuỷ kim, Thuỷ thông, Tam xoa phối hợp chích huyết vùng cổ sau. Có thể thêm các huyệt Thần nhĩ, Trấn tĩnh, Thượng lý, Thủ tam sĩ (Thiên sĩ, Địa sĩ, Nhân sĩ yển thuận. cHUYỆT MỘC 3 (木三穴) (Nguồn http://www.tungs-acupuncture.com/木三穴/",
+    "westernMechanism": "Kích thích mật độ cao thụ thể cảm giác da và thần kinh gan ngón / mu ngón (dây giữa, trụ, quay), điều hòa phản xạ phân đoạn tủy cổ C6-T1 và vùng đại diện bàn tay rộng lớn trên vỏ não cảm giác - vận động.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-18-11-18",
+    "code": "11.18",
+    "name": "Tỳ Thũng",
+    "chineseName": "脾腫",
+    "vietnameseName": "Huyệt Tỳ Thũng",
+    "zone": "Khu 11 (Ngón tay)",
+    "zoneDescription": "Hệ thống huyệt ngón tay Thủ Chỉ Bộ",
+    "location": "Phía lòng bàn tay, chính giữa đốt thứ hai ngón giữa xuống 2,5 phân. Tức huyệt Hoả tinh hạ xuống 2,5 phân. (Tham khảo thêm cách xác định 2 huyệt Tỳ thũng ở vị trí 1/3 chính giữa đốt thứ hai ngón giữa trên hình vẽ | Phía lòng bàn tay, chính giữa đốt thứ hai ngón giữa lên 2,5 phân. Tức huyệt Hoả tinh hạ lên 2,5 phân. (Tham khảo thêm cách xác định 2 huyệt Tỳ thũng ở vị trí 1/3 chính giữa đốt thứ hai ngón giữa trên hình vẽ | Cách lấy huyệt: Bàn tay ngửa, chính giữa đốt thứ hai ngón giữa xuống 2,5 phân là huyệt | Bàn tay ngửa, chính giữa đốt thứ hai ngón giữa lên 2,5 phân là huyệt",
+    "anatomy": "Giải phẫu: Bên cạnh, chính giữa có dây thần kinh gan ngón; liên quan kinh Tỳ, nhánh kinh Tâm | Bên cạnh, chính giữa có dây thần kinh gan ngón; liên quan kinh Tỳ, nhánh kinh Tâm và Phế | Quy kinh: Nhập kinh Tỳ, Vị | Nhập 3 kinh Tỳ, Tâm và Phế | Tính huyệt: Điều lý tỳ vị, thông kinh hoạt lạc | Kiện tỳ trừ thấp, thư giãn ngực thanh phế",
+    "indications": [
+      "Lá lách cứng",
+      "sưng lá lách",
+      "viêm gan",
+      "vị trường trướng khí",
+      "đau ngực",
+      "đau lưng",
+      "ngón chân tê đau nhức | Can tạng viêm sưng",
+      "lá lách sưng to",
+      "vị trướng (đầy hơingón chân đau mỏi",
+      "viêm phổi",
+      "bệnh tim",
+      "đau lưng"
+    ],
+    "needlingMethod": "Kim 5 phân, châm thẳng 2-4 phân | Kim 5 phân, châm thẳng 2-4 phân | Cảm giác châm: Chướng đau, rát tại chỗ | Chướng đau, rát tại chỗ",
+    "dongQiInstruction": "Ứng dụng: Có thể lấy huyệt hai tay. 10. Kinh nghiệm: - Thầy Đổng vì không công khai huyệt Hoả tinh, do đó cách lấy huyệt Tỳ thũng không giống cách của thầy Hồ, kỳ thực huyệt vị là như nhau. Huyệt Tỳ thũng cũng là vị trí chẫn đoán tạng Tỳ trong lòng bàn tay. Người tạng Tỳ có vấn đề đa số có biểu hiện, màu sắc bất thường ở lòng bàn tay hay ngón tay. - Huyệt Tỳ thũng 1, huyệt Tỳ thũng 2 lại thêm huyệt Hoả tinh hạ thành phép đảo mã | Có thể lấy huyệt 2 tay • Thuyết minh: Châm cứu Đổng thị chú trọng phép châm đối ứng thủ túc, ngón tay đối ngón chân, châm hai điểm tương ứng qua lại có thể trị cơn đau ở bộ vị tương ứng • Phối huyệt: (1 Điều trị bệnh gan: Huyệt Tỳ thũng 1 phối huyệt Thượng tam hoàng (Thiên hoàng, Minh hoàng và Kỳ hoàng (2 Đầy hơi (Vị trường trướng khí: Huyệt Tỳ thũng 1 phối huyệt Tứ hoa, huyệt Hoả cúc, có hiệu quả. (3 Xơ gan: trước hết không được uống rượu. - Châm huyệt Tỳ thũng 1, Thượng khúc, Thượng tam hoàng, Can môn, Trường môn. - Huyệt Tỳ thũng 1 phối huyệt Thượng tam hoàng, Trường môn, Tam trọng. (4Viêm gan: Huyệt Tỳ thũng 1 phối huyệt Mộc viêm, Can điểm, Thượng tam hoàng, Can điểm, can viêm điểm ở tai. (5Đầy hơi (Vị trướng khí: - Huyệt Tỳ thũng 1, huyệt Tiêu tích (Nằằm ở trung tâm của mũi, ngửa lên châm ngang, huyệt Tâm linh 1, huyệt Thổ linh, huyệt Thổ thuỷ 1, 2, 3. - Huyệt Tỳ thũng 1, huyệt Tứ hoa. - Huyệt Tỳ thũng 1, Tứ hoa, Môn kim, Linh cốt, Đại bạch. (6 Sưng lá lách: - Tỳ thũng 1, Tam trọng (tốt. - Tỳ thũng 1, Thổ linh, Thổ xương. - Tỳ thũng 1, Thổ xương, Tam trọng. b HUYỆT TỲ THŨNG 2 (脾腫二穴) (Theo nguồn http://www.tungs-acupuncture.com/脾腫二穴/ | (1Điều trị sưng lá lách (tỳ thũng đại Có thể phối huyệt Tam trọng 1, 2, 3 hiệu quả rõ rệt. (2 Điều trị bệnh lá lách (tỳ tạng đích tật bệnh Ngoài việc châm huyệt Tỳ thũng còn có huyệt Tam tinh, huyệt Tam nhãn, huyệt Kiện tỳ, huyệt Thổ hưng; các huyệt này có thể chọn 2-3 huyệt phối thành tổ hợp với nhau. (3 Bệnh tim (tâm tật Huyệt Tỳ thũng phối hợp châm huyệt Tâm linh 1, 2, 3 có thể trị bệnh tim. (4Điều trị bệnh gan (can tật: Huyệt Tỳ thũng 2 phối huyệt Thượng tam hoàng (thiên hoàng, minh hoàng, kỳ hoàng",
+    "westernMechanism": "Kích thích mật độ cao thụ thể cảm giác da và thần kinh gan ngón / mu ngón (dây giữa, trụ, quay), điều hòa phản xạ phân đoạn tủy cổ C6-T1 và vùng đại diện bàn tay rộng lớn trên vỏ não cảm giác - vận động.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-19-11-19",
+    "code": "11.19",
+    "name": "Tâm Thường",
+    "chineseName": "心常穴",
+    "vietnameseName": "Huyệt Tâm Thường",
+    "zone": "Khu 11 (Ngón tay)",
+    "zoneDescription": "Hệ thống huyệt ngón tay Thủ Chỉ Bộ",
+    "location": "Phía lòng bàn tay, chính giữa đốt thứ nhất ngón giữa sang bên (phía ngón útxuống 2,5 phân là huyệt | Phía lòng bàn tay, chính giữa đốt thứ nhất ngón giữa sang bên (phía ngón út3 phân là huyệt | Phía lòng bàn tay, chính giữa đốt thứ nhất ngón giữa sang bên (phía ngón út3 phân, lên trêm 2,5 phân là huyệt | Cách lấy huyệt: Bàn tay ngửa, chính giữa đốt thứ nhất ngón giữa sang bên (phía ngón útxuống 2,5 phân là huyệt | Bàn tay ngửa, chính giữa đốt thứ nhất ngón giữa sang bên (phía ngón út3 phân là huyệt | Bàn tay ngửa, chính giữa đốt thứ nhất ngón giữa sang bên (phía ngón út3 phân (huyệt Tâm thường 2 lên trên 2,5 phân là huyệt",
+    "anatomy": "Giải phẫu: Có dây thần kinh gan ngón; liên quan kinh Tâm, nhánh kinh Phế | Có dây thần kinh gan ngón; liên quan nhánh kinh Tâm, Phế | Có dây thần kinh gan ngón; liên quan nhánh kinh Tâm, Phế | Quy kinh: Nhập 2 kinh Tâm, Phế | Vào hai kinh Tâm, Phế | Vào hai kinh Tâm, Phế | Tính huyệt: Điều chỉnh Tâm an thần, sơ lý Tâm khí, thanh Tâm bào lạc | Sơ Tâm khí, thanh Bào lạc, yên tinh thần | Sơ Tâm khí, thanh Bào lạc, yên tinh thần",
+    "indications": [
+      "Bệnh thấp khớp (Phong thấp tính tâm tạng bệnh đánh trống ngực (tâm quý đau thắt ngực (hiệp tâm chứng nhồi máu cơ tim (tâm cơ ngạnh tắcung thư phổi (phế nhamlao phổi (phế kết hạch | Bệnh thấp khớp (phong thấp tính tâm tạng bệnh đánh trống ngực (tâm quý đau thắt ngực (hiệp tâm chứng nhồi máu cơ tim (tâm cơ ngạnh tắclao phổi (phế kết hạch đau ngực (hung thống | Giống huyệt Tâm thường 1",
+      "Tâm thường 2: Bệnh thấp khớp (Phong thấp tính tâm tạng bệnhđánh trống ngực (tâm quý",
+      "đau thắt ngực (hiệp tâm chứng",
+      "nhồi máu cơ tim (tâm cơ ngạnh tắcung thư phổi (phế nhamlao phổi (phế kết hạch",
+      "đau ngực (hung thống"
+    ],
+    "needlingMethod": "Kim 5 phân, châm thẳng 2-4 phân, hoặc dùng kim tam lăng chích máu | Kim 5 phân, châm thẳng 2-4 phân, hoặc dùng kim tam lăng chích máu | Kim 5 phân, châm thẳng 2-4 phân, hoặc dùng kim tam lăng chích máu | Cảm giác châm: Tại chỗ căng trước đau rát | Đau chướng rát tại chỗ | Chướng đau tại chỗ",
+    "dongQiInstruction": "Ứng dụng: Lấy huyệt hai tay. 10. Kinh nghiệm: (1 Huyệt Tâm thường, trong tài liệu châm cứu chính kinh kỳ huyệt học của thầy Đổng, vị trí của nó có 2 điểm ở đường ngoài đốt thứ nhất ngón giữa, nhưng huyệt ở các tài liệu về sau không giống; như theo hình đối chiếu, thầy Hồ đệ tử của thầy Đổng lại đính chính trung tâm đốt thứ nhất ra ngoài có 3 huyệt, thầy Đổng đã nói là không thể sửa. Trong tài liệu phần trình bày (ngônvà hình vẽ không thống nhất, phòng sai lạc so với tác phẫm, mọi sự sao chép đều từ tài liệu gốc của thầy Đổng (chưa đính chính. Dĩ ngoa truyền ngoa (以訛傳訛: lời đồn đại không chính xác kế tiếp nhau truyền đi Thực cảm di hám (實感遺憾: Chân thành không phải hối tiếc (2Điều trị bệnh tâm: Rất hay dùng với huyệt Tâm linh ở tay, huyệt Thông quan, huyệt Thông sơn ở đùi, để trị bệnh tim, huyệt Tâm thường 1 có thể phối các huyệt ở trên lại thêm chích huyết khe xương đốt sống ngực 3, 4, 5, 6. b HUYỆT TÂM THƯỜNG 2 (心常二穴) (Nguồn http://www.tungs-acupuncture.com/心常二穴/ | Lấy huyệt hai tay. 10. Kinh nghiệm: Huyệt Tâm thường trong tài liệu của thầy Đổng có 2 huyệt, thầy Hồ thêm một huyệt thành 3 huyệt. Huyệt Tâm thường trị hiệu quả chứng đánh trống ngực và nhịp tim nhanh, ngoài ra, nó có tác dụng đặc biệt đối với chứng phì đại tim mạn tính. Theo kinh nghiệm của tác giả Đổng thị kỳ huyệt, các huyệt Tâm linh 1, 2, 3 trong bộ vị Tam Tam (三三部位) điều trị bệnh tim, theo kinh nghiệm lâm sàng, hiệu quả tốt hơn huyệt Tâm thường • Kinh nghiệm: Theo kinh nghiệm của thầy Hồ (胡師huyệt Tâm thường 1, 2, 3 phối với huyệt Linh cốt, huyệt Đại bạch đặc hiệu trị ung thư phổi, phế khí thũng. Chính thầy Hồ đã dùng các huyệt trên để chữa trị cho sáu bệnh nhân bị ung thư phổi giai đoạn 2-3. Hơn nữa, thầy Hồ đã thấy sư phụ Đổng Cảnh Xương dùng các huyệt trên điều trị khỏi cho 12 người được chẫn đoán bệnh ung thư phổi • Phối huyệt: (1 Nhồi máu cơ tim (tâm cơ ngạnh tắcTrước chích huyết khe đốt sống ngực 4, 5, sau lấy huyệt này cùng với huyệt Tâm linh, phối hợp chế độ ăn uống. (2 Có thể châm 3 huyệt Tâm thường thành phép đảo mã. (3Đau ngực (hung thống: châm huyệt Tâm thường 2 phối huyệt Châu viên (珠圓 cHUYỆT TÂM THƯỜNG 3 (心常三穴) (Nguồn http://www.tungs-acupuncture.com/心常三穴/ | (1 Huyệt Tâm thường ít khi sử dụng riêng, thường được phối với huyệt Linh cốt, huyệt Đại bạch. (2Nhồi máu cơ tim: Trước chích huyết vùng Tâm, Phế ở sau lưng, và sau đó có thể lấy huyệt Tâm thường và huyệt Tâm linh. (3Huyệt Tâm thường không chỉ điều trị bệnh Tâm, mà còn điều trị bệnh Phế. Trị bệnh Phế có thể huyệt Tâm thường phối huyệt Linh cốt, huyệt Đại bạch, huyệt Tứ mã hiệu quả tốt. (4 Phế khí thũng: Huyệt Tâm thường, huyệt Linh cốt, huyệt Đại bạch. (5 Hung bộ bệnh biến (bệnh ngựcGia huyệt Linh cốt, Đại bạch",
+    "westernMechanism": "Kích thích mật độ cao thụ thể cảm giác da và thần kinh gan ngón / mu ngón (dây giữa, trụ, quay), điều hòa phản xạ phân đoạn tủy cổ C6-T1 và vùng đại diện bàn tay rộng lớn trên vỏ não cảm giác - vận động.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-20-11-20",
+    "code": "11.20",
+    "name": "Mộc Viêm",
+    "chineseName": "木炎",
+    "vietnameseName": "Huyệt Mộc Viêm",
+    "zone": "Khu 11 (Ngón tay)",
+    "zoneDescription": "Hệ thống huyệt ngón tay Thủ Chỉ Bộ",
+    "location": "Phía lòng bàn tay, chính giữa đốt thứ nhì ngón vô danh (áp út lệch về phía ngón út 3 phân, xuống 2,5 phân là huyệt. Có 3 huyệt Mộc viêm (lưu ý: có tài liệu ghi Mộc viêm có 2 huyệt, xem hình | Phía lòng bàn tay, chính giữa đốt thứ nhì ngón vô danh (áp út lệch về phía ngón út 3 phân là huyệt. Có 3 huyệt Mộc viêm (lưu ý: có tài liệu ghi Mộc viêm có 2 huyệt, xem hình | Phía lòng bàn tay, chính giữa đốt thứ nhì ngón vô danh (áp út lệch về phía ngón út 3 phân, lên 2,5 phân là huyệt (huyệt Mộc viêm 2 lên 2,5 phân Có 3 huyệt Mộc viêm (lưu ý: có tài liệu ghi Mộc viêm có 2 huyệt, xem hình | Cách lấy huyệt: Bàn tay ngửa, chính giữa đốt thứ nhì ngón vô danh (áp út lệch về phía ngón út 3 phân, xuống 2,5 phân là huyệt | Bàn tay ngửa, chính giữa đốt thứ nhì ngón vô danh (áp út lệch về phía ngón út 3 phân là huyệt | Bàn tay ngửa, , chính giữa đốt thứ nhì ngón vô danh (áp útlệch về phía ngón út 3 phân, lên 2,5 phân là huyệt (huyệt Mộc viêm 2 lên 2,5 phân",
+    "anatomy": "Giải phẫu: Bên cạnh có dây thần kinh gan ngón; liên quan kinh Can | Bên cạnh có dây thần kinh gan ngón; liên quan kinh Can | Bên cạnh có dây thần kinh gan ngón; liên quan kinh Can, Thận | Quy kinh: Nhập kinh Can | Nhập kinh Can | Nhập kinh Can | Tính huyệt: Tả Can Đảm nhiệt, sơ Can lý khí | Tả Can Đảm nhiệt, sơ Can lý khí | Tả Can, Đảm nhiệt, sơ Can lý khí",
+    "indications": [
+      "Hen suyễn (khí suyễn viêm gan các loại (các chủng can viêmxơ gan (can ngạnh hoá chuột rút chân (cước trừu cân",
+      "đau hai bên sườn (lưỡng hiếp thống | Viêm gan các loại (các chủng can viêmxơ gan (can ngạnh hoá cổ trướng (phúc thuỷ đau hai bên sườn (lưỡng hiếp thống chuột rút chân (cước trừu cân hen suyễn (khí suyễn | Hen suyễn (khí suyễn viêm gan các loại (các chủng can viêmxơ gan (can ngạnh hoá chuột rút chân (cước trừu cân",
+      "đau hai bên sườn (lưỡng hiếp thống"
+    ],
+    "needlingMethod": "Kim 5 phân châm thẳng 2-3 phân | Kim 5 phân châm thẳng 2-3 phân | Kim 5 phân, châm thẳng 2-4 phân | Cảm giác châm: Tại chỗ căng tức, đau, rát | Tại chỗ căng tức, đau, rát | Tại chỗ căng tức đau, rát",
+    "dongQiInstruction": "Ứng dụng: Huyệt Mộc viêm 1, 2, 3 với huyệt Thượng tam hoàng tại bộ vị bát bát, công hiệu tương đương, nhưng thông thường theo thói quen người ta hay dùng Thượng tam hoàng (Thiên hoàng, Minh hoàng, Kỳ hoàngở đùi là chinh, ít dung huyệt Mộc viêm. Kỳ thực huyệt Mộc viêm điều trị bệnh ở tạng Can rất hiệu quả • Kinh nghiệm: Theo kinh nghiệm huyệt Mộc viêm phối hợp nhĩ châm khu Can gia huyệt Can linh, Thượng tam hoàng huyệt trị liệu viêm gan B. Trong 132 trường hợp, có 78 trường hợp khỏi bệnh, 18 trường hợp tác dụng không đáng kể. - Ngoài ra, huyệt Mộc viêm phối huyệt Thượng tam hoàng, Thuỷ kim, Thuỷ thông, Can viêm điểm, với chích huyết trị bệnh viêm gan truyền nhiễm, có 291 trường hợp điều trị liên tục trong vòng hai tháng, CCF và HAA âm tính; sử dụng để điều trị 11 trường hợp xơ gan và 9 trường hợp đã được chữa khỏi. Còn lại phối hợp với dược liệu để trị. - Viêm xoang miệng và viêm dưới lưỡi: hạt nhãn khô, cam thảo và băng phiến nghiền bột bôi lên vùng bệnh • Thuyết minh: Trong tài liệu của thầy Đổng, huyệt Mộc viêm nằm ở đốt thứ hai ngón vô danh ra ngoài 2 phân, mà hình vẽ lại đánh dấu bên trong, thầy Hồ sửa lại huyệt Mộc viêm phía lòng bàn tay chính giữa đốt thứ hai ngón vô danh (áp út vào trong (phía ngón út 3 phân, đúng như truyền thụ của thầy Đổng. - Trên ngón tay có nhiều huyệt trị hen suyễn, có huyệt Đại gian, Tiểu gian, Trung gian, huyệt Song suyễn, Định suyễn tam, cùng huyệt Mộc viêm, tác già nhận thấy các huyệt trên không phải bám chấp, miễn là trên huyệt vị xuất hiện điểm đen hoặc màu khác lạ thì châm vào sẽ có hiệu quả | Trong các huyệt trên tay, huyệt vào kinh Can trị bệnh gan có huyệt Mộc 1, 2, 3, huyệt Chỉ tam hoàng 1, 2, 3 và huyệt Mộc viêm 1, 2, 3; ba nhóm huyệt này có thể trị các bệnh liên quan đến gan; trong đó, huyệt Chỉ tam hoàng phạm vi chủ trị rõ rệt, huyệt Mộc viêm, huyệt Mộc phạm vi trị rộng hơn có thể kiêm trị bệnh phụ khoa; trong lâm sàng do 3 nhóm huyệt này châm rất đau, vì thế người ta thường châm huyệt Thượng tam hoàng (Thiên hoàng, Minh hoàng, Kỳ hoàng nhiều hơn, trong điều trị các bệnh về gan, thường thêm huyệt Can điểm trên tai • Phối huyệt: (1Bênh gan (can tật: Nói chung huyệt Mộc viêm gia huyệt Thượng tam hoàng (Thiên hoàng, Minh hoàng, Kỳ hoàng (2 Đau hai bên sườn (lưỡng hiếp thống: Huyệt Mộc, huyệt Mộc viêm. (3 Chuột rút chân (cước trừu cân: Huyệt Thủ giải, huyệt Mộc viêm. b HUYỆT MỘC VIÊM 2 (木炎二穴) (Nguồn http://www.tungs-acupuncture.com/木炎二穴/ | (1 Viêm gan B: Nếu vùng huyệt Can linh có nổi đường gân xanh, hầu hết là có viêm gan B, có thể dùng huyệt Mộc viêm phối huyệt Can linh. (2 Đau hai bên sườn (lưỡng hiếp thống: huyệt Mộc viêm phối huyệt Mộc. cHUYỆT MỘC VIÊM 3 (木炎三穴) (Theo nguồn http://www.tungs-acupuncture.com/木炎三穴/",
+    "westernMechanism": "Kích thích mật độ cao thụ thể cảm giác da và thần kinh gan ngón / mu ngón (dây giữa, trụ, quay), điều hòa phản xạ phân đoạn tủy cổ C6-T1 và vùng đại diện bàn tay rộng lớn trên vỏ não cảm giác - vận động.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-21-11-21",
+    "code": "11.21",
+    "name": "Tam Nhãn",
+    "chineseName": "三眼",
+    "vietnameseName": "Huyệt Tam Nhãn",
+    "zone": "Khu 11 (Ngón tay)",
+    "zoneDescription": "Hệ thống huyệt ngón tay Thủ Chỉ Bộ",
+    "location": "Mặt lòng ngón tay áp út (vô danh), tại đốt thứ nhất lệch về phía ngón giữa 3 phân, cách lằn chỉ giữa đốt 1 và đốt 2 xuống 3 phân.",
+    "anatomy": "Nhánh thần kinh gan ngón của thần kinh trụ và giữa. Quy kinh: Tỳ, Vị, Thận.",
+    "indications": [
+      "Bổ nguyên khí, phục hồi cơ thể suy nhược",
+      "Kém ăn, rối loạn tiêu hóa, viêm dạ dày mạn",
+      "Mất ngủ, hay quên, mệt mỏi rã rời"
+    ],
+    "needlingMethod": "Châm thẳng sâu 2 - 3 phân. Tương ứng công năng như huyệt Túc Tam Lý của chính kinh.",
+    "dongQiInstruction": "Huyệt Tam Nhãn là huyệt đại bổ trên ngón tay của Đổng Công, thường châm cho bệnh nhân suy kiệt không tiện châm Túc Tam Lý.",
+    "westernMechanism": "Kích thích mật độ cao thụ thể cảm giác da và thần kinh gan ngón / mu ngón (dây giữa, trụ, quay), điều hòa phản xạ phân đoạn tủy cổ C6-T1 và vùng đại diện bàn tay rộng lớn trên vỏ não cảm giác - vận động.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-22-11-22",
+    "code": "11.22",
+    "name": "Phục Nguyên",
+    "chineseName": "復原",
+    "vietnameseName": "Huyệt Phục Nguyên",
+    "zone": "Khu 11 (Ngón tay)",
+    "zoneDescription": "Hệ thống huyệt ngón tay Thủ Chỉ Bộ",
+    "location": "Phía lòng bàn tay, chính giữa đốt thứ nhất ngón vô danh (áp útlệch về phía ngón út 3 phân, xuống 2,5 phân là huyệt | Phía lòng bàn tay, chính giữa đốt thứ nhất ngón vô danh (áp útlệch về phía ngón út 3 phân là huyệt | Phía lòng bàn tay, chính giữa đốt thứ nhất ngón vô danh (áp útlệch về phía ngón út 3 phân, lên 2,5 phân là huyệt (huyệt Phục nguyên 2 lên 2,5 phân | Cách lấy huyệt: Bàn tay ngửa, chính giữa đốt thứ nhất ngón vô danh (áp útlệch về phía ngón út 3 phân, xuống 2,5 phân là huyệt | Bàn tay ngửa, chính giữa đốt thứ nhất ngón vô danh (áp útlệch về phía ngón út 3 phân là huyệt | Bàn tay ngửa, chính giữa đốt thứ nhất ngón vô danh (áp útlệch về phía ngón út 3 phân, lên 2,5 phân là huyệt. Huyệt Phục nguyên 2 lên 2,5 phân",
+    "anatomy": "Giải phẫu: Bên cạnh có dây thần kinh gan ngón; liên quan kinh Can, Thận | Bên cạnh có dây thần kinh gan ngón; liên quan kinh Can, Thận | Bên cạnh có dây thần kinh gan ngón; liên quan kinh Can, Thận | Quy kinh: Nhập hai kinh Can, Thận | Nhập hai kinh Can, Thận | Nhập 2 kinh Can, Thận | Tính huyệt: Sơ cân ích cốt, tiêu thũng chỉ thống | Sơ cân ích cốt, tiêu thũng chỉ thống | Sơ cân ích huyết, tiêu thũng chỉ thống",
+    "indications": [
+      "Gân cơ sưng đau",
+      "sưng xương",
+      "màng xương viêm",
+      "thoát vị cột sống (gai xương",
+      "đau thần kinh toạ",
+      "đau thắt lưng | Gân cơ sưng đau",
+      "sưng xương",
+      "màng xương viêm",
+      "thoát vị cột sống (gai xương",
+      "đau thần kinh toạ",
+      "đau thắt lưng | Gân cơ sưng đau",
+      "sưng xương"
+    ],
+    "needlingMethod": "Kim 5 phân châm thẳng 2-3 phân; hoặc dùng kim tam lăng chích ra nước vàng, đặc hiệu | Kim 5 phân châm thẳng 2-3 phân; hoặc dùng kim tam lăng chích ra nước vàng, đặc hiệu | Kim 5 phân châm thẳng 2-3 phân; hoặc dùng kim tam lăng chích ra nước vàng, đặc hiệu | Cảm giác châm: Căng đau rát tại chỗ | Căng đau rát tại chỗ | Căng đau rát tại chỗ",
+    "dongQiInstruction": "Ứng dụng: Huyệt Phục nguyên 1 phối huyệt Phục nguyên 2, Phục nguyên 3, Ngũ hổ, Thượng tam hoàng (Thiên hoàng, Minh hoàng, Kỳ hoàngtrị sưng đau khớp toàn thân (toàn thân cốt thũng | Huyệt Phục nguyên 1 phối huyệt Phục nguyên 2, Phục nguyên 3, Ngũ hổ, Thượng tam hoàng (Thiên hoàng, Minh hoàng, Kỳ hoàngtrị sưng đau khớp toàn thân (toàn thân cốt thũng | Huyệt Phục nguyên 1 phối huyệt Phục nguyên 2, Phục nguyên 3, Ngũ hổ, Thượng tam hoàng (Thiên hoàng, Minh hoàng, Kỳ hoàngtrị sưng đau khớp toàn thân (toàn thân cốt thũng • Thuyết minh: Huyệt Phục nguyên tại đồ hình của thầy Đổng ở cạnh trong (phía ngón útnhưng chưa rõ đốt thứ nhất, mà chỉ viết cạnh ngón vô danh 2 phân, ngôn ngữ không rõ ràng. Thầy Hồ đã sửa đổi đốt thứ nhất vào 3 phân | Huyệt Phục nguyên trên phương diện điều trị, trong tài liệu của thầy Đổng chỉ liệt kê tiêu xương đầu sưng lớn (tiêu cốt đầu thũng đại, thầy Hồ bằng kiến thức của mình đã mở rộng phạm vi điều trị, công khai một số bí mật thầy Đổng chưa truyền dạy | Bộ vị nhất nhất và nhị nhị có nhiều huyệt chính điều trị bệnh cột sống, thắt lưng, toạ cốt. Trong số đó, có thể sử dụng hai hoặc ba huyệt nhóm với nhau để có hiệu quả • Phối huyệt: (1 Huyệt Phục nguyên 1 phối huyệt Chính tích, Chính cân, Chính tông; lại chích máu trên vùng gai xương. (2. Trị đau thắt lưng (yêu thống: Huyệt Phục nguyên 1 phối huyệt Uyển thuận 1. (3 Đau thắt lưng (yêu thống Huyệt Phục nguyên 1 phối huyệt Tam hà, Phân thuỷ, Nhị giác minh, Đảm huyệt, Uyển thuận. (4 Bệnh đốt sống cổ, ngực (cảnh truỳ bệnh cập hung truỳ bệnh - Trị đốt sống cổ: Huyệt Phục nguyên 1 phối huyệt Uyển thuận thượng (huyệt Uyển thuận 1 lên 5 phân. - Trị đau xương ngực: Huyệt Phục nguyên 1 phối huyệt Uyển thuận 2. b HUYỆT PHỤC NGUYÊN 2 (復原二穴) (Theo nguồn http://www.tungs-acupuncture.com/復原二穴/ | (1Đau thắt lưng (yêu thống Huyệt Phục nguyên gia huyệt Thuỷ nguyên cùng huyệt Uyển thuận, có thể trị yêu thống. (2 Đau thần kinh hông (Toạ cốt thần kinh thống: Huyệt Phục nguyên phối huyệt Tam hà gia các huyệt Uyển thuận, Đảm huyệt, Chính tông, Chính cân, Hoả ngạnh, trị đau thần kinh hông hữu hiệu. (3Gai xương (Cốt thích: Trước hết chích máu tại vị trí bệnh, sau châm huyệt Phục nguyên hiệu quả rõ rệt. Chích huyết là chính, châm cứu để bổ sung. (4Trị đau cột sống (Trị tích truỳ cốt thống Huyệt Phục nguyên 1, huyệt Phục nguyên 2, Phục nguyên 3 có thể dùng đảo mã tam châm, lại phối huyệt Chính tích 1, 2, 3, huyệt Ngũ hổ trị đau cột sống. (5Bệnh trĩ (Chí sang Huyệt Phục nguyên phối huyệt Tam nhĩ, gia Thí cổ nhị huyệt. (6 Đau hậu môn (Giang môn thống Huyệt Phục nguyên có thể phối Thí cổ nhị huyệt (tức là một điểm trên huyệt Tam xoa cHUYỆT PHỤC NGUYÊN 3 (復原三穴) (Theo nguồn http://www.tungs-acupuncture.com/復原三穴/ | (1Trị sưng xương (trị liệu cốt thũng Huyệt Phục nguyên có thể phối huyệt Ngũ hổ, Thổ thuỷ trị liệu cốt thũng. Ung thư xương (cốt nhamcó thể gia huyệt Tam trọng, bất định huyệt có thể trị. (2 Trị đau thắt lưng (trị liệu yêu thống: Huyệt Phục nguyên phối huyệt Uyển thuận, trị liệu yêu thống. (3Đau cột sống (tích truỳ cốt thống Huyệt Phục nguyên có thể phối Cốt quan, Mộc quan, Uyển thuận, huyệt Chính tích 1, 2, 3, chữa đau cột sống hữu hiệu. (4Bệnh thắt lưng, cột sống (yêu hoà tích chi bệnh: Huyệt Tam hà, Phân thuỷ, Nhị giác minh, Đảm huyệt, Uyển thuận. (5 Trị bệnh xương (trị liệu cốt bệnh: Có thể dùng huyệt Ngũ hổ",
+    "westernMechanism": "Kích thích mật độ cao thụ thể cảm giác da và thần kinh gan ngón / mu ngón (dây giữa, trụ, quay), điều hòa phản xạ phân đoạn tủy cổ C6-T1 và vùng đại diện bàn tay rộng lớn trên vỏ não cảm giác - vận động.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-23-11-23",
+    "code": "11.23",
+    "name": "Nhãn Hoàng",
+    "chineseName": "眼黃",
+    "vietnameseName": "Huyệt Nhãn Hoàng",
+    "zone": "Khu 11 (Ngón tay)",
+    "zoneDescription": "Hệ thống huyệt ngón tay Thủ Chỉ Bộ",
+    "location": "Mặt lòng ngón tay út, chính giữa đốt thứ 2 của ngón tay út.",
+    "anatomy": "Thần kinh gan ngón của dây thần kinh trụ. Quy kinh: Can, Đởm, Tâm.",
+    "indications": [
+      "Vàng da, vàng củng mạc mắt (Hoàng đản)",
+      "Viêm gan cấp và mạn tính",
+      "Mờ mắt, mỏi mắt do can huyết hư"
+    ],
+    "needlingMethod": "Châm thẳng sâu 1 - 2 phân.",
+    "dongQiInstruction": "Phối hợp Thượng Tam Hoàng (88.12 - 88.14) để trị chứng hoàng đản (vàng mắt, vàng da) do bệnh lý gan mật.",
+    "westernMechanism": "Kích thích mật độ cao thụ thể cảm giác da và thần kinh gan ngón / mu ngón (dây giữa, trụ, quay), điều hòa phản xạ phân đoạn tủy cổ C6-T1 và vùng đại diện bàn tay rộng lớn trên vỏ não cảm giác - vận động.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-24-11-24",
+    "code": "11.24",
+    "name": "5 Phụ Khoa",
+    "chineseName": "婦科五穴",
+    "vietnameseName": "5 Huyệt Phụ Khoa",
+    "zone": "Khu 11 (Ngón tay)",
+    "zoneDescription": "Hệ thống huyệt ngón tay Thủ Chỉ Bộ",
+    "location": "Cạnh trong đốt thứ nhất ngón tay cái chia 6 phần bằng nhau, giữa mỗi phần là 1 huyệt bám sát xương, có 5 huyệt (có tài liệu chia thành 3 phần, có 2 huyệt - xem hình | Cách lấy huyệt: Phía mu bàn tay, cạnh trong đốt thứ nhất ngón tay cái chia 6 phần bằng nhau (mỗi phần khoảng 2 phân giữa mỗi phần là 1 huyệt bám sát xương, có 5 huyệt",
+    "anatomy": "Giải phẫu: Nhánh thần kinh cạnh ngón cái, liên quan tử cung, lục phủ | Quy kinh: Nhập 2 kinh Nhâm, Đốc | Tính huyệt: Điều kinh lý đới, tuyên thông hạ tiêu",
+    "indications": [
+      "U tử cung (tử cung lựu",
+      "ung thư tử cung (tử cung nhamviêm tử cung (tử cung viêm viêm buồng trứng (noãn sào viêmvô sinh (bất nhâm chứng",
+      "đau bụng kinh (kinh thống",
+      "kinh nguyệt không đều (nguyệt kinh bất điều",
+      "kinh nguyệt quá nhiều hoặc quá ít (nguyệt kinh quá đa hoặc quá thiểu âm hộ sưng đau (âm thống thũng thốngxích bạch đới hạ",
+      "đầy hơi âm đạo (âm xuytrúng gió sau sinh (sản hậu phong chứng - nguyệt nội phong chứng - bệnh phong trong tháng",
+      "từ khi sinh đến khi con tròn tháng: đau đầu",
+      "đau tay chân",
+      "đau lưng",
+      "tay chân lạnh",
+      "dễ bị cảm lạnh"
+    ],
+    "needlingMethod": "Kim 5 phân châm thẳng 2-3 phân, hoặc dùng kim tam lăng chích máu | Cảm giác châm: Tại chỗ căng đau rát",
+    "dongQiInstruction": "Ứng dụng: 5 huyệt Phụ khoa là 1 trong 72 tuyệt kỹ của thầy Đổng, nó còn có hiệu quả đặc biệt với trăm bệnh phụ nữ. Lâm sang có thế lấy 2 đến 3 huyệt để châm, có hiệu quả ngay. Có kinh đau eo lưng hoặc đau bụng, có thể châm lưu kim 3 huyệt Phụ khoa • Thuyết minh: Năm huyệt Phụ khoa là những huyệt chính để điều trị các loại bệnh phụ khoa, để điều trị phụ khoa phải lấy những huyệt này. Có thể phối các huyệt Phượng sào, Mộc phụ và những huyệt có liên quan đến phụ khoa, năm huyệt Phụ khoa phối huyệt Môn kim, Thượng tam hoàng (Thiên hoàng, Minh hoàng, Kỳ hoàngạ tam hoàng (Thiên hoàng, Địa hoàng, Nhân hoàngtrị đau bụng kinh (kinh thốngđặc hiệu. - Huyệt Phụ khoa trong tài liệu của thầy Đổng có 2 huyệt, thầy Hồ thêm 3 huyệt thành 5 huyệt, tác giả tin rằằng tại khu vực này có thể lấy 3 huyệt châm đảo mã • Phối huyệt: (1 Vô sinh (bất nhâm chứng - Chứng thực: chích máu vùng túc Dương minh, vùng xương cùng. - Chứng hư: Huyệt Phụ Khoa, huyệt Thượng tam hoàng (Thiên hoàng, Minh hoàng, Kỳ hoàngHạ tam hoàng (Thiên hoàng, Địa hoàng, Nhân hoàngkết hợp cứu ngải 23 huyệt Phụ Sào. (2 Kinh nguyệt không đều (nguyệt kinh bất điều: - Châm lâu dài huyệt Phụ khoa, Linh cốt, Thượng tam hoàng, phối hợp cứu ngải 23 huyệt Phủ sào. - Huyệt Uyển thuận, Linh cốt, Phụ khoa. (3 Trúng gió sau sinh (sản hậu phong chứng - nguyệt nội phong chứng - bệnh phong trong tháng, từ khi sinh đến khi con tròn tháng: Các khớp đau nhức, tê, lạnh, ớn lạnh nặng nề và mệt mỏi. Tay chân lạnh, dễ bị cảm lạnh, đau đầu, chóng mặt, sợ lạnh. Sợ gió, nước mắt, mí mắt cảm thấy nặng nề, mệt mỏi, buồn ngủ. Kinh nguyệt không đều, vón cục, đen và trắng. Bụng dưới sẽ có cảm giác đầy hơi và đau nhẹ... Huyệt Phụ Khoa, huyệt Uyển Thuận hạ (huyệt Uyển Thuận 2 xuống 5 phân huyệt Thượng tam hoàng (Thiên hoàng, Minh hoàng, Kỳ hoàng, Hạ tam hoàng (Thiên hoàng, Địa hoàng, Nhân hoànghuyệt Thuỷ tương. (4 Đau bụng kinh (kinh thống: - Huyệt Phụ khoa, Linh cốt, Tứ hoa thượng, Thượng tam hoàng (Thiên hoàng, Minh hoàng, Kỳ hoàngôn kim, 7 huyệt Vị mao, 23 huyệt Phủ sào. - Huyệt Tứ hoa thượng, Phụ khoa, Môn kim. - Chích máu 23 huyệt Phủ sào đặc hiệu. (5 U, ung thư tử cung (tử cung cơ lựu nham: huyệt Phụ khoa, Tam trọng, huyệt bất định, phối chích máu 23 huyệt Phủ sào hoặc Nội khoả hạ (dưới mắt cá trong của chân (6U, viêm, sưng tử cung (Tử cung lựu, viêm, trướng đẳng Huyệt Linh cốt, Phụ khoa, Phụ linh, Tam trọng, phối hợp chích máu vùng huyệt Thuỷ tinh (dưới mắt cá trong 2 thốn. (7Ung thư tử cung (Tử cung nham: Huyệt Thượng tam hoàng (Thiên hoàng, Minh hoàng, Kỳ hoàngPhụ khoa, Tam trọng, huyệt bất định",
+    "westernMechanism": "Kích thích mật độ cao thụ thể cảm giác da và thần kinh gan ngón / mu ngón (dây giữa, trụ, quay), điều hòa phản xạ phân đoạn tủy cổ C6-T1 và vùng đại diện bàn tay rộng lớn trên vỏ não cảm giác - vận động.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-25-11-25",
+    "code": "11.25",
+    "name": "5 Chỉ Diên",
+    "chineseName": "止涎五穴",
+    "vietnameseName": "5 Huyệt Chỉ Diên",
+    "zone": "Khu 11 (Ngón tay)",
+    "zoneDescription": "Hệ thống huyệt ngón tay Thủ Chỉ Bộ",
+    "location": "Cạnh ngoài đốt thứ nhất ngón tay cái chia 6 phần bằng nhau, giữa mỗi phần là 1 huyệt bám sát xương, có 5 huyệt (có tài liệu chia thành 3 phần, có 2 huyệt - xem hình | Cách lấy huyệt: Phía mu bàn tay, cạnh ngoài đốt thứ nhất ngón tay cái chia 6 phần bằng nhau (mỗi phần khoảng 2 phân giữa mỗi phần là 1 huyệt bám sát xương, có 5 huyệt",
+    "anatomy": "Giải phẫu: Nhánh thần kinh cạnh ngón cái, liên quan mắt, Vị | Quy kinh: Nhập 2 kinh Can, Vị | Tính huyệt: Phù Tỳ thống huyết, thông kinh hoạt lạc",
+    "indications": [
+      "Trẻ em chảy dãi (Tiểu hài lưu khẫu thuỷ bệnh nhân đột quỵ chảy nước miếng (trúng phong hoạn giả lưu tiên",
+      "dạ dày lạnh đau (vị hàn vị thống",
+      "tiêu chảy do hư nhược (hư tiếtviêm giác mạc",
+      "viêm kết mạc",
+      "viêm dây thần kinh thị giác",
+      "teo dây thần kinh thị giác (thị thần kinh nuy súcđục thủy tinh thể (bạch nội chướng",
+      "gặp gió chảy nước mắt (nghinh phong lưu lệ",
+      "đau răng (nha thống chuột rút ruột (trường sán"
+    ],
+    "needlingMethod": "Châm nghiêng từ trong hướng ra ngoài 2-3 phân, Hoặc dùng kim tiêm chích máu | Cảm giác châm: Tại chỗ căng đau rát",
+    "dongQiInstruction": "Thuyết minh: Trong tài liệu của thầy Đổng chỉ có 2 huyệt Chỉ diên, cách lấy huyệt ở cạnh trong đốt thứ nhất lưng ngón tay cái, tuyến chính giữa vào 2 phân, căn cứ vào đồ hình, huyệt vị ở gần vùng da phân trắng đỏ, thầy Hồ hiệu đính huyệt Chỉ diên từ tuyến giữa vào trong 5 phân, phân thành 5 huyệt. - Thầy Đổng đã nói rằằng mỗi ngón tay cũng độc lập thành một hệ thống, mặt sau ngón tay cái là một hình 3 chiều của cơ thể, theo đầu, khoang ngực, bụng trên, bụng dưới, tức có thể thấy vị trí của huyệt Chỉ diên; ngón tay cái trong hình 3 chiều của người, đại diện cho đầu, vị trí huyệt Chỉ diên là khu vực tuyến mồ hôi, nước bọt • Phối huyệt: (1 Teo thần kinh thị giác (Thị thần kinh nuy súc 5 huyệt Chỉ diên, huyệt Châu viên, huyệt Tam xoa 1. (2 Đau nửa đầu do rối loạ tinh thần (Tinh thần quan năng chứng dẫn phát chi thiên đầu thống: Châm 5 huyệt Chỉ diên, huyệt Chỉ chính não (chính giữa ngón tay cái",
+    "westernMechanism": "Kích thích mật độ cao thụ thể cảm giác da và thần kinh gan ngón / mu ngón (dây giữa, trụ, quay), điều hòa phản xạ phân đoạn tủy cổ C6-T1 và vùng đại diện bàn tay rộng lớn trên vỏ não cảm giác - vận động.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-26-11-26",
+    "code": "11.26",
+    "name": "Chế Ô",
+    "chineseName": "制污穴",
+    "vietnameseName": "Huyệt Chế Ô",
+    "zone": "Khu 11 (Ngón tay)",
+    "zoneDescription": "Hệ thống huyệt ngón tay Thủ Chỉ Bộ",
+    "location": "Huyệt Chế ô 1: Lưng ngón tay cái, chính giữa đốt thứ nhất xuống 2,5 phân là huyệt. - Huyệt Chế ô 2: Lưng ngón tay cái, chính giữa đốt thứ nhất là huyệt. - Huyệt Chế ô 3: Lưng ngón tay cái, chính giữa đốt thứ nhất lên 2,5 phân là huyệt",
+    "anatomy": "Giải phẫu: Dưới da là nhánh nông thần kinh quay, liên quan Tỳ, Thận | Quy kinh: Nhập 2 kinh Tỳ, Thận | Tính huyệt: Tiêu thũng khư ứ",
+    "indications": [
+      "Nhọt độc",
+      "loét lâu năm (cửu niên ác sang khối u ác tính (ác tính thũng lựunhọt sưng (ung thưhoặc khối u ác tính sau phẫu thuật vết mổ chảy nước dịch không dừng",
+      "không khép miệng không đóng vảy"
+    ],
+    "needlingMethod": "Châm chếch từ dưới lên 2-3 phân. Hoặc chích ra máu đen lập tức thấy hiệu quả | Cảm giác châm: Đau nhức tại chỗ",
+    "dongQiInstruction": "Thuyết minh: Đồ hình trong tài liệu của thầy Đổng có 3 huyệt Chế ô, nhưng tài liệu không giới thiệu rõ ràng, chỉ nói ở đường chính giữa đốt thứ nhất lưng ngón tay cái, chỉ vài từ như vậy, thầy Hồ đã xác định rõ ràng vị trí 3 huyệt Chế ô. 10. Kinh nghiệm: Huyệt Chế ô thường trị mụn nhọt lâu ngày không thu miệng, nước hôi chảy không dừng, châm có hiệu quả, có thể phối với huyệt Tam trọng • Phối huyệt: (1Nhọt độc, loét lâu năm (cửu niên ác sang: Huyệt Chế ô, huyệt Tứ mã, huyệt Tam trọng, huyệt Linh cốt. (2Nhọt (ung thư - nhọt sưng đỏ là ung 癰, không sưng đỏ là thư 疽: Huyệt Chế ô, huyệt Tam trọng, phối hợp chích máu vùng bệnh. (3Bệnh hoa liễu: Chích máu huyệt Phân chi thượng và Phân chi hạ; huyệt Cốt quan, huyệt Mộc quan, huyệt Thủ giải, huyệt Chế ô",
+    "westernMechanism": "Kích thích mật độ cao thụ thể cảm giác da và thần kinh gan ngón / mu ngón (dây giữa, trụ, quay), điều hòa phản xạ phân đoạn tủy cổ C6-T1 và vùng đại diện bàn tay rộng lớn trên vỏ não cảm giác - vận động.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-27-11-27",
+    "code": "11.27",
+    "name": "Ngũ Hổ (5 Huyệt)",
+    "chineseName": "五虎",
+    "vietnameseName": "Huyệt Ngũ Hổ (5 Huyệt)",
+    "zone": "Khu 11 (Ngón tay)",
+    "zoneDescription": "Hệ thống huyệt ngón tay Thủ Chỉ Bộ",
+    "location": "Mặt lòng đốt thứ nhất ngón tay cái, phía bờ ngoài (bờ quay), chia đoạn giữa hai lằn chỉ thành 6 phần đều nhau: từ đầu ngón xuống gốc ngón lần lượt là Ngũ Hổ 1, 2, 3, 4, 5.",
+    "anatomy": "Nhánh thần kinh gan ngón cái của thần kinh giữa. Quy kinh: Tỳ, Phế, Can, Thận.",
+    "indications": [
+      "Ngũ Hổ 1: Đau sưng các ngón tay, viêm khớp dạng thấp ngón tay",
+      "Ngũ Hổ 2: Phụ trợ Ngũ Hổ 1 và Ngũ Hổ 3",
+      "Ngũ Hổ 3: Đau ngón chân, đau bàn chân",
+      "Ngũ Hổ 4: Đau mu bàn chân, cổ chân",
+      "Ngũ Hổ 5: Đau gót chân (Thống gót chân)"
+    ],
+    "needlingMethod": "Châm thẳng hoặc xiên sát bờ xương ngón cái sâu 2 - 3 phân.",
+    "dongQiInstruction": "Theo luật Toàn tức phản chiếu của Đổng Thị: Ngũ Hổ 1 trị ngón tay, Ngũ Hổ 3 trị ngón chân, Ngũ Hổ 4 trị cổ chân, Ngũ Hổ 5 trị gót chân cực nhạy.",
+    "westernMechanism": "Kích thích mật độ cao thụ thể cảm giác da và thần kinh gan ngón / mu ngón (dây giữa, trụ, quay), điều hòa phản xạ phân đoạn tủy cổ C6-T1 và vùng đại diện bàn tay rộng lớn trên vỏ não cảm giác - vận động.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-28-11-t01",
+    "code": "11.T01",
+    "name": "Song Linh",
+    "chineseName": "雙靈穴",
+    "vietnameseName": "Huyệt Song Linh",
+    "zone": "Khu 11 (Ngón tay)",
+    "zoneDescription": "Hệ thống huyệt ngón tay Thủ Chỉ Bộ",
+    "location": "Mặt lòng ngón tay giữa, chính giữa lằn chỉ khớp liên đốt giữa đốt 1 và đốt 2, đo sang hai bên trái và phải mỗi bên 2,5 phân (gồm 2 huyệt Song Linh 1 và 2).",
+    "anatomy": "Nhánh thần kinh gan ngón của thần kinh giữa. Quy kinh: Tâm, Phế, Thận.",
+    "indications": [
+      "Bệnh lý tim mạch, đau thắt ngực, hẹp mạch vành",
+      "Ung thư phổi, tràn dịch màng phổi, hen suyễn",
+      "Ung thư gan, xơ gan cổ trướng, ung thư xương",
+      "Trẻ em cam tích, sốt cao co giật"
+    ],
+    "needlingMethod": "Dùng kim tam lăng chích nặn máu đen ra (hiệu quả cao nhất), hoặc hào châm nông 1 - 2 phân.",
+    "dongQiInstruction": "Song Linh là đại huyệt cấp cứu và trị bệnh nan y của thầy Hồ Văn Chí truyền thụ; chích nặn máu đen giúp giải độc Tâm Phế tức thì.",
+    "westernMechanism": "Kích thích mật độ cao thụ thể cảm giác da và thần kinh gan ngón / mu ngón (dây giữa, trụ, quay), điều hòa phản xạ phân đoạn tủy cổ C6-T1 và vùng đại diện bàn tay rộng lớn trên vỏ não cảm giác - vận động.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-29-11-t02",
+    "code": "11.T02",
+    "name": "Mộc Linh",
+    "chineseName": "木靈穴",
+    "vietnameseName": "Huyệt Mộc Linh",
+    "zone": "Khu 11 (Ngón tay)",
+    "zoneDescription": "Hệ thống huyệt ngón tay Thủ Chỉ Bộ",
+    "location": "Mặt lòng ngón tay áp út (vô danh), trên đường lằn chỉ giữa đốt 1 và đốt 2, gồm 2 huyệt nằm cách điểm giữa lằn chỉ sang hai bên mỗi bên 2,5 phân.",
+    "anatomy": "Thần kinh gan ngón của dây thần kinh trụ và giữa. Quy kinh: Can, Đởm.",
+    "indications": [
+      "Xơ gan, viêm gan B/C, gan nhiễm mỡ, ung thư gan",
+      "Viêm túi mật, sỏi mật, đau tức hạ sườn phải",
+      "Bại liệt nửa người, teo cơ, trúng phong"
+    ],
+    "needlingMethod": "Chích nặn máu bằng kim tam lăng hoặc châm sâu 1 - 2 phân.",
+    "dongQiInstruction": "Chuyên trị các bệnh thực thể nặng của tạng Can và Đởm, phối hợp Thượng Tam Hoàng giúp hạ men gan và tiêu ứ.",
+    "westernMechanism": "Kích thích mật độ cao thụ thể cảm giác da và thần kinh gan ngón / mu ngón (dây giữa, trụ, quay), điều hòa phản xạ phân đoạn tủy cổ C6-T1 và vùng đại diện bàn tay rộng lớn trên vỏ não cảm giác - vận động.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-30-11-30",
+    "code": "11.30",
+    "name": "Bát Quan",
+    "chineseName": "八關四穴",
+    "vietnameseName": "Huyệt Bát Quan",
+    "zone": "Khu 11 (Ngón tay)",
+    "zoneDescription": "Hệ thống huyệt ngón tay Thủ Chỉ Bộ",
+    "location": "Mặt lưng đốt thứ nhất của cả 4 ngón tay (trỏ, giữa, áp út, út), tại hai bên đầu xương đốt 1 (mỗi ngón 2 huyệt, tổng cộng 8 huyệt ở mỗi bàn tay).",
+    "anatomy": "Nhánh thần kinh mu ngón của thần kinh quay và trụ. Quy kinh: Tâm, Can, Thận.",
+    "indications": [
+      "Trúng phong bán thân bất toại, liệt tay chân",
+      "Đau khớp vai, viêm quanh khớp vai",
+      "Tê bì bàn tay và ngón tay, đau dây thần kinh tọa"
+    ],
+    "needlingMethod": "Châm xiên từ trên xuống dưới dưới da sâu 2 - 3 phân dọc theo khe xương đốt ngón.",
+    "dongQiInstruction": "Thường dùng trong phục hồi di chứng tai biến mạch máu não (liệt chi trên và chi dưới) kết hợp Động khí vận động.",
+    "westernMechanism": "Kích thích mật độ cao thụ thể cảm giác da và thần kinh gan ngón / mu ngón (dây giữa, trụ, quay), điều hòa phản xạ phân đoạn tủy cổ C6-T1 và vùng đại diện bàn tay rộng lớn trên vỏ não cảm giác - vận động.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-31-11-t04",
+    "code": "11.T04",
+    "name": "Châu Viên",
+    "chineseName": "珠圓穴",
+    "vietnameseName": "Huyệt Châu Viên",
+    "zone": "Khu 11 (Ngón tay)",
+    "zoneDescription": "Hệ thống huyệt ngón tay Thủ Chỉ Bộ",
+    "location": "Lưng ngón tay cái giữa hai đốt, hai bên đường văn ngang là huyệt | Cách lấy huyệt: Huyệt Châu viên 1: Lưng ngón tay cái giữa hai đốt, giữa đường văn ngang sang bên cạnh bàn tay 5 phân là huyệt. - Huyệt Châu viên 2: Lưng ngón tay cái giữa hai đốt, giữa đường văn ngang sang bên cạnh (phía ngón trỏ5 phân là huyệt",
+    "anatomy": "Giải phẫu: Dưới da là nhánh thần kinh mu ngón tay, liên hệ thần kinh mắt và 2 kinh Phế, Thận | Quy kinh: Nhập 2 kinh Phế và Thận | Tính huyệt: Sơ phong tả hoả, tư âm minh mục (sáng mắt",
+    "indications": [
+      "Đục thủy tinh thể (bạch nội chướng-白內障- cataract tăng nhãn áp (thanh quang nhãn-青光眼-Glaucomaviêm giác mạc (角膜炎- keratitisviêm kết mạc (結膜炎- conjunctivitisgiảm thị lực (nhược thị-弱視-amblyopia"
+    ],
+    "needlingMethod": "Châm thẳng sâu 2-5 phân | Cảm giác châm: Căng tức đau rát tại chỗ",
+    "dongQiInstruction": "Thuyết minh: Huyệt Châu viên vị trí trên ngón tay cái là khu phản chiếu khoang ngực, do đó châm huyệt này có thể trị vùng ngực, nói cách khác huyệt Châu viên gần vùng ngực. Huyệt Châu viên có thể chữa khỏi các bệnh về mắt • Phối huyệt: (1 Giảm thị lực (nhược thị-弱視-amblyopia: Huyệt Châu viên phối huyệt Mục 1, Mục 2 (trên tai lại dùng mai châm ở đầu mày (cố định một cây kim nhỏ đặc biệt trong vùng da ở huyệt một thời gian dài (2 Viêm giác mạc (角膜炎- keratitis viêm kết mạc (結膜炎- conjunctivitis Huyệt Châu viên phối hợp chích máu vùng sau tai, lưng có điểm đỏ, tia máu hoặc điểm sắc xanh tím, hiệu quả thấy rõ. (3. Các chứng bệnh về mắt: Huyệt Châu viên có thể phối hợp huyệt Thượng bạch, huyệt Phân bạch. (4 Bệnh tiểu đường dẫn tới xuất huyết võng mạc: - Huyệt Hoa cốt 4 cầm máu, phối huyệt Châu viên, Tam xoa 1, Tam lý, Thượng lý, huyệt Mộc 3, huyệt Mục 1, Mục 2 (huyệt tai - Chích máu huyệt Ngũ hình, cạnh thái dương (trên mặt châm lâu dài huyệt Thượng tam hoàng (Thiên hoàng, Minh hoàng, Kỳ hoàng Hạ tam hoàng (Thiên hoàng, Địa hoàng, Nhân hoàng (5 Viêm giác mạc (角膜炎- keratitism kết mạc (結膜炎- conjunctivitis - Huyệt Thuỷ yêu, Châu viên, Hoả ngạnh, phối hợp chích máu vùng phản ứng ở lưng. - Huyệt Hoả ngạnh xuyên Hoa cốt, có thể phối hợp chích huyết tĩnh mạch xanh sau tai. (6Viêm giác mạc (角膜炎- keratitis Trước chích huyết Nhĩ tiêm, tĩnh mạch xanh sau tai, lại châm hiệu quả đặc biệt tốt: Châu viên, Đại gian, Linh cốt, Hoả ngạnh. (7 Mắt sưng đỏ (nhãn hồng thũng: Huyệt Châu viên, Hoả ngạnh. (8 Cận thị giả (giả tính cận thị-假性近視-Pseudomyopia: Chích máu huyệt Ngũ hình, phối hợp mai châm (cố định một cây kim nhỏ đặc biệt trong vùng da ở huyệt một thời gian dàihuyệt Mục 1, Mục 2 (trên tai Ghi chú: Cận thị giả là do cơ mi liên tục bị co và co cứng do mắt làm việc quá mức, độ dày của thủy tinh thể tăng lên, nhìn mờ. Việc sử dụng thuốc, châm cứu và xoa bóp, châm vào tai và thiết bị vật lý trị liệu, hoặc thông qua việc tăng cường cơ mắt của chính bệnh nhân có thể làm giãn cơ, giảm mệt mỏi và phục hồi thị lực trở lại bình thường. (9ắp, lẹo (Mạch lạp thũng-麦粒肿-stye, hordeolum Chích máu Nhĩ tiêm, mạch đỏ sau tai, hoặc chích máu huyệt Đảm, châm huyệt Châu viên. (10 Đục thủy tinh thể (bạch nội chướng-白內障- cataractđục thủy tinh thể xanh (lục bạch chướng: 綠白障, thanh quang nhãn-青光眼-Glaucoma: Châm lâu dài huyệt Quang minh, Thượng tam hoàng (Thiên hoàng, Minh hoàng, Kỳ hoàng Hạ tam hoàng (Thiên hoàng, Địa hoàng, Nhân hoàng (11 Cải thiện mắt cận thị: Huyệt Châu viên, Thượng bạch, Tam xoa 1, Thận quan, Hạ tam hoàng (Thiên hoàng, Địa hoàng, Nhân hoàngmai châm huyệt Mục 1, Mục 2 (trên tai, chích máu huyệt Ngũ hình. (12 Mắt mệt mỏi khô mắt (nhãn tình bì lao càn sáp: Mai châm huyệt Châu viên, trên tai huyệt Mục 1, Mục 2, điểm Nhãn, điểm Can. (13 Giảm thị lực (nhược thị-弱視-amblyopia: Mai châm huyệt Châu viên, trên tai huyệt Mục 1, Mục 2. (14Đau nhãn cầu (nhãn châu thống Huyệt Hoả tất, Châu viên. (15Teo thần kinh thị giác (Thị thần kinh nuy súc-視神經萎縮- optic atrophy Huyệt Châu viên, 5 huyệt Chỉ diên, huyệt Tam xoa 1. (16 Viêm màng cứng mắt (củng mạc viêm-鞏膜炎- scleritis: Huyệt Châu viên, châm các huyệt quanh mắt, phối hợp chích máu thái dương, sau tai",
+    "westernMechanism": "Kích thích mật độ cao thụ thể cảm giác da và thần kinh gan ngón / mu ngón (dây giữa, trụ, quay), điều hòa phản xạ phân đoạn tủy cổ C6-T1 và vùng đại diện bàn tay rộng lớn trên vỏ não cảm giác - vận động.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-32-11-t05",
+    "code": "11.T05",
+    "name": "Trắc Gian",
+    "chineseName": "側間穴",
+    "vietnameseName": "Huyệt Trắc Gian",
+    "zone": "Khu 11 (Ngón tay)",
+    "zoneDescription": "Hệ thống huyệt ngón tay Thủ Chỉ Bộ",
+    "location": "Phía lòng bàn tay, chính giữa đốt thứ nhất ngón tay trỏ lệch ra ngoài 3 phân, xuống 2,5 phân (Đại gian xuống 2,5 phân | Cách lấy huyệt: Bàn tay ngửa, chính giữa đốt thứ nhất ngón trỏ lệch ra ngoài 3 phân, xuống 2,5 phân là huyệt (Đại gian xuống 2,5 phân",
+    "anatomy": "Giải phẫu: Có dây thần kinh gan ngón. Liên quan kinh Tâm và Phế, lục phủ | Quy kinh: Nhập hai kinh Tâm, Phế. 5. Chủ trị: Tuyên phế hoá đàm, thông kinh hoạt lạc, thanh nhiệt trấn thống. 6. Cách châm: Châm 5 phân, châm thẳng 2-4 phân, hoặc dùng kim tam lăng chích máu, trị khí suyễn, khí quản viêm, đặc hiệu trị trẻ em sưng phổi. 7. Cảm giác châm: Ê căng đau tại chỗ. 8. Thuyết minh: Huyệt Trắc gian chưa được đưa vào trong sách của thầy Đổng, nay được thầy Hồ tiết lộ. Chủ trị của huyệt Trắc gian đại thể giống huyệt Đại gian. Trong phép châm do thầy Đổng truyền thường dùng phép châm đều theo hàng, châm bên cạnh để tăng thêm tác dụng huyệt chính. Vì vậy, trong thực tiễn lâm sàng, người theo trường phái Đổng thị ít khi dùng một huyệt. Do đó, trong lâm sàng các huyệt Đại gian, Tiểu gian, Trung gian, Hạ gian có thể lấy 3 huyệt để châm",
+    "indications": [
+      "Chủ trị các chứng bệnh theo kinh nghiệm Đổng Thị."
+    ],
+    "needlingMethod": "Châm thẳng hoặc xiên theo độ sâu giải phẫu của huyệt.",
+    "dongQiInstruction": "Động Khí Châm Pháp: Châm bên đối diện, vừa vê kim vừa vận động vùng bệnh để dẫn khí đạt bệnh sở.",
+    "westernMechanism": "Kích thích mật độ cao thụ thể cảm giác da và thần kinh gan ngón / mu ngón (dây giữa, trụ, quay), điều hòa phản xạ phân đoạn tủy cổ C6-T1 và vùng đại diện bàn tay rộng lớn trên vỏ não cảm giác - vận động.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-33-11-t06",
+    "code": "11.T06",
+    "name": "Hoả Tinh",
+    "chineseName": "火星穴",
+    "vietnameseName": "Huyệt Hoả Tinh",
+    "zone": "Khu 11 (Ngón tay)",
+    "zoneDescription": "Hệ thống huyệt ngón tay Thủ Chỉ Bộ",
+    "location": "Phía lòng bàn tay, chính giữa đốt thứ nhất ngón giữa | Phía lòng bàn tay, chính giữa đốt thứ hai ngón giữa | Cách lấy huyệt: Bàn tay ngửa, chính giữa đốt thứ nhất ngón giữa là huyệt | Bàn tay ngửa, chính giữa đốt thứ hai ngón giữa là huyệt",
+    "anatomy": "Giải phẫu: Bên cạnh có dây thần kinh gan ngón; liên quan nhánh kinh Tâm, Phế | Bên cạnh có dây thần kinh gan ngón; liên quan nhánh kinh Tâm, Phế | Quy kinh: Nhập hai kinh Tâm, Phế | Nhập hai kinh Tâm, Phế | Tính huyệt: Sơ tâm điều khí, thư giãn ngực và cơ hoành | Sơ tâm điều khí, thư giãn ngực và cơ hoành",
+    "indications": [
+      "Chóng mặt (đầu vựng đánh trống ngực (tâm quýthở khò khè (tâm tạng tính suyễn tức bệnh van tim (tâm tạng biện mạc chứng đau ngực (hung thống",
+      "đau xương bả vai (kiên giáp cốt thống ung thư phổi (phế nham ung thư xương (đa phát tính cốt nham",
+      "đau hai chân (lưỡng thoái thống Viêm quanh khớp vai (ngũ thập kiên",
+      "nấc (cách nghịchloét dạ dày (vị hội dương loét tá tràng (thập nhị chỉ trường hội dương | Chóng mặt (đầu vựng đánh trống ngực (tâm quýthở khò khè (tâm tạng tính suyễn tức bệnh van tim (tâm tạng biện mạc chứng đau ngực (hung thống",
+      "đau xương bả vai (kiên giáp cốt thống ung thư phổi (phế nham ung thư xương (đa phát tính cốt nham",
+      "đau hai chân (lưỡng thoái thống Viêm quanh khớp vai (ngũ thập kiên",
+      "nấc (cách nghịchloét dạ dày (vị hội dương loét tá tràng (thập nhị chỉ trường hội dương"
+    ],
+    "needlingMethod": "Kim 5 phân, châm thẳng 2-3 phân | Kim 5 phân, châm thẳng 2-3 phân. 8. Kinh nghiệm: Cặp huyệt Hoả tinh thượng, Hoả tinh hạ điều trị nấc cụt rất hiệu quả, trong lâm sàng có nhiều trường hợp nấc cụt sau khi châm ngay sau đó đã đỡ | Cảm giác châm: Chướng đau, rát tại chỗ",
+    "dongQiInstruction": "Ứng dụng: Có thể lấy huyệt hai tay • Thuyết minh: Ngón giữa, phía lòng bàn tay là nơi khám bộ vị Tâm, do vậy là vị trí huyệt Hoả tinh thượng, Hoả tinh hạ và Tâm thường đều là những huyệt quan trọng để điều trị bệnh tim. Trong lâm sàng lấy các huyệt trên, phần lớn lại phối chủ yếu các huyệt Linh cốt, Đại bạch và nhiều huyệt khác, không những trị bệnh Tâm mà còn trị bệnh khác như ngực (hungPhế | Huyệt Hoả tinh thầy Đổng truyền chưa được công khai và thầy Hồ công bố. - Trên lâm sàng có thể châm 3 huyệt Hoả tinh thượng, Hoả tinh hạ, cùng điểm giữa nếp văn giữa đốt thứ nhất và thứ hai là một huyệt thành pháp đảo mã châm hiệu quả càng tốt hơn. - Ngón giữa chủ Tâm, các huyệt trên ngón giữa có thể trị bệnh Tâm. - Tâm, Phế cùng ở vùng này, do vậy huyệt có thể trị bệnh Tâm, lại cũng có thể trị bệnh Phế; trị bệnh Phế chủ yếu gia huyệt Linh cốt, Đại bạch • Phối huyệt: (1 Chóng mặt (đầu vựng Huyệt Hoả tinh thượng phối huyệt Thần nhĩ. (2Ung thư phổi (phế nhamHuyệt Hoả tinh thượng phối huyệt Linh cốt, Đại bạch, Tam trọng, lại phối bất định huyệt; hoặc phối huyệt Linh cốt, Đại bạch, Tứ mã, gia bất định huyệt. b HUYỆT HOẢ TINH HẠ (火星下穴) (Nguồn http://www.tungs-acupuncture.com/火星下穴/ | Bệnh tim (Tâm tạng tật bệnh Huyệt Hoả tinh thượng, Hoả tinh hạ có thể phối huyệt Địa tông, huyệt Linh cốt, huyệt Đại bạch, huyệt Tâm linh 1, 2, 3 trị bệnh tim, hiệu quả rõ rệt",
+    "westernMechanism": "Kích thích mật độ cao thụ thể cảm giác da và thần kinh gan ngón / mu ngón (dây giữa, trụ, quay), điều hòa phản xạ phân đoạn tủy cổ C6-T1 và vùng đại diện bàn tay rộng lớn trên vỏ não cảm giác - vận động.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-34-11-t07",
+    "code": "11.T07",
+    "name": "Thiên Kiên",
+    "chineseName": "偏肩穴",
+    "vietnameseName": "Huyệt Thiên Kiên",
+    "zone": "Khu 11 (Ngón tay)",
+    "zoneDescription": "Hệ thống huyệt ngón tay Thủ Chỉ Bộ",
+    "location": "Phía lòng bàn tay, chính giữa đốt thứ nhì ngón vô danh (áp út lệch về phía ngón út 5 phân, gần sát ngón út | Cách lấy huyệt: Bàn tay ngửa, chính giữa đốt thứ nhì ngón vô danh (áp út lệch về phía ngón út 5 phân là huyệt",
+    "anatomy": "Giải phẫu: Bên cạnh có dây thần kinh gan ngón; liên quan kinh Can, Tỳ | Quy kinh: Nhập kinh Can | Tính huyệt: Sơ kinh hoạt lạc, chỉ thống tiêu ứ",
+    "indications": [
+      "Viêm gan mãn tính (Mạn tính can viêmđau sau vai (kiên bối thống",
+      "viêm quanh khớp vai (ngũ thập kiên",
+      "đau cạnh ngoài mu bàn tay (thủ bối ngoại trắc thống",
+      "đau cổ (cảnh hạng thống"
+    ],
+    "needlingMethod": "Kim 5 phân, châm thẳng 2-4 phân. 8. Ứng dụng: Bên phải bệnh lấy huyệt bên trái, bên trái bệnh lấy huyệt bên phải",
+    "dongQiInstruction": "Thuyết minh: Huyệt Thiên kiên và Thất chẫm thầy Đổng không công khai, hai huyệt này trị cứng gáy (lạc chẫmhiệu quả tuyệt vời, như lúc không có kim, có thể dùng tăm thay thế, kích thích, yêu cầu bệnh nhân chuyển động cổ, có thể nhanh chóng giảm đau • Phối huyệt: (1 Phối huyệt: Huyệt Thiên kiên phối huyệt Linh cốt, Đại bạch, Trung bạch, hiệu quả tốt hơn. (2 Trị đau cổ (cảnh hạng thốngcứng gáy (lạc chẫẫm: Huyệt Thiên kiên gia Thất chẫm vê kim, phối hợp động khí liệu pháp trị đau cổ (cảnh hạng thốngcứng gáy (lạc chẫmhữu hiệu; hoặc châm các huyệt Trắc tam lý, Tam trọng, Thận quan, Thất hổ",
+    "westernMechanism": "Kích thích mật độ cao thụ thể cảm giác da và thần kinh gan ngón / mu ngón (dây giữa, trụ, quay), điều hòa phản xạ phân đoạn tủy cổ C6-T1 và vùng đại diện bàn tay rộng lớn trên vỏ não cảm giác - vận động.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-35-11-t08",
+    "code": "11.T08",
+    "name": "Thất Chẩm",
+    "chineseName": "失枕枕穴",
+    "vietnameseName": "Huyệt Thất Chẩm",
+    "zone": "Khu 11 (Ngón tay)",
+    "zoneDescription": "Hệ thống huyệt ngón tay Thủ Chỉ Bộ",
+    "location": "Phía lòng bàn tay, chính giữa đốt thứ hai ngón út vào trong 2 phân, lên trên 2 phân là huyệt | Cách lấy huyệt: Lòng bàn tay ngửa, chính giữa đốt thứ hai ngón út vào trong 2 phân, lên trên 2 phân là huyệt",
+    "anatomy": "Giải phẫu: Bên cạnh có nhánh thần kinh gan ngón dưới da, liên quan thận, não | Quy kinh: Nhập kinh bàng quang | Tính huyệt: Tuyên thông khí huyết, khai uất thông khiếu",
+    "indications": [
+      "Đặc hiệu với cứng gáy (lạc chẫm",
+      "đau cổ (cảnh hạng thống",
+      "làm việc trí óc quá mức dẫn tới đầu mụ mị não căng chướng (đầu hôn não trướng"
+    ],
+    "needlingMethod": "Kim 5 phân, châm thẳng 2 phân, hoặc xiên nghiêng từ trên xuống dưới 2-3 phân | Cảm giác châm: Tại chỗ chướng đau",
+    "dongQiInstruction": "Ứng dụng: Bên trái bệnh lấy huyệt bên phải, bên phải bệnh lấy huyệt bên trái. 10. Kinh nghiệm: Theo kinh nghiệm tác giả, huyệt này là huyệt đặc hiệu điều trị cứng gáy (lạc chẫmHiệu quả thần tốc, kim đến bệnh lui. Tác dụng của huyệt này tương tự như huyệt Nhân hoàng, Trung cửu lý, đặc biệt đối với chứng cứng gáy (thất chẫm) tạm thời. 11. Thuyết minh: - Điều trị các bệnh vùng cổ: phối hợp với liệu pháp động khí của Đổng thị hiệu quả thấy ngay lập tức. - Huyệt Thất chẫm có thể thêm huyệt Thiên kiên trên ngón áp út, nếu không có phương tiện châm có thể bấm bằng móng tay. - Trị cứng gáy (lạc chẫẫm Huyệt Thất chẫm có thể phối hợp huyệt Thiên kiên, huyệt Thận quan, hiệu quả nhanh. Cũng có thể thêm huyệt Kiên ngưng huyệt, Tam trọng huyệt, Thất hổ, phối hợp chích máu tại chỗ. 12. Phối huyệt: (1 Trị đau cổ: Phối hợp huyệt Nhân hoàng, huyệt Thiên kiên. (2 Cứng gáy (Lạc chẫẫm - Huyệt Thất chẫm, Thiên kiên, Kiên ngưng, Thận quan, phối hợp với đạo dẫn hành khí. - Huyệt Chính cân, Chính tông, Chính sĩ, Linh cốt, chích máu tất hậu thái dương khu. (3 Đau cổ (cảnh hạng thống: - Huyệt Thuỷ hải, Thận quan. - Huyệt Trắc tam lý, Trắc hạ tam lý. - Huyệt Thất chẫm, Thiên kiên, Thượng sĩ, Thận quan bên đối, huyệt Thất hổ phối Uyển thuận cùng bên",
+    "westernMechanism": "Kích thích mật độ cao thụ thể cảm giác da và thần kinh gan ngón / mu ngón (dây giữa, trụ, quay), điều hòa phản xạ phân đoạn tủy cổ C6-T1 và vùng đại diện bàn tay rộng lớn trên vỏ não cảm giác - vận động.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-36-11-t09",
+    "code": "11.T09",
+    "name": "Khỏa Linh",
+    "chineseName": "踝靈穴",
+    "vietnameseName": "Huyệt Khỏa Linh",
+    "zone": "Khu 11 (Ngón tay)",
+    "zoneDescription": "Hệ thống huyệt ngón tay Thủ Chỉ Bộ",
+    "location": "Ngón tay cái, phía lòng bàn tay, chỗ cạnh khớp đốt bàn và ngón là huyệt | Cách lấy huyệt: Bàn tay ngửa, chỗ cạnh khớp đốt bàn và ngón (ngón tay cáilà huyệt, huyệt Ngũ hổ xuống 1 phân ra ngoài 1 phân (huyệt Ngư tế lên khoảng 1 thốn",
+    "anatomy": "Giải phẫu: Nhánh thần kinh cạnh ngón cái, liên quan Phế | Quy kinh: Nhập kinh Phế | Tính huyệt: Thông kinh hoạt lạc, tiêu thũng chỉ thống",
+    "indications": [
+      "Bong gân",
+      "sái khớp mắt cá chân trong",
+      "ngoài"
+    ],
+    "needlingMethod": "Kim 5 phân châm thẳng 2-3 phân | Cảm giác châm: Tại chỗ căng tức đau rát",
+    "dongQiInstruction": "Thuyết minh: Huyệt Khỏa linh không được ghi trong sách của thầy Đổng và thầy Hồ, chỉ được truyền tâm cho học trò. - Huyệt Khỏa linh phù hợp với điểm mắt cá chân ở biểu đồ ngón tay cái trong phần kiểm tra lòng bàn tay. 10. Kinh nghiệm: - Huyệt này trị bong gân trong, ngoài mắt cá chân tác dụng tốt hơn huyệt Ngũ hổ, khi châm huyệt này phối hợp liệu pháp động khí tại chỗ đau ngay lập tức có hiệu quả. - Với trường hợp nghiêm trọng có thể thêm huyệt Kiên trung, Kiến trung, châm cứu da đầu vùng đỉnh đầu (châm cứu da đầu của Lý thị phối hợp phương pháp khí công tâm pháp vận chuyển kim, hiệu quả ngay. - Theo kinh nghiệm lâm sàng của tác giả, trị bong gân mắt cá chân ngoài, trước tiên chích máu vùng tổn thương, dùng pháp hành khí châm huyệt Khỏa linh hiệu quả nhanh. Cũng có thể trong ngoài huyệt Khoả linh, Thất hổ, phối hợp đạo dẫn hành khí. - Sưng đỏ (hồng thũng: Có thể dùng lát thịt bò sống để dán vùng đau (thay khi thịt nóngđể giảm sung đỏ, sau đó chích máu. - Chấn thương sung đau mắt cá chân (khoả thương thũng thống Huyệt Khoả linh, Phân bạch, Trung bạch, Tam trọng",
+    "westernMechanism": "Kích thích mật độ cao thụ thể cảm giác da và thần kinh gan ngón / mu ngón (dây giữa, trụ, quay), điều hòa phản xạ phân đoạn tủy cổ C6-T1 và vùng đại diện bàn tay rộng lớn trên vỏ não cảm giác - vận động.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-37-11-t10",
+    "code": "11.T10",
+    "name": "Thiếu Bạch",
+    "chineseName": "少白穴",
+    "vietnameseName": "Huyệt Thiếu Bạch",
+    "zone": "Khu 11 (Ngón tay)",
+    "zoneDescription": "Hệ thống huyệt ngón tay Thủ Chỉ Bộ",
+    "location": "Lưng bàn tay, gần đầu khe khớp ngón tay út, giữa văn ngang vào bên trong 3 phân là huyệt",
+    "anatomy": "Giải phẫu: Dưới da là thần kinh mu ngón tay, liên quan nhánh kinh Thận | Quy kinh: Nhập kinh Thận | Tính huyệt: Sơ kinh hoạt lạc, lý khí trấn thống",
+    "indications": [
+      "Đau that lưng (Yêu thống gai cột sống thắt lưng (yêu truỳ cốt thích",
+      "đau thần kinh toạ (toạ cốt thần kinh thống"
+    ],
+    "needlingMethod": "Châm nghiêng 2-3 phân | Cảm giác châm: Căng tức đau rát tại chỗ",
+    "dongQiInstruction": "Thuyết minh: Huyệt Thiếu bạch không ghi trong tài liệu của thầy Đổng, thầy Hồ đã công khai trong tài liệu của mình. - Huyệt Thiếu bạch nhập kinh Thận, có thể chữa hiệu quả đau cột sống thắt lưng, đau thắt lưng, đau thần kinh toạ do Thận gây ra 10. Kinh nghiệm: - Huyệt trên tay châm trị bệnh đau thắt lưng, đau cột sống thắt lưng không có nhiều, trong đó huyệt Uyển thuận hiệu quả tương đối rõ, huyệt Thiếu bạch còn tốt hơn. - Gai cột sống thắt lưng (yêu truỳ cốt thích Huyệt Thiếu bạch có thể phối huyệt Nhị giác minh, với huyệt An tích, ngoài ra có thể chích máu tại hõm khoeo chân, nơi bệnh hiệu quả tốt. - Có kinh đau thắt lưng: Huyệt Uyển thuận thấu huyệt Linh cốt. - Đau thắt lưng: Huyệt Uyển thuận, Nhị giác minh, Phân thuỷ, Tam hà, Thuỷ yêu",
+    "westernMechanism": "Kích thích mật độ cao thụ thể cảm giác da và thần kinh gan ngón / mu ngón (dây giữa, trụ, quay), điều hòa phản xạ phân đoạn tủy cổ C6-T1 và vùng đại diện bàn tay rộng lớn trên vỏ não cảm giác - vận động.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-38-11-t11",
+    "code": "11.T11",
+    "name": "Khai Tỳ",
+    "chineseName": "開脾穴",
+    "vietnameseName": "Huyệt Khai Tỳ",
+    "zone": "Khu 11 (Ngón tay)",
+    "zoneDescription": "Hệ thống huyệt ngón tay Thủ Chỉ Bộ",
+    "location": "Lòng bàn tay, chính giữa đốt thứ 3 ngón giữa là huyệt | Cách lấy huyệt: Bàn tay ngửa, lòng bàn tay, chính giữa đốt thứ 3 ngón giữa là huyệt",
+    "anatomy": "Giải phẫu: Nhánh thần kinh gan ngón, liên quan kinh Tỳ | Quy kinh: Nhập hai kinh Tỳ, Vị | Tính huyệt: Điều lý Tỳ Vị, tuyên đạo trung tiêu",
+    "indications": [
+      "Chán ăn (vị khẫu bất khai 胃口不開 ăn không ngon miệng (thực dục bất chấn食慾不蓋振nôn mửa (ẫu thổ 嘔吐 tức ngực (hung muộn 胸悶 chest distress",
+      "chóng mặt (đầu hôn 頭昏"
+    ],
+    "needlingMethod": "Châm thẳng 1-2 phân | Cảm giác châm: Đau tức",
+    "dongQiInstruction": "Thuyết minh: Huyệt Khai tỳ, chưa được đưa vào trong tài liệu của thầy Đổng, huyệt này do thầy Hồ căn cứ vào sự truyền dạy của thầy Đổng mà đưa vào tài liệu. 10. Kinh nghiệm: - Huyệt Khai tỳ hiệu quả tốt đối với chứng tức ngực (tâm hung bất khai chi hung muộn. - Trị chứng chán ăn (vị khẫu bất khai 胃口不開 ăn không ngon miệng (thực dục bất chấn食慾不蓋振phối hợp huyệt Tứ hoa thượng. - Theo luật toàn tức (3 chiều, ngón giữa chủ Tâm, Tỳ; nếu riêng ngón giữa theo luật toàn tức huyệt Khai tỳ ở vùng đầu miệng, vì vậy công năng dụng có thể kiện Tỳ lợi Vị",
+    "westernMechanism": "Kích thích mật độ cao thụ thể cảm giác da và thần kinh gan ngón / mu ngón (dây giữa, trụ, quay), điều hòa phản xạ phân đoạn tủy cổ C6-T1 và vùng đại diện bàn tay rộng lớn trên vỏ não cảm giác - vận động.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-39-11-t12",
+    "code": "11.T12",
+    "name": "Phân Thuỷ",
+    "chineseName": "分水穴",
+    "vietnameseName": "Huyệt Phân Thuỷ",
+    "zone": "Khu 11 (Ngón tay)",
+    "zoneDescription": "Hệ thống huyệt ngón tay Thủ Chỉ Bộ",
+    "location": "Lòng bàn tay, trên đường giữa đốt thứ nhất ngón út vào trong (phía ngón vô danh3 phân | Cách lấy huyệt: Huyệt Phân thuỷ 2: Bàn tay ngửa, chính giữa đốt thứ nhất ngón út (huyệt Thái dương 1 sang bên (phía ngón vô danh3 phân là huyệt. - Huyệt Phân thuỷ 1: Bàn tay ngửa, chính giữa đốt thứ nhất ngón út (huyệt Thái dương 1 sang bên (phía ngón vô danh3 phân, xuống dưới 2 phân là huyệt. - Huyệt Phân thuỷ 3: Bàn tay ngửa, chính giữa đốt thứ nhất ngón út (huyệt Thái dương 1 sang bên (phía ngón vô danh3 phân, lên trên 2 phân là huyệt",
+    "anatomy": "Giải phẫu: Nhánh thần kinh gan ngón, liên quan kinh thận | Quy kinh: Nhập kinh thận | Tính huyệt: Điều lý hạ tiêu, trừ thấp bài trọc, lợi thuỷ tiêu thũng",
+    "indications": [
+      "Viêm thận phù nề (thận viêm thuỷ thũng 腎炎水腫tai ù (nhĩ minh 耳鳴 tinnitustai điếc (nhĩ lung 耳聾 deafness",
+      "Thoát vị cột sống thắt lưng",
+      "gai xương (yêu tích truỳ sán bản chứng (cốt thích 腰脊椎疝板症(骨刺 đau thắt lưng (yêu thống 腰痛",
+      "đau thần kinh toạ (toạ cốt thần kinh thống 坐骨神經痛"
+    ],
+    "needlingMethod": "Châm thẳng 1-2 phân | Cảm giác châm: Tại chỗ đau chướng tức hơi rát",
+    "dongQiInstruction": "Thuyết minh: Huyệt Phân thuỷ tại ngón út, ngón út thuộc thận, các huyệt trên ngón út và xương bàn ngón út nhập kinh Thận, vì thế trong Trung y, cốt và tai liên quan tới Thận nên các huyệt chủ trị nằm ở trong khu vực này. - Huyệt Phân thuỷ do thầy Hồ công khai trong tài liệu theo sự truyền dạy của thầy Đổng • Phối huyệt: (1Rất ít khi dùng riêng huyệt Phân thuỷ, có thể phối huyệt tam hải, huyệt Uyển thuận tương đối tốt. (2Thận hư tai ù (Thận hư nhĩ minh 腎虛耳鳴: Phối huyệt Uyển thuận, Tứ mã, Tam trọng. (3 Bong gân thắt lưng cấp (Yêu bộ nghiêm trọng nữu thương 腰部嚴重扭傷: Huyệt Phân thuỷ, Tam hà, Nhị giác minh, Uyển thuận, phối hợp chích máu nơi bệnh. (4 Đau thắt lưng (yêu thống 腰痛: Huyệt Phân thuỷ, Nhị giác minh, Tam hà; thận yếu gây đau: gia huyệt Thông thận, Thông vị, Thông bối, phối hợp chích máu nơi bệnh",
+    "westernMechanism": "Kích thích mật độ cao thụ thể cảm giác da và thần kinh gan ngón / mu ngón (dây giữa, trụ, quay), điều hòa phản xạ phân đoạn tủy cổ C6-T1 và vùng đại diện bàn tay rộng lớn trên vỏ não cảm giác - vận động.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-40-11-t13",
+    "code": "11.T13",
+    "name": "Thuỷ Thanh",
+    "chineseName": "水清穴",
+    "vietnameseName": "Huyệt Thuỷ Thanh",
+    "zone": "Khu 11 (Ngón tay)",
+    "zoneDescription": "Hệ thống huyệt ngón tay Thủ Chỉ Bộ",
+    "location": "Lòng bàn tay, trên đường giữa đốt thứ hai ngón út vào trong (phía ngón vô danh3 phân | Cách lấy huyệt: Huyệt Thuỷ thanh 2: Bàn tay ngửa, giữa đốt thứ hai ngón út vào trong (phía ngón vô danh3 phân là huyệt. - Huyệt Thuỷ thanh 1: Bàn tay ngửa, giữa đốt thứ hai ngón út vào trong (phía ngón vô danh3 phân, xuống dưới 2 phân là huyệt. - Huyệt Thuỷ thanh 3: Bàn tay ngửa, giữa đốt thứ hai ngón út vào trong (phía ngón vô danh3 phân, lên trên 2 phân là huyệt",
+    "anatomy": "Giải phẫu: Dưới da là nhánh thần kinh gan ngón, liên quan kinh Thận | Quy kinh: Nhập kinh Thận và Bàng quang | Tính huyệt: Sơ tiết quyết khí (khí nghịch lên chân tay đã lạnh lợi đạo hạ tiêu",
+    "indications": [
+      "Viêm dịch hoàn (睪丸炎viêm thận phù nề (thận viêm thuỷ thũng 腎炎水腫viêm niệu đạo (尿道炎bàng quang viêm (膀胱炎",
+      "đau nửa đầu (thiên đầu thống 偏頭痛",
+      "đau thắt lưng (yêu thống 腰痛",
+      "đau chân (thối thống 腿痛"
+    ],
+    "needlingMethod": "Châm thẳng 1-2 phân | Cảm giác châm: Tại chỗ đau tức rát",
+    "dongQiInstruction": "Thuyết minh: Huyệt Thuỷ thanh, chưa được đưa vào tài liệu của thầy Đổng, do thầy Hồ theo sự truyền dạy của thầy Đổng đưa ra trong tài liệu. - Huyệt Thuỷ thanh với huyệt Phân thuỷ cùng trên một tuyến ở ngón tay út, huyệt Thuỷ thanh và huyệt Phân thuỷ cùng nhập kinh Thận, lại nhập kinh Bàng quang, vì thế có thể trị các bệnh về bàng quang, niệu đạo. 10. Kinh nghiệm: - Nếu như có các triệu chứng bệnh, mà xuất hiện điểm phản ứng tại huyệt Thuỷ thanh, thì châm kim vào cực hiệu quả. - Tên huyệt vị trong Đổng thị, có thuỷ liên quan đến Thận và Bàng quang. - Châm cứu Đổng thị không câu nệ huyệt đạo, thà mất huyệt chứ không mất kinh, bên cạnh huyệt có điểm đen, sợi đen châm thẳng kim vào là hiệu quả nhất",
+    "westernMechanism": "Kích thích mật độ cao thụ thể cảm giác da và thần kinh gan ngón / mu ngón (dây giữa, trụ, quay), điều hòa phản xạ phân đoạn tủy cổ C6-T1 và vùng đại diện bàn tay rộng lớn trên vỏ não cảm giác - vận động.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-41-11-t14",
+    "code": "11.T14",
+    "name": "Thuỷ Hải",
+    "chineseName": "水海穴",
+    "vietnameseName": "Huyệt Thuỷ Hải",
+    "zone": "Khu 11 (Ngón tay)",
+    "zoneDescription": "Hệ thống huyệt ngón tay Thủ Chỉ Bộ",
+    "location": "Trong lòng bàn tay, huyệt nằm trên đường từ chính giữa đốt thứ 2 của ngón út ra ngoài (cạnh bàn tay 3 phân | Cách lấy huyệt: Huyệt Thuỷ hải 2: Bàn tay ngửa, chính giữa đốt thứ 2 của ngón út ra ngoài (cạnh bàn tay3 phân là huyệt. - Huyệt Thuỷ hải 1: Huyệt Thuỷ hải 2 xuống 2 phân là huyệt. - Huyệt Thuỷ hải 3: Huyệt Thuỷ hải 2 lên 2 phân là huyệt",
+    "anatomy": "Giải phẫu: Dưới da là nhánh thần kinh gan ngón, liên quan kinh Thận | Quy kinh: Nhập kinh Thận | Tính huyệt: Thông lạc chỉ thống",
+    "indications": [
+      "Đau cổ cấp (hạng khẫn thống 項緊痛 đau lưng (bối thống 背痛 đau thắt lưng (yêu thống 腰痛",
+      "đau thần kinh toạ (toạ cốt thần kinh thống 坐骨神經痛"
+    ],
+    "needlingMethod": "Châm thẳng 1-2 phân | Cảm giác châm: Tại chỗ căng tức đau rát",
+    "dongQiInstruction": "Thuyết minh: Huyệt Thuỷ hải chưa có trong tài liệu của thầy Đổng, do thầy Hồ theo sự truyền dạy của thầy Đổng đưa vào tài liệu. - Huyệt Thuỷ hải nhập kinh Thận, nhưng không trị các chứng bệnh Thân, mà chủ trị bệnh xương ở vùng lưng, theo như Trung y thận chủ xương • Phối huyệt: Trị thắt lưng đau nhức: Huyệt Thuỷ hải phối huyệt Uyển thuận 1 , Uyển thuận 2, kết quả rất tốt. - Đau cổ cấp (hạng khẫẫn thống 項緊痛): Huyệt Thuỷ hải phối huyệt Thận quan kết quả tốt",
+    "westernMechanism": "Kích thích mật độ cao thụ thể cảm giác da và thần kinh gan ngón / mu ngón (dây giữa, trụ, quay), điều hòa phản xạ phân đoạn tủy cổ C6-T1 và vùng đại diện bàn tay rộng lớn trên vỏ não cảm giác - vận động.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-42-11-t15",
+    "code": "11.T15",
+    "name": "Thuỷ Nguyên",
+    "chineseName": "水源穴",
+    "vietnameseName": "Huyệt Thuỷ Nguyên",
+    "zone": "Khu 11 (Ngón tay)",
+    "zoneDescription": "Hệ thống huyệt ngón tay Thủ Chỉ Bộ",
+    "location": "Lòng bàn tay, trên đường từ chính giữa đốt thứ nhất ngón út vào trong (phía rìa bàn tay 3 phân | Cách lấy huyệt: Huyệt Thuỷ nguyên 2: Lòng bàn tay, chính giữa đốt thứ nhất ngón út vào trong (phía rìa bàn tay 3 phân là huyệt. - Huyệt Thuỷ nguyên 1: Huyệt Thuỷ nguyên 2 xuống dưới 2 phân. - Huyệt Thuỷ nguyên 3: Huyệt Thuỷ nguyên 2 lên trên 2 phân",
+    "anatomy": "Giải phẫu: Dưới da là thần kinh và động mạch gan ngón, liên quan kinh Thận | Quy kinh: Nhập kinh Thận | Tính huyệt: Thông lạc chỉ thống",
+    "indications": [
+      "Tay tê (Thủ ma 手麻",
+      "đau bụng (phúc thống 腹痛 abdominal pain",
+      "thoái hoá đốt sống cổ (cảnh truỳ cốt cốt thích 頸椎骨骨刺 cervical osteophyte(spur"
+    ],
+    "needlingMethod": "Châm thẳng 1-2 phân | Cảm giác châm: Tại chỗ căng tức rát",
+    "dongQiInstruction": "Thuyết minh: Huyệt Thuỷ nguyên: Chưa được đưa vào trong tài liệu của thầy Đổng, do thầy Hồ công khai trong tài liệu theo sự truyền dạy của thầy Đổng. - Huyệt Thuỷ hải, Thuỷ nguyên đều trên cùng một tuyến tại mặt ngón út, đều nhập kinh Thận, chủ trị bệnh về xương (cốt tật 骨疾 • Phối huyệt: (1 Trị thoái hoá đốt sống cổ (cảnh bộ cốt thích 頸部骨刺 cervical osteophyte(spur: Huyệt Thuỷ nguyên phối huyệt Trung bạch. (2 Trị tay tê (Thủ ma 手麻 Huyệt Thuỷ nguyên phối huyệt phế linh rất hiệu quả",
+    "westernMechanism": "Kích thích mật độ cao thụ thể cảm giác da và thần kinh gan ngón / mu ngón (dây giữa, trụ, quay), điều hòa phản xạ phân đoạn tủy cổ C6-T1 và vùng đại diện bàn tay rộng lớn trên vỏ não cảm giác - vận động.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-43-11-t16",
+    "code": "11.T16",
+    "name": "Thuỷ Yêu",
+    "chineseName": "水腰穴",
+    "vietnameseName": "Huyệt Thuỷ Yêu",
+    "zone": "Khu 11 (Ngón tay)",
+    "zoneDescription": "Hệ thống huyệt ngón tay Thủ Chỉ Bộ",
+    "location": "Mu bàn tay, chính giữa đốt thứ 2 ngón út và sang 2 bên 3 phân là huyệt | Cách lấy huyệt: Huyệt Thuỷ yêu 2: Mu bàn tay, chính giữa đốt thứ 2 ngón út là huyệt. - Huyệt Thuỷ yêu 1: Huyệt Thuỷ yêu 2 vào trong (phía ngón áp út3 phân. - Huyệt Thuỷ yêu 3: Huyệt Thuỷ yêu 2 ra ngoài (phía cạnh bàn tay3 phân",
+    "anatomy": "Giải phẫu: Dưới da là thần kinh và động mạch gan ngón, liên quan kinh Thận | Quy kinh: Nhập kinh Thận | Tính huyệt: Thông lạc chỉ thống",
+    "indications": [
+      "Đau thắt lưng (yêu thống 腰痛) đặc hiệu",
+      "đau thần kinh toạ (toạ cốt thần kinh thống 坐骨神經痛viêm giác mạc (角膜炎 viêm kết mạc (結膜炎nhãn áp quá cao căng đau (眼壓過高脹痛chóng mặt (đầu hôn 頭昏",
+      "đau đầu một bên (thiên đầu thống 偏頭痛"
+    ],
+    "needlingMethod": "Châm thẳng 1-2 phân | Cảm giác châm: Tại chỗ đau nhức rát",
+    "dongQiInstruction": "Thuyết minh: Huyệt Thuỷ yêu do thầy Hồ công khai đầu tiên theo sự truyền dạy của thầy Đổng. - Huyệt Thuỷ yêu và huyệt Chính thuỷ cùng thuộc ngón út nhập kinh thận, huyệt Chính thuỷ tại đốt thứ nhất, huyệt Thuỷ yêu tại đốt thứ hai phạm vi chủ trị phần lớn là giống nhau • Phối huyệt: (1Trị đau thắt lưng (yêu thống 腰痛), đau thần kinh toạ (toạ cốt thần kinh thống 坐坐骨神經痛): Có thể gia huyệt Linh cốt, huyệt Uyển thuận, dung châm xuyên huyệt. (2Trị viêm giác mạc (角膜炎viêm kết mạc (結膜炎: Có thể gia huyệt Châu viên, huyệt Hoả ngạnh, đồng thời chích máu điểm phản ứng phía sau. Cũng có thể chích máu huyệt Thái dương và vùng quanh mắt. (3Trị viêm giác mạc sưng đỏ (角膜炎紅腫: Chỉ lấy huyệt Hoả ngạnh, hiệu quả thấy ngay. B. THỦ CHƯỞNG BỘ (手掌部",
+    "westernMechanism": "Kích thích mật độ cao thụ thể cảm giác da và thần kinh gan ngón / mu ngón (dây giữa, trụ, quay), điều hòa phản xạ phân đoạn tủy cổ C6-T1 và vùng đại diện bàn tay rộng lớn trên vỏ não cảm giác - vận động.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-44-22-01",
+    "code": "22.01",
+    "name": "Trọng Tử",
+    "chineseName": "重子穴",
+    "vietnameseName": "Huyệt Trọng Tử",
+    "zone": "Khu 22 (Bàn tay)",
+    "zoneDescription": "Hệ thống huyệt lòng & mu bàn tay Thủ Chưởng Bộ",
+    "location": "Lòng bàn tay, cách miệng hổ khẫu 1 thốn, tại khoảng giữa xương bàn ngón trỏ và xương bàn ngón cái, đối xứng với huyệt Đại bạch trên mu bàn tay | Cách lấy huyệt: Lòng bàn tay ngửa, tại khoảng giữa xương bàn ngón trỏ và xương bàn ngón, cái, cách miệng hổ khẫu 1 thốn là huyệt. Có thể thông với huyệt Đại bạch trên mu bàn tay",
+    "anatomy": "Giải phẫu: Có động mạch quay và thần kinh quay (nhiêu thần kinh 橈神經 radial nerve liên quan nhánh kinh Phế | Quy kinh: Nhập kinh Phế | Tính huyệt: Sơ (thanh trừphong giải biểu, thanh tiết (thông phế khí",
+    "indications": [
+      "Viêm phổi (phế viêm 肺炎 pneumoniaung thư phổi (phế nham 肺癌 lung cancer",
+      "tràn dịch màng phổi (phế tích thuỷ 肺積水 pleural effusion",
+      "cảm mạo (感冒ho (khái thấu 咳嗽hen suyễn (khí suyễn 氣喘 asthmatim đập nhanh (tâm quý 心悸 palpitation",
+      "hạ sốt (thoái thiêu 退燒 remove fever",
+      "viêm thanh quản (hầu viêm 妹喉炎 laryngitisđau lưng (bối thống 背痛",
+      "đau ngực (hung thống 胸痛 chest pain",
+      "đau đầu gối (tất cái thống 膝蓋蓋痛"
+    ],
+    "needlingMethod": "Châm thẳng 1-2 thốn. Trị bệnh trẻ em dùng kim tam lăng chích máu | Cảm giác châm: Căng tức rát",
+    "dongQiInstruction": "Thuyết minh: Hai huyệt Trọng tử và trọng tiên gần kinh Phế (trong 14 kinh huyệt truyền thống cũng nhập kinh Phế, vì thế nó giống huyệt Ngư tế có thể trị các bệnh về phổi • Phối huyệt: (1 Trị đau bả vai (kiên giáp cốt thống 肩胛骨痛 sore of shoulder blades Cùng châm Trọng tử, Trọng tiên, đồng thời phối hợp động khí liệu pháp để giảm mức độ bệnh, sau lại chích máu. (2Đờm vàng khó khạc ra (Hoàng đàm niêm trù bất dị khách xuất 黃痰粘稠不易喀出: Trọng tử, Trọng tiên, Thuỷ kim, Thuỷ thông, Thủ tam gian (Đại gian, Tiểu gian, Trung gian (3Ho khan (càn khái 乾咳dễ ho (dị khái 易咳: Trọng tử, Trọng tiên, Thủ tam sĩ (Thiên sĩ, Địa sĩ, Nhân sĩ Hoả phủ hải. (4 Hen suyễn (khí suyễn 氣喘 asthma: Thủ tam sĩ (Thiên sĩ, Địa sĩ, Nhân sĩ Thủ tam gian (Đại gian, Tiểu gian, Trung gian, Trấn tĩnh, Thượng lý, Thuỷ kim, Thuỷ thông, cứu ngải sau lưng vùng Tâm Phế, vùng Yêu bối thận thuỷ, 7 huyệt Vị mao thất, 23 huyệt Phủ sào (cứu mỗi ngày, mỗi huyệt 15 phút (5Dưỡng sinh (Điều dưỡng 調養 Take good care of oneself Thuỷ kim, Thuỷ thông, Thông thận, Thông vị, Thông bối (mỗi lần châm không quá 30 phút",
+    "westernMechanism": "Tác động trực tiếp dải thần kinh quay, thần kinh giữa và thần kinh trụ bàn tay; kích hoạt đường truyền cảm giác bản thể sâu, điều hòa thần kinh tự chủ và giải phóng beta-endorphin nội sinh.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-45-22-02",
+    "code": "22.02",
+    "name": "Trọng Tiên",
+    "chineseName": "重仙穴",
+    "vietnameseName": "Huyệt Trọng Tiên",
+    "zone": "Khu 22 (Bàn tay)",
+    "zoneDescription": "Hệ thống huyệt lòng & mu bàn tay Thủ Chưởng Bộ",
+    "location": "Lòng bàn tay, ở điểm giao giữa xương bàn ngón trỏ và xương bàn ngón cái, đối xứng với huyệt Linh cốt trên mu bàn tay | Cách lấy huyệt: Lòng bàn tay ngửa, huyệt ở điểm giao giữa xương bàn ngón trỏ và xương bàn ngón cái, đối xứng với huyệt Linh cốt trên mu bàn tay",
+    "anatomy": "Giải phẫu: Có động mạch quay và thần kinh quay, nhánh thần kinh giữa, liên quan nhánh kinh Tâm, Phế | Quy kinh: Nhập kinh Phế | Tính huyệt: Thanh tiết phế khí, sơ phong giải biểu",
+    "indications": [
+      "Viêm phổi (phế viêm 肺炎 pneumoniaung thư phổi (phế nham 肺 癌 lung cancer",
+      "tràn dịch màng phổi (phế tích thuỷ 肺積水 pleural effusion",
+      "cảm mạo (感冒ho (khái thấu 咳嗽hen suyễn (khí suyễn 氣喘 asthmatim đập nhanh (tâm quý 心悸 palpitation",
+      "hạ sốt (thoái thiêu 退燒 remove fever",
+      "viêm thanh quản (hầu viêm 妹喉炎 laryngitisđau lưng (bối thống 背痛",
+      "đau ngực (hung thống 胸痛 chest pain",
+      "đau đầu gối (tất cái thống 膝蓋蓋痛"
+    ],
+    "needlingMethod": "Châm thẳng 1-2 phân. Trị bệnh trẻ em dung kim tam lăng chích máu đặc biệt hiệu quả | Cảm giác châm: Căng tức rát",
+    "dongQiInstruction": "Thuyết minh: Rất ít khi sử dụng riêng huyệt Trọng tiên, phần lớn sử dụng cùng lúc hai huyệt Trọng tử, Trọng tiên. 10. Kinh nghiệm: Hai huyệt Trọng tử, Trọng tiên đều thích hợp châm sâu, hiệu quả rõ rệt. Cũng có thể chọn dùng phép đối thích pháp 對刺法 (đối đầu hai kim đâm ngược chiều vào nhau • Phối huyệt: (1Trước, sau, mặt ngoài khớp vai bệnh (前,後,外側肩關節 (Shoulder joint Trọng tử, Trọng tiên, Kiên trung bên đối hoặc Trắc tam lý, Trắc hạ tam lý. (2 Đau lưng (bối thống 背痛 đau ngực (hung thống 胸痛): Huyệt Trọng tử phối huyệt Trọng tiên, huyệt Thượng sĩ. (3 Đau huyệt Cao hoang (Cao hoang huyệt thống 膏肓穴痛): Huyệt Trọng tử phối huyệt Trọng tiên, gia Thuỷ kim, Thuỷ thông và chích máu tại chỗ. (4 Ngón tay co rút không duỗi (thủ chỉ câu luyến bất thân 手指拘攣不伸: Huyệt Trọng tử phối huyệt Trọng tiên",
+    "westernMechanism": "Tác động trực tiếp dải thần kinh quay, thần kinh giữa và thần kinh trụ bàn tay; kích hoạt đường truyền cảm giác bản thể sâu, điều hòa thần kinh tự chủ và giải phóng beta-endorphin nội sinh.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-46-22-03",
+    "code": "22.03",
+    "name": "Thượng Bạch",
+    "chineseName": "上白穴",
+    "vietnameseName": "Huyệt Thượng Bạch",
+    "zone": "Khu 22 (Bàn tay)",
+    "zoneDescription": "Hệ thống huyệt lòng & mu bàn tay Thủ Chưởng Bộ",
+    "location": "Mu bàn tay hướng lên trên, khoảng giữa xương bàn tay 2 và 3, cách đầu khớp bàn đốt ngón tay 0,5 thốn (5 phânhuyệt | Cách lấy huyệt: Nắm tay lấy huyệt, trên mu bàn tay, khoảng giữa xương bàn tay 2 và 3, cách đầu khớp bàn đốt ngón tay 0,5 thốn (5 phânlà huyệt",
+    "anatomy": "Giải phẫu: Lớp nông là nhánh thần kinh quay, tĩnh mạch mu đốt bàn; lớp sâu có động mạch mu đốt bàn. Liên quan kinh Thận, Tâm, Phế | Quy kinh: Nhập 3 kinh Tâm, Phế, Thận | Tính huyệt: Sơ (trừ bỏphong tả hoả, tư (bồi bổâm minh mục (sáng mắt, thông kinh chỉ thống (giảm đau",
+    "indications": [
+      "Viêm kết mạc (結膜炎 conjunctivitis viêm giác mạc (角膜炎 keratitis mắt sưng đau (nhãn toan trướng 眼酸脹 mắt cận thị (cận thị nhãn 近視眼loạn thị (tán quang 散光 astigmatismđau thắt ngực (tâm giảo thống 心絞痛 angina pectoris",
+      "do thiếu máu cục bộ cơ timgiảm thị lực (nhược thị 弱視 amblyopia",
+      "ra gió chảy nước mắt (nghinh phong lưu lệ 迎風流淚 windward tears",
+      "đau lưng (bối thống 背痛",
+      "đau thắt lưng (yêu thống 腰痛",
+      "đau thần kinh toạ (toạ cốt thần kinh thống 坐骨神經痛 sciatica"
+    ],
+    "needlingMethod": "Châm thẳng 3-8 phân | Cảm giác châm: Căng tức",
+    "dongQiInstruction": "Ứng dụng: Lấy huyệt cả hai tay hiệu quả tốt • Phối huyệt: (1 Viêm kết mạc (結膜炎 conjunctivitis, viêm giác mạc (角膜炎 keratitis, mắt sưng đỏ (nhãn tinh hồng thũng 眼睛紅腫 swelling of the eyes Huyệt Châu viên, huyệt Thuỷ yêu, 5 huyệt Chỉ diên, có thể lấy 2 huyệt phối với huyệt Thượng bạch. Cũng có thể gia huyệt Thượng lý, Tứ phủ 1, trên tai lấy huyệt Mục 1, huyệt Mục 2 mai châm (cố định một cây kim nhỏ đặc biệt trong vùng da ở huyệt một thời gian dài. (2. Giảm thị lực (nhược thị 弱視 amblyopia, mắt cận thị (cận thị nhãn 近視眼: Huyệt Thượng bạch phối hợp huyệt Hạ tam hoàng (Thiên hoàng, Địa hoàng, Nhân hoàng, huyệt Tam xoa, Thượng lý, trên tai lấy huyệt Mục 1, huyệt Mục 2 mai châm (cố định một cây kim nhỏ đặc biệt trong vùng da ở huyệt một thời gian dàiHuyệt Ngũ hình châm kim hoặc chích máu hiệu quả tốt. Lại phối Thận quan, Châu viên, cũng có thể gia Thông thận, Thông vị, Thông bối. (3Mắt sưng đỏ (nhãn tinh hồng thũng 眼睛紅腫 swelling of the eyes: Huyệt Thượng bạch phối huyệt Châu viên, phối huyệt Hoả ngạnh hoặc lấy một huyệt Hoả ngạnh, hiệu quả cũng rất tốt",
+    "westernMechanism": "Tác động trực tiếp dải thần kinh quay, thần kinh giữa và thần kinh trụ bàn tay; kích hoạt đường truyền cảm giác bản thể sâu, điều hòa thần kinh tự chủ và giải phóng beta-endorphin nội sinh.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-47-22-04",
+    "code": "22.04",
+    "name": "Đại Bạch",
+    "chineseName": "大白穴",
+    "vietnameseName": "Huyệt Đại Bạch",
+    "zone": "Khu 22 (Bàn tay)",
+    "zoneDescription": "Hệ thống huyệt lòng & mu bàn tay Thủ Chưởng Bộ",
+    "location": "Trên mu bàn tay, khoảng giữa xương bàn ngón trỏ và ngón cái, cách huyệt Linh cốt 1 thốn. Có thể châm xuyên sang huyệt Trọng tử phía lòng bàn tay | Cách lấy huyệt: Nắm tay, khoảng giữa xương bàn ngón trỏ và ngón cái, cách huyệt Linh cốt 1 thốn",
+    "anatomy": "Giải phẫu: Lớp nông mu bàn tay phân bố tĩnh mạch mu tay, nhánh mu ngón tay của thần kinh quay; lớp sâu phân bố động mạch mu đốt bàn. Liên quan nhánh kinh Phế | Quy kinh: Nhập kinh Phế | Tính huyệt: Phát hãn giải biểu, thanh phế khoan hung, thanh lý (làm sạchthượng tiêu, túc (chỉnh lý, làm sạchphế sơ (khai thôngbiểu, hành khí hoá ứ",
+    "indications": [
+      "Đau đầu (đầu thống 頭痛",
+      "đau nửa đầu (thiên đầu thống 偏頭痛",
+      "ung thư phổi (phế nham 肺癌 lung cancerviêm phổi (phế viêm 肺炎 pneumonia tràn dịch màng phổi (phế tích thuỷ 肺積水 pleural effusion",
+      "đau thần kinh toạ (toạ cốt thần kinh thống 坐骨神經痛 sciatica đau thắt lưng (yêu thống 腰痛 lumbodynia",
+      "lumbago",
+      "low back pain",
+      "đau lưng (bối thống 背痛Lại trị trẻ em hen suyễn (tiểu nhi khí suyễn 小兒氣喘 infantile asthma",
+      "sốt cao (phát cao thiêu 發高燒 have a high feverviêm phổi cấp tính (cấp tính phế viêm 急性肺炎 acute pneumonia"
+    ],
+    "needlingMethod": "Châm thẳng 5 phân - 1,5 thốn. Hoặc phối hợp chích ra máu, trị trẻ em hen suyễn, sốt cao, viêm phổi đặc biệt hiệu quả | Cảm giác châm: Căng tức tê như điện",
+    "dongQiInstruction": "Ứng dụng: Huyệt Đại bạch cũng là huyệt quan trọng bổ khí, phối huyệt Linh cốt dùng rộng rãi trong trị liệu, thường chứng khí trệ huyết ứ đều hiều quả. Nếu người khí trệ hay khí hư thì tất dẫn tới huyết ứ, huyết trệ. Hai huyệt Linh cốt, Đại bạch đều rất phù hợp chọn để châm, hiệu quả rõ rệt. - Huyết ứ thượng tiêu sẽ dẫn tới bệnh Phế, đau tức ngực (hung tý 胸痺 chestdiscomfort huyết ứ trung tiêu sẽ gây bệnh hòn trong bụng (tích hòn rắn chắc ở một chỗ gọi là trưng 癥, tán tụ không được gọi là hà 瘕; huyết ứ hạ tiêu sẽ dẫn tới đau bụng dưới, bệnh phụ nữ; huyết ứ kinh lạc sẽ làm đau khớp (quan tiết tý thống 關節痺痛các bệnh phong thấp (風濕liệt nửa người (bán thân bất toại 半身不遂); huyết ứ ở trong làm tính khí thay đổi và trở thành bệnh thần kinh. Do đó, dùng huyệt Linh cốt và Đại bạch để thông khí và bổ khí, có thể tán trệ tiêu ứ",
+    "westernMechanism": "Tác động trực tiếp dải thần kinh quay, thần kinh giữa và thần kinh trụ bàn tay; kích hoạt đường truyền cảm giác bản thể sâu, điều hòa thần kinh tự chủ và giải phóng beta-endorphin nội sinh.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-48-22-05",
+    "code": "22.05",
+    "name": "Linh Cốt",
+    "chineseName": "靈骨穴",
+    "vietnameseName": "Huyệt Linh Cốt",
+    "zone": "Khu 22 (Bàn tay)",
+    "zoneDescription": "Hệ thống huyệt lòng & mu bàn tay Thủ Chưởng Bộ",
+    "location": "Tại hổ khẫu trên mu bàn tay, giữa xương ngón cái và ngón trỏ, tức nơi gặp nhau của xương bàn ngón cái và xương bàn ngón trỏ. Có thể thông tới huyệt Trọng tiên ở phía lòng bàn tay (xem hình | Cách lấy huyệt: Nắm tay lấy huyệt, tại hổ khẫu trên mu bàn tay, nơi gặp nhau của xương bàn ngón cái và xương bàn ngón trỏ. Có thể châm thấu tới huyệt Trọng tiên ở phía lòng bàn tay (xem hình",
+    "anatomy": "Giải phẫu: Lớp nông mu bàn tay phân bố tĩnh mạch, nhánh nông thần kinh quay; lớp sâu phân bố động mạch mu đốt bàn, thần kinh giữa. Liên quan đến kinh Tâm, Thận và nhánh kinh Phế | Quy kinh: Nhập kinh Tâm, Phế và Đại trường | Tính huyệt: Thông kinh hoạt lạc, tuyên phế điều khí, thông giáng trường vị, hành khí hoạt huyết hoá ứ",
+    "indications": [
+      "Bệnh do khí Phế không đầy đủ (Phế khí bất túc 肺氣不足Phế khí thũng: phế nang bị tổn thương gây khó thở (肺氣腫 Emphysemaung thư phổi (phế nham 肺癌 lung cancer Đau thần kinh toạ (toạ cốt thần kinh thống 坐骨神經痛 sciaticađau thắt lưng (yêu thống 腰痛 lumbodynia",
+      "lumbago",
+      "low back pain",
+      "đau lưng (bối thống 背痛 đau chân (cước thống 腳痛liệt mặt (nhan diện thần kinh ma tý 顏面神經麻痺 Facial palsy liệt nửa người (bán thân bất toại 半身不遂 hemiplegia đau đầu (đầu thống 頭痛 Kinh nghuyệt không đều (nguyệt kinh bất điều月經不調",
+      "đau bụng kinh (kinh thống 經痛 đẻ khó (nan sản 難產 dystocia Động mạch vành (quan tâm chứng 冠心症 coronary artery disease",
+      "coronary heart disease rối loạn nhịp tim (tâm luật bất chỉnh 心律不整 irregular pulse",
+      "cardiac arrhythmias đau thắt ngực: do thiếu máu cục bộ (hiệp tâm chứng 狹心症 ischemic heart disease Loét dạ dày tá tràng (vị cập thập nhị chỉ trường hội dương 胃及十二指腸潰瘍 Gastric and duodenal ulcers",
+      "viêm đại tiểu trường (đại tiểu trường viêm 大小腸炎 Sẹo trên mặt (diện ba 面疤 bệnh mắt (nhãn tật 眼疾 tai ù (nhĩ minh 耳鳴 tinnitustai điếc (nhĩ lung 耳聾 deafness"
+    ],
+    "needlingMethod": "Châm thẳng sâu 1-2 thốn, có thể châm xuyên sang huyệt Trọng tiên. Cũng có thể châm nghiêng hướng ra ngoài sâu 2-3 thốn | Cảm giác châm: Tại chỗ tê chướng nhức. Phụ nữ có thai cấm châm do huyệt này gây co bóp tử cung rất mạnh dễ gây sảy thai",
+    "dongQiInstruction": "Thuyết minh: Huyệt Linh cốt là một trong 72 trác việt trong châm cứu Đổng thị, là đại huyệt hành khí hoạt huyết, cũng là huyệt quan trọng bổ khí, huyệt này thông với mọi huyệt, có thể góc châm theo hướng khác nhau mà trị được các bệnh khác nhau, cho nên có thể trị bách bệnh. 10. Kinh nghiệm: Phụ nữ có thai cấm châm huyệt Linh cốt, Tam âm giao và huyệt ở lòng bàn tay, bàn chân, đồng thời chớ đánh đập vùng vai lưng • Phối huyệt: (1Trị ung thư phổi (phế nham 肺癌 lung cancerPhế khí thũng: phế nang bị tổn thương gây khó thở (肺氣腫 Emphysematràn dịch màng phổi (phế tích thuỷ 肺積水 pleural effusion: Phối hợp huyệt Đại bạch, huyệt Tâm thường 1, 2, 3 đặc biệt hiệu quả. (2Trị liệt nửa người (bán thân bất toại 半身不遂 hemiplegia: Phối hợp huyệt Đại bạch, huyệt Thượng tam hoàng (Thiên hoàng, Minh hoàng, Kỳ hoànghuyệt Thông thận, huyệt Thông quan, huyệt Thông bối, huyệt Thông sơn, huyệt Chính hội. (3Trị đau bụng kinh (kinh thống 經痛: Phối hợp huyệt Môn kim, huyệt Tứ hoa thượng đặc biệt hiệu quả. (4Trị ung thư phổi (phế nham 肺癌 lung cancer Thủ tam sĩ (Thiên sĩ, Địa sĩ, Nhân sĩLinh cốt, Đại bạch, Tam trọng, Tứ mã, huyệt bất định. (5 Trị đau bụng kinh (kinh thống 經痛: Uyển thuận thấu Linh cốt hiệu quả tốt (linh cốt có tác dụng thúc kinh (6Nam khoa (男科 Andrology Linh cốt, Hạ Tam hoàng (Thiên hoàng, Địa hoàng, Nhân hoàng, phối hợp cứu ngải huyệt Nhân hoàng. (7 Trị viêm phổi (Phế viêm 肺炎 pneumonia: Linh cốt, Đại bạch, Tâm thường, Tứ mã. (8Phế khí thũng(肺氣腫 Emphysema: Phế nang bị tổn thương gây khó thở. Trước chích máu huyệt Tứ hoa, sau châm huyệt Linh cốt, Đại bạch. (9 Trị cảm đau họng (cảm mạo hầu thống 感冒喉痛: Châm Linh cốt, lưu kim 1 giờ, sau 1 ngày thì khỏi. (10 Các bệnh cổ họng (hầu bộ tương quan tật bệnh 喉部尾相關尾疾病 laryngeal disease Linh cốt, Tam trọng, Thủ tam sĩ (Thiên sĩ, Địa sĩ, Nhân sĩTứ hoa, Hầu trung, Hầu linh. (11Bệnh tràng nhạc (loa lịch 瘰癧 scrofula: Linh cốt, Kiên trung, Kiến trung. (12 Bệnh đau đầu (đầu thống 頭痛): Linh cốt, Đại bạch, Thượng bạch xuyên Phân bạch, phối hợp chích máu nơi bệnh",
+    "westernMechanism": "Tác động trực tiếp dải thần kinh quay, thần kinh giữa và thần kinh trụ bàn tay; kích hoạt đường truyền cảm giác bản thể sâu, điều hòa thần kinh tự chủ và giải phóng beta-endorphin nội sinh.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-49-22-06",
+    "code": "22.06",
+    "name": "Trung Bạch",
+    "chineseName": "中白穴",
+    "vietnameseName": "Huyệt Trung Bạch",
+    "zone": "Khu 22 (Bàn tay)",
+    "zoneDescription": "Hệ thống huyệt lòng & mu bàn tay Thủ Chưởng Bộ",
+    "location": "Trên mu bàn tay, chỗ giữa khớp bàn ngón 4 và ngón 5, cách đầu khớp bàn đốt ngón tay 0,5 thốn (5 phân | Cách lấy huyệt: Nắm tay, trên mu bàn tay, chỗ giữa khớp bàn ngón 4 và ngón 5, cách đầu khớp bàn đốt ngón tay 0,5 thốn (5 phânhuyệt",
+    "anatomy": "Giải phẫu: Lớp nông có tĩnh mạch mu đốt bàn, nhánh mu tay của thần kinh trụ, lớp sâu có động mạch mu đốt bàn; liên quan nhánh kinh Thận | Quy kinh: Nhập kinh Thận và Bàng quang | Tính huyệt: Sơ (khai thôngkinh hoạt lạc, lợi thuỷ tiêu thũng, lợi đạo (thông suốt hạ tiêu",
+    "indications": [
+      "Viêm Bàng quang (Bàng quang viêm 膀胱炎 bể thận viêm cấp",
+      "mạn tính (cấp mạn tính thận vu (thận viêm 急慢性腎盂（腎）炎 acute pyelonephritis",
+      "Chronic Pyelonephritisđau thần kinh toạ (toạ cốt thần kinh thống 坐骨神經痛 sciaticagai xương",
+      "u xương (cốt thích:骨刺",
+      "Bone Spur",
+      "osteophytes",
+      "thắt lương nhức",
+      "mỏi (yêu toan yêu thống 腰酸腰痛 đau lưng (bối thống 背痛 chóng mặt (đầu vựng 頭暈 Dizziness",
+      "loạn thị (nhãn tán quang 眼散光 astigmatism",
+      "thận hư tai ù (thận hư nhĩ minh 腎虛耳鳴 âm thanh trong đầu (chóng mặt",
+      "âm thanh trong đầu: não minh 腦鳴nghễnh ngãng (trùng thính 重聽phù nề tay chân (tứ chi phù thũng 四肢浮腫 Limbs swelling",
+      "đau nửa đầu (thiên đầu thống 偏頭痛viêm cột sống (tích truỳ viêm 脊椎炎thoái hoá xương"
+    ],
+    "needlingMethod": "Châm thẳng 5 phân | Cảm giác châm: Căng tức tê như điện. 9. Phân biệt: Trên huyệt Trung bạch 1 thốn là huyệt Trung trữ (thuộc kinh Tam tiêu trong châm cứu cổ truyềnthầy Đổng đã cẫn thận chỉ rõ hai huyệt này không phải là một, thật sai lầm khi có một số người nhầm huyệt Trung bạch là huyệt Trung trữ",
+    "dongQiInstruction": "Thuyết minh: Huyệt Trung bạch còn có tên là huyệt Quỷ môn là một trong 72 tuyệt kỹ của thầy Đổng, có phạm vi chữa bệnh rất rộng, huyệt này nhập kinh Thận, thích hợp dùng trị các bệnh về xương • Phối huyệt: Huyệt Trung bạch phối huyệt Hạ bạch hiệu quả đặc biệt trị bệnh bong gân thắt lưng cấp tính (thiểm yêu 閃腰), đau ngực khi thở (xá khí 岔氣 feel a pain in the chest when breathing, gai xương, u xương (cốt thích:骨刺, Bone Spur, osteophytes đau thần kinh toạ (toạ cốt thần kinh thống 坐骨神經痛 sciaticacùng bệnh tai (nhĩ tật 耳疾",
+    "westernMechanism": "Tác động trực tiếp dải thần kinh quay, thần kinh giữa và thần kinh trụ bàn tay; kích hoạt đường truyền cảm giác bản thể sâu, điều hòa thần kinh tự chủ và giải phóng beta-endorphin nội sinh.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-50-22-07",
+    "code": "22.07",
+    "name": "Hạ Bạch",
+    "chineseName": "下白穴",
+    "vietnameseName": "Huyệt Hạ Bạch",
+    "zone": "Khu 22 (Bàn tay)",
+    "zoneDescription": "Hệ thống huyệt lòng & mu bàn tay Thủ Chưởng Bộ",
+    "location": "Trên mu bàn tay, chỗ giữa khớp bàn ngón 4 và ngón 5, cách đầu khớp bàn đốt ngón tay 1,5 thốn (cách Trung bạch 1 thốn | Cách lấy huyệt: Nắm tay lấy huyệt, trên mu bàn tay, chỗ giữa khớp bàn ngón 4 và ngón 5, cách đầu khớp bàn đốt ngón tay 1,5 thốn (cách Trung bạch 1 thốn. (Tài liệu có ghi chú thêm là cách huyệt Dịch môn của kinh Thủ Thiếu dương Tam tiêu 0,5 phân, chắc là viết nhầm vì huyệt Dịch môn nằm trùng với Tam xoa 3",
+    "anatomy": "Giải phẫu: Lớp nông có tĩnh mạch mu đốt bàn, nhánh mu tay của thần kinh trụ, lớp sâu có động mạch mu đốt bàn; liên quan kinh Can Thận | Quy kinh: Nhập hai kinh Can, Thận | Tính huyệt: Lợi thuỷ tiêu thũng, sơ (khai thôngkinh hoạt lạc, lợi đạo (thông suốt hạ tiêu",
+    "indications": [
+      "Viêm Bàng quang (Bàng quang viêm 膀胱炎 bể thận viêm cấp",
+      "mạn tính (cấp mạn tính thận vu (thận viêm 急慢性腎盂（腎）炎 acute pyelonephritis",
+      "Chronic Pyelonephritisđau thần kinh toạ (toạ cốt thần kinh thống 坐骨神經痛 sciaticagai xương",
+      "u xương (cốt thích:骨刺",
+      "Bone Spur",
+      "osteophytes",
+      "thắt lương nhức",
+      "mỏi (yêu toan yêu thống 腰酸腰痛 đau lưng (bối thống 背痛 chóng mặt (đầu vựng 頭暈 Dizziness",
+      "loạn thị (nhãn tán quang 眼散光 astigmatism",
+      "thận hư tai ù (thận hư nhĩ minh 腎虛耳鳴 âm thanh trong đầu (chóng mặt",
+      "âm thanh trong đầu: não minh 腦鳴nghễnh ngãng (trùng thính 重聽phù nề tay chân (tứ chi phù thũng 四肢浮腫 Limbs swelling",
+      "đau nửa đầu (thiên đầu thống 偏頭痛viêm cột sống (tích truỳ viêm 脊椎炎thoái hoá xương"
+    ],
+    "needlingMethod": "Châm thẳng 3-8 phân | Cảm giác châm: Chướng tức tê như điện. 9. Phân biện: Phối châm đồng thời với huyệt Trung bạch hiệu quả tốt hơn. Trị đau gan (Can chướng thống 肝脹痛phối huyệt Can môn, kiêm trị viêm gan cấp tính (急性肝炎) đặc biệt hiệu quả",
+    "dongQiInstruction": "Thuyết minh: Huyệt Hạ bạch ít khi dùng riêng, phần lớn phối huyệt Trung bạch cùng châm; ngoài ra phối hợp với những huyệt khác trị bệnh tạng phủ nhằm tăng cường hiệu quả trị bệnh; như trị bệnh gai xương, u xương (cốt thích:骨刺, Bone Spur, osteophytes đau thần kinh toạ (toạ cốt thần kinh thống 坐骨神經痛 sciaticaphối hợp huyệt Uyển thuận; viêm thận cấp mãn tính (cấp mạn tính thận viêm 急慢性腎炎phối hợp Hạ tam hoàng (Thiên hoàng, Địa hoàng, Nhân hoàng",
+    "westernMechanism": "Tác động trực tiếp dải thần kinh quay, thần kinh giữa và thần kinh trụ bàn tay; kích hoạt đường truyền cảm giác bản thể sâu, điều hòa thần kinh tự chủ và giải phóng beta-endorphin nội sinh.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-51-22-08",
+    "code": "22.08",
+    "name": "Uyển Thuận 1",
+    "chineseName": "腕順一穴",
+    "vietnameseName": "Huyệt Uyển Thuận 1",
+    "zone": "Khu 22 (Bàn tay)",
+    "zoneDescription": "Hệ thống huyệt lòng & mu bàn tay Thủ Chưởng Bộ",
+    "location": "Lưng bàn tay, qua cạnh bờ xương bàn ngón 5, nếp văn cổ tay lên 1,5 thốn | Cách lấy huyệt: Bên cạnh lưng bàn tay, qua cạnh bờ xương bàn ngón 5, nếp văn cổ tay lên 1,5 thốn là huyệt",
+    "anatomy": "Giải phẫu: Nhánh mu tay của thần kinh trụ, động mạch mu đốt bàn. Liên quan kinh Thận | Quy kinh: Nhập kinh Thận | Tính huyệt: Tư (bổ ích Thận lợi niệu (lợi tiểu, thông Thận trấn thống (giảm đau",
+    "indications": [
+      "Thận yếu đau đầu mắt hoa",
+      "đau thần kinh toạ (toạ cốt thần kinh thống 坐骨神經痛 sciaticaviêm bể thận (thận vu viêm 腎盂炎 pyelonephritisviêm thận (thận tạng viêm 腎臟炎 nephritisviêm bàng quang (bàng quang viêm 膀胱炎",
+      "đau thắt lưng chân tay sưng phù",
+      "đau lưng (bối thống 背痛 gai xương (cốt thích 骨刺 bony spur",
+      "còn gọi là cốt chuế 骨贅 osteophytes",
+      "cốt vưu 骨疣 u xương đau 2 cẳng chân (lưỡng thối thống 兩腿痛 tai ù (nhĩ minh 耳鳴 gai xương cổ (cảnh hạng cốt thích 頸項骨刺"
+    ],
+    "needlingMethod": "Châm thẳng 5 phân - 1 thốn | Cảm giác châm: Căng tức tại chỗ",
+    "dongQiInstruction": "Ứng dụng: Đau thần kinh toạ (toạ cốt thần kinh thống 坐骨神經痛 sciaticaHuyệt Tam hà, Uyển thuận, Hoả ngạnh, phối hợp phép đạo dẫn hành khí (vận động vùng bị tổn thương - Tai ù (nhĩ minh 耳鳴 Huyệt Uyển thuận, Tứ mã, Tam trọng, Thận quan. - Thận yếu mắt hoa (Thận khuy chi nhãn hoa 腎虧之眼花 Huyệt Tam xoa 1, Uyển thuận 1 • Kinh nghiệm: Huyệt Uyển thuận là 1 trong 72 tuyệt châm của thầy Đổng, nhập kinh Thận, ngũ hành thuộc thuỷ, Thận chủ tai. Do đó, huyệt Uyển thuận có thể trị bệnh tai, như tai ù ngoài huyệt vị liên hệ trên tai, việc lấy huyệt phối hợp trị bệnh trên có thể gia huyệt Uyển thuận 1, 2 hiệu quả tốt; lại trị đau thắt lưng lấy huyệt Uyển thuận 1, vê kim phối hợp động khí liệu pháp, có thể làm cho thắt lưng đau giảm đau ngay, Huyệt Uyển thuận thuộc Thận tác dụng tư (bổ íchCan minh mục (sáng mắt vì thế có thể trị Thận yếu mắt hoa",
+    "westernMechanism": "Tác động trực tiếp dải thần kinh quay, thần kinh giữa và thần kinh trụ bàn tay; kích hoạt đường truyền cảm giác bản thể sâu, điều hòa thần kinh tự chủ và giải phóng beta-endorphin nội sinh.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-52-22-09",
+    "code": "22.09",
+    "name": "Uyển Thuận 2",
+    "chineseName": "腕順二穴",
+    "vietnameseName": "Huyệt Uyển Thuận 2",
+    "zone": "Khu 22 (Bàn tay)",
+    "zoneDescription": "Hệ thống huyệt lòng & mu bàn tay Thủ Chưởng Bộ",
+    "location": "Lưng bàn tay, qua cạnh bờ xương bàn ngón 5, nếp văn cổ tay lên 2,5 thốn | Cách lấy huyệt: Bên cạnh lưng bàn tay, qua cạnh bờ xương bàn ngón 5, nếp văn cổ tay lên 1,5 thốn là huyệt (huyệt Uyển thuận 1 lên 1 thốn",
+    "anatomy": "Giải phẫu: Nhánh mu tay của thần kinh trụ, động mạch mu đốt bàn. Liên quan kinh Thận | Quy kinh: Nhập kinh Thận | Tính huyệt: Tư (bổ ích Thận lợi niệu (lợi tiểu, thông Thận trấn thống (giảm đau",
+    "indications": [
+      "Thận yếu đau đầu mắt hoa",
+      "đau thần kinh toạ (toạ cốt thần kinh thống 坐骨神經痛 sciaticaviêm bể thận (thận vu viêm 腎盂炎 pyelonephritisviêm thận (thận tạng viêm 腎臟炎 nephritisviêm bàng quang (bàng quang viêm 膀胱炎",
+      "đau thắt lưng chân tay sưng phù",
+      "đau lưng (bối thống 背痛gai xương",
+      "cốt thích 骨刺 bony spur",
+      "còn gọi là cốt chuế 骨贅 osteophytes",
+      "cốt vưu 骨疣 u xương đau 2 cẳng chân (lưỡng thối thống 兩腿痛tai ù (nhĩ minh 耳鳴gai xương cổ (cảnh hạng cốt thích 頸項骨刺Trị chảy máu cam (tỵ xuất huyết 鼻出血sái cổ (lạc chẫm 落枕枕rất hiệu quả"
+    ],
+    "needlingMethod": "Châm thẳng 5 phân - 1 thốn | Cảm giác châm: Căng tức tại chỗ",
+    "dongQiInstruction": "Ứng dụng: Huyệt Uyển thuận 1, Uyển thuận 2 đặc hiệu trị bệnh xương, bệnh Thận. Có thể lấy huyệt ở cả hai tay hiệu quả tốt hơn. Huyệt 1, là Uyển thuận thượng, cách đầu xương 5 phân, trị đau xương cụt (vĩ truỳ thống 尾椎痛hiệu nghiệm. Huyệt 2, là Uyển thuận hạ, cách Hậu khê 5 phân, trị đau xương cổ (cảnh truỳ thống 頸椎痛 hữu hiệu. 10. Kinh nghiệm: Huyệt Uyển thuận 2 thuộc vị trí chẫn đoán cột sống và đốt sống ngực trên bàn tay của thầy Đổng, mà huyệt Uyển thuận 1 thuộc vị trí xương sống thắt lưng, vì vậy huyệt Uyển thuận 1 trị đau thắt lưng, đau thần kinh toạ khá hiệu quả; huyệt Uyển thuận 2 trị đau đốt sống ngực và đau do thoái hoá đốt sống cổ. Thầy Hồ từng lấy huyệt Uyển thuận 1, Uyển thuận 2 trị gai xương (cốt thích 骨刺 bony spur, còn gọi là cốt chuế 骨贅 osteophytes, cốt vưu 骨疣 u xươnghiệu quả rõ rệt; vì Uyển thuận nhập kinh Thận do đó trị các chứng của thận như viêm thận (thận tạng viêm 腎臟炎 nephritis viêm bể thận (thận vu viêm 腎盂炎 pyelonephritis u xương (cốt lựu 骨瘤sưng xương (cốt thũng 骨腫) đều có hiệu quả",
+    "westernMechanism": "Tác động trực tiếp dải thần kinh quay, thần kinh giữa và thần kinh trụ bàn tay; kích hoạt đường truyền cảm giác bản thể sâu, điều hòa thần kinh tự chủ và giải phóng beta-endorphin nội sinh.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-53-22-10",
+    "code": "22.10",
+    "name": "Thủ Giải",
+    "chineseName": "手解穴",
+    "vietnameseName": "Huyệt Thủ Giải",
+    "zone": "Khu 22 (Bàn tay)",
+    "zoneDescription": "Hệ thống huyệt lòng & mu bàn tay Thủ Chưởng Bộ",
+    "location": "Lòng bàn tay hướng lên, ở giữa xương bàn tay 4 và 5, nắm tay đầu ngón tay út chạm vào đâu thì là vị trí huyệt, cách nếp ngang giữa lòng bàn tay và ngón tay 1 thốn là huyệt Thủ giải 1, Cách huyệt Thủ giải 1 khoảng 5 phân là huyệt Thủ giải 2",
+    "anatomy": "Giải phẫu: Thần kinh và động mạch gan ngón chung,ngành nối giữa thần kinh giữa và thần kinh trụ. Liên quan ngũ tạng | Quy kinh: Nhập kinh Tâm | Tính huyệt: Điều hoà khí huyết, thông kinh hoạt lạc, trấn tĩnh an thần",
+    "indications": [
+      "Giải vựng châm",
+      "hoặc sau khi châm cứu dẫn tới hôn mê",
+      "đau vết kim châm cứu (châm khẫu thống 針口痛khí huyết rối loạn như kim châm (khí huyết thác loạn chi thích thống 氣血錯亂之刺痛",
+      "đau thần kinh toạ (toạ cốt thần kinh thống 坐骨神經痛 sciaticađau thắt lưng (yêu thống 腰痛 đau dây thần kinh sinh ba (tam xoa thần kinh thống 三叉神經痛",
+      "đau toàn thân (toàn thân thống 全身痛sau phẫu thuật vết thương đau đớn (khai đao hậu thương khẫu đông thống 開刀後傷口疼痛còn giải ngộ độc thức ăn (giải thực vật trúng độc 解食物中毒 ngộ độc thuốc (dược vật trúng độc 藥物中毒viêm dạ dày cấp tính đau đớn khó chịu (cấp tính vị trường viêm đông thống nan nhẫn 急性胃腸炎疼痛難忍 gây tê giảm đau khi nhổ răng (bạt nha thì ma tuý chỉ thống拔牙時麻醉止痛 gây tê giảm đau khi phẫu thuật tử cung (tử cung thủ thuật chi ma tuý chỉ thống 子宮宮手術之麻醉止痛 Hai huyệt đồng thời có thể trị bệnh túi mật (đảm tật 膽疾sỏi mật (đảm thạch chứng 膽石症 cholelithiasis viêm túi mật (đảm nang viêm 膽囊炎 cholecystitistê liệt thần kinh (thần kinh ma tý 神經麻痺 nerve paralysis"
+    ],
+    "needlingMethod": "Châm thẳng 2-8 phân. Châm vào lập tức giải, hoặc dùng kim tam lăng chích máu giải ngay | Cảm giác châm: Căng tức đau tê như điện",
+    "dongQiInstruction": "Thuyết minh: Huyệt Thủ giải là 1 trong 32 huyệt giải của Đổng thị, huyệt vị trọng yếu trong Đổng thị kỳ huyệt, hiệu quả thần tốc, là huyệt giảm đau tốt nhất. Trong các huyệt Thủ giải 1, 2 chỉ cần chọn dùng một huyệt có thể giảm bệnh. - Huyệt Thủ giải cùng với huyệt Thượng cao, huyệt Hạ cao làm tăng thêm tác dụng. Có thể lại thêm các huyệt Chính cân, Chính tông, Trấn tĩnh, Chính hội, Tam thánh, các điểm Cao hoàn, Nội phân tất ở tai. - Huyệt Thủ giải trị chuột rút chân bên đối diện, hiệu quả ngay. Nếu một tay bấm Thủ giải, tay kia dùng lực gõ huyệt Hoả phủ hải, có thể trị cẳng chân bên đối đau đớn, sau châm cứu khó chịu",
+    "westernMechanism": "Tác động trực tiếp dải thần kinh quay, thần kinh giữa và thần kinh trụ bàn tay; kích hoạt đường truyền cảm giác bản thể sâu, điều hòa thần kinh tự chủ và giải phóng beta-endorphin nội sinh.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-54-22-11",
+    "code": "22.11",
+    "name": "Thổ Thuỷ",
+    "chineseName": "土水穴",
+    "vietnameseName": "Huyệt Thổ Thuỷ",
+    "zone": "Khu 22 (Bàn tay)",
+    "zoneDescription": "Hệ thống huyệt lòng & mu bàn tay Thủ Chưởng Bộ",
+    "location": "Lòng bàn tay, chỗ bờ cong rìa ngoài xương bàn tay ngón cái | Cách lấy huyệt: Huyệt Thổ thuỷ 2: Lòng bàn tay, chính giữa chỗ bờ rìa ngoài xương bàn tay ngón cái (lằn da trắng đỏ. - Huyệt Thổ thuỷ 1: Lòng bàn tay, chính giữa chỗ bờ rìa ngoài xương bàn tay ngón cái (lằn da trắng đỏ xuống dưới 5 phân. - Huyệt Thổ thuỷ 3: Lòng bàn tay, chính giữa chỗ bờ rìa ngoài xương bàn tay ngón cái (lằn da trắng đỏ lên trên 5 phân",
+    "anatomy": "Quy kinh: Nhập kinh Phế, Thận | Tính huyệt: Điều lý tỳ vị, điều lý trung tiêu, thanh tuyên phế khí, thông kinh hoạt lạc",
+    "indications": [
+      "Viêm dạ dày cấp mãn tính (cấp mạn tính vị viêm 急慢性胃炎bệnh dạ dày lâu năm (cửu niên vị bệnh 久年胃病 ho (khái thấu 咳嗽 cough hen suyễn (khí suyễn 氣喘 asthmaviêm amidan (biển đào tuyến viêm 扁桃腺炎 lingual tonsillitis",
+      "sưng đau xương toàn thân (toàn thân cốt thũng thống 全身骨腫痛",
+      "đau cơ cạnh trong chân (lưỡng thối nội trắc cơ nhục thống 兩腿內側肌肉痛viêm màng xương (cốt mạc viêm 骨膜炎 periostitis đau thần kinh toạ (toạ cốt thần kinh thống 坐骨神經痛 sciatica"
+    ],
+    "needlingMethod": "Men theo xương, châm thẳng 0,5-1 thốn | Cảm giác châm: Căng tức",
+    "dongQiInstruction": "Ứng dụng: Châm huyệt cả hai tay hiệu quả càng tốt. 10. Kinh nghiệm: - Huyệt Thổ thuỷ có thể trị hiệu quả vị toan (a xít dạ dàyquá nhiều và loét dạ dày (vị toan quá đa cập vị hội dương 胃酸過多及胃潰瘍Vị trí huyệt Thổ thuỷ, theo thầy Hồ và thầy Đổng khác nhau, cả hai đều có thể dùng. - Châm sát xương có thể trị đau đầu gối (tất cái thống 膝蓋蓋痛Huyệt Thổ thuỷ tác giả bổ sung thêm 2 huyệt (xem hình, mà huyệt thứ 5 trị đau đầu gối tốt nhất, có thể xuyên tới huyệt Trọng tử • Phối huyệt: (1Đau thắt dạ dày (vị giảo thống 胃絞痛) (chủ yếu là do nguyên nhân tinh thần; tức giận, hồi hộp và căng thẳng quá mức có thể gây ra co thắt dạ dày Huyệt Thổ thuỷ phối huyệt Tứ hoa thượng, huyệt Môn kim. (2Chướng bụng, bụng báng (phúc trướng 腹脹: Huyệt Thổ thuỷ phối huyệt Linh cốt, Đại bạch, hiệu nghiệm. (3 Trị vị toan (a xít dạ dàyquá nhiều làm loét dạ dày (vị toan quá đa cập vị hội dương 胃酸過多及胃潰瘍: Huyệt Thổ thuỷ, Thuỷ kim, Thuỷ thông. (4 Loét dạ dày tá tràng (Vị cập thập nhị chỉ trường hội dương 胃及十二指坐潰瘍 Huyệt Thổ thuỷ, Thuỷ kim, Thuỷ thông, lại gia điểm dạ dày trên tai",
+    "westernMechanism": "Tác động trực tiếp dải thần kinh quay, thần kinh giữa và thần kinh trụ bàn tay; kích hoạt đường truyền cảm giác bản thể sâu, điều hòa thần kinh tự chủ và giải phóng beta-endorphin nội sinh.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-55-22-t01",
+    "code": "22.T01",
+    "name": "Trọng Khôi",
+    "chineseName": "重魁穴",
+    "vietnameseName": "Huyệt Trọng Khôi",
+    "zone": "Khu 22 (Bàn tay)",
+    "zoneDescription": "Hệ thống huyệt lòng & mu bàn tay Thủ Chưởng Bộ",
+    "location": "Mu bàn tay ở góc bên cạnh xương bàn ngón tay trỏ, cách đầu khớp bàn 2,5 phân là huyệt. Tức cách huyệt Đại bạch 1 thốn | Cách lấy huyệt: Nắm tay lấy huyệt, trên mu bàn tay ở bên cạnh chỗ cong ngón tay trỏ, cách đầu khớp bàn 2,5 phân là huyệt. Tức cách huyệt Đại bạch 1 thốn",
+    "anatomy": "Giải phẫu: Lớp nông có nhánh mu ngón tay của thần kinh quay và tĩnh mạch mu ngón tay, lớp sâu có động mạch quay mu ngón tay. Liên quan kinh Tâm, Phế | Quy kinh: Nhập kinh Phế | Tính huyệt: Thanh nhiệt (làm mátthoái thiêu (hạ sốt tuyên (khai thôngphế chỉ khái (hết ho",
+    "indications": [
+      "Ho (khái thấu 咳嗽 cough hen suyễn (khí suyễn 氣喘 asthma đau dây thần kinh sinh ba (tam xoa thần kinh thống 三叉神經痛mắt sưng đỏ đau (nhãn hồng thũng thống 眼紅腫痛cao huyết áp (高血壓 hypertension",
+      "dùng gây tê nhổ rang (bạt nha ma tuý dụng 拔牙麻醉用hạ sốt khi cảm mạo (cảm mạo thoái thiêu 感冒退燒 đau đầu (đầu thống 頭痛 đau một bên đầu (thiên đầu thống 偏頭痛"
+    ],
+    "needlingMethod": "Châm sát xương 2-5 phân. Hoặc dùng kim tam lăng chích máu | Cảm giác châm: Chướng tức. Huyệt Trọng khôi cũng là huyệt dùng gây tê",
+    "dongQiInstruction": "Ứng dụng: Huyệt Trọng khôi là huyệt chính với cảm mạo sốt cao (cảm mạo phát thiêu 感冒發燒 đối với bệnh mắt (nhãn tật 眼疾 chắp, lẹo (mạch lạp thung 麦粒腫 stye, hordeolumcũng hiệu quả; với bệnh cao huyết áp (高血壓 hypertensionmỗi lần châm có thể hạ 2-5 mmHg. Gây tê khi nhổ răng châm xuyên từ huyệt Trọng khôi tới huyệt Đại bạch. 10. Kinh nghiệm: - Cảm mạo sốt cao (Cảm mạo phát thiêu 感冒發燒ó thể chích máu tại Thập bát tinh huyệt của Đổng thị, lại phối hợp châm các huyệt Trọng khôi, Linh cốt, Đại bạch hiệu quả rõ rệt. - Huyệt Trọng khôi, Đại bạch và Linh cốt trên xương bàn ngón trỏ theo luật toàn tức (3 chiều, hoặc Việt Nam gọi là đồng ứngtương ứng với đầu, trong lâm sàng có thể châm 3 huyệt hình thành phép đảo mã, có thể thông tam tiêu điều hoà toàn thân",
+    "westernMechanism": "Tác động trực tiếp dải thần kinh quay, thần kinh giữa và thần kinh trụ bàn tay; kích hoạt đường truyền cảm giác bản thể sâu, điều hòa thần kinh tự chủ và giải phóng beta-endorphin nội sinh.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-56-22-t02",
+    "code": "22.T02",
+    "name": "Nội Bạch",
+    "chineseName": "內白穴",
+    "vietnameseName": "Huyệt Nội Bạch",
+    "zone": "Khu 22 (Bàn tay)",
+    "zoneDescription": "Hệ thống huyệt lòng & mu bàn tay Thủ Chưởng Bộ",
+    "location": "Trên mu bàn tay, chỗ giữa khớp bàn ngón 3 và ngón 4, cách đầu khớp bàn đốt ngón tay 0,5 thốn (5 phânhuyệt | Cách lấy huyệt: Nắm tay lấy huyệt, trên mu bàn tay, chỗ giữa khớp bàn ngón 3 và ngón 4, cách đầu khớp bàn đốt ngón tay 0,5 thốn (5 phânlà huyệt",
+    "anatomy": "Giải phẫu: Lớp nông có tĩnh mạch mu đốt bàn, nhánh mu tay của thần kinh trụ, lớp sâu có động mạch mu đốt bàn; liên quan kinh Tỳ | Quy kinh: Nhập hai kinh Phế, Tỳ | Tính huyệt: Sơ (trừphong giải biểu, thanh nhiệt giải độc, tiêu thũng chỉ thống",
+    "indications": [
+      "Viêm tuỵ mãn tính (Mạn tính di tạng viêm 慢性胰臟炎 Chronic Pancreatitis",
+      "lách to (tỳ thũng đại 脾腫大 splenomegalybệnh nổi u",
+      "hòn cục trong bụng (bĩ khối 痞塊răng sưng đau (nha xỉ thũng thống 牙齒腫痛viêm lợi (xỉ ngân viêm 齒齦炎 gingivitisđau thắt lưng (yêu thống 腰痛",
+      "đau thần kinh toạ (toạ cốt thần kinh thống 坐骨神經痛 sciaticada dị ứng (quá mẫn tính bì phu bệnh 過敏性皮膚病 mày đay (tầm ma chẫn 蕁麻疹 urticaria",
+      "lang ben (bạch điến phong 白癜風 vitiligo ban xuất huyết (tử điến 紫癜症 purpura"
+    ],
+    "needlingMethod": "Châm thẳng 3-8 phân. 8. Thuyết minh: Huyệt Nội bạch không ghi trong tài liệu của thầy Đổng, mà do thầy Hồ công bố trong tác phẫm Thực dụng Đổng thị châm cứu kỳ huyệt toàn tập 實用董氏針灸奇穴全集 những truyền dạy của thầy Đổng chưa ghi trong sách. 9. Phối huyệt: (1 Trị mày đay (tầm ma chẫẫn 蕁麻疹 urticaria: Huyệt Nội bạch phối huyệt Bì phu trên tai (huyệt Đổng thị cùng huyệt Tứ mã, Linh cốt, Hoả phủ hải, Thổ thuỷ, Tam xoa, lại phối hợp huyệt Thượng tam hoàng (Thiên hoàng, Minh hoàng, Kỳ hoàngHạ tam hoàng (Thiên hoàng, Địa hoàng, Nhân hoàng có thể đồng thời cải thiện sức khoẻ. (2 Răng sưng đau (nha xỉ thũng thống 牙齒腫痛 viêm lợi (xỉ ngân viêm 齒齦炎 gingivitis Huyệt Nội bạch phối hợp huyệt Tam xỉ, Linh cốt, Tứ hoa thượng. (3 Đau thắt lưng (yêu thống 腰痛 đau thần kinh toạ (toạ cốt thần kinh thống 坐坐骨神經痛 sciatica: Huyệt Nội bạch phối hợp huyệt Uyển thuận, chích máu vùng bệnh và phối hợp liệu pháp động khí",
+    "dongQiInstruction": "Động Khí Châm Pháp: Châm bên đối diện, vừa vê kim vừa vận động vùng bệnh để dẫn khí đạt bệnh sở.",
+    "westernMechanism": "Tác động trực tiếp dải thần kinh quay, thần kinh giữa và thần kinh trụ bàn tay; kích hoạt đường truyền cảm giác bản thể sâu, điều hòa thần kinh tự chủ và giải phóng beta-endorphin nội sinh.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-57-22-t03",
+    "code": "22.T03",
+    "name": "Ngoại Bạch",
+    "chineseName": "外白穴",
+    "vietnameseName": "Huyệt Ngoại Bạch",
+    "zone": "Khu 22 (Bàn tay)",
+    "zoneDescription": "Hệ thống huyệt lòng & mu bàn tay Thủ Chưởng Bộ",
+    "location": "Trên mu bàn tay, khoảng giữa xương bàn tay 3 và 4, cách đầu khớp bàn đốt ngón tay 1,5 thốn (5 phânhuyệt. Cách huyệt Nội bạch 1 thốn | Cách lấy huyệt: Nắm tay lấy huyệt, trên mu bàn tay, khoảng giữa xương bàn tay 3 và 4, cách đầu khớp bàn đốt ngón tay 1,5 thốn là huyệt. Cách huyệt Nội bạch 1 thốn",
+    "anatomy": "Giải phẫu: Lớp nông có nhánh nối thần kinh quay và trụ, tĩnh mạch mu đốt bàn; lớp sâu có động mạch mu đốt bàn. Liên quan kinh Tỳ | Quy kinh: Nhập hai kinh Phế, Tỳ | Tính huyệt: Sơ (trừ bỏ phong giải biểu, thông kinh hoạt (linh hoạt lạc",
+    "indications": [
+      "Viêm tuỵ mãn tính (Mạn tính di tạng viêm 慢性胰臟炎 Chronic Pancreatitis",
+      "lách to (tỳ thũng đại 脾腫大 splenomegalybệnh nổi u",
+      "hòn cục trong bụng (bĩ khối 痞塊răng sưng đau (nha xỉ thũng thống 牙齒腫痛viêm lợi (xỉ ngân viêm 齒齦炎 gingivitisđau thắt lưng (yêu thống 腰痛",
+      "đau thần kinh toạ (toạ cốt thần kinh thống 坐骨神經痛 sciaticada dị ứng (quá mẫn tính bì phu bệnh 過敏性皮膚病 mày đay (tầm ma chẫn 蕁麻疹 urticaria",
+      "lang ben (bạch điến phong 白癜風 vitiligo ban xuất huyết (tử điến 紫癜症 purpura Đồng thời trị đau dây thần kinh sinh ba (tam xoa thần kinh thống 三叉神經痛 đau thần kinh khẫu cái (khẫu xỉ thần kinh thống 口齒神經痛 palatine nerveđau dây thần kinh liên sườn (lặc gian thần kinh thống 肋間神經痛 intercostal neuralgia"
+    ],
+    "needlingMethod": "Châm thẳng 3-8 phân | Cảm giác châm: Căng tức",
+    "dongQiInstruction": "Ứng dụng: Chữa bệnh ngoài da, phối huyệt Tứ mã hiệu quả rõ ràng. Chữa bệnh đau thần kinh, phối huyệt Ngoại bạch rất hiệu quả • Thuyết minh: Huyệt Ngoại bạch chưa được thầy Đổng đưa vào tài liệu, mà do thầy Hồ công bố trong thực dụng đổng thị châm cứu kỳ huyệt toàn tập 《實用董氏針灸奇穴全集》theo sự truyền dạy của thầy Đổng. 11. Kinh nghiệm: Huyệt Ngoại bạch ít khi dùng riêng, thông thường cùng châm với huyệt Nội bạch, hình thành phép châm đảo mã, tăng cường hiệu quả trị bệnh. 12. Phối huyệt: Đau dây thần kinh sinh ba (tam xoa thần kinh thống 三叉神經痛Huyệt Ngoại bạch gia Thượng bạch, Phân bạch, Tam tuyền (Thượng tuyền, Trung tuyền, Hạ tuyền, chích huyết vùng bệnh. Cũng có thể trước chích huyết vùng bệnh, sau gia huyệt Tam trọng, Ngoại tam quan, Ngoại bạch lại phối hợp huyệt vị liên quan vùng cơ mặt",
+    "westernMechanism": "Tác động trực tiếp dải thần kinh quay, thần kinh giữa và thần kinh trụ bàn tay; kích hoạt đường truyền cảm giác bản thể sâu, điều hòa thần kinh tự chủ và giải phóng beta-endorphin nội sinh.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-58-22-t04",
+    "code": "22.T04",
+    "name": "Phân Bạch",
+    "chineseName": "分白穴",
+    "vietnameseName": "Huyệt Phân Bạch",
+    "zone": "Khu 22 (Bàn tay)",
+    "zoneDescription": "Hệ thống huyệt lòng & mu bàn tay Thủ Chưởng Bộ",
+    "location": "Mu bàn tay hướng lên trên, khoảng giữa xương bàn tay 2 và 3, cách đầu khớp bàn đốt ngón tay 1,5 thốn là huyệt. Tức cách huyệt Thượng bạch 1 thốn | Cách lấy huyệt: Nắm tay lấy huyệt, trên mu bàn tay, khoảng giữa xương bàn tay 2 và 3, cách đầu khớp bàn đốt ngón tay 1,5 thốn là huyệt. Cách huyệt Thượng bạch 1 thốn",
+    "anatomy": "Giải phẫu: Lớp nông là nhánh thần kinh quay, tĩnh mạch mu đốt bàn; lớp sâu có động mạch mu đốt bàn. Liên quan kinh Tâm, Phế, Thận | Quy kinh: Nhập 3 kinh Tâm, Phế và Thận | Tính huyệt: Sơ (trừ bỏ phong tả hoả, tư (bồi bổ âm minh mục (sáng mắt",
+    "indications": [
+      "Viêm kết mạc (結膜炎 conjunctivitis viêm giác mạc (角膜炎 keratitis mắt sưng đau (nhãn toan trướng 眼酸脹 mắt cận thị (cận thị nhãn 近視眼loạn thị (tán quang 散光 astigmatismđau thắt ngực (tâm giảo thống 心絞痛 angina pectoris",
+      "do thiếu máu cục bộ cơ timgiảm thị lực (nhược thị 弱視 amblyopia",
+      "ra gió chảy nước mắt (nghinh phong lưu lệ 迎風流淚 windward tears",
+      "đau lưng (bối thống 背痛",
+      "đau thắt lưng (yêu thống 腰痛",
+      "đau thần kinh toạ (toạ cốt thần kinh thống 坐骨神經痛 sciatica"
+    ],
+    "needlingMethod": "Châm thẳng 3-8 phân | Cảm giác châm: Căng tức",
+    "dongQiInstruction": "Ứng dụng: Huyệt Phân bạch phối với huyệt Thượng bạch trị các chứng bệnh về mắt rất hiệu quả. 10. Kinh nghiệm: Thầy Hồ sử dụng huyệt Phân bạch phối với huyệt Thượng bạch trị giảm thị lực (nhược thị 弱視 amblyopia, mắt sưng đau (nhãn toan trướng 眼 酸脹412 trường hợp thì có 388 người khỏi bệnh, trong vòng 10 lần châm; còn 24 trường hợp cần phối hợp thêm huyệt Hoa cốt và huyệt khác mới khỏi hoàn toàn. 11. Thuyết minh: - Trong lâm sàng, phần lớn sử dụng đồng thời huyệt Phân bạch và Thượng bạch, hình thành phép châm đảo mã. - Huyệt Phân bạch không ghi trong sách của thầy Đổng, do thầy Hồ công khai trong sách. - Huyệt Phân bạch chủ trị giống huyệt Thượng bạch, phối với huyệt Thượng bạch cả hai cùng thông suốt. 12. Phối huyệt: Đau lưng (bối thống 背痛 đau thắt lưng (yêu thống 腰痛 đau thần kinh toạ (toạ cốt thần kinh thống 坐骨神經痛 sciaticaNgoài 2 huyệt Thượng bạch, Phân bạch, có thể thêm các huyệt Linh cốt, Đại bạch, Uyển thuận, phối hợp phép đạo dẫn hành khí (vận động vùng bị tổn thươnghiệu quả trị bệnh rất tốt",
+    "westernMechanism": "Tác động trực tiếp dải thần kinh quay, thần kinh giữa và thần kinh trụ bàn tay; kích hoạt đường truyền cảm giác bản thể sâu, điều hòa thần kinh tự chủ và giải phóng beta-endorphin nội sinh.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-59-22-t05",
+    "code": "22.T05",
+    "name": "Thượng Cao, Hạ Cao",
+    "chineseName": "上高穴",
+    "vietnameseName": "Huyệt Thượng Cao, Hạ Cao",
+    "zone": "Khu 22 (Bàn tay)",
+    "zoneDescription": "Hệ thống huyệt lòng & mu bàn tay Thủ Chưởng Bộ",
+    "location": "Huyệt ở trong lòng bàn tay, ở khoảng giữa xương bàn tay ngón 4 và 5. - Huyệt Thượng cao cách huyệt Thủ giải 2 khoảng 5 phân. - Huyệt Hạ cao cách huyệt Thủ giải 2 khoảng 1,5 thốn",
+    "anatomy": "Giải phẫu: Nhánh thần kinh trụ, ngành nối thần kinh giữa và thần kinh trụ, động mạch gan đốt bàn, cung động mạch gan tay sâu. Liên quan não, kinh Thận | Quy kinh: Nhập kinh Thận, Vị | Tính huyệt: Sơ (khai thông kinh điều (điều hoà khí, bổ Thận hoà (êm thuận, yên ổnVị",
+    "indications": [
+      "Viêm màng phổi (lặc mạc viêm 肋膜炎 pleurisy viêm màng bụng (phúc mạc viêm 腹膜炎 peritonitis",
+      "viêm ruột thừa (manh trường viêm 盲腸炎 appendicitisviêm buồng trứng (noãn sào viêm 卵枕炎 oophoritis viêm ruột non cấp mạn tính (cấp mạn tính tiểu trường viêm 急慢性小腸炎 Enteritis",
+      "tăng chiều cao (增高"
+    ],
+    "needlingMethod": "Châm thẳng 2-8 phân | Cảm giác châm: Căng tức tê",
+    "dongQiInstruction": "Ứng dụng: Huyệt Thượng cao, Hạ cao là một trong 72 tuyệt châm của Đổng thị, huyệt Thượng cao phối huyệt Hạ cao là huyệt đặc hiệu chữa bệnh viêm màng bụng (phúc mạc viêm 腹膜炎 peritonitisĐồng thời có tác dụng thúc đẫy phát triển tuyến yên (não hạ thuỳ thể 腦下垂體 pituitary gland chất kích thích sinh trưởng, tác dụng tiết ra vỏ thần kinh não, vì thế có thể tăng chiều cao, châm khoảng 20 lần có thể tăng 5-10cm, xác xuất 60%, nếu quá 20 tuổi sẽ kém hiệu quả. 16 tuổi - 20 tuổi hiệu quả cao nhất • Thuyết minh: Huyệt Thượng cao, Hạ cao và huyệt Thủ giải cùng nằm trên một tuyến, huyệt Thủ giải tăng thêm tác dụng. - Huyệt Thượng cao, Hạ cao không ghi trong tài liệu của thầy Đổng, do thầy Hồ đã công khai trong sách theo truyền dạy của thầy Đổng • Phối huyệt: (1 Trị viêm ruột thừa (manh trường viêm 盲坐腸炎 appendicitis: Ngoài huyệt Thượng cao, Hạ cao, Tứ hoa trung, Phủ trường, điểm Lan vĩ trên tai, có thể chích máu tại huyệt Phủ sào. (2 Tăng chiều cao (增高: Ngoài huyệt Thượng cao, Hạ cao, Thủ giải lại thêm huyệt Thượng chính hội, Chính não, Trấn tĩnh, Hạ tam hoàng (Thiên hoàng, Địa hoàng, Nhân hoàng Chính cân, Chính tông, Tam thánh, các điểm Nội phân tất, Bì chất hạ, Thận, Não, nam lấy Cao hoàn, nữ lấy Noãn sào, hiệu nghiệm",
+    "westernMechanism": "Tác động trực tiếp dải thần kinh quay, thần kinh giữa và thần kinh trụ bàn tay; kích hoạt đường truyền cảm giác bản thể sâu, điều hòa thần kinh tự chủ và giải phóng beta-endorphin nội sinh.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-60-22-t06",
+    "code": "22.T06",
+    "name": "Tam Hà",
+    "chineseName": "三河穴",
+    "vietnameseName": "Huyệt Tam Hà",
+    "zone": "Khu 22 (Bàn tay)",
+    "zoneDescription": "Hệ thống huyệt lòng & mu bàn tay Thủ Chưởng Bộ",
+    "location": "Lòng bàn tay hướng lên trên, - Huyệt Tam hà 1: Từ mép giao giữa ngón vô danh và ngón út vào 2,5 phân. - Huyệt Tam hà 2: Từ mép giao giữa ngón vô danh và ngón út vào 5 phân. - Huyệt Tam hà 3: Từ mép giao giữa ngón vô danh và ngón út vào 7,5 phân",
+    "anatomy": "Giải phẫu: Thần kinh gan ngón chung, động mạch gan ngón chung. Liên quan lục phủ | Quy kinh: Nhập hai kinh Can Thận | Tính huyệt: Thông kinh hoạt lạc, hành khí chỉ thống",
+    "indications": [
+      "Đau tử cung (Tử cung thống 子宮宮痛",
+      "đau bụng dưới (hạ phúc thống 下腹痛 đau thần kinh toạ (toạ cốt thần kinh thống 坐骨神經痛 sciaticađau 2 cẳng chân (lưỡng thối thống 兩腿痛 gai xương (tích truỳ cốt trưởng cốt thích 脊椎骨長骨刺 bệnh túi mật (đảm tật 膽疾"
+    ],
+    "needlingMethod": "Châm thẳng 2-4 phân. Hoặc dùng kim chích huyết để chích ra máu | Cảm giác châm: Đau nhức",
+    "dongQiInstruction": "Ứng dụng: Huyệt Tam hà là huyệt đặc hiệu trị đau thắt lưng, đau thần kinh toạ • Thuyết minh: Đổng thị kỳ huyệt phần lớn đều hình thành một bộ tối đa 3 huyệt, khi châm kim, cũng thường dùng 2, 3 kim, đây là một phép châm, gọi là Đảo mã châm pháp, lý do là châm 2 kim hoặc 3 kim hiệu quả tốt hơn châm 1 kim. Huyệt Tam hà nằm ở giữa điểm chẫn đoán Can và Thận trong lòng bàn tay, từ đó ta thấy, huyệt Tam Hà quan hệ mật thiết với gân, cốt, vì thế nó có liên quan trong phạm vi chủ trị gân cốt; huyệt Tam hà thường phối hợp cùng huyệt Uyển thận trị các chứng đau thần kinh toạ (toạ cốt thần kinh thống 坐骨神經痛 sciaticagai xương (tích truỳ cốt cốt thích 脊椎骨骨刺 • Phối huyệt: (1Gai xương, (cốt thích 骨刺, còn gọi là cốt vưu 骨疣 u xương : Trước chích huyết vùng bệnh, lại châm các huyệt Tam hà, Phân thuỷ, Uyển thuận, Nhị giác minh, Chính tích, Chính cân, Chính tông, Tam trùng, Linh cốt, Hạ bạch, Cốt quan. (2 Eo lưng đau do Thận hư (Thận hư yêu toan 腎虛腰酸): Huyệt Tam hà, Hạ tam hoàng (Thiên hoàng, Địa hoàng, Nhân hoàng Thuỷ kim, Thuỷ thông. (3Hành kinh lưng đau eo mỏi (kinh kỳ yêu toan bối thống 經期腰酸背痛: Huyệt Tam hà, huyệt Uyển thuận thấu Linh cốt, Hạ bạch, Phân bạch",
+    "westernMechanism": "Tác động trực tiếp dải thần kinh quay, thần kinh giữa và thần kinh trụ bàn tay; kích hoạt đường truyền cảm giác bản thể sâu, điều hòa thần kinh tự chủ và giải phóng beta-endorphin nội sinh.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-61-22-t07",
+    "code": "22.T07",
+    "name": "Cốt Quan",
+    "chineseName": "骨關穴",
+    "vietnameseName": "Huyệt Cốt Quan",
+    "zone": "Khu 22 (Bàn tay)",
+    "zoneDescription": "Hệ thống huyệt lòng & mu bàn tay Thủ Chưởng Bộ",
+    "location": "Lòng bàn tay ngửa, chính giữa nếp ngang cổ tay vào phía lòng bàn tay 5 phân, sang ngang 5 phân (phía ngón cái tại xương thuyền là huyệt | Cách lấy huyệt: Lòng bàn tay ngửa, chính giữa nếp ngang cổ tay vào phía lòng bàn tay 5 phân, sang ngang 5 phân (phía ngón cái tại xương thuyền là huyệt. Tức thẳng khe ngón tay trỏ và ngón giữa, cách nếp ngang cổ tay 5 phân",
+    "anatomy": "Giải phẫu: Thần kinh giữa, liên quan kinh Thận, Phế | Quy kinh: Nhập 2 kinh Can, Thận | Tính huyệt: Tả can giải độc, sơ (khai thông kinh trấn thống (giảm đau",
+    "indications": [
+      "Liệt nửa người (bán thân bất toại 半身不遂",
+      "đau thần kinh toạ (toạ cốt thần kinh thống 坐骨神經痛 sciaticau xương (gai xươngcột sống chèn dây thần kinh gây đau (tích truỳ cốt tăng sinh 脊椎骨增生 (spine hyperostosisáp bách thần kinh thống 壓迫神經痛viêm tá tràng (thập nhị chỉ trường viêm 十二指腸炎giải độc a xít (giải niệu toan độc 解尿酸毒ngộ độc thức ăn (thực vật trúng độc 食物中 毒 ngộ độc thuốc (dược vật trúng độc 藥物中毒"
+    ],
+    "needlingMethod": "Châm thẳng 3-5 phân | Cảm giác châm: Chướng tức",
+    "dongQiInstruction": "Thuyết minh: Hai huyệt Cốt quan, Mộc quan thường phối hợp đồng thời, hai huyệt này là đại huyệt, yếu huyệt trong châm cứu Đổng thị, chưa được ghi trong sách của thầy Đổng, thầy Hồ theo sự truyền dạy của thầy Đổng đã đưa vào trong tác phẫm y học Thực dụng đổng thị châm cứu kỳ huyệt toàn tập (實用董氏針灸奇穴全集 thầy Đổng đã truyền 72 tuyệt châm (tức châm có hiệu quả đặc biệt 32 phép giải, mà rõ ràng 2 huyệt trọng yếu là Cốt quan, Mộc quan. 10. Kinh nghiệm: Các huyệt Cốt quan, Mộc quan phối hợp huyệt Chính tích 1, 2, 3 trị xương cột sống không thẳng gây đau mỏi (tích truỳ cốt bất chính cập toan thống 脊椎骨不正及酸痛trên lâm sàng hiệu quả rõ ràng. Cốt quan, mộc quan mũi kim hướng về cuối (bàn tay trị đau mỏm xương cùng",
+    "westernMechanism": "Tác động trực tiếp dải thần kinh quay, thần kinh giữa và thần kinh trụ bàn tay; kích hoạt đường truyền cảm giác bản thể sâu, điều hòa thần kinh tự chủ và giải phóng beta-endorphin nội sinh.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-62-22-t08",
+    "code": "22.T08",
+    "name": "Mộc Quan",
+    "chineseName": "木關穴",
+    "vietnameseName": "Huyệt Mộc Quan",
+    "zone": "Khu 22 (Bàn tay)",
+    "zoneDescription": "Hệ thống huyệt lòng & mu bàn tay Thủ Chưởng Bộ",
+    "location": "Lòng bàn tay ngửa, chính giữa nếp ngang cổ tay vào phía lòng bàn tay 5 phân, sang ngang (phía ngón út5 phân là huyệt | Cách lấy huyệt: Lòng bàn tay ngửa, chính giữa nếp ngang cổ tay vào phía lòng bàn tay 5 phân, sang ngang (phía ngón út5 phân là huyệt. Tức thẳng khe ngón tay giữa và ngón vô danh, cách nếp ngang cổ tay 5 phân",
+    "anatomy": "Giải phẫu: Thần kinh giữa, liên quan kinh Thận, Can | Quy kinh: Nhập hai kinh Can, Thận | Tính huyệt: Tả can giải độc, sơ (khai thông kinh trấn thống (giảm đau",
+    "indications": [
+      "Đau thắt lưng tức ngực (yêu thống hung muộn 腰痛胸悶 hai sườn đau (lưỡng hiếp thống 兩脅痛 bệnh vàng da (hoàng đản bệnh 黃疸病 jaundiceđau thần kinh toạ (toạ cốt thần kinh thống 坐骨神經痛 sciaticađau cẳng chân (thối thống 腿痛 viêm màng bụng (phúc mạc viêm 腹膜炎 peritonitis đau khớp toàn thân (toàn thân quan tiết thống 全身關節痛giải độc a-xít (giải niệu toan độc 解尿酸毒ngộ độc thức ăn (thực vật trúng độc 食物中毒ngộ độc thuốc (dược vật trúng độc 藥物中毒"
+    ],
+    "needlingMethod": "Châm thẳng 2-5 phân | Cảm giác châm: Căng tức",
+    "dongQiInstruction": "Ứng dụng: Huyệt Mộc quan phối huyệt Linh cốt, Hạ bạch huyệt, Cốt quan trị đau thắt lưng (yêu thống 腰痛), đau thần kinh toạ (toạ cốt thần kinh thống 坐骨神經痛 sciatica gai xương, (cốt thích 骨刺, còn gọi là cốt vưu 骨疣 u xương Nhất là với chứng a-xít quá cao dẫn tới xương cốt, gân cơ đau nhức hiệu quả đặc biệt. 10. Kinh nghiệm: - Thầy Hồ từng dùng huyệt Cốt quan, huyệt Mộc quan trị liệu viêm khớp do axit uric (niệu toan tính quan tiết viêm 尿酸性關節炎1211 ca toàn bộ đều khỏi bệnh. - Huyệt Cốt quan, Mộc quan tại lòng bàn tay theo luật toàn tức (3 chiều, Việt Nam gọi là đồng ứng là bụng dưới, vì thế cũng có thể trị nam khoa (男科 viêm (đau tử cung (子宮宮炎/痛và nóng trong tử cung (tử cung nội nhiệt 子宮宮內熱 - Huyệt Mộc quan, Cốt quan với gót phía lòng bàn chân tương đồng, có thể lấy 1,5 thốn, kích thích từ bờ gần đến xa có thể trị đau gót chân",
+    "westernMechanism": "Tác động trực tiếp dải thần kinh quay, thần kinh giữa và thần kinh trụ bàn tay; kích hoạt đường truyền cảm giác bản thể sâu, điều hòa thần kinh tự chủ và giải phóng beta-endorphin nội sinh.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-63-22-t09",
+    "code": "22.T09",
+    "name": "Tam Xoa 1",
+    "chineseName": "三叉一穴",
+    "vietnameseName": "Huyệt Tam Xoa 1",
+    "zone": "Khu 22 (Bàn tay)",
+    "zoneDescription": "Hệ thống huyệt lòng & mu bàn tay Thủ Chưởng Bộ",
+    "location": "Tại điểm giữa khe giao ngón trỏ và ngón giữa | Cách lấy huyệt: Huyệt tại điểm giữa khe giao ngón trỏ và ngón giữa",
+    "anatomy": "Giải phẫu: Nhánh nông của thần kinh quay, động mạch mu ngón tay. Liên quan kinh Thận, nhánh kinh Phế | Quy kinh: Nhập kinh Thận | Tính huyệt: Tư (bổ íchthận trấn thống (giảm đau, ích (lợi íchthận minh mục (sáng mắt",
+    "indications": [
+      "Viêm giác mạc (角膜炎- keratitismắt đau mỏi (nhãn tinh toan thống 眼睛酸痛",
+      "đau thắt lưng (yêu thống 腰痛",
+      "đau thần kinh toạ (toạ cốt thần kinh thống 坐骨神經痛 sciaticaxương lông mày đau nhức (my lăng cốt toan 眉稜骨酸 bụng trướng đau (trướng thống 脹痛 teo thần kinh thị giác (thị thần kinh nuy súc 視神經萎縮 optic atrophyệt nửa người (bán thân bất toại 半身不遂chứng liệt (nuy chứng 痿症"
+    ],
+    "needlingMethod": "Châm thẳng 2 thốn. Thuận theo khe giao ngón trỏ và ngón giữa tiến kim tới giữa hai xương bàn tay. Nắm tay theo khe giao mà tiến kim | Cảm giác châm: Tại chỗ căng tức tê như điện. 9. Phân biệt: Huyệt Tam xoa của Đổng thị với huyệt Bát tà tương đồng, nhưng chủ trị bệnh trạng của nó nó và Bát tà hoàn toàn khác nhau. Đồng thời, phương pháp châm kim khác nhau, Bát tà châm 3-5 phân hoặc dùng kim tam lăng chích máu. Nhưng huyệt Tam xoa của Đổng thị châm thẳng 2 thốn khác với Bát tà. Độc giả cần phải phân biệt cẫn thận",
+    "dongQiInstruction": "Thuyết minh: Huyệt Tam xoa 1, 2, 3 trong tài liệu của thầy Đổng chưa đưa vào, mà do thầy Hồ theo sự truyền dạy của thầy Đổng công khai trong tác phẫm (Thực dụng Đổng thị châm cứu kỳ huyệt toàn tập 《實用董氏針灸奇穴全集》Huyệt Tam xoa có thể nâng cao khả năng miễn dịch, là yếu huyệt hiệu quả vốn có trong truyền dạy của thầy Đổng. Huyệt Tam xoa có 3 huyệt quy kinh không giống nhau, huyệt phù hợp với kinh nó nhập, có đủ công dụng điều chỉnh bổ tả, trở thành yếu huyệt thường dùng của thầy Đổng. 11. Ứng dụng: (1 Cảm mạo phát sốt (cảm mạo phát thiêu 感冒發燒: - Bệnh nặng: Huyệt Tam xoa, Linh cốt, Đại bạch, Thần nhĩ thượng, trung, hạ, phối hợp chích máu Thập bát tinh huyệt, có thể gia Trọng tử, Trọng tiên. - Bệnh nhẹ: Huyệt Tam xoa, Linh cốt, Đại bạch, Trọng tử, Trọng tiên. (2 Giảm thị lực (nhược thị 弱視 amblyopia, teo thần kinh thị giác (thị thần kinh nuy súc 視神經萎縮 optic atrophy Huyệt Tam xoa 1, Thận quan, Châu viên (珠圓",
+    "westernMechanism": "Tác động trực tiếp dải thần kinh quay, thần kinh giữa và thần kinh trụ bàn tay; kích hoạt đường truyền cảm giác bản thể sâu, điều hòa thần kinh tự chủ và giải phóng beta-endorphin nội sinh.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-64-22-t10",
+    "code": "22.T10",
+    "name": "Tam Xoa 2",
+    "chineseName": "三叉二穴",
+    "vietnameseName": "Huyệt Tam Xoa 2",
+    "zone": "Khu 22 (Bàn tay)",
+    "zoneDescription": "Hệ thống huyệt lòng & mu bàn tay Thủ Chưởng Bộ",
+    "location": "Tại điểm giữa khe giao ngón giữa và ngón vô danh | Cách lấy huyệt: Huyệt tại điểm giữa khe giao ngón giữa và ngón vô danh",
+    "anatomy": "Giải phẫu: Nhánh mu của thần kinh trụ, tĩnh mạch kẽ ngón tay, động mạch mu ngón tay. Liên quan kinh Tỳ và nhánh kinh Can | Quy kinh: Nhập 2 kinh Tỳ và Can | Tính huyệt: Kiện (khoẻ mạnhtỳ hoá (tiêu trừthấp, hành (lưu thôngkhí hoạt lạc (linh hoạt hoá ứ (tan nghẽn tắc",
+    "indications": [
+      "Viêm tuyến Tuỵ (di tạng viêm 胰臟炎sưng lá lách (tỳ thũng đại 脾腫大 splenomegaly liệt nửa người (bán thân bất toại 半身不遂 đau thần kinh toạ (toạ cốt thần kinh thống 坐骨神經痛 sciatica tê liệt tay chân (thủ cước ma tý 手腳麻痺 viêm gan (can viêm 肝炎"
+    ],
+    "needlingMethod": "Châm thẳng 2 thốn. Thuận theo khe giao ngón giữa và ngón vô danh tiến kim tới xương bàn tay theo bờ xương. Nắm tay, theo khe giao mà tiến kim | Cảm giác châm: Căng tức tê như điện. 9. Phân biệt: Huyệt Tam xoa của Đổng thị với huyệt Bát tà (kỳ huyệt ngoài kinh tương đồng, nhưng chủ trị bệnh trạng, phương pháp châm kim khác nhau. Đề nghị chú ý phân biệt. 10. Kinh nghiệm: (1 Đồng thời châm ba huyệt Tam xoa 1, 2, 3 đối với chứng cảm mạo thường trợ giúp rất tốt cho phục hồi thể lực. Huyệt Tam xoa cùng với các huyệt Thần nhĩ, Thuỷ kim, Thuỷ thông, Thông thận trong Đổng thị kỳ huyệt cũng thế, đều có công năng bổ, không những trị bệnh hiệu quả, mà còn có công năng điều hoà, bổ khí huyết. Người cơ thể hư nhược rõ rệt có thể lấy huyệt Thần nhĩ với Tam xoa để châm. (2 Huyệt Tam xoa mỗi huyệt quy kinh không giống nhau, chọn dùng hợp với lâm sàng, cần phối hợp chẫn đoán bàn tay để chọn kinh huyệt thích hợp hiệu quả càng tốt hơn",
+    "dongQiInstruction": "Động Khí Châm Pháp: Châm bên đối diện, vừa vê kim vừa vận động vùng bệnh để dẫn khí đạt bệnh sở.",
+    "westernMechanism": "Tác động trực tiếp dải thần kinh quay, thần kinh giữa và thần kinh trụ bàn tay; kích hoạt đường truyền cảm giác bản thể sâu, điều hòa thần kinh tự chủ và giải phóng beta-endorphin nội sinh.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-65-22-t11",
+    "code": "22.T11",
+    "name": "Tam Xoa 3",
+    "chineseName": "三叉三穴",
+    "vietnameseName": "Huyệt Tam Xoa 3",
+    "zone": "Khu 22 (Bàn tay)",
+    "zoneDescription": "Hệ thống huyệt lòng & mu bàn tay Thủ Chưởng Bộ",
+    "location": "Tại điểm giữa khe giao ngón vô danh và ngón út | Cách lấy huyệt: Huyệt tại điểm giữa khe giao ngón giữa và ngón vô danh",
+    "anatomy": "Giải phẫu: Nhánh mu của thần kinh trụ, tĩnh mạch kẽ ngón tay, động mạch mu ngón tay. Liên quan kinh Thận | Quy kinh: Nhập kinh Thận | Tính huyệt: Tư (bổ ích thận trấn thống (giảm đau, ích thận lợi niệu",
+    "indications": [
+      "Chóng mặt (đầu vựng 頭暈 dizziness",
+      "đầu hôn 頭昏",
+      "đau thần kinh toạ (toạ cốt thần kinh thống 坐骨神經痛 sciatica",
+      "gai xương (trưởng cốt thích 長骨刺",
+      "thắt lưng nhức",
+      "mỏi (yêu toan",
+      "yêu thống 腰酸",
+      "腰痛viêm bể thận (thận vu viêm 腎盂炎 pyelonephritis phù thận (thận tạng bệnh thuỷ thũng 腎臟病水腫 cảm lạnh nặng (trúng cảm mạo 重感冒 Severe cold"
+    ],
+    "needlingMethod": "Châm thẳng 2 thốn. Thuận theo khe giao ngón vô danh và ngón út tiến kim tới xương bàn tay theo bờ xương. Nắm tay, theo khe giao mà tiến kim | Cảm giác châm: Căng tức tê như điện. 9. Phân biệt: Huyệt Tam xoa 3 mặc dù vị trí tương đồng với Bát tà (kỳ huyệt ngoài kinh, nhưng chủ trị bệnh trạng và cách châm không giống nhau. 10. Kinh nghiệm: - Huyệt Tam xoa 3 nhập kinh Thận, vì vậy ngũ hành thuộc thuỷ, mà người thị lực giảm, phần lớn thuộc về thận thuỷ hư rõ rệt, vì Can thuộc mộc, chủ mắt, thuỷ sinh mộc, bổ thuỷ bao hàm mộc; cho nên bồi thêm Thận thuỷ bổ Can mộc có hiệu quả bổ thận ích lợi cho mắt, trong lâm sàng, có thể phối hợp thể châm Hạ tam hoàng (Thiên hoàng, Địa hoàng, Nhân hoàng, và châm lưu kim lâu tại huyệt Tam xoa 3, phù hợp trợ giúp cho mắt rất nhiều. - Huyệt Tam xoa 3 sau khi châm, cũng có thể gia thêm Uyển thuận 1, hình thành phép châm hình chữ T, có thể tăng cường hiệu quả. - Cảm lạnh nặng (trúng cảm mạo 重感冒 Severe coldChâm huyệt Tam xoa 1, Tam xoa 3, Thuỷ kim, Thuỷ thông, đều lưu kim lâu",
+    "dongQiInstruction": "Động Khí Châm Pháp: Châm bên đối diện, vừa vê kim vừa vận động vùng bệnh để dẫn khí đạt bệnh sở.",
+    "westernMechanism": "Tác động trực tiếp dải thần kinh quay, thần kinh giữa và thần kinh trụ bàn tay; kích hoạt đường truyền cảm giác bản thể sâu, điều hòa thần kinh tự chủ và giải phóng beta-endorphin nội sinh.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-66-22-t12",
+    "code": "22.T12",
+    "name": "Tam Xỉ",
+    "chineseName": "三齿穴",
+    "vietnameseName": "Huyệt Tam Xỉ",
+    "zone": "Khu 22 (Bàn tay)",
+    "zoneDescription": "Hệ thống huyệt lòng & mu bàn tay Thủ Chưởng Bộ",
+    "location": "Lòng bàn tay hướng lên trên, từ mép giao giữa ngón giữa và ngón vô danh vào 2,5 phân là huyệt Tam xỉ 1, vào 5 phân là huyệt Tam xỉ 2, vào 7,5 phân là huyệt Tam xỉ 3 | Cách lấy huyệt: Ngón bàn tay hướng lên trên, phía long bàn tay, từ mép giao giữa ngón giữa và ngón vô danh vào 2,5 phân là huyệt Tam xỉ 1, vào 5 phân là huyệt Tam xỉ 2, vào 7,5 phân là huyệt Tam xỉ 3",
+    "anatomy": "Giải phẫu: Động mạch gan ngón chung, các nhánh gan ngón riêng của thần kinh giữa; liên quan kinh Tỳ, Vị | Quy kinh: Nhập kinh Thận, Vị | Tính huyệt: Điều lý (điều dưỡng Tỳ Vị, thanh tả (hết ỉa chảy chỉ thống (giảm đau",
+    "indications": [
+      "Đau họng (viêm thanh quản: yết hầu viêm 咽妹喉炎 Laryngopharyngitis viêm amiđan (biển đào tuyến viêm 扁桃腺炎 Tonsillitis",
+      "đau răng (nha xỉ thống 牙齒痛 viêm lợi (xỉ ngân viêm 齒齦炎 dạ dày đầy hơi (vị trướng 胃脹",
+      "đau dạ dày (vị thống 胃痛"
+    ],
+    "needlingMethod": "Châm thẳng 2-4 phân, hoặc dùng kim tam lăng chích máu | Cảm giác châm: Căng tức rát",
+    "dongQiInstruction": "Thuyết minh: Thông thường huyệt trên ngón tay phần lớn châm là chính, nhưng huyệt trên lòng bàn tay không những có thể châm mà còn có thể dùng kim tam lăng chích máu, như các huyệt Tam phong, Tam xỉ, Tam hà, Tam mao, Tam hoả, Tam tinh đều có thể chích máu hiệu quả tốt so với châm; nói chung chích máu phần lớn cho trị các bệnh cấp tính, bệnh đau nhức • Phối huyệt: (1 Dạ dày đầy hơi (vị trướng 胃脹 đau dạ dày (vị thống 胃痛 Huyệt Tam xỉ có thể phối huyệt Tứ hoa. (2 Đau họng (viêm thanh quản: yết hầu viêm 咽喉炎 Laryngopharyngitis: Trước chích máu huyệt Thương dương, sau lại châm huyệt Tam xỉ. C. THỦ TIỀN TÍ BỘ (手前臂部",
+    "westernMechanism": "Tác động trực tiếp dải thần kinh quay, thần kinh giữa và thần kinh trụ bàn tay; kích hoạt đường truyền cảm giác bản thể sâu, điều hòa thần kinh tự chủ và giải phóng beta-endorphin nội sinh.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-67-33-01",
+    "code": "33.01",
+    "name": "Kỳ Môn",
+    "chineseName": "其門",
+    "vietnameseName": "Huyệt Kỳ Môn",
+    "zone": "Khu 33 (Cẳng tay)",
+    "zoneDescription": "Hệ thống huyệt mặt trước và sau cẳng tay Thủ Tiền Tí Bộ",
+    "location": "Kỳ môn: Mặt sau cánh tay, men theo xương quay, chính giữa văn ngang cổ tay lên 2 thốn, sang bên 1 thốn là huyệt (xem hình vẽ - Kỳ giác: Huyệt Kỳ môn lên 2 thốn. - Kỳ chính: Huyệt Kỳ môn lên 4 thốn. Tức là huyệt Kỳ giác lên 2 thốn",
+    "anatomy": "Giải phẫu: Thần kinh quay. Liên quan kinh Phế, lục phủ | Quy kinh: Nhập kinh Đại trường, Bàng quang | Tính huyệt: Hành khí đạo (khairệ (ngưng đọng thanh tả hạ tiêu",
+    "indications": [
+      "Viêm tử cung (子宮宮炎 viêm buồng trứng (noãn sào viêm 卵枕炎 kinh nguyệt không đều (nguyệt kinh bất điệu 月經不調 xích đới hạ (赤帶下 đi ngoài lòi dom (đại tiện thoát giang 大便脫肛táo bón (tiện bí 便祕 bệnh kiết lị (hạ lị 下痢u tử cung (tử cung lựu 子宮宮瘤ung thư cổ tử cung (tử cung cảnh nham 子宮宮頸癌",
+      "viêm niệu đạo (尿道炎 viêm bàng quang (膀胱炎 trĩ loét đau (trĩ sang thống 痔瘡痛 đau bụng dưới (hạ phúc thống 下腹痛"
+    ],
+    "needlingMethod": "Châm thẳng không có hiệu quả. Châm kim dưới da, xiên ra ngoài châm sâu khoảng 1,5 thốn | Cảm giác châm: Căng tức tê nhẹ. 9. Phân biệt: Tác phẫm của thầy Đổng chỉ xuất bản một lần, rất nhiều vấn đề chưa được hiệu đính kịp thời, huyệt này trong tác phẫm của thầy Đổng là nếp văn ngang cổ tay lên 2 thốn, đây là huyệt Ngoại quan, huyệt Kỳ môn từ chỗ này ra ngoài 1 thốn; Ngoại quan thuộc kinh Tam tiêu, huyệt Kỳ môn nhập Đại trường kinh, chủ trị không giống nhau, mà huyệt này ít sử dụng đơn độc, đều sử dụng phép châm đảo mã. 10. Kinh nghiệm: - Huyệt Kỳ môn, Kỳ giác, Kỳ chính phối huyệt Hoa cốt 4 hoặc phối các huyệt Phủ trường, Tứ mã, Thông thiên, có thể trị táo bón. - Đầy hơi (Tiểu phúc khí trướng 小腹氣脹Huyệt Kỳ môn, Kỳ giác, Kỳ chính phối huyệt Tứ hoa thượng, huyệt Linh cốt, Tiêu tích huyệt, Hoả cúc huyệt, hiệu nghiệm. - Các ca bệnh đặc biệt của thầy Đổng, dùng huyệt này trị liệu lãnh cảm, châm huyệt này, hơn 10 lần chữa khỏi. - Các chứng Tử cung, buồng trứng u, ung thư, viêm: Đều lấy huyệt này, huyệt Tam trọng, Môn kim, Phụ khoa phối hợp sử dụng, lại gia Linh cốt, Thượng tam hoàng (Thiên hoàng, Minh hoàng, Kỳ hoàngNgoại tam quan, mai châm huyệt bất định (cố định một cây kim nhỏ đặc biệt trong vùng da ở huyệt một thời gian dài. - Trĩ dò (Trĩ sang 痔瘡 Thủ tam kỳ (Kỳ môn, Kỳ giác, Kỳ chính, Tam xoa 1, phối hợp chích máu nơi bệnh",
+    "dongQiInstruction": "Động Khí Châm Pháp: Châm bên đối diện, vừa vê kim vừa vận động vùng bệnh để dẫn khí đạt bệnh sở.",
+    "westernMechanism": "Kích thích các nhánh thần kinh bì và gian cốt cẳng tay (C5-T1), giải tỏa co thắt cơ trơn tạng phủ (tim, phổi, gan, đường tiêu hóa) qua phản xạ tạng - da tủy sống.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-68-33-05",
+    "code": "33.05",
+    "name": "Hỏa Xuyến",
+    "chineseName": "火串",
+    "vietnameseName": "Huyệt Hỏa Xuyến",
+    "zone": "Khu 33 (Cẳng tay)",
+    "zoneDescription": "Hệ thống huyệt mặt trước và sau cẳng tay Thủ Tiền Tí Bộ",
+    "location": "Huyệt Hoả xuyến: Chính giữa văn ngang lưng cổ tay lên 2,5 thốn chỗ lõm giữa hai gân. - Huyệt Hoả lăng: Huyệt Hoả xuyến lên 2 thốn. - Huyệt Hoả sơn: Huyệt Hoả lăng lên 1,5 thốn | Cách lấy huyệt: Huyệt Hoả xuyến: Chính giữa văn ngang lưng cổ tay lên 2,5 thốn chỗ lõm giữa hai gân. Tức huyệt Ngoại quan lên 0,5 thốn. - Huyệt Hoả lăng: Huyệt Hoả xuyến lên 2 thốn. - Huyệt Hoả sơn: Huyệt Hoả lăng lên 1,5 thốn",
+    "anatomy": "Giải phẫu: Lớp nông có tĩnnh mạch xuyên, thần kinh bì cẳng tay sau; lớp sâu có động mạch gian cốt sau, thần kinh gian cốt sau. Liên quan kinh Phế, Tâm | Quy kinh: Nhập kinh Tam tiêu | Tính huyệt: Tuyên đạo (khai thôngkhí huyết, thông lạc chỉ thống (giảm đau",
+    "indications": [
+      "Đau ngực (hung thống 胸痛 chest pain",
+      "đau lưng (bối thống 背痛",
+      "nặng tai",
+      "nghễnh ngãng (trùng thính 重聽 hard of hearing",
+      "weak of hearing",
+      "tức ngực (hung muộn 胸悶 chest distress Đau dưới cánh tay (thủ hạ tý thống 手下臂痛 đau trước bắp chân (tiểu thối tiền trắc thống 小腿前側痛"
+    ],
+    "needlingMethod": "Châm thẳng 5 phân - 1 thốn | Cảm giác châm: Căng tức, đôi khi lan lên vai, xuống các ngón tay. 9. Phân biệt: Nguyên gốc thầy Đổng viết sau nếp văn ngang 3 thốn; do đó, bị nhầm huyệt này với huyệt Chi câu (kinh Tam tiêu vì thế phần lớn dùng trị lưng ngực đau không đồng với huyệt Chi câu chủ trị táo bón, sườn đau. Huyệt này vị trí chính xác giữa văn ngang lưng cổ tay lên 2,5 thốn, nhân đây giải thích rõ",
+    "dongQiInstruction": "Thuyết minh: Ba huyệt Hoả xuyến, Hoả lăng, Hoả sơn trên kinh Tam tiêu, kinh Tam tiêu biểu lý với kinh Tâm bào; do đó, cùng châm 3 huyệt có thể trị , đau lưng (bối thống 背痛Huyệt Hoả sơn châm sâu có thể xuyên tới huyệt Yêu linh (phía bụng cánh tay, vì thế huyệt Hoả sơn và huyệt Yêu linh tương đồng chủ trị bên ngoài, lại có thể trị viêm bể thận (thận vu viêm 腎盂炎 pyelonephritisnhức mỏi thắt lưng (yêu toan 腰酸 soreness of loins đau thần kinh toạ (toạ cốt thần kinh thống 坐骨神經痛 sciatica • Phối huyệt: (1 Nặng tai, nghễnh ngãng (trùng thính 重聽 hard of hearing; weak of hearingtai ù (nhĩ minh 耳鳴 tinnitus: Huyệt Hoả xuyến, Hoả lăng, Hoả sơn phối Tứ mã, Tam trọng, Uyển thuận. (2 Đau ngực (hung thống 胸痛 chest pain, tức ngực (hung muộn 胸悶 chest distress: Huyệt Hoả xuyến, Hoả lăng, Hoả sơn phối các huyệt Tứ hoa, Tứ mã, Tâm linh, Trọng tử, Trọng tiên, Linh cốt, Đại bạch",
+    "westernMechanism": "Kích thích các nhánh thần kinh bì và gian cốt cẳng tay (C5-T1), giải tỏa co thắt cơ trơn tạng phủ (tim, phổi, gan, đường tiêu hóa) qua phản xạ tạng - da tủy sống.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-69-33-07",
+    "code": "33.07",
+    "name": "Hỏa Phủ Hải",
+    "chineseName": "火腑海",
+    "vietnameseName": "Huyệt Hỏa Phủ Hải",
+    "zone": "Khu 33 (Cẳng tay)",
+    "zoneDescription": "Hệ thống huyệt mặt trước và sau cẳng tay Thủ Tiền Tí Bộ",
+    "location": "Nếp ngang khuỷu tay xuống 2,5 thốn. Chỗ lõm giữa xương quay và xương trụ | Cách lấy huyệt: Tay đặt úp vào ngực lấy huyệt, tại chỗ lõm giữa xương quay và xương trụ, nếp ngang khuỷu tay xuống 2,5 thốn là huyệt. Tức là vị trí Thủ tam lý xuống 5 phân, ra ngoài 5 phân",
+    "anatomy": "Giải phẫu: Lớp nông phân bố tĩnh mạch xuyên và thần kinh bì cẳng tay sau. Lớp sâu phân bố động mạch ngang sau, nhánh dây thần kinh hướng tâm. Liên quan kinh Phế, Tâm | Quy kinh: Nhập hai kinh Phế, Thận | Tính huyệt: Khư (trừ phong túc (làm yên Phế, bổ ích Thận thuỷ",
+    "indications": [
+      "Ho (khái thấu 咳嗽 cough hen suyễn (khí suyễn 氣喘 asthmacảm mạo (感冒viêm mũi (tỵ viêm 鼻炎 rhinitisđau thần kinh toạ (toạ cốt thần kinh thống 坐骨神經痛 sciaticanhức mỏi chân (thối toan 腿酸 sore legsđau thắt lưng (yêu thống 腰痛 thiếu máu (bần huyết 貧血 anemiachóng mặt (đầu vựng 頭暈 dizziness",
+      "hoa mắt (nhãn hoa 眼花 dazzlemệt mỏi quá độ (bì lao quá độ 疲勞過度 burnout",
+      "excessive fatigue"
+    ],
+    "needlingMethod": "Châm thẳng 5 phân - 1 thốn. 8. Phân biệt: Phương pháp lấy huyệt của thầy Đổng là sau huyệt Hoả sơn 2 thốn, cũng dễ lẫn với huyệt Thủ tam lý, theo chỗ lấy huyệt của thầy Hồ thì hai huyệt này không trùng nhau, phép xác định huyệt Hoả phủ hải của thầy Hồ theo sự truyền dậy của thầy Đổng",
+    "dongQiInstruction": "Thuyết minh: Huyệt Hoả phủ hải là huyệt cường tráng (khoẻ mạnh trị thiếu máu, chóng mặt (đầu hôn 頭昏 dizzy hoa mắt, mệt mỏi quá độ, có thể châm 10 phút sau rút kim, cứu 3-5 mồi, cứu cách ngày trong 2 tháng, có thể kéo dài tuổi thọ công dụng giống huyệt Túc tam lý • Phối huyệt: (1 Trị ho (khái thấu 咳嗽 cough: Huyệt Hoả phủ hải phối huyệt thủ Địa sĩ trị ho hiệu quả tốt . Phối hợp huyệt Thủ tam sĩ (Thiên sĩ, Địa sĩ, Nhân sĩtrị ho nóng lạnh (lãnh nhiệt khái 冷熱咳 (2 Hen suyễn (khí suyễn 氣喘 asthma Huyệt Hoả phủ hải phối huyệt Thủ tam sĩ (Thiên sĩ, Địa sĩ, Nhân sĩvà Linh cốt hiệu nghiệm. (3Khó chịu sau cảm (hậu cảm bất thích 後感不適: Có thể dùng ngón tay bóp huyệt Thủ giải, dùng cạnh tay đập huyệt Hoả phủ hải, phần lớn có thể giải nhanh. (4Ho lâu (cửu khái 久咳 chronic cough Huyệt Hoả phủ hải phối huyệt Linh cốt, Tam xoa, Thủ tam gian (Đại gian, Tiểu gian, Trung gian, dùng phép châm vệ khí (tham khảo phép châm cứu khí công của thầy ĐổngPhế khu; hoặc Đại bạch, Thủ tam sĩ (Thiên sĩ, Địa sĩ, Nhân sĩ (5 Mệt mỏi quá độ (bì lao quá độ 疲勞過度 burnout, excessive fatigue Huyệt Hoả phủ hải, Thuỷ kim, Thuỷ thông, Thần nhĩ",
+    "westernMechanism": "Kích thích các nhánh thần kinh bì và gian cốt cẳng tay (C5-T1), giải tỏa co thắt cơ trơn tạng phủ (tim, phổi, gan, đường tiêu hóa) qua phản xạ tạng - da tủy sống.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-70-33-08",
+    "code": "33.08",
+    "name": "Thủ Ngũ Kim",
+    "chineseName": "手五金",
+    "vietnameseName": "Huyệt Thủ Ngũ Kim",
+    "zone": "Khu 33 (Cẳng tay)",
+    "zoneDescription": "Hệ thống huyệt mặt trước và sau cẳng tay Thủ Tiền Tí Bộ",
+    "location": "Huyệt Thủ ngẫũ kim: Ở cạnh xương cẳng tay (phía ngón útvăn ngang cổ tay lên 6,5 thốn. - Huyệt Thủ Thiên kim: Huyệt Thủ ngũ kim lên 1,5 thốn | Cách lấy huyệt: Tay ôm vào ngực để lấy huyệt - Huyệt Thủ ngẫũ kim: Ở cạnh xương cẳng tay (phía ngón útvăn ngang cổ tay lên 6,5 thốn. Tức huyệt Hoả sơn ra ngoài 5 phân, lên 5 phân là huyệt. - Huyệt Thủ Thiên kim: Ở cạnh xương cẳng tay (phía ngón útvăn ngang cổ tay lên 8 thốn. Tức huyệt Thủ ngũ kim lên 1,5 thốn",
+    "anatomy": "Giải phẫu: Liên quan nhánh kinh Can và Phế | Quy kinh: Nhập hai kinh Can và Phế | Tính huyệt: Sơ cân (làm thư giãn gân cơhoạt lạc, thanh huyết giải độc",
+    "indications": [
+      "đau thần kinh toạ (toạ cốt thần kinh thống 坐骨神經痛 sciaticatê tay chân (thủ cước ma mộc手腳麻木 sưng bắp chân (tiểu thối phát trướng 小腿發脹",
+      "đau chân (cước thống 腳痛 trị cholesterol quá cao (giải đảm cố thuần quá đa 解膽固醇過多 high cholesterolgiải đau vết kim châm (giải châm khẫu thống 解針口痛",
+      "đau cổ gáy (hạng thống 項痛",
+      "đau đầu (đầu thống 頭痛 đau bụng (phúc thống 腹痛 ngộ độc thuốc (dược vật trúng độc 藥物中毒ngộ độc thức ăn (thực vật trúng độc 食物中毒 ung nhọt độc (sang dương độc 瘡瘍毒"
+    ],
+    "needlingMethod": "Châm thẳng 5 phân đến 1,5 thốn | Cảm giác châm: Căng tức tê nhẹ như điện",
+    "dongQiInstruction": "Thuyết minh: Huyệt Thủ ngũ kim, Thủ thiên kim là 1 trong 72 tuyệt kỹ của thầy Đổng, cũng là yếu huyệt trong 32 huyệt giải của Đổng thị, hiệu quả với giải trừ các chứng tê (ma 麻 trướng (脹), độc (毒 - Huyệt Thủ ngũ kim, Thủ thiên kim, hai huyệt cùng sử dụng đảo mã hiệu quả càng tốt hơn, khi lấy huyệt rất ít sử dụng đơn lẻ • Phối huyệt: (1Huyệt Thủ ngẫũ kim, Thủ thiên kim là huyệt trọng yếu giải độc trong Đổng thị kỳ huyệt, huyệt này phối hợp huyệt Phân chi, ngoài ra xuất huyết vùng Thái dương sau đầu gối (tất hậu thái dương khu 膝後太陽區: vùng trong khoảng nếp ngang khoeo chân lên 3 thốn và xuống 1 thốn vùng Dương minh (陽明區: vùng huyệt Tứ hoa có các điểm phản ứng gân xanhở cẳng chân hiệu quả càng tốt hơn. (2Đau thần kinh toạ (toạ cốt thần kinh thống 坐坐骨神經痛 sciatica: Huyệt Thủ ngũ kim, Thủ thiên kim phối huyệt Tam hà. (3Huyệt Thủ ngẫũ kim, Thủ thiên kim ít dùng đơn lẻ, phần lớn châm hai huyệt thành đảo mã, hiệu quả trị bệnh tiến triển. (4 Ngón tay tê liệt (thủ chỉ ma tý 手指麻痺: Huyệt Thủ ngũ kim, Thủ thiên kim, Bát quan, Tứ chi (trên mắt cá chân trong 5 thốn, Thượng tam hoàng (Thiên hoàng, Minh hoàng, Kỳ hoàng",
+    "westernMechanism": "Kích thích các nhánh thần kinh bì và gian cốt cẳng tay (C5-T1), giải tỏa co thắt cơ trơn tạng phủ (tim, phổi, gan, đường tiêu hóa) qua phản xạ tạng - da tủy sống.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-71-33-10",
+    "code": "33.10",
+    "name": "Trường Môn",
+    "chineseName": "腸門",
+    "vietnameseName": "Huyệt Trường Môn",
+    "zone": "Khu 33 (Cẳng tay)",
+    "zoneDescription": "Hệ thống huyệt mặt trước và sau cẳng tay Thủ Tiền Tí Bộ",
+    "location": "Tại bờ bên cạnh xương khuỷ tay (xương trụ cẳng tay, cách lằn xương đậu cổ tay 3 thốn | Cách lấy huyệt: Tay ôm vào ngực để lấy huyệt, tại bờ bên cạnh xương khuỷ tay (xương trụ, giữa gân cơ, cách lằn xương đậu cổ tay 3 thốn là huyệt",
+    "anatomy": "Giải phẫu: Nhánh động mạch phía trong lưng cẳng tay, thần kinh trụ. Liên quan kinh Can, Thận | Quy kinh: Nhập kinh Đảm và Đại trường | Tính huyệt: Sơ tiết (khai thông, giải toảtrường phủ",
+    "indications": [
+      "Viêm ruột cấp",
+      "mãn tính (cấp mạn tính trường viêm 急慢性腸炎váng đầu hoa mắt (đầu hôn nhãn hoa 頭昏眼花viêm túi mật (đảm nang viêm 膽囊炎 nôn mửa (ẫu thổ 嘔吐",
+      "ỉa chảy (hạ lị 下痢"
+    ],
+    "needlingMethod": "Châm thẳng 3 phân - 1 thốn | Cảm giác châm: Căng tức tới ngón tay",
+    "dongQiInstruction": "Ứng dụng: Phần lớn huyệt Trường môn với Can môn phối thành đảo mã tăng cường hiệu quả trị liệu. 10. Kinh nghiệm: - Váng đầu hoa mắt (đầu hôn nhãn hoa 頭昏眼花): Huyệt Trường môn phối huyệt Thần nhĩ, hiệu nghiệm. - Viêm ruột cấp, mãn tính (cấp mạn tính trường viêm 急慢性坐炎: Huyệt Trường môn phối huyệt Phủ trường, Tứ hoa trắc hạ đặc biệt hiệu quả. - Viêm túi mật (đảm nang viêm 膽囊炎): Huyệt Trường môn phối huyệt Can môn, Thượng tam hoàng (Thiên hoàng, Minh hoàng, Kỳ hoàng hiệu nghiệm, phối hợp phép châm huyệt bất định. - Viêm ruột (trường viêm 坐腸炎: Huyệt Trường môn phối huyệt Can môn, Tứ hoa thượng, Môn kim, Linh cốt hiệu nghiệm. - Đau bụng kinh (kinh thống 經痛: Huyệt Trường môn phối huyệt Tứ hoa, Môn kim, Linh cốt hiệu nghiệm",
+    "westernMechanism": "Kích thích các nhánh thần kinh bì và gian cốt cẳng tay (C5-T1), giải tỏa co thắt cơ trơn tạng phủ (tim, phổi, gan, đường tiêu hóa) qua phản xạ tạng - da tủy sống.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-72-33-11",
+    "code": "33.11",
+    "name": "Can Môn",
+    "chineseName": "肝門",
+    "vietnameseName": "Huyệt Can Môn",
+    "zone": "Khu 33 (Cẳng tay)",
+    "zoneDescription": "Hệ thống huyệt mặt trước và sau cẳng tay Thủ Tiền Tí Bộ",
+    "location": "Tại bờ bên cạnh xương khuỷ tay (xương trụ cẳng tay, cách nếp lằn cổ tay 6 thốn. Tức huyệt Trường môn lên 3 thốn | Cách lấy huyệt: Tay ôm vào ngực để lấy huyệt, đoạn giữa bên cạnh xương trụ cẳng tay, cách nếp lằn cổ tay 6 thốn là huyệt",
+    "anatomy": "Giải phẫu: Cơ duỗi các ngón, đường nhánh động mạch ra phía trước xương cẳng tay. Liên quan nhánh kinh Can | Quy kinh: Nhập kinh Can, Đảm | Tính huyệt: Sơ can (giải toả, làm dịu caný khí (chỉnh lý, điều hoà khí",
+    "indications": [
+      "Viêm gan cấp (Cấp tính can viêm 急性肝炎 acute hepatitisđặc hiệu",
+      "viêm dạ dày ruột cấp mạn tính (cấp mạn tính vị trường viêm 急慢性胃腸炎 acute and chronic gastroenteritis tức ngực (hung muộn 胸悶 chest distress",
+      "đau ngực (hung thống 胸痛 chest pain",
+      "hạ sườn đau (lưỡng hiếp thống 兩脅痛 hypochondriac pain",
+      "đau bên trong chân",
+      "bắp đùi (thối nội trắc thống 腿內側痛"
+    ],
+    "needlingMethod": "Châm thẳng 5 phân - 1 thốn, sau khi châm kim giải ngay đau gan, đưa kim hướng sang trái chuyển đau ruột cũng hết. 8. Kinh nghiệm: Điều trị đau gan trong Đổng thị kỳ huyệt có nhiều huyệt, như huyệt Can linh, Mộc linh, Chỉ tam hoàng, Mộc Can, Mộc hoa, ngoài ra có Thượng tam hoàng (Thiên hoàng, Minh hoàng, Kỳ hoàng bên cạnh trong đùi những huyệt này ở chính giữa, những huyệt trên Tam hoàng hay dùng nhất",
+    "dongQiInstruction": "Thuyết minh: Trong điều trị đau gan, đa số lấy huyệt Thượng tam hoàng (Thiên hoàng, Minh hoàng, Kỳ hoànglàm chủ, lấy huyệt Can môn trợ giúp, mà huyệt Can môn cũng rất ít khi châm đơn lẻ, đều lấy huyệt Tâm môn, Trường môn hình thành đảo mã, có thể thông tam tiêu, điều lý toàn thân • Phối huyệt: (1 Trị viêm gan B (Ｂ hình can viêm Ｂ型肝炎): Huyệt Can môn, Can linh, Mộc viêm, phối điểm Can, điểm Can viêm trên tai và Thượng tam hoàng (Thiên hoàng, Minh hoàng, Kỳ hoàng (2Trị liệu viêm gan kiêm viêm ruột (can viêm kiêm trường viêm 肝炎兼坐腸炎: Huyệt Can môn phối hợp huyệt Trường môn hiệu quả tốt nhất. (3 Trị xơ gan (can ngạnh hoá 肝硬化: Huyệt Can môn phối hợp huyệt Trường môn, Thượng tam hoàng (Thiên hoàng, Minh hoàng, Kỳ hoàngm trọng. (4 Đau bên trong chân, bắp đùi (thối nội trắc thống 腿: Huyệt Tâm môn, Can môn, Trường môn ba huyệt thành đảo mã",
+    "westernMechanism": "Kích thích các nhánh thần kinh bì và gian cốt cẳng tay (C5-T1), giải tỏa co thắt cơ trơn tạng phủ (tim, phổi, gan, đường tiêu hóa) qua phản xạ tạng - da tủy sống.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-73-33-12",
+    "code": "33.12",
+    "name": "Tâm Môn",
+    "chineseName": "心門",
+    "vietnameseName": "Huyệt Tâm Môn",
+    "zone": "Khu 33 (Cẳng tay)",
+    "zoneDescription": "Hệ thống huyệt mặt trước và sau cẳng tay Thủ Tiền Tí Bộ",
+    "location": "Tại mỏm nổi lên đầu xa xương trụ khuỷu tay, lên 1,5 thốn giữa chỗ lõm | Cách lấy huyệt: Tay ôm vào ngực để lấy huyệt, huyệt ở chỗ lõm bên cạnh đầu xa xương trụ khuỷu tay, cách khuỷu tay 1,5 thốn",
+    "anatomy": "Giải phẫu: Giữa 2 đầu cơ cánh tay, dưới xương trụ khuỷu tay là động mạch, nhánh thần kinh quay. Liên quan kinh Tâm | Quy kinh: Nhập kinh Tâm | Tính huyệt: Thông sướng (thông suốt, trôi chảy) Tâm lạc",
+    "indications": [
+      "Bệnh tim (Tâm tạng bệnh 心臟病 heart disease đánh trống ngực nặng (tâm quý kháng tiến 心悸亢進 palpitations (of the hearttức ngực (hung muộn 胸悶 chest distress",
+      "nôn mửa (ẫu thổ 嘔吐bệnh tả khô (càn hoắc loạn 乾霍亂: Bệnh nhân đau quặn bụng",
+      "không nôn mửa và tiêu chảy",
+      "Chủ yếu là do tắc nghẽn đường tiêu hóa vì ăn uống không vệ sinh",
+      "Nó còn được gọi là đau bụng khan「絞腸痧: giảo trường sa」"
+    ],
+    "needlingMethod": "Châm thẳng 5-8 phân | Cảm giác châm: Căng tức tê nhẹ. 9. Chú ý: Huyệt này không được châm sâu quá, châm sâu quá có thể làm tổn thương gân cơ. 10. Kinh nghiệm: - Bệnh vùng háng (phúc cổ câu bệnh 腹股溝病): Lấy huyệt Tâm môn bên đối phối huyệt Thượng khúc, Hạ khúc hiệu nghiệm. - Đau xương cụt (vĩ để cốt thống 尾尾骶骨痛: Huyệt Tâm môn phối huyệt Uyển thuận thượng (Uyển thuận 1 lên 5 phânhiệu nghiệm. - Viêm quầng (đan độc 丹毒 erysipelas chích máu vùng bệnh, huyệt Tâm môn phối huyệt Phân chi. - Đau bên trong chân, bắp đùi (thối nội trắc thống 腿: Huyệt Tâm môn, Can môn, Trường môn châm đảo mã, đông thời phối hợp phép đạo dẫn hành khí, hiệu quả nhanh. - Bệnh tim (tâm tạng bệnh 心臟病 heart disease Huyệt Tâm môn phối huyệt Tâm linh châm thời gian dài. - Bệnh đánh trống ngực (心悸 tâm quý palpitations: Huyệt Tâm môn phối huyệt Địa tông. - Nhồi máu cơ tim (tâm cơ ngạnh tắc 心肌梗塞 myocardial infarction, MI: Huyệt Tâm môn phối chích máu khe đốt sống 4-5",
+    "dongQiInstruction": "Động Khí Châm Pháp: Châm bên đối diện, vừa vê kim vừa vận động vùng bệnh để dẫn khí đạt bệnh sở.",
+    "westernMechanism": "Kích thích các nhánh thần kinh bì và gian cốt cẳng tay (C5-T1), giải tỏa co thắt cơ trơn tạng phủ (tim, phổi, gan, đường tiêu hóa) qua phản xạ tạng - da tủy sống.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-74-33-13",
+    "code": "33.13",
+    "name": "Nhân Sĩ",
+    "chineseName": "人士",
+    "vietnameseName": "Huyệt Nhân Sĩ",
+    "zone": "Khu 33 (Cẳng tay)",
+    "zoneDescription": "Hệ thống huyệt mặt trước và sau cẳng tay Thủ Tiền Tí Bộ",
+    "location": "Trên bờ bên cạnh mặt trước xương quay cẳng tay, cách nếp lằn cổ tay 3 thốn | Cách lấy huyệt: Tay nằm ngang thân, bàn tay ngửa, nếp lằn cổ tay lên 3 thốn, trên bờ bên cạnh mặt trước xương quay cẳng tay là huyệt",
+    "anatomy": "Giải phẫu: Dưới da là thần kinh bì cẳng tay ngoài, nhánh nông thần kinh quay. Liên quan kinh Phế, nhánh kinh Tâm | Quy kinh: Nhập ba kinh Tâm, Phế và Thận | Tính huyệt: Sơ (khai thông, thư giãntâm lý khí (lưu thông khí, thanh (làm trong sạchtuyên (thông suốt phế khí",
+    "indications": [
+      "Hen suyễn (khí suyễn 氣喘 asthmađau bàn tay (thủ chưởng thống 手掌痛 đau ngón tay (thủ chỉ thống 手指痛",
+      "đau vai và cánh tay (kiên tý thống 肩臂痛 đau lưng (bối thống 背痛 đau ngực (hung thống 胸痛 thoracalgia đánh trống ngực (tâm quý 心悸 palpitation chứng đái anbumin",
+      "protein (đản bạch niệu 百蛋白尿 albuminuria",
+      "proteinuria"
+    ],
+    "needlingMethod": "Châm nghiêng theo bờ bên cạnh mặt trước xương quay cẳng tay, từ ngoài vào trong, nghiêng một góc 15 độ, châm 5 phân - 1,5 thốn | Cảm giác châm: Căng tức tại chỗ",
+    "dongQiInstruction": "Ứng dụng: Châm sâu 5 phân trị hen suyễn (khí suyễn 氣喘 asthmađau bàn tay (thủ chưởng thống 手掌痛 đau ngón tay (thủ chỉ thống 手指痛 đau vai và cánh tay (kiên tý thống 肩臂痛 đau lưng (bối thống 背痛[đau bên phải lấy huyệt bên trái, đau bên trái lấy huyệt bên phải]. - Châm sâu 1 thốn trị bệnh tim (tâm tạng bệnh 心臟病), đánh trống ngực (tâm quý 心悸 palpitation [thầy Đổng ghi chép trong tài liệu] • Thuyết minh: Huyệt Nhân sĩ trong tài liệu của thầy Đổng là nếp ngang cổ tay lên 4 thốn; trong tài liệu của thầy Hồ là nếp ngang cổ tay lên 3 thốn, đã được chứng minh trong kinh nghiệm lâm sàng; thầy Đổng chưa sửa, nay theo tài liệu của thầy Hồ. - Huyệt này độ sâu phân theo 3 tầng thượng, trung, hạ. Tầng thượng nông, châm thông kinh Phế, tầng giữa vào kinh Tâm, tầng sâu vào kinh Thận. - Huyệt Nhân sĩ châm 5-8 phân trị hen suyễn (khí suyễn 氣喘 asthmaChâm 1 - 1,2 thốn hai bên phải, trái trị đánh trống ngực (tâm quý 心悸 palpitation, bệnh tim (tâm tạng bệnh 心臟病Châm 1,5 thốn trị thận hư yếu (thận khuy 腎虧 chứng đái anbumin, protein (đản bạch niệu 百蛋白尿 albuminuria, proteinuria Châm cứu Đổng thị tuỳ theo độ châm sâu khác nhau mà nó cũng đi vào các kinh khác nhau, trị bệnh khác nhau, đây là một đặc điểm lớn trong châm cứu Đổng thị",
+    "westernMechanism": "Kích thích các nhánh thần kinh bì và gian cốt cẳng tay (C5-T1), giải tỏa co thắt cơ trơn tạng phủ (tim, phổi, gan, đường tiêu hóa) qua phản xạ tạng - da tủy sống.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-75-33-14",
+    "code": "33.14",
+    "name": "Địa Sĩ",
+    "chineseName": "地士",
+    "vietnameseName": "Huyệt Địa Sĩ",
+    "zone": "Khu 33 (Cẳng tay)",
+    "zoneDescription": "Hệ thống huyệt mặt trước và sau cẳng tay Thủ Tiền Tí Bộ",
+    "location": "Trên bờ bên cạnh mặt trước xương quay cẳng tay, huyệt Nhân sĩ lên 3 thốn (cách nếp lằn cổ tay 6 thốn | Cách lấy huyệt: Bàn tay ngửa, nếp lằn cổ tay lên 6 thốn, trên bờ bên cạnh mặt trước xương quay cẳng tay là huyệt. Tức huyệt Nhân sĩ lên 3 thốn",
+    "anatomy": "Giải phẫu: Nhánh thần kinh giữa, động mạch quay. Liên quan kinh Phế, Tâm | Quy kinh: Nhập kinh Phế, Thận | Tính huyệt: Thanh (làm trong sạch tuyên (thông suốt phế khí, sơ (khai thông, thư giãn tâm lý khí (lưu thông khí",
+    "indications": [
+      "Hen suyễn (khí suyễn 氣喘 asthmacảm mạo (感冒 đau đầu (đầu thống 頭痛 thận hư yếu (thận khuy 腎虧 đau thắt lưng (yêu thống 腰痛 bệnh tim (tâm tạng bệnh 心臟病bệnh sa nang (sán khí 疝氣 táo bón (tiện bí 便百秘"
+    ],
+    "needlingMethod": "Châm từ ngoài vào nghiêng góc 15 độ, châm 5 phân - 1,5 thốn | Cảm giác châm: Tại chỗ căng tức, đôi khi lan tới cổ tay",
+    "dongQiInstruction": "Kinh nghiệm: Có thể chọn châm một hàng ba huyệt Nhân sĩ, Địa sĩ, Thiên sĩ thành phép đảo mã, hiệu quả rõ rệt, là huyệt quan trọng trị bệnh hen suyễn • Thuyết minh: Huyệt Địa sĩ cũng giống như huyệt Nhân sĩ, có 3 mức châm sâu, giữa và nông, đi vào kinh không giống nhau, tác dụng trị liệu theo độ sâu khi châm; châm 5 - 8 phân trị hen suyễn (khí suyễn 氣喘 asthmacảm mạo (感冒 Châm 1 - 1,2 thốn trị bệnh tim (tâm tạng bệnh 心臟病 Châm 1,5 thốn hai bên phải trái trị thận hư yếu (thận khuy 腎虧 đau thắt lưng (yêu thống 腰痛 11. Phân biệt: Huyệt Địa sĩ cách nếp ngang cổ tay 6 thốn, không trùng với huyệt truyền thống Khổng tối trong 12 chính kinh hai huyệt ccách nhau 1 thốn, tác dụng trị bệnh của nó khác nhau nhiều (huyệt Khổng tối trị táo bón, thổ huyết, bạn đọc cần phân biệt. 12. Phối huyệt: (1 Trị ho (khái thấu 咳嗽): Huyệt Địa sĩ phối huyệt Hoả phủ hải, huyệt Linh cốt trị ho hiệu quả tốt. (2 Trị lưng ngực đau (hung bối thống 胸背痛): Huyệt Nhân sĩ, Địa sĩ, Thiên sĩ có thể chọn châm sâu. Trị lưng nhức nhối (bối đông 背疼 Cần phải châm huyệt Trọng tử, Trọng tiên, Thượng sĩ. (3 Các chứng ho (nhậm hà khái 任何咳: Cần phải châm huyệt Trọng tử, Trọng tiên gia huyệt Địa sĩ, Linh cốt, Hoả phủ hải, có thể cứu huyệt Kim âm, Kim dương, chích máu vùng Tâm Phế sau lưng. (4Ho do suy nhược (hư khái 虛咳: Huyệt Thuỷ kim, Thuỷ thông, Địa sĩ, Hoả phủ hải. Các triệu chứng của ho do suy nhược chủ yếu bao gồm: ho kéo dài, thiếu khí, mệt mỏi, chóng mặt, v.v. (5 Ho về đêm (dạ khái 夜咳 ho do lạnh (lãnh khái 冷咳 ho do nhiệt (nhiệt khái 熱咳ho do suy nhược (hư khái 虛咳ho gà (bách nhật khái 百日咳 whooping cough: Huyệt Linh cốt, Hoả phủ hải, Địa sĩ, Trọng tử, Trọng tiên, cứu huyệt Kim âm, Kim dương, chích máu vùng Tâm Phế sau lưng",
+    "westernMechanism": "Kích thích các nhánh thần kinh bì và gian cốt cẳng tay (C5-T1), giải tỏa co thắt cơ trơn tạng phủ (tim, phổi, gan, đường tiêu hóa) qua phản xạ tạng - da tủy sống.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-76-33-15",
+    "code": "33.15",
+    "name": "Thiên Sĩ",
+    "chineseName": "天士",
+    "vietnameseName": "Huyệt Thiên Sĩ",
+    "zone": "Khu 33 (Cẳng tay)",
+    "zoneDescription": "Hệ thống huyệt mặt trước và sau cẳng tay Thủ Tiền Tí Bộ",
+    "location": "Trên bờ bên cạnh mặt trước xương quay cẳng tay, huyệt Địa sĩ lên 3 thốn (cách nếp lằn cổ tay 9 thốn | Cách lấy huyệt: Huyệt ở trên bờ bên cạnh mặt trước xương quay cẳng tay, huyệt Địa sĩ lên 3 thốn. Từ nếp ngang khuỷu tay xuống 3 thốn là huyệt",
+    "anatomy": "Giải phẫu: Nhánh nông thần kinh quay; liên quan Phế, Thận | Quy kinh: Nhập kinh Phế | Tính huyệt: Thanh (làm trong sạchtuyên (thông suốt phế khí",
+    "indications": [
+      "Hen suyễn (khí suyễn 氣喘 asthma viêm mũi (tỵ viêm 鼻炎 rhinitis",
+      "đau cánh tay (tý thống 臂痛 arm pain cảm mạo (感冒 đau ngực (hung thống 胸痛 thoracalgia",
+      "chest paintức ngực (hung muộn 胸悶 chest distress viêm phế quản (chi khí quản viêm 支氣管炎 bronchitis"
+    ],
+    "needlingMethod": "Châm xiên 1,5 thốn | Cảm giác châm: Căng tức tại chỗ",
+    "dongQiInstruction": "Thuyết minh: Ba huyệt Thiên sĩ, Địa sĩ, Nhân sĩ là huyệt đặc hiệu trị hen suyễn • Phối huyệt: (1Hen suyễn (khí suyễn 氣喘 asthma: Lấy ba huyệt Thiên sĩ, Địa sĩ, Nhân sĩ phối hợp huyệt Linh cốt, Đại bạch, Trấn tĩnh, Thượng lý, Thuỷ kim, Thuỷ thông, Thần nhĩ, Thủ tam gian (Đại gian, Tiểu gian, Trung gian và cứu trị. (2 Viêm mẫũi (tỵ viêm 鼻炎 rhinitis: Lấy các huyệt Thiên sĩ, Địa sĩ, Nhân sĩ, Tứ mã, Trấn tĩnh, Thủ tam gian (Đại gian, Tiểu gian, Trung gian Thuỷ kim, Thuỷ thông, phối hợp chích huyết. (3Cảm mạo (感冒: Huyệt Thiên sĩ phối hợp huyệt Khúc lăng, Kiến lực, Trung lực, Tâm linh, Đại bạch, Thuỷ kim, Thuỷ thông, Tam xoa 3, Tam xoa 1. (4 Nhịp tim nhanh (Tâm khiêu quá tốc 心跳過速 tachycardia: Châm Thiên sĩ, Địa sĩ, Nhân sĩ, Trấn tĩnh phối huyệt Thần nhĩ. (5 Suy tim (Tâm tạng vô lực 心臟無力: Châm huyệt Thiên sĩ, Địa sĩ, Nhân sĩ phối huyệt Linh cốt, Đại bạch, Tâm linh, Địa tông. (6 Viêm phế quản mãn tính (mạn tính chi khí quản viêm 慢性支氣管炎 chronic bronchitisChâm Thiên sĩ, phối hợp huyệt Linh cốt, Đại bạch, Hoả phủ hải, có thể gia Thủ tam gian (Đại gian, Tiểu gian, Trung giantrợ giúp",
+    "westernMechanism": "Kích thích các nhánh thần kinh bì và gian cốt cẳng tay (C5-T1), giải tỏa co thắt cơ trơn tạng phủ (tim, phổi, gan, đường tiêu hóa) qua phản xạ tạng - da tủy sống.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-77-33-16",
+    "code": "33.16",
+    "name": "Khúc Lăng",
+    "chineseName": "曲陵",
+    "vietnameseName": "Huyệt Khúc Lăng",
+    "zone": "Khu 33 (Cẳng tay)",
+    "zoneDescription": "Hệ thống huyệt mặt trước và sau cẳng tay Thủ Tiền Tí Bộ",
+    "location": "Huyệt Khúc lăng: Từ huyệt Xích trạch xuống 1,5 thốn. - Huyệt Kiến lực: Từ huyệt Khúc lăng ra bên cạnh ngoài 5 phân. - Huyệt Trung lực: Từ huyệt Kiến lực ra bên cạnh ngoài 5 phân | Cách lấy huyệt: Huyệt Khúc lăng: Bàn tay ngửa, Từ nếp hố khuỷu tay (huyệt Xích trạch xuống 1,5 thốn. - Huyệt Kiến lực: Từ huyệt Khúc lăng ra bên cạnh ngoài 5 phân. - Huyệt Trung lực: Từ huyệt Kiến lực ra bên cạnh ngoài 5 phân",
+    "anatomy": "Giải phẫu: Lớp nông phân bố thần kinh bì cẳng tay ngoài, lớp sâu là thần kinh quay. Liên quan kinh Tâm, Phế | Quy kinh: Nhập hai kinh Tâm, Phế | Tính huyệt: Tuyên đạo (thúc đẫyphế khí, thông sướng (thông suốt, làm sạchtâm lạc",
+    "indications": [
+      "Chuột rút (trừu cân 抽筋",
+      "cơ nhục kinh luyến 肌肉痉挛",
+      "cramp",
+      "hen suyễn (khí suyễn 氣喘 asthmaviêm khớp khuỷu tay (trửu quan tiết viêm 肘關節炎 elbow arthritisđánh trống ngực (tâm quý 心悸 palpitation",
+      "bướu cổ (giáp trạng tuyến thũng 甲狀腺腫 goiterto tim (tâm tạng khuếch đại 心臟擴大 cardiomegaly",
+      "tê liệt tim (tâm tạng ma tý 心臟麻痺 heart palsy đau ngực (hung thống 胸痛 thoracalgia",
+      "chest pain",
+      "đau lưng (bối thống 背痛 cảm nặng (trọng cảm mạo 重感冒 severe cold",
+      "tắc mũi (tỵ tắc 鼻燥塞 nasal obstruction",
+      "ho (khái thấu 咳嗽 cough viêm phế quản (chi khí quản viêm 支氣管炎 bronchitis"
+    ],
+    "needlingMethod": "Châm thẳng 5 phân - 1 thốn. Dùng kim chích máu để chích ra máu. 8. Ứng dụng: - Huyệt Khúc lăng, Kiến lực, Trung lực châm nông trị cảm mạo (感冒 châm sâu trị viêm phổi (phế viêm 肺炎 pneumoniangoài dùng kim châm xuất máu độc, có thể trị bệnh tả dương (dương hoắc loạn 陽霍亂: bệnh nhân nôn trớ lên, bệnh tả khô (càn hoắc loạn 乾霍亂: Bệnh nhân đau quặn bụng, không nôn mửa và tiêu chảy. Chủ yếu là do tắc nghẽn đường tiêu hóa vì ăn uống không vệ sinh. Nó còn được gọi là đau bụng khan「絞腸痧: giảo trường sa 」tê liệt tim (tâm tạng ma tý 心臟麻痺 heart palsyviêm thanh quản (yết hầu viêm 咽妹喉炎 pharyngolaryngitis, giải trừ ổn định bệnh suyễn. - Ho (khái thấu 咳嗽 coughHuyệt Khúc lăng, Kiến lực, Trung lực, Hoả phủ hải. - Cảm mạo (感冒Huyệt Thiên sĩ, Khúc lăng, Kiến lực, Trung lực, Thuỷ kim, Thuỷ thông",
+    "dongQiInstruction": "Thuyết minh: Ba huyệt Khúc lăng, Kiến lực, Trung lực là huyệt đặc hiệu trị cảm mạo, cúm (lưu hành tính cảm mạo 流行性感冒 influenzamũi viêm mủ (tỵ súc nùng chứng 鼻蓄膿症 nasal empyema",
+    "westernMechanism": "Kích thích các nhánh thần kinh bì và gian cốt cẳng tay (C5-T1), giải tỏa co thắt cơ trơn tạng phủ (tim, phổi, gan, đường tiêu hóa) qua phản xạ tạng - da tủy sống.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-78-33-t01",
+    "code": "33.T01",
+    "name": "Tâm Linh 1, 2, 3",
+    "chineseName": "心靈一穴",
+    "vietnameseName": "Huyệt Tâm Linh 1, 2, 3",
+    "zone": "Khu 33 (Cẳng tay)",
+    "zoneDescription": "Hệ thống huyệt mặt trước và sau cẳng tay Thủ Tiền Tí Bộ",
+    "location": "Tâm linh 1: ngửa bàn tay, chính giữa văn ngang cổ tay lên 1,5 thốn là huyệt. Giữa gân cơ gấp cổ tay quay, gân cơ gấp ngón cái dài và gân cơ tay dài. Cách huyệt Nội quan 5 phân. - Tâm linh 2: ngửa bàn tay, chính giữa văn ngang cổ tay lên 2,5 thốn là huyệt. Giữa gân cơ gấp cổ tay quay, gân cơ gấp ngón cái dài và gân cơ tay dài. Tâm linh 1 lên 1 thốn. - Tâm linh 3: ngửa bàn tay, chính giữa văn ngang cổ tay lên 3,5 thốn là huyệt. Giữa gân cơ gấp cổ tay quay, gân cơ gấp ngón cái dài và gân cơ tay dài.Tâm linh 2 lên 1 thốn",
+    "anatomy": "Giải phẫu: Giữa gân cơ gấp cổ tay quay, gân cơ gấp ngón cái dài và gân cơ tay dài ; lớp nông phân bố trong cẳng tay, bên ngoài là nhánh gan tay của thần kinh giữa, lớp sâu chính giữa có thần kinh giữa. Liên quan tạng Tâm | Quy kinh: Nhập kinh Tâm và kinh Tâm bào | Tính huyệt: Thông sướng (thông suốttâm lạc, khoan (thư giãnhung tán trệ (tan ứ đọng",
+    "indications": [
+      "Rối loạn nhịp tim (tâm luật bất chỉnh 心律不整 irregular pulse",
+      "cardiac arrhythmias",
+      "viêm màng trong tim (tâm tạng nội mạc viêm 心臟內膜 infective endocarditis",
+      "đau thắt ngực: do thiếu máu cục bộ (hiệp tâm chứng 狹心症 ischemic heart disease",
+      "bệnh tim to (tâm tạng khuếch đại 心臟擴大 cardiomegaly",
+      "nhồi máu cơ tim (tâm cơ ngạnh tắc 心肌梗燥 acute myocardial infarction",
+      "tức ngực (hung muộn 胸悶 chest distress",
+      "đau ngực (hung thống 胸痛",
+      "đau vùng thượng vị (胃脘痛 vị quản thốngđau cẳng chân (thối thống 腿痛",
+      "đau đầu trước trán (tiền ngạch đầu thống 前額頭痛 chóng mặt (đầu vựng 頭暈 dizziness",
+      "đầu hôn 頭昏 tê liệt tay chân (thủ cước ma tý 手腳麻痺 đau yết hầu (yết hầu thống 咽妹喉痛"
+    ],
+    "needlingMethod": "Châm thẳng 5 phân - 1,5 thốn, có thể xuyên tới lưng cánh tay. Châm nghiêng 15 độ từ dưới đi lên trị bệnh tạng Tâm. Châm 1,5 thốn nghiêng 30 độ từ dưới đi lên, trị bệnh tật ngực, đầu. Châm nghiêng 45 độ từ trên xuống trị bệnh tật chân, tay | Cảm giác châm: Căng tức tê nhẹ",
+    "dongQiInstruction": "Thuyết minh: Ba huyệt này là một trong 72 tuyệt châm của thầy Đổng, cũng là một trong những yếu huyệt, trong tài liệu của thầy Đổng để sót, thầy Hồ đã bổ sung vào tài liệu; hướng châm và độ sâu khi châm huyệt Tâm linh cho hiệu quả chủ trị không giống nhau nên phải đặc biệt chú ý • Phối huyệt: (1 Trị chứng mạch vành (quan tâm chứng 冠心症 coronary syndrome Huyệt Tâm linh phối huyệt Địa tông, Thông quan, Thông thiên, Tâm môn hiệu quả rõ rệt. (2 Nhồi máu cơ tim (tâm cơ ngạnh tắc 心肌梗塞 acute myocardial infarction, AMI: - Chích máu khe đốt sống 3 đến 5. - Châm huyệt Tâm linh phối huyệt Tứ hoa, dùng phép điểm thích (点刺: là một trong những kỹ thuật đâm kim, đó là tốc độ châm. Phương pháp này là để véo da bằng tay trái, tay phải cầm kim, bằng ngón tay cái, ngón tay trỏ và ngón giữa gần đầu kim; nhanh chóng đâm vào tĩnh mạch nông dưới da, rồi rút kim ngay lập tức, sau đó nặn ra vài giọt máu (3Rối loạn nhịp tim (tâm luật bất chỉnh 心律不整 irregular pulse, cardiac arrhythmias: - Châm huyệt Tâm linh, Thần nhĩ thời gian dài. - Mai châm huyệt Tâm linh phối Tứ hoa (cố định một cây kim nhỏ đặc biệt trong vùng da ở huyệt một thời gian dài - Châm huyệt Thông quan, Thông sơn, Địa tông. (4 Tức ngực (hung muộn 胸悶 chest distress, đau ngực (hung thống 胸痛 - Châm huyệt Tâm linh, Linh cốt, Tứ hoa phối hợp chích máu nơi bệnh. - Châm huyệt Tâm linh, Hoả xuyến, Hoả lăng, Hoả sơn, Tứ mã, Tứ hoa. (5Đau vùng thượng vị (胃脘痛 vị quản thống Châm huyệt Tâm linh 1, Ngoại gian, Tứ hoa. (6Đau đầu trước trán (tiền ngạch đầu thống 前額頭痛): Châm huyệt Tâm linh, Tứ hoa thượng huyệt, phối hợp chích máu nơi bệnh. (7 Bệnh tạng Tâm chóng mặt (tâm tạng bệnh chi đầu vựng 心臟病之頭暈: Châm huyệt Tâm linh, Thông thiên, Thông quan. (8 Đau nửa đầu (thiên đầu thống 偏頭痛 - Châm huyệt Tâm linh, Linh cốt, Tam trọng, Thiên hoàng, Ngoại tam quan, phối hợp chích máu nơi bệnh. - Châm huyệt Tâm linh thấu Ngoại quan, Thất hổ, phối hợp chích máu nơi bệnh. (9Bướu giáp, sưng tuyến giáp trạng (giáp trạng tuyến thũng 甲狀腺腫), đau dạ dày (vị thống 胃痛): Châm huyệt Tâm linh, hầu linh, phối hợp chích máu 9 huyệt Hầu nga. (10 Suy van tim (Tâm tạng biện mạc bất toàn 心臟瓣膜不全): Châm đảo mã huyệt Tâm linh",
+    "westernMechanism": "Kích thích các nhánh thần kinh bì và gian cốt cẳng tay (C5-T1), giải tỏa co thắt cơ trơn tạng phủ (tim, phổi, gan, đường tiêu hóa) qua phản xạ tạng - da tủy sống.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-79-33-t02",
+    "code": "33.T02",
+    "name": "Hầu Linh",
+    "chineseName": "妹喉靈穴",
+    "vietnameseName": "Huyệt Hầu Linh",
+    "zone": "Khu 33 (Cẳng tay)",
+    "zoneDescription": "Hệ thống huyệt mặt trước và sau cẳng tay Thủ Tiền Tí Bộ",
+    "location": "Huyệt Thiếu hải (kinh Tâmxuống 1,5 thốn lại ra ngoài 0,5 thốn là huyệt",
+    "anatomy": "Giải phẫu: Thần kinh bì cạnh trong cẳng tay; liên quan kinh Phế | Quy kinh: Nhập kinh Phế | Tính huyệt: Thanh Phế (thông thoáng Phế tuyên (khai thôngkhiếu, hoá (làm tanứ tán kết (làm tan tắc nghẽn",
+    "indications": [
+      "Viêm mũi (tỵ viêm 鼻炎 rhinitis nghẹt mũi (tỵ tắc 鼻燥塞 nasal obstructionviêm thanh quản (hầu viêm 妹喉炎 laryngitis viêm amidan (biển đào tuyến viêm 扁桃腺炎 tonsillitistuyến giáp trạng sưng lớn (giáp trạng tuyến thũng đại 甲狀腺腫大ung thư mũi (tỵ nham 鼻癌 nose cancer"
+    ],
+    "needlingMethod": "Châm thẳng 2-3 phân. Dùng kim tam lăng chích máu độc hiệu quả | Cảm giác châm: Căng tức tại chỗ",
+    "dongQiInstruction": "Thuyết minh: Huyệt Hầu linh chưa công khai trong tài liệu của thầy Đổng, huyệt này được thầy Hồ theo sự truyền dạy của thầy Đổng công khai bổ sung vào. - Điều trị viêm mũi (tỵ viêm 鼻炎 rhinitis tắc mũi (tỵ tắc 鼻燥塞 nasal obstruction: châm cứu Đổng thị phần lớn dùng huyệt Kiến lực, Trung lực, Phân kim, Hợp kim, cũng có thể phối hợp huyệt Trấn tĩnh, Thuỷ kim, Thuỷ thông, Thần nhĩ, túc Tứ mã lại gia cứu ngải huyệt Kim âm, Kim dương, nơi có màu sắc bất thường ở vùng Tâm Phế sau lưng, 7 huyệt Vị mao. Trên vùng huyệt Hầu linh xuất hiện điểm màu lạ đen thui bất thường, đây là huyệt nhất định phải châm, như thế thấy rõ hiệu quả. - Điều trị ung thư thanh quản (hầu nham 妹喉癌 laryngeal cancer ung thư mũi (tỵ nham 鼻癌 nose cancerNgoài huyệt Hầu linh nhất định phải phối hợp huyệt Ngoại tam quan, chích máu tại vùng Tứ hoa thượng, Trắc tam lý, Trắc hạ tam lý. - Điều trị tuyến giáp trạng sưng to (giáp trạng tuyến thũng đại 甲狀腺腫大: Huyệt Hầu linh phối huyệt Tam trọng, Tứ mã, Tâm linh 1",
+    "westernMechanism": "Kích thích các nhánh thần kinh bì và gian cốt cẳng tay (C5-T1), giải tỏa co thắt cơ trơn tạng phủ (tim, phổi, gan, đường tiêu hóa) qua phản xạ tạng - da tủy sống.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-80-33-t03",
+    "code": "33.T03",
+    "name": "Hầu Trung",
+    "chineseName": "妹喉中穴",
+    "vietnameseName": "Huyệt Hầu Trung",
+    "zone": "Khu 33 (Cẳng tay)",
+    "zoneDescription": "Hệ thống huyệt mặt trước và sau cẳng tay Thủ Tiền Tí Bộ",
+    "location": "Phía lưng cánh tay, huyệt Hoả thủ hải ra bên cạnh cánh tay 1 thốn, giữa hai cơ (cơ khuỷ và cơ duỗi cổ tay trụ | Cách lấy huyệt: Phía lưng cánh tay, nếp văn ngang khuỷu tay xuống 2,5 thốn, huyệt Hoả thủ hải ra bên cạnh cánh tay 1 thốn là huyệt. Ở giữa hai cơ (cơ khuỷ và cơ duỗi cổ tay trụ",
+    "anatomy": "Giải phẫu: Thần kinh cẳng tay; liên quan Phế, Thận | Quy kinh: Nhập kinh Phế | Tính huyệt: Thanh Phế (thông thoáng Phếtuyên (khai thôngkhiếu, hoá (làm tanứ tán kết (làm tan tắc nghẽn",
+    "indications": [
+      "Ung thư thanh quản (hầu nham 妹喉癌 laryngeal cancer viêm thanh quản (hầu viêm 妹喉炎 laryngitis",
+      "viêm amidan (biển đào tuyến viêm 扁桃腺炎 tonsillitis"
+    ],
+    "needlingMethod": "Châm thẳng 5 phân - 1 thốn | Cảm giác châm: Căng tức tê như điện",
+    "dongQiInstruction": "Ứng dụng: Huyệt Hầu trung phối hợp huyệt Phân kim, Hợp kim, Nội kim trị ho (khái thấu 咳嗽 cough, viêm thanh quản (hầu viêm 妹喉炎 laryngitisviêm phế quản (chi khí quản viêm 支氣管炎 bronchitis, ung thư thanh quản (hầu nham 妹喉癌 laryngeal cancerlà huyệt đặc hiệu • Thuyết minh: Huyệt Hầu trung là huyệt thầy Đổng phối trị bệnh ung thư thanh quản (hầu nham 妹喉癌 laryngeal cancerhiệu quả thần tốc. Châm kim kết quả ngay lập tức. - Huyệt Hầu trung, Hầu linh đều là huyệt quan trọng trị ung thư thanh quản (hầu nham 妹喉癌 laryngeal cancercó thể phối mai châm (cố định một cây kim nhỏ đặc biệt trong vùng da ở huyệt một thời gian dàihuyệt Ngoại tam quan và huyệt bất định, cũng lưu ý có phần gai góc (有點扎點 • Phối huyệt: (1 Trị ho (khái thấu 咳嗽 cough: Huyệt Hầu trung phối huyệt Nhân sĩ, Hoả phủ hải. (2Viêm amidan (biển đào tuyến viêm 扁桃腺炎 tonsillitis: Trước chích huyết tại 9 huyệt Hầu nga, sau châm huyệt Hầu trung, Nội quan. (3 Ung thư thanh quản (hầu nham 喉癌 laryngeal cancer Ngoài huyệt Hầu trung cần gia huyệt Ngoại tam quan hoặc huyệt Tam trọng, có thể gia huyệt Tâm linh, nhưng cần có huyệt bất định",
+    "westernMechanism": "Kích thích các nhánh thần kinh bì và gian cốt cẳng tay (C5-T1), giải tỏa co thắt cơ trơn tạng phủ (tim, phổi, gan, đường tiêu hóa) qua phản xạ tạng - da tủy sống.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-81-33-t04",
+    "code": "33.T04",
+    "name": "Can Linh",
+    "chineseName": "肝靈穴",
+    "vietnameseName": "Huyệt Can Linh",
+    "zone": "Khu 33 (Cẳng tay)",
+    "zoneDescription": "Hệ thống huyệt mặt trước và sau cẳng tay Thủ Tiền Tí Bộ",
+    "location": "Can linh 1: Bàn tay ngửa, từ cổ tay nếp lằn ngang trước xương đậu lên 3 thốn. - Can linh 2: Can linh 1 lên 3 thốn. - Can linh 3: Can linh 2 lên 3 thốn",
+    "anatomy": "Giải phẫu: Lớp nông phân bố thần kinh bì cẳng tay trong, lớp sâu là xương trụ, động mạch gian cốt, tĩnh mạch và thần kinh giữa. Liên quan kinh Can, Thận | Quy kinh: Nhập kinh Can | Tính huyệt: Sơ Can lý khí (làm dịu gan và điều hòa khí",
+    "indications": [
+      "Viêm màng xương cột sống (tích truỳ cốt mạc viêm 脊椎骨膜炎 Spinal periostitis viêm gan (can viêm 肝炎 hepatitis xơ gan (can ngạnh hoá 肝硬化 liver cirrhosis",
+      "đau gan (can thống 肝痛 hepatalgia đau hai bên sườn (lưỡng hiếp thống 兩脅痛ung thư máu (huyết nham chứng 血癌症 - 白血病 leukemia: bạch huyết cầu quá nhiều hoặc quá ít lách to (tỳ thũng đại 脾腫大 splenomegaly đau thần kinh toạ (toạ cốt thần kinh thống 坐骨神經痛 sciaticaliệt nửa người (bán thân bất toại 半身不遂",
+      "đau nhức thắt lưng (yêu toan 腰酸 soreness of loinsđau cơ (cân cốt thống 筋骨痛"
+    ],
+    "needlingMethod": "Châm thẳng 05-1,5 thốn. Hoặc châm nghiêng từ dưới lên 2 thốn | Cảm giác châm: Căng tức tại chỗ",
+    "dongQiInstruction": "Thuyết minh: Huyệt Can linh 1, 2, 3 công hiệu giống như huyệt Thượng tam hoàng (Thiên hoàng, Minh hoàng, Kỳ hoàng, là một trong 72 tuyệt châm của thầy Đổng, là huyệt đặc hiệu trị bệnh gan. - Trên lâm sàng trị bệnh gan, phần lớn lấy huyệt Thượng tam hoàng (Thiên hoàng, Minh hoàng, Kỳ hoàng là chủ yếu, trừ khi trên huyệt Can linh có điểm phản ứng, màu sắc lạ thì lấy huyệt này. Có thể mai châm (cố định một cây kim nhỏ đặc biệt trong vùng da ở huyệt một thời gian dàiại điểm phản ứng trên tai. - Đau cơ (cân cốt thống 筋骨痛Can linh gia huyệt Tam thông, Thượng tam hoàng, Hạ tam hoàng (Thiên hoàng, Địa hoàng, Nhân hoàng D. HẬU TÍ BỘ (后臂部",
+    "westernMechanism": "Kích thích các nhánh thần kinh bì và gian cốt cẳng tay (C5-T1), giải tỏa co thắt cơ trơn tạng phủ (tim, phổi, gan, đường tiêu hóa) qua phản xạ tạng - da tủy sống.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-82-44-01",
+    "code": "44.01",
+    "name": "Phân Kim",
+    "chineseName": "分金",
+    "vietnameseName": "Huyệt Phân Kim",
+    "zone": "Khu 44 (Cánh tay)",
+    "zoneDescription": "Hệ thống huyệt cánh tay Hậu Tí Bộ",
+    "location": "Huyệt Phân kim: Ở trên đầu xương cánh tay, từ hõm ở nếp khuỷu tay (huyệt Xích trạch lên 1,5 thốn. - Huyệt Hợp kim: Dưới huyệt Phân kim 0,5 thốn, từ huyệt Xích trạch lên 1 thốn. - Huyệt Nội kim: Từ nếp khuỷu tay (huyệt Xích trạch lên 2 thốn, huyệt Phân kim lên 0,5 thốn | Cách lấy huyệt: Huyệt Phân kim: Tay ôm ngực để lấy huyệt, ở trên đầu xương cánh tay, từ hõm ở nếp khuỷu tay (huyệt Xích trạch lên 1,5 thốn. - Huyệt Hợp kim: Dưới huyệt Phân kim 0,5 thốn, từ huyệt Xích trạch lên 1 thốn. - Huyệt Nội kim: Từ nếp khuỷu tay (huyệt Xích trạchlên 2 thốn, huyệt Phân kim lên 0,5 thốn",
+    "anatomy": "Giải phẫu: Có cơ nhị đầu cánh tay, thần kinh bì cánh tay, khu phân bố thần kinh giữa, có động mạch cánh tay, tĩnh mạch đầu. Liên quan Tâm, Phế | Quy kinh: Nhập kinh Phế | Tính huyệt: Thanh túc (làm sạchphế khí",
+    "indications": [
+      "Cảm mạo (感冒viêm thanh quản (hầu viêm 妹喉炎 laryngitis viêm mũi dị ứng (quá mẫn tính tỵ viêm 過敏性鼻炎 allergic rhinitis mũi viêm mủ (tỵ súc nùng chứng 鼻蓄膿症 nasal empyemahuyệt đặc hiệu trị ho (khái thấu 咳嗽"
+    ],
+    "needlingMethod": "Châm thẳng 0,5-1,5 thốn. Có thể dùng phép châm đảo mã | Cảm giác châm: Căng tức",
+    "dongQiInstruction": "Thuyết minh: Trong tài liệu của thầy Đổng không có huyệt Hợp kim, Nội kim, do thầy Hồ công khai; Thủ tam kim (Phân kim, Hợp kim, Nội kimcùng với Thủ Tam sĩ (Thiên sĩ, Địa sĩ, Nhân sĩông năng giống nhau, Tam kim hoặc Tam sĩ có thể chọn dùng một bộ • Phối huyệt: (1ị cảm mạo dẫn tới ho (cảm mạo dẫn khởi chi khái thấu 感冒引起之咳嗽 Hoả phủ hải, Thiên sĩ. (2 Trị cảm nặng (trọng cảm mạo 重感冒: Huyệt Phân kim, Hợp kim, Nội kim phối huyệt Tam xoa, Túc cảm mạo (Cảm mạo 1, Cảm mạo 2, Linh cốt, Đại bạch, Thủ tam sĩ (Thiên sĩ, Địa sĩ, Nhân sĩ Thuỷ kim, Thuỷ thông. (3Viêm mẫũi dị ứng (quá mẫn tính tỵ viêm 過敏性鼻炎 allergic rhinitis: Huyệt Phân kim, Hợp kim, Nội kim phối huyệt Tứ mã, Trung lực, Thông thận, Trấn tĩnh, thượng lý, thuỷ kim, thuỷ thông, thần nhĩ. (4 Cảm mạo tắc mẫũi (cảm mạo tỵ tắc 感冒鼻塞: Huyệt Phân kim, Hợp kim, Nội kim, Trấn tĩnh, Tam xoa, Tứ mã. (5Viêm mẫũi (tỵ viêm 鼻炎): Huyệt Linh cốt, Đại bạch, Phân kim, Hợp kim, Nội kim, Trấn tĩnh, Tứ mã. (6 Tắc mẫũi (Tỵ tắc 鼻塞 sụn lá mía không thẳng (tỵ trung cách loan khúc 鼻中隔失彎失thịt dư trong mẫũi (tỵ tức nhục 鼻息肉mẫũi viêm mủ (tỵ súc nùng chứng 鼻蓄膿症 nasal empyema: Có thể dùng giác hơi lấy máu vùng cánh mũi. (7 Ho do suy nhược (hư khái 虛咳 người già ho (lão nhân khái 老人咳 ho về đêm (dạ khái 夜咳: Huyệt Thủ tam kim (Phân kim, Hợp kim, Nội kim Thuỷ kim, Thuỷ thông, Tam thần. (8Cảm mạo thể hư (感冒體虛: Huyệt Phân kim, Hợp kim, Nội kim phối huyệt Linh cốt, Đại bạch, Tam xoa, Thuỷ kim, Thuỷ thông. (9 Hen suyễn (khí suyễn 氣喘 asthma: Huyệt Phân kim, Hợp kim, Nội kim phối huyệt Đại gian, Tiểu gian, Trắc gian, Thuỷ kim, Thuỷ thông, Thần nhĩ",
+    "westernMechanism": "Kích thích phân đoạn tủy sống C5-C8 (thần kinh quay, thần kinh nách, thần kinh cơ bì), giải phóng điểm Trigger point cơ delta/cơ tam đầu và điều hòa huyết áp qua hệ giao cảm cổ - ngực.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-83-44-02",
+    "code": "44.02",
+    "name": "Hậu Chùy",
+    "chineseName": "後椎",
+    "vietnameseName": "Huyệt Hậu Chùy",
+    "zone": "Khu 44 (Cánh tay)",
+    "zoneDescription": "Hệ thống huyệt cánh tay Hậu Tí Bộ",
+    "location": "Mặt sau ngoài cánh tay, trên đường nối từ mỏm khuỷu đến nếp nách sau, cách mỏm khuỷu đo thẳng lên 2,5 thốn.",
+    "anatomy": "Cơ tam đầu cánh tay, thần kinh bì cánh tay sau (nhánh thần kinh quay). Quy kinh: Đốc mạch, Thận, Can.",
+    "indications": [
+      "Thoái hóa đốt sống cổ và lưng, gai cột sống",
+      "Trật khớp đốt sống lưng, đau nhức dọc cột sống",
+      "Viêm thận, sưng đau thắt lưng"
+    ],
+    "needlingMethod": "Châm thẳng sâu 3 - 5 phân (chạm sát màng xương cánh tay).",
+    "dongQiInstruction": "Hậu Chùy (44.02) phối hợp Thủ Anh (44.03) tạo thành cặp Đảo mã chuyên trị bệnh lý đốt sống ngực và thắt lưng.",
+    "westernMechanism": "Kích thích phân đoạn tủy sống C5-C8 (thần kinh quay, thần kinh nách, thần kinh cơ bì), giải phóng điểm Trigger point cơ delta/cơ tam đầu và điều hòa huyết áp qua hệ giao cảm cổ - ngực.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-84-44-03",
+    "code": "44.03",
+    "name": "Thủ Anh",
+    "chineseName": "首英",
+    "vietnameseName": "Huyệt Thủ Anh",
+    "zone": "Khu 44 (Cánh tay)",
+    "zoneDescription": "Hệ thống huyệt cánh tay Hậu Tí Bộ",
+    "location": "Mặt sau ngoài cánh tay, ngay phía trên huyệt Hậu Chùy (44.02) 2 thốn (cách mỏm khuỷu lên 4,5 thốn).",
+    "anatomy": "Cơ tam đầu cánh tay, thần kinh quay. Quy kinh: Đốc mạch, Thận, Can.",
+    "indications": [
+      "Đau cột sống lưng, thoái hóa và gai đốt sống",
+      "Đau thắt lưng do thận hư, viêm thận mạn",
+      "Đánh trống ngực, hồi hộp"
+    ],
+    "needlingMethod": "Châm thẳng sâu 3 - 5 phân. Thường châm Đảo mã cùng Hậu Chùy (44.02).",
+    "dongQiInstruction": "Hậu Chùy - Thủ Anh là bộ huyệt chủ lực ở cánh tay trị chấn thương và thoái hóa cột sống.",
+    "westernMechanism": "Kích thích phân đoạn tủy sống C5-C8 (thần kinh quay, thần kinh nách, thần kinh cơ bì), giải phóng điểm Trigger point cơ delta/cơ tam đầu và điều hòa huyết áp qua hệ giao cảm cổ - ngực.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-85-44-04",
+    "code": "44.04",
+    "name": "Phú Đỉnh",
+    "chineseName": "富頂",
+    "vietnameseName": "Huyệt Phú Đỉnh",
+    "zone": "Khu 44 (Cánh tay)",
+    "zoneDescription": "Hệ thống huyệt cánh tay Hậu Tí Bộ",
+    "location": "Mặt sau ngoài cánh tay, phía trên huyệt Thủ Anh (44.03) 2,5 thốn (cách mỏm khuỷu lên 7 thốn).",
+    "anatomy": "Cơ tam đầu cánh tay, thần kinh quay. Quy kinh: Can, Tâm.",
+    "indications": [
+      "Tăng huyết áp, chóng mặt, hoa mắt",
+      "Đau đầu đỉnh đầu và vùng chẩm",
+      "Mệt mỏi suy nhược thần kinh, mất ngủ"
+    ],
+    "needlingMethod": "Châm thẳng sâu 3 - 5 phân.",
+    "dongQiInstruction": "Phú Đỉnh phối hợp Hậu Chi (44.05) giúp bình Can tiềm dương, hạ huyết áp rất êm dịu.",
+    "westernMechanism": "Kích thích phân đoạn tủy sống C5-C8 (thần kinh quay, thần kinh nách, thần kinh cơ bì), giải phóng điểm Trigger point cơ delta/cơ tam đầu và điều hòa huyết áp qua hệ giao cảm cổ - ngực.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-86-44-05",
+    "code": "44.05",
+    "name": "Hậu Chi",
+    "chineseName": "後枝",
+    "vietnameseName": "Huyệt Hậu Chi",
+    "zone": "Khu 44 (Cánh tay)",
+    "zoneDescription": "Hệ thống huyệt cánh tay Hậu Tí Bộ",
+    "location": "Mặt sau ngoài cánh tay, phía trên huyệt Phú Đỉnh (44.04) 1 thốn (cách mỏm khuỷu lên 8 thốn).",
+    "anatomy": "Cơ tam đầu và cơ delta sau, thần kinh nách và thần kinh quay. Quy kinh: Tâm, Can, Đốc mạch.",
+    "indications": [
+      "Tăng huyết áp, xơ vữa động mạch, chóng mặt",
+      "Đau cứng cổ gáy, đau vai gáy",
+      "Bệnh ngoài da, mề đay, sát khuẩn giải độc"
+    ],
+    "needlingMethod": "Châm thẳng sâu 3 - 7 phân.",
+    "dongQiInstruction": "Châm Đảo mã Phú Đỉnh - Hậu Chi trị cao huyết áp kèm đau cứng cổ gáy cực kỳ hiệu nghiệm.",
+    "westernMechanism": "Kích thích phân đoạn tủy sống C5-C8 (thần kinh quay, thần kinh nách, thần kinh cơ bì), giải phóng điểm Trigger point cơ delta/cơ tam đầu và điều hòa huyết áp qua hệ giao cảm cổ - ngực.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-87-44-06",
+    "code": "44.06",
+    "name": "Kiên Trung",
+    "chineseName": "肩中穴",
+    "vietnameseName": "Huyệt Kiên Trung",
+    "zone": "Khu 44 (Cánh tay)",
+    "zoneDescription": "Hệ thống huyệt cánh tay Hậu Tí Bộ",
+    "location": "Gần đầu xương cánh tay, huyệt Kiên phong xuống 2 thốn là huyệt Kiên trung. Tức huyệt Kiên ngung (kinh Đại tràng xuống 2,5 thốn. Huyệt Kiên trung xuống 2 thốn là huyệt Kiến trung | Cách lấy huyệt: Cánh tay để thả xuống tự nhiên, từ chính giữa nếp lằn ngang đầu vai (huyệt Kiên ngung xuống 2,5 thốn là huyệt Kiên trung. Xuống dưới 2 thốn là huyệt Kiến trung",
+    "anatomy": "Giải phẫu: Có cơ đen ta, động mạch bắp tay, tĩnh mạch đầu. Liên quan kinh Tâm | Quy kinh: Nhập kinh Tâm | Tính huyệt: Hoạt huyết (lưu thông máu khư (trừ ứ, thông kinh hoạt lạc",
+    "indications": [
+      "Viêm khớp xương đầu gối (tất cái quan tiết viêm 膝蓋蓋關節炎 bong gân đầu gối (tất cái nữu thương 膝蓋蓋扭傷 bệnh ngoài da [bì phu bệnh皮膚病 (vùng cổ và cánh tay: cảnh hạng bì phu bệnh cập tý bộ bì phu bệnh 頸項皮膚病及臂部皮膚病",
+      "trẻ bại liệt (tiểu nhi ma tý 小兒麻痺 - bệnh viêm tuỷ xám: tích tuỷ hôi chất viêm 脊髓灰质炎 Poliomyelitisliệt nửa người (bán thân bất toại 半身不遂 tim đập nhanh",
+      "đánh trống ngực (tâm quý kháng tiến 心悸亢進 đau vai (kiên thống 肩痛viêm quanh khớp vai (ngũ thập kiên 五十肩chảy máu cam (lưu tỵ huyết 流鼻血xơ cứng mạch máu",
+      "xơ vữa động mạch (huyết quản ngạnh hoá 血管硬化 tràng nhạc (loã lịch 瘰癧lọc máu (thanh huyết 清血"
+    ],
+    "needlingMethod": "Châm thẳng 1-2 thốn. Kiên trung có thể phối Kiến trung châm cùng lúc. 8. Phối huyệt: (1 Trị liệu cholesterol quá cao (đảm cố thuần quá cao 治療膽固醇過高: Huyệt Kiên trung phối huyệt Kiến trung, có tác dụng lọc máu, dùng trị cholesterol quá cao, hiệu quả rất tốt. (2Bệnh tật đầu gối (tất cái tật bệnh 膝蓋尾疾病): Huyệt Kiên trung phối huyệt Kiến trung, đặc trị bệnh tật đầu gối. Nên phối hợp phép động khí hai bên. (3 Trị tràng nhạc (loã lịch 瘰癧: Huyệt Kiên trung, Kiến trung phối huyệt Tam trọng, mai châm (cố định một cây kim nhỏ đặc biệt trong vùng da ở huyệt một thời gian dài huyệt Thũng lựu trên tai, đặc trị tràng nhạc. (4Trị viêm khớp toàn thân (toàn thân tính quan tiết viêm 全身性關節炎): Huyệt Kiên trung phối huyệt Thông thiên, huyệt Thông quan, huyệt Kiến trung, huyệt Thận quan, huyệt Thượng tam hoàng (Thiên hoàng, Minh hoàng, Kỳ hoàng (5 Trị viêm khớp do axit uric (niệu toan tính quan tiết viêm 尿酸性關節炎: Huyệt Kiên trung phối huyệt Thông thiên, huyệt Thông quan, huyệt Kiến trung, huyệt Thận quan, Cốt quan, Mộc quan, Thủ giải. (6 Trị bệnh phong thấp chạy (du tẫẫu tính phong thấp bệnh 遊走性風濕病): Huyệt Kiên trung phối huyệt Thông thiên, huyệt Thông quan, huyệt Kiến trung, huyệt Thận quan, Thượng tam hoàng (Thiên hoàng, Minh hoàng, Kỳ hoàngcùng chích máu nơi bệnh. (7 Trị đau thần kinh toạ (toạ cốt thần kinh thống 坐坐骨神經痛 sciatica: Huyệt Kiên trung, Kiến trung phối huyệt Trung bạch, Hạ bạch, Linh cốt, Đại bạch. (8 Viêm khớp xương đầu gối (tất cái quan tiết viêm 膝蓋關節炎): Huyệt Kiến trung, Kiên trung, Hạ tam hoàng (Thiên hoàng, Địa hoàng, Nhân hoàng, 5 huyệt Thổ thuỷ, phối hợp chích máu nơi bệnh. (9Trẻ bại liệt (tiểu nhi ma tý 小兒麻痺 - bệnh viêm tuỷ xám: tích tuỷ hôi chất viêm 脊髓灰 Poliomyelitis - Huyệt Kiên trung, Lý bạch, Thượng khúc. - Huyệt Thần kiên, Tuyết bạch, Hạ khúc, Kiến trung. - Huyệt Kiến trung, Lý bạch, Hạ khúc. (10 Liệt nửa người (bán thân bất toại 半身不遂: Huyệt Kiên trung, Kiến trung, Trọng tử, Trọng tiên, Tam trọng. (11Chảy máu cam (lưu tỵ huyết 流鼻血 epistaxis: Huyệt Bách hội, Trấn tĩnh, Linh cốt, Lục hoàn, Kiến trung, Kiên trung. (12Đau nửa đầu (thiên đầu thống 偏頭痛): Huyệt Kiên trung, Kiến trung, Hạ cửu lý, phối hợp chích máu nơi bệnh. (13 Viêm tuyến sữa (nhẫũ tuyến viêm 乳腺炎: Huyệt Kiên trung, Kiến trung, Phân chi, Tam trọng, Tứ mã, Song long, phối hợp chích máu vùng Tâm Phế sau lưng. (14Đau khớp do phong thấp (Phong thấp quan tiết thống 風濕關節痛: Huyệt Kiên trung, Kiến trung, Thổ thuỷ, phối hợp chích máu nơi bệnh. (15. Đầu gối đau hoặc thoái hoá (tất cái thống hoặc thoái hoá 膝蓋痛或退化: 5 huyệt Thổ thuỷ, Kiên trung, Kiến trung, phối hợp chích máu bối huyệt Ngũ kim sau lưng. (16 Tắc mạch máu não (não huyết quản trở tắc 坐腦血管阻塞: Huyệt Kiên trung, Kiến trung, phối hợp chích máu chỗ lõm sau khoeo chân, thập bát tinh huyệt, lại phối hợp thức ăn làm mềm mạch máu, thuốc Trung y như Đản sâm (丹參), Đỗ trọng (杜仲Sơn tra (山楂",
+    "dongQiInstruction": "Động Khí Châm Pháp: Châm bên đối diện, vừa vê kim vừa vận động vùng bệnh để dẫn khí đạt bệnh sở.",
+    "westernMechanism": "Kích thích phân đoạn tủy sống C5-C8 (thần kinh quay, thần kinh nách, thần kinh cơ bì), giải phóng điểm Trigger point cơ delta/cơ tam đầu và điều hòa huyết áp qua hệ giao cảm cổ - ngực.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-88-44-07",
+    "code": "44.07",
+    "name": "Bối Diện",
+    "chineseName": "背面穴",
+    "vietnameseName": "Huyệt Bối Diện",
+    "zone": "Khu 44 (Cánh tay)",
+    "zoneDescription": "Hệ thống huyệt cánh tay Hậu Tí Bộ",
+    "location": "Tại đường nối chính giữa mỏm cùng vai và chỗ hõm khi giơ cánh tay, lên 2 phân là huyệt",
+    "anatomy": "Giải phẫu: Có cơ đen ta bao quanh trên động mạch cánh tay, tĩnh mạch đầu, nhánh thần kinh xương quai xanh. Liên quan đan điền (vùng dưới rốn | Quy kinh: Nhập kinh Tam tiêu | Tính huyệt: Sơ Can (giải toả, làm dịu canlợi Đảm, điều hoà khí huyết",
+    "indications": [
+      "Bụng chướng (phúc bộ phát muộn 腹部發悶phát âm yếu (phát âm vô lực 發音無妹力"
+    ],
+    "needlingMethod": "Châm sâu 3-5 phân. 8. Ứng dụng: Dùng kim chích máu có thể trị kiệt sức (toàn thân bì lao 全身疲勞hai chân mỏi nhừ (lưỡng thối phát toan 兩腿發酸nôn mửa (ẫu thổ 嘔吐bệnh tả khô (can hoắc loạn 肝霍亂-干霍乱-càn hoắc loạn 乾霍亂- còn gọi là giảo trường sa 绞肠痧: bệnh nhân đau quặn bụng, không nôn mửa và tiêu chảy. Chủ yếu là do tắc nghẽn đường tiêu hóa do chế độ ăn uống không sạch sẽbệnh dương tả (dương hoắc loạn 陽霍亂: bệnh nhân nôn trớ lên, do nhiệt quá thịnh, dạ dày khó chịu, bệnh âm dương tả (âm dương hoắc loạn 陰陽霍亂: nôn mửa và tiêu chảy (người xưa gọi chung các bệnh cấp tính nôn mửa và tiêu chảy là bệnh tả, bao gồm các bệnh truyền nhiễm nặng là bệnh tả và bệnh viêm dạ dày ruột cấp thường gặp vào mùa hè và mùa thu",
+    "dongQiInstruction": "Thuyết minh: Bối diện huyệt gần huyệt Kiên ngung (kinh Đại tràng trong 14 chính kinh, lấy huyệt cũng theo cách như vậy, thực ra hai huyệt cách nhau 2 phân; huyệt Kiên ngung trong 14 kinh nằm ở trên cánh tay giơ ngang, mỏm vai ngoài khớp xương quai xanh có 2 chỗ hõm, chỗ lõm nhỏ phía trước là huyệt Kiên ngung, lên 2 phân là huyệt Bối diện. - Huyệt Bối diện cùng với huyệt Kiên ngung vị trí khác nhau, không cùng cùng kinh cũng như công dụng, nên phân biệt rõ. - Thầy Đổng khi còn sống thường chỉ dạy đệ tử vị trí từng huyệt từ bộ vị nhất nhất tới thập thập, không có huyệt vị nào trùng với huyệt trong 14 kinh, cái này môn đồ đệ tử cần ghi nhớ cẫn thận trong lòng, trong sách của thầy Đổng có một số huyệt vị chưa chỉ rõ ràng, thường dễ lẫn lộn, nếu như có thể thấu triệt tinh tuý đạo lý của Đổng thị kỳ huyệt, tức có thể biết ngọn nguồn nguyên tắc vị trí của Đổng thị kỳ huyệt",
+    "westernMechanism": "Kích thích phân đoạn tủy sống C5-C8 (thần kinh quay, thần kinh nách, thần kinh cơ bì), giải phóng điểm Trigger point cơ delta/cơ tam đầu và điều hòa huyết áp qua hệ giao cảm cổ - ngực.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-89-44-08",
+    "code": "44.08",
+    "name": "Nhân Tông",
+    "chineseName": "人宗穴",
+    "vietnameseName": "Huyệt Nhân Tông",
+    "zone": "Khu 44 (Cánh tay)",
+    "zoneDescription": "Hệ thống huyệt cánh tay Hậu Tí Bộ",
+    "location": "Trên cánh tay, bên cạnh ngoài xương cánh tay, chỗ trũng lõm giữa cơ nhị đầu cánh tay, từ chỗ lõm nếp ngang cạnh ngoài khuỷ tay lên trên 3,5 thốn | Cách lấy huyệt: Tay ôm vào ngực để lấy huyệt, từ chỗ lõm nếp ngang cạnh ngoài khuỷ tay lên trên 3,5 thốn, huyệt Khúc trì (kinh Đại trường lên 3,5 thốn, huyệt Thủ ngũ lý lên 5 phân là huyệt",
+    "anatomy": "Giải phẫu: Bên cạnh cơ nhị đầu cánh tay, động mạch bên quay, tĩnh mạch đầu, thần kinh bì cẳng tay ngoài. Liên quan kinh Phế, Tâm Can | Quy kinh: Nhập 3 kinh Phế, Vị, Tỳ | Tính huyệt: Thông kinh hoạt lạc, điều lý (điều dưỡngtỳ vị, tuyên (khơi thông phế lợi (bổ ích hầu (khí quản, thực quản, họng",
+    "indications": [
+      "Cánh tay đau (thủ tý thống 手臂痛chân sưng đau (cước thũng thống 腳腫痛khuỷu tay sưng đau khó vận động (trửu thũng thống nan động 肘腫痛難動bệnh da vàng (hoàng đản bệnh 黃疸病 jaundicetay chân sưng phù (tứ chi phù thung 四肢浮腫lách to (tỳ thũng đại 脾腫大 splenomegalyviêm dạ dày",
+      "tá tràng (vị",
+      "thập nhị chỉ trường viêm 胃、十二指腸炎hen suyễn (khí suyễn 氣喘 asthmaviêm thanh quản (hầu viêm 妹喉炎 laryngitis cảm mạo (感冒"
+    ],
+    "needlingMethod": "Châm thẳng 05-1,5 thốn. Châm sâu 0,5 thốn trị cảm mạo hen suyễn, châm sâu 0,8 thốn trị đau cánh tay, châm sâu 1,2 thốn trị bệnh Can, Đảm, Tỳ | Cảm giác châm: Căng tức. 9. Chú ý: Lúc châm phải chính xác, lệch ra ngoài làm tổn thương xương cánh tay, lệch vào trong làm tổn thương cơ nhị đầu, đặc biệt chú ý vị trí châm cứu (lời của thầy Đổng",
+    "dongQiInstruction": "Thuyết minh: Huyệt vị trong Đổng thị kỳ huyệt không trùng với huyệt của 14 chính kinh, huyệt này trong tài liệu của thầy Đổng và cách lấy huyệt là từ nếp ngang lên 3 thốn, như vậy là huyệt Thủ tam lý (kinh Đại tràng mà huyệt Nhân tông và Thủ ngũ lý công dụng khác nhau rất nhiều, lúc thầy Đổng xuất bản sách do vội chưa kịp hiệu đính, nay theo ý của thầy Hồ, sửa thành 3,5 thốn, mới đúng với ý của thầy Đổng. - Đổng thị kỳ huyệt, nhiều huyệt vị châm nông sâu, quy kinh và chủ trị của nó không giống nhau, cần chú ý thêm, trên đây là những chú ý quan trọng về phép châm huyệt Nhân tông",
+    "westernMechanism": "Kích thích phân đoạn tủy sống C5-C8 (thần kinh quay, thần kinh nách, thần kinh cơ bì), giải phóng điểm Trigger point cơ delta/cơ tam đầu và điều hòa huyết áp qua hệ giao cảm cổ - ngực.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-90-44-09",
+    "code": "44.09",
+    "name": "Địa Tông",
+    "chineseName": "地宗穴",
+    "vietnameseName": "Huyệt Địa Tông",
+    "zone": "Khu 44 (Cánh tay)",
+    "zoneDescription": "Hệ thống huyệt cánh tay Hậu Tí Bộ",
+    "location": "Từ huyệt Nhân tông lên 3 thốn. Tức từ chỗ lõm nếp ngang cạnh ngoài khuỷ tay thẳng lên 6,5 thốn | Cách lấy huyệt: Tay ôm vào ngực, từ huyệt Nhân tông lên 3 thốn",
+    "anatomy": "Giải phẫu: Ở sau tĩnh mạch đầu, có động mạch cánh tay, thần kinh nách. Liên quan kinh Tâm | Quy kinh: Nhập kinh Tâm | Tính huyệt: Hồi dương cứu nghịch, khai khiếu tỉnh não",
+    "indications": [
+      "Có thể dùng khởi tử hồi sinh dương chứng (陽症: thân nhiệt",
+      "nhức đầu",
+      "đau toàn thân",
+      "khô họng khó cử động",
+      "hoặc có thể có mê sảng",
+      "tay tóm quần áo",
+      "mạch gấp và dài",
+      "Huyệt cấp cứu chảy máu não (não dật huyết 腦溢血châm vào lập tức giải",
+      "Tê liệt tim (tâm tạng ma tý 心臟麻痺 heart palsy châm cấp cứu đau thắt ngực (tâm giảo thống 心絞痛 angina pectoris: do thiếu máu cục bộ cơ tim Trị liệt nửa người (bán thân bất toại 半身不遂bệnh tim (tâm tạng bệnh 心臟病hen tim (tâm tạng tính suyễn tức 心臟性喘息 hôn mê gan (can hôn mê 肝昏迷 hepatic comachân tay tê liệt (thủ cước ma tý 手腳麻痺xơ cứng động mạch (động mạch ngạnh hoá 動脈硬化 arteriosclerosislưng ngực đau (hung thống bối thống 胸痛背痛 khó thở (hô hấp khốn nan 呼吸困難tắc nghẽn mạch máu não (não huyết quản trở tắc 腦血管燥阻燥 cerebrovascular occlusion"
+    ],
+    "needlingMethod": "Châm thẳng 1-2 thốn. Châm sâu 1 thốn trị bệnh nhẹ, châm sâu 2 thốn trị bệnh nặng, lấy huyệt đổng thời cả 2 tay | Cảm giác châm: Căng tức tê như điện. Chuyển kim thì có cảm giác tê tức lan tới lưng, ngực, lên tận đỉnh đầu",
+    "dongQiInstruction": "Ứng dụng: Huyệt Địa tông là huyệt quan trọng cho cấp cứu,hiệu quả không thua kém huyệt Nhân trung, Bách hội, Túc tam lý trong 14 chính kinh 10. Kinh nghiệm: - Trong tài liệu của thầy Đổng, từ nếp khuỷu tay lên 6 thốn, nay cũng như lý do chỉnh sửa (huyệt Nhân tônglên 6,5 thốn. - Huyệt Địa tông là huyệt quan trọng trong Đổng thị kỳ huyệt, là một trong 36 huyệt giải và 72 tuyệt châm của Động thị. - Châm thẳng 3 huyệt Tam tông có thể trị đau trong ngoài bắp đùi và cẳng chân sưng đau • Phối huyệt: Khi cấp cứu thì huyệt Địa tông có thể phối huyệt Thủ giải, huyệt Thủ giải dễ lấy huyệt, trên lâm sàng thường sử dụng nhiều. Cấp cứu tê liệt tim (tâm tạng ma tý 心臟麻痺 heart palsyđau thắt ngực (tâm giảo thống 心絞痛 angina pectorisThủ giải lại gia huyệt Địa tông huyệt Tâm linh",
+    "westernMechanism": "Kích thích phân đoạn tủy sống C5-C8 (thần kinh quay, thần kinh nách, thần kinh cơ bì), giải phóng điểm Trigger point cơ delta/cơ tam đầu và điều hòa huyết áp qua hệ giao cảm cổ - ngực.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-91-44-10",
+    "code": "44.10",
+    "name": "Thiên Tông",
+    "chineseName": "天宗穴",
+    "vietnameseName": "Huyệt Thiên Tông",
+    "zone": "Khu 44 (Cánh tay)",
+    "zoneDescription": "Hệ thống huyệt cánh tay Hậu Tí Bộ",
+    "location": "Bên ngoài xương cánh tay, khe phía sau cơ nhị đầu, huyệt Địa tông lên 3 thốn, cách lõm nếp ngang khuỷ tay 9,5 thốn",
+    "anatomy": "Giải phẫu: Sau tĩnh mạch đầu, có động mạch cánh tay, thần kinh nách. Liên quan lục phủ, cẳng chân | Quy kinh: Nhập kinh Can | Tính huyệt: Thanh nhiệt lợi thấp, thông lợi hạ tiêu",
+    "indications": [
+      "Ngứa âm đạo (phụ khoa âm đạo dưỡng 婦科陰道癢",
+      "đau âm đạo (âm đạo thống 陰道痛 thần hiệu trị xích bạch đới hạ (赤白帶下",
+      "đau cẳng chân (tiểu thối thống 小腿痛ong gân chân (cước nữu thương 腳扭傷",
+      "trẻ bại liệt (tiểu nhi ma tý 小兒麻痺 - bệnh viêm tuỷ xám: tích tuỷ hôi chất viêm 脊髓灰质 Poliomyelitis hôi nách (hồ xú 宮狐宮臭 bệnh tiểu đường (đường niệu bệnh 糖尿病"
+    ],
+    "needlingMethod": "Châm thẳng 1-1,5 thốn | Cảm giác châm: Căng tức tê như điện. 9. Chú ý: Khi châm kim, lệch ra ngoài làm tổn thương xương, lệch vào trong làm tổn thương cơ nhị đầu, lấy huyệt phải chính xác. (Thầy Đổng lưu ý nhắc nhở trong tài liệu",
+    "dongQiInstruction": "Thuyết minh: Huyệt Thiên tông gần huyệt Kiên trung, Kiến trung, vì vậy có thể trị hiệu quả cẳng chân đau, bong gân chân, trẻ bại liệt • Phối huyệt: (1Trị hôi nách (hồ xú 狐臭): Huyệt Thiên tông có thể phối huyệt Phân chi thượng, huyệt Phân chi hạ. (2 Trị đau buốt trên xương bả vai (kiên giáp cốt dĩ thượng đông thống 肩胛骨以上疼痛): Châm đảo mã huyệt Tam tông (huyệt Nhân tông, Địa tông, Thiên tông. (3Trị bệnh tiểu đường (đường niệu bệnh 糖尿病): Huyệt Thiên tông có thể phối huyệt Thượng tam hoàng (Thiên hoàng, Minh hoàng, Kỳ hoàng, huyệt Hạ tam hoàng (Thiên hoàng, Địa hoàng, Nhân hoàng huyệt Tứ hoa (thượng, trung, hạ huyệt Thông thiên, huyệt Thông vị, huyệt Thuỷ kim, huyệt Thuỷ thông; có thể thêm cứu ngải vùng Can mộc, vùng Tỳ Vị, vùng Thận thuỷ sau lưng; cần trị liệu lâu dài",
+    "westernMechanism": "Kích thích phân đoạn tủy sống C5-C8 (thần kinh quay, thần kinh nách, thần kinh cơ bì), giải phóng điểm Trigger point cơ delta/cơ tam đầu và điều hòa huyết áp qua hệ giao cảm cổ - ngực.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-92-44-11",
+    "code": "44.11",
+    "name": "Vân Bạch",
+    "chineseName": "雲白穴",
+    "vietnameseName": "Huyệt Vân Bạch",
+    "zone": "Khu 44 (Cánh tay)",
+    "zoneDescription": "Hệ thống huyệt cánh tay Hậu Tí Bộ",
+    "location": "Huyệt nằm bên ngoài rìa đoạn trên xương cánh tay, trước huyệt Kiên trung 2 thốn | Cách lấy huyệt: Buông thõng tay hoặc tay ôm ngực lấy huyệt, mỏm nhọn phía trước khớp xương vai xuống 2 thốn là huyệt. Tức là huyệt Kiên trung về trước 2 thốn",
+    "anatomy": "Giải phẫu: Có cơ đen ta, động mạch mũ cánh tay vòng quanh, tĩnh mạch đầu, nhánh thần kinh xương quai xanh. Liên quan đến lục phủ, kinh Phế | Quy kinh: Nhập hai kinh Can, Thận | Tính huyệt: Điều kinh lý đới, tuyên thông hạ tiêu",
+    "indications": [
+      "Đặc hiệu cho viêm âm đạo (phụ khoa âm đạo viêm 婦科陰道炎viêm tử cung (子宮宮炎viêm buồng trứng (noãn sào viêm 卵枕巢炎ngứa âm đạo (âm đạo dương 陰道癢 đau âm đạo (âm đạo thống 陰道痛 xích bạch đới hạ (赤白帶下 trẻ bại liệt (tiểu nhi ma tý 小兒麻痺 - bệnh viêm tuỷ xám: tích tuỷ hôi chất viêm 脊髓灰质炎 Poliomyelitis trẹo",
+      "bong gân chân (cước nữu thương 腳扭傷"
+    ],
+    "needlingMethod": "Châm thẳng 1-2 thốn. Châm xiên từ trên xuống dưới 2 thốn | Cảm giác châm: Căng tức tê như điện",
+    "dongQiInstruction": "Thuyết minh: Cùng sử dụng các huyệt Vân bạch, Lý bạch, Kiên trung, Kiến trung có thể trị viêm mắt cá ngoài và khớp mắt cá chân (ngoại khoả 外踝, khoả quan tiết viêm 踝關節炎 - Cùng sử dụng huyệt Kiên trung, Vân bạch có thể trị đau bắp chân (tiểu thối đỗ thống 小腿肚痛 công hiệu như huyệt Tam tông (Nhân tông, Địa tông, Thiên tông • Phối huyệt: (1Trị xích bạch đới hạ (赤白帶下: Châm các huyệt Vân bạch, Lý bạch, Phụ khoa, Thượng tam hoàng (Thiên hoàng, Minh hoàng, Kỳ hoàng, Hạ tam hoàng (Thiên hoàng, Địa hoàng, Nhân hoàng, Thiên tông hoặc huyệt Vân bạch, Lý bạch, Hoàn sào, Mộc phụ. Xích bạch đới hạ có thể ăn trứng tráng húng quế, dầu mè (cửu tầng tháp, ma du tiên đản ngật 九層塔, 麻油 煎百蛋吃 một tuần có thể khỏi. (2Âm đạo viêm, ngứa (âm đạo viêm, âm dương 陰道炎、陰癢): Phối các huyệt Vân bạch, Phụ khoa, Lý bạch, Hải báo (3Trị trẹo, bong gân chân (cước nữu thương : Huyệt Vân bạch gia huyệt Lý bạch và Khoả linh. (4 Trị bệnh phụ khoa (婦科病: Huyệt Vân bạch gia huyệt Lý bạch, phối huyệt Phụ khoa. (5 Tiểu tiện khó (tiểu tiện bất lợi 小便不利): Huyệt Vân bạch, Lý bạch, Hạ tam hoàng (Thiên hoàng, Địa hoàng, Nhân hoàng (6Viêm niệu đạo (Niệu đạo viêm 尿道炎 urethritis: Huyệt Vân bạch gia huyệt Lý bạch, Ngoại gian",
+    "westernMechanism": "Kích thích phân đoạn tủy sống C5-C8 (thần kinh quay, thần kinh nách, thần kinh cơ bì), giải phóng điểm Trigger point cơ delta/cơ tam đầu và điều hòa huyết áp qua hệ giao cảm cổ - ngực.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-93-44-12",
+    "code": "44.12",
+    "name": "Lý Bạch",
+    "chineseName": "李白穴",
+    "vietnameseName": "Huyệt Lý Bạch",
+    "zone": "Khu 44 (Cánh tay)",
+    "zoneDescription": "Hệ thống huyệt cánh tay Hậu Tí Bộ",
+    "location": "Từ huyệt Vân bạch thẳng xuống 2 thốn. Tức huyệt Kiến trung ra 2 thốn | Cách lấy huyệt: Tay úp vào ngực lấy huyệt, huyệt Kiến trung ra 2 thốn là huyệt",
+    "anatomy": "Giải phẫu: Liên quan đến kinh Thận, kinh Phế | Quy kinh: Nhập kinh Can | Tính huyệt: Thư cân hoạt lạc",
+    "indications": [
+      "Hôi nách (hồ xú 宮狐宮臭loạn tiết mồ hôi (đa hãn chứng 多汗症trẹo",
+      "bong gân chân (cước nữu thương 腳扭傷",
+      "đau chân (cước thống 腳痛bắp chân đau (tiểu thối thống 小腿痛trẻ bại liệt (tiểu nhi ma tý 小兒麻痺 - bệnh viêm tuỷ xám: tích tuỷ hôi chất viêm 脊髓灰质 Poliomyelitis"
+    ],
+    "needlingMethod": "Châm thẳng 5 phân - 1,5 thốn. Châm nghiêng từ dưới lên 1,5-2 thốn | Cảm giác châm: Căng tức tê như điện",
+    "dongQiInstruction": "Thuyết minh: Trúng phong hôn mê bất tỉnh nhân sự (中風昏迷不醒人事Huyệt Vân bạch, Lý bạch lại thêm huyệt Địa tông. - Viêm âm đạo (陰道炎Huyệt Lý bạch phối Vân bạch, Hải báo. - Tiểu tiện bí kết (小便百秘結 Huyệt Lý bạch gia Vân bạch cùng Hạ tam hoàng huyệt (Thiên hoàng, Địa hoàng, Nhân hoàng • Phối huyệt: (1 Trị trẻ bại liệt (tiểu nhi ma tý 小兒麻痺 - bệnh viêm tuỷ xám: tích tuỷ hôi chất viêm 脊髓灰 Poliomyelitis: 6 huyệt chủ yếu Vân bạch, Lý bạch, Thượng khúc, Hạ khúc, Kiên trung, Kiến trung; có thể phân Kiên trung, Vân bạch, Thượng khúc một nhóm, Kiến trung, Lý bạch, Hạ khúc một nhóm, phân 2 nhóm lần lượt châm, không chỉ trị trẻ bại liệt đồng thời lại cũng có thể trị bất kỳ chứng hai chân vô lực. (2Trị chân trẹo, bong gân (cước nữu thương : Huyệt Lý bạch phối huyệt Vân bạch. (3 Loạn tiết mồ hôi (đa hãn chứng 多汗症: Huyệt Kiên phong, Lý bạch, Túc tứ mã. Huyệt Tâm linh, Trấn tĩnh hoặc Song long, Thuỷ kim, Thuỷ thông. (4 Hôi nách (hồ xú 狐臭 Huyệt Vân bạch, Lý bạch, Phân chi thượng, Phân chi hạ. Huyệt Vân bạch, Lý bạch, Thiên tông, Phân chi thượng, Phân chi hạ, Túc tứ mã. (5 Đau trên đầu gối (thượng tất cái thống 上膝蓋痛: Huyệt Vân bạch, Lý bạch, Kiên trung, Kiến trung, Thượng khúc, Hạ khúc. (6 Đau dưới đầu gối (Hạ tất cái thống 下膝蓋痛): Huyệt Lý bạch, Thổ thuỷ",
+    "westernMechanism": "Kích thích phân đoạn tủy sống C5-C8 (thần kinh quay, thần kinh nách, thần kinh cơ bì), giải phóng điểm Trigger point cơ delta/cơ tam đầu và điều hòa huyết áp qua hệ giao cảm cổ - ngực.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-94-44-13",
+    "code": "44.13",
+    "name": "Chi Thông",
+    "chineseName": "支通",
+    "vietnameseName": "Huyệt Chi Thông",
+    "zone": "Khu 44 (Cánh tay)",
+    "zoneDescription": "Hệ thống huyệt cánh tay Hậu Tí Bộ",
+    "location": "Mặt sau cánh tay, từ huyệt Vân Bạch (44.11) đo ngang ra phía sau lưng cánh tay 2 thốn (hoặc từ Kiên Trung 44.06 đo xuống 2 thốn rồi lùi ra sau 1 thốn).",
+    "anatomy": "Bờ sau cơ delta và cơ tam đầu, thần kinh quay. Quy kinh: Can, Thận, Tim.",
+    "indications": [
+      "Tăng huyết áp, xơ cứng động mạch",
+      "Chóng mặt, hoa mắt, ù tai",
+      "Đau mỏi thắt lưng, mệt mỏi tứ chi"
+    ],
+    "needlingMethod": "Châm thẳng hoặc xiên từ sau ra trước sâu 6 phân - 1 thốn.",
+    "dongQiInstruction": "Phối hợp Lạc Thông (44.14) tăng cường tuần hoàn máu não và ổn định huyết áp.",
+    "westernMechanism": "Kích thích phân đoạn tủy sống C5-C8 (thần kinh quay, thần kinh nách, thần kinh cơ bì), giải phóng điểm Trigger point cơ delta/cơ tam đầu và điều hòa huyết áp qua hệ giao cảm cổ - ngực.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-95-44-14",
+    "code": "44.14",
+    "name": "Lạc Thông",
+    "chineseName": "落通",
+    "vietnameseName": "Huyệt Lạc Thông",
+    "zone": "Khu 44 (Cánh tay)",
+    "zoneDescription": "Hệ thống huyệt cánh tay Hậu Tí Bộ",
+    "location": "Mặt sau cánh tay, từ huyệt Lý Bạch (44.12) đo ngang ra phía sau 2 thốn (nằm ngay dưới huyệt Chi Thông 44.13 đúng 2 thốn).",
+    "anatomy": "Cơ tam đầu cánh tay, thần kinh quay. Quy kinh: Can, Thận, Tỳ.",
+    "indications": [
+      "Tăng huyết áp, rối loạn tuần hoàn não, chóng mặt",
+      "Tứ chi vô lực, liệt nửa người",
+      "Đau mỏi vai và cánh tay"
+    ],
+    "needlingMethod": "Châm thẳng sâu 6 phân - 1 thốn.",
+    "dongQiInstruction": "Châm Đảo mã cùng Chi Thông (44.13) trị di chứng tai biến mạch máu não và cao huyết áp.",
+    "westernMechanism": "Kích thích phân đoạn tủy sống C5-C8 (thần kinh quay, thần kinh nách, thần kinh cơ bì), giải phóng điểm Trigger point cơ delta/cơ tam đầu và điều hòa huyết áp qua hệ giao cảm cổ - ngực.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-96-44-15",
+    "code": "44.15",
+    "name": "Hạ Khúc",
+    "chineseName": "下曲穴",
+    "vietnameseName": "Huyệt Hạ Khúc",
+    "zone": "Khu 44 (Cánh tay)",
+    "zoneDescription": "Hệ thống huyệt cánh tay Hậu Tí Bộ",
+    "location": "Phía sau của bên cạnh cánh tay, huyệt Kiến trung hướng về sau 2 thốn | Cách lấy huyệt: Phía sau của bên cạnh cánh tay, Thượng khúc xuống 2 thốn, tức huyệt Kiến trung hướng về sau 2 thốn",
+    "anatomy": "Giải phẫu: Liên quan đến kinh Phế, kinh Can | Quy kinh: Nhập kinh Can | Tính huyệt: Thư cân hoạt lạc",
+    "indications": [
+      "Đau thần kinh toạ - toạ cốt thần kinh thống 坐骨神經痛 - (do cơ năng của Phế và Can bệnh gây nên Liệt nửa người (bán thân bất toại 半身不遂 trẻ bại liệt (tiểu nhi ma tý 小兒麻痺 - bệnh viêm tuỷ xám: tích tuỷ hôi chất viêm 脊髓灰质炎 poliomyelitischứng hở (trật khớp xương (cốt đầu thoát tiết chứng 骨頭脫節症 - do thần kinh mất tác dụng gây ra",
+      "huyết áp cao (血壓高"
+    ],
+    "needlingMethod": "Châm thẳng 1-2 thốn. Châm từ dưới xiên lên 1,5-2 thốn | Cảm giác châm: Căng tức",
+    "dongQiInstruction": "Kinh nghiệm: Huyệt Thượng khúc, huyệt Hạ khúc thường dùng trị tê liệt nửa người (bán thân ma tý 半身麻痺 thần kinh toạ. Trên lâm sàng tần suất sử dụng cao, xác thực có hiệu quả, thầy Đổng thường dùng huyệt Thượng khúc, huyệt Hạ khúc phối huyệt Vân bạch, huyệt Lý bạch, huyệt Kiên trung trị trẻ bại liệt (tiểu nhi ma tý 小兒麻痺hiệu quả rõ rệt • Phối huyệt: (1Đau thần kinh toạ - toạ cốt thần kinh thống 坐坐骨神經痛 - (do Can và cơ năng của Can bệnh gây nên Huyệt Thượng khúc, Hạ khúc phối Linh cốt, Đại bạch, Trung bạch, lúc nghiêm trọng có thể chích máu huyệt vị tương quan tại lưng có thể nâng cao hiệu quả trị bệnh. (2. Trị căng cơ háng hai bên (Trị đối trắc phúc cổ câu lạp thương 治對側腹股溝拉傷): Châm đảo mã huyệt Thượng khúc, Hạ khúc",
+    "westernMechanism": "Kích thích phân đoạn tủy sống C5-C8 (thần kinh quay, thần kinh nách, thần kinh cơ bì), giải phóng điểm Trigger point cơ delta/cơ tam đầu và điều hòa huyết áp qua hệ giao cảm cổ - ngực.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-97-44-16",
+    "code": "44.16",
+    "name": "Thượng Khúc",
+    "chineseName": "上曲穴",
+    "vietnameseName": "Huyệt Thượng Khúc",
+    "zone": "Khu 44 (Cánh tay)",
+    "zoneDescription": "Hệ thống huyệt cánh tay Hậu Tí Bộ",
+    "location": "Phía sau của bên cạnh cánh tay, huyệt Kiên trung hướng về sau 2 thốn",
+    "anatomy": "Giải phẫu: Liên quan kinh Thận và kinh Can | Quy kinh: Nhập kinh Can | Tính huyệt: Thư cân hoạt lạc",
+    "indications": [
+      "Trẻ bại liệt (tiểu nhi ma tý 小兒麻痺 - bệnh viêm tuỷ xám: tích tuỷ hôi chất viêm 脊髓灰质炎 Poliomyelitisđau thần kinh toạ (toạ cốt thần kinh thống 坐骨神經痛",
+      "đau bắp chân kéo dài (tiểu thối trường thống 小腿長痛căng cơ đùi háng (đại thối thử hề bộ lạp thương 大腿鼠蹊部拉傷 đau cánh tay (tý thống 臂痛 huyết áp cao (血壓高"
+    ],
+    "needlingMethod": "Châm thẳng 1-1,5 thốn. Hoặc châm xiên từ trên xuống 1,5-2 thốn | Cảm giác châm: Căng tức",
+    "dongQiInstruction": "Kinh nghiệm: Huyệt Thượng khúc, Kiên trung, Vân bạch là huyệt đặc hiệu hàng đầu trị trị trẻ bại liệt (tiểu nhi ma tý 小兒麻痺 Huyệt Hạ khúc, Kiến trung, Lý bạch là huyệt đặc hiệu thứ hai trị trẻ bại liệt. Trong tài liệu của thầy Hồ đã công bố hiệu quả lâm sàng của nó, trong 72 ca chữa lành 63 người, còn lại đều có cải thiện • Phối huyệt: (1Trị chứng liệt (nuy chứng 痿症): Huyệt Thượng khúc phối huyệt Kiên trung, huyệt Vân bạch. (2Trị đau thần kinh toạ (toạ cốt thần kinh thống 坐坐骨神經痛): Huyệt Thượng khúc, huyệt Hạ khúc, huyệt Tam hà hiệu quả tốt. (3 Trị xơ gan (can ngạnh hoá 肝硬化 viêm gan (can viêm 肝炎): Chích máu huyệt Thượng khúc, phối hợp huyệt Thượng tam hoàng (Thiên hoàng, Minh hoàng, Kỳ hoànghuyệt Can môn, huyệt Trường môn",
+    "westernMechanism": "Kích thích phân đoạn tủy sống C5-C8 (thần kinh quay, thần kinh nách, thần kinh cơ bì), giải phóng điểm Trigger point cơ delta/cơ tam đầu và điều hòa huyết áp qua hệ giao cảm cổ - ngực.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-98-44-17",
+    "code": "44.17",
+    "name": "Thủy Dũ",
+    "chineseName": "水愈",
+    "vietnameseName": "Huyệt Thủy Dũ",
+    "zone": "Khu 44 (Cánh tay)",
+    "zoneDescription": "Hệ thống huyệt cánh tay Hậu Tí Bộ",
+    "location": "Mặt sau vai, ngay phía dưới mỏm cùng vai, sau huyệt Kiên Trung 2 thốn (tương ứng vùng huyệt Nhu Du kinh Tiểu Trường).",
+    "anatomy": "Cơ dưới gai và cơ delta sau, thần kinh trên vai. Quy kinh: Thận.",
+    "indications": [
+      "Viêm thận, sỏi thận, đau mỏi thắt lưng",
+      "Đau khớp vai, đau bả vai, tê cánh tay",
+      "Phù thũng toàn thân, tiểu tiện bất lợi"
+    ],
+    "needlingMethod": "Châm thẳng sâu 3 - 5 phân hoặc dùng kim tam lăng chích nặn máu vàng/đen.",
+    "dongQiInstruction": "Trích huyết tại Thủy Dũ giúp giải độc Thận và trị đau vai cánh tay lâu ngày không khỏi.",
+    "westernMechanism": "Kích thích phân đoạn tủy sống C5-C8 (thần kinh quay, thần kinh nách, thần kinh cơ bì), giải phóng điểm Trigger point cơ delta/cơ tam đầu và điều hòa huyết áp qua hệ giao cảm cổ - ngực.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-99-44-t01",
+    "code": "44.T01",
+    "name": "Kiên Phong",
+    "chineseName": "肩峰穴",
+    "vietnameseName": "Huyệt Kiên Phong",
+    "zone": "Khu 44 (Cánh tay)",
+    "zoneDescription": "Hệ thống huyệt cánh tay Hậu Tí Bộ",
+    "location": "Tại chính giữa lõm xương mỏm cùng vai xuống 5 phân, tức từ huyệt Kiên ngung (kinh Đại trường xuống 5 phân | Cách lấy huyệt: Lúc nâng cánh tay, chính giữa chỗ lõm giữa xương mỏm vai và xương cánh tay xuống 5 phân là huyệt",
+    "anatomy": "Giải phẫu: Có cơ đen ta, động mạch cánh tay, nhánh tĩnh mạch đầu, nhánh thần kinh xương quai xanh. Liên quan kinh Phế, Tâm | Quy kinh: Nhập hai kinh Tâm, Phế | Tính huyệt: Hoạt huyết (lưu thông máu khư (trừ bỏ ứ, thông kinh hoạt lạc",
+    "indications": [
+      "Huyết áp cao (高血壓 loạn tiết mồ hôi (đa hãn chứng 多汗症 hidrosis",
+      "ung thư vú (nhũ nham 乳癌u vú (nhũ lựu 乳瘤viêm tuyến sữa (nhũ tuyến viêm 乳腺炎viêm núm vú (nhũ đầu viêm 乳頭炎 tay tê liệt (thượng chi ma tý chứng 上肢麻痺症 tê bại nửa người (bán thân ma tý 半身麻痺liệt nửa người (bán thân bất toại 半身不遂tắc mạch máu não (não huyết xuyên chứng 腦血栓症"
+    ],
+    "needlingMethod": "Châm thẳng 5 phân - 8 phân. Hoặc châm từ trên xuống 8 phân | Cảm giác châm: Căng tức hoặc tê như điện",
+    "dongQiInstruction": "Kinh nghiệm: Thầy Hồ dùng huyệt Kiên phong và huyệt Song long trị 31 trường hợp bệnh ung thư vú, toàn bộ đều khỏi bệnh, như Lý Tiến Yên - 李進煙 (được viện Kinh Mã Giai - 經馬偕 và các viện khác xác nhận • Thuyết minh: Huyệt Kiên phong đặc hiệu chữa khỏi bệnh ung thư vú (nhũ nham 乳癌 viêm tuyến sữa (nhũ tuyến viêm 乳腺炎nhọt ở vú (nhũ ung 乳癰thêm phối huyệt Song long dưới chân hiệu quả thần kỳ • Phối huyệt: (1Ung thư vú (nhẫũ nham 乳癌): Ngoài huyệt Kiên phong phối huyệt Song long, nhất thiết phải gia huyệt chuyên trị u bướu Ngoại tam quan hoặc Tam trọng, lại chích máu vùng huyệt Tứ hoa, Trắc tam lý hoặc chích máu vùng Tâm Phế sau lưng, thêm mai châm (cố định một cây kim nhỏ đặc biệt trong vùng da ở huyệt một thời gian dài huyệt bất định. (2 Bệnh vú, nâng ngực (nhẫũ phòng tật hoạn, kiện hung 乳房尾疾患、健胸: Huyệt Kiên phong, Song long, Tứ hoa, trên tai điểm nhũ tuyến, điểm thận, bì chất hạ, điểm nội phân bí (nội tiết và xoa bóp vú. (3 Trị tê bại nửa người (bán thân ma tý 半身麻痺liệt (nuy chứng 痿症): Huyệt Kiên phong có thể gia huyệt Địa tông, huyệt Mộc quan, huyệt Cốt quan",
+    "westernMechanism": "Kích thích phân đoạn tủy sống C5-C8 (thần kinh quay, thần kinh nách, thần kinh cơ bì), giải phóng điểm Trigger point cơ delta/cơ tam đầu và điều hòa huyết áp qua hệ giao cảm cổ - ngực.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-100-44-t02",
+    "code": "44.T02",
+    "name": "Thần Kiên",
+    "chineseName": "神肩穴",
+    "vietnameseName": "Huyệt Thần Kiên",
+    "zone": "Khu 44 (Cánh tay)",
+    "zoneDescription": "Hệ thống huyệt cánh tay Hậu Tí Bộ",
+    "location": "Điểm nằm giữa đường nối huyệt Kiên phong và Vân bạch | Cách lấy huyệt: Huyệt là điểm nằm giữa đường nối huyệt Kiên phong và Vân bạch",
+    "anatomy": "Giải phẫu: Có thần kinh xương quai xanh (xương đòn thần kinh nách. Liên quan nhánh kinh Phế, Tâm | Quy kinh: Nhập hai kinh Tâm và Can | Tính huyệt: Thư cân hoạt lạc, thông quan lợi khiếu",
+    "indications": [
+      "Trẻ bại liệt (tiểu nhi ma tý 小兒麻痺 - bệnh viêm tuỷ xám: tích tuỷ hôi chất viêm 脊髓灰质炎 Poliomyelitischảy máu não (não xuất huyết 腦出血 di chứng xuất huyết não (não huyết xuyên chi hậu di chứng 腦血栓之後遺症 (liệt nửa người: bán thân bất toại 半身不遂 hemiplegia",
+      "paraplegiacánh tay tê bại (thủ tý ma tý 手臂麻痺",
+      "đau nhức phía trong đùi (đại thối nội trắc đông thống 大腿內側疼痛 tê bại (ma tý 麻痺"
+    ],
+    "needlingMethod": "Châm thẳng 3-5 phân. Châm từ trên xuống dưới 5 phân - 1 thốn | Cảm giác châm: Căng tức tại chỗ",
+    "dongQiInstruction": "Thuyết minh: Thần kiên là huyệt quan trọng trong 72 tuyệt châm của thầy Đổng, thầy Đổng chưa công khai trong tài liệu, thầy Hồ căn cứ vào sự truyền dạy của thầy Đổng để công khai. - Các huyệt dưới khớp vai có thể chọn dùng tam châm, trực tam châm, hoành tam châm, tam châm xiên đảo mã đều có thể trị chứng trẻ bại liệt và chân vô lực • Phối huyệt: (1Trị chứng mất ngủ nghiêm trọng (nghiêm trùng thất miên chứng 嚴重失失眠症 vigilance Huyệt Thần kiên phối huyệt Tâm linh 1, Chính hội, Trấn tĩnh, hiệu quả đặc biệt. (2 Trị di chứng trúng phong (trúng phong hậu di chứng 中風後遺症 Huyệt Thần kiên phối huyệt Chính hội, Thượng tam hoàng (Thiên hoàng, Minh hoàng, Kỳ hoàng, Thông thiên, Linh cốt, hiệu quả đặc biệt. (3 Trị di chứng trúng phong với chỗ đau cánh tay không vận động được, năm ngón tay không thể co duỗi: châm 5 lần liên tục 2 bên phải trái sẽ có thể vận động như thường, xứng đáng là một trong 72 tuyệt châm của thầy Đổng",
+    "westernMechanism": "Kích thích phân đoạn tủy sống C5-C8 (thần kinh quay, thần kinh nách, thần kinh cơ bì), giải phóng điểm Trigger point cơ delta/cơ tam đầu và điều hòa huyết áp qua hệ giao cảm cổ - ngực.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-101-44-t03",
+    "code": "44.T03",
+    "name": "Chính Tích 1, Chính Tích 2, Chính Tích 3",
+    "chineseName": "正脊一穴",
+    "vietnameseName": "Huyệt Chính Tích 1, Chính Tích 2, Chính Tích 3",
+    "zone": "Khu 44 (Cánh tay)",
+    "zoneDescription": "Hệ thống huyệt cánh tay Hậu Tí Bộ",
+    "location": "Trên đường chính giữa bên ngoài xương cánh tay, nếp văn ngang khuỷu tay lên 2 thốn là huyệt Chính tích 1. Huyệt Chính tích 1 lên 2 thốn là huyệt Chính tích 2, huyệt Chính tích 2 lên 2 thốn là huyệt Chính tích 3",
+    "anatomy": "Giải phẫu: Liên quan kinh Can, Tâm và xương sống | Quy kinh: Nhập hai kinh Can, Thận | Tính huyệt: Thông kinh hoạt lạc, thư cân lợi cốt",
+    "indications": [
+      "Viêm màng xương cột sống (tích truỳ cốt mạc viêm 脊椎骨膜炎 Spinal periostitis - gai xương (cốt thích 骨刺thoái hoá cột sống tăng sản (thoái hoá tính tích truỳ cốt tăng sinh chứng 退化性脊椎骨增生症cột sống dính khớp (cương trực tính tích truỳ bất loan khúc chứng 僵直性脊椎不彎曲症",
+      "đau thần kinh toạ (toạ cốt thần kinh thống 坐骨神經痛 sciatica gai đốt sống cổ (cảnh truỳ cốt thích 頸椎骨刺 lưng gù (đà bối 駝背 viêm bể thận mãn (mạn tính thận vu viêm 慢性腎盂炎"
+    ],
+    "needlingMethod": "Châm thẳng 5 phân - 1 thốn. Châm xiên từ dưới lên 1 - 1,5 thốn | Cảm giác châm: Cảm giác căng tức tê rõ rệt",
+    "dongQiInstruction": "Thuyết minh: Huyệt Chính tích, chính là đường ngay thẳng, tích là cột sống; huyệt Chính tích có thể điều chỉnh cột sống, nên có tên như vậy. Trong châm cứu Đổng thị, ảnh hưởng trực tiếp đến cột sống có các huyệt Phế tâm, Nhị giác minh, Uyển thuận, Chính cân, Chính tông. Huyệt Chính tích phối huyệt Cốt quan, huyệt Mộc quan, có thể trị bệnh sống lưng (yêu truỳ cốt tật 腰椎骨疾 • Phối huyệt: (1 Gai xương (cốt thích 骨刺 hoặc cột sống dính khớp (cương trực tính tích truỳ bất loan khúc chứng 僵直性脊椎不失彎失曲症: Ngoài 3 huyệt Chính tích, chích huyết tại vùng bệnh hiệu quả tốt hơn. (2Đau đốt sống cổ (cảnh truỳ cốt lạt 頸椎骨剌: huyệt Thủ Phế tâm, huyệt Tam hà phối hợp huyệt Chính tích và chích máu vùng bệnh",
+    "westernMechanism": "Kích thích phân đoạn tủy sống C5-C8 (thần kinh quay, thần kinh nách, thần kinh cơ bì), giải phóng điểm Trigger point cơ delta/cơ tam đầu và điều hòa huyết áp qua hệ giao cảm cổ - ngực.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-102-44-t04",
+    "code": "44.T04",
+    "name": "Tam Thần",
+    "chineseName": "三神穴",
+    "vietnameseName": "Huyệt Tam Thần",
+    "zone": "Khu 44 (Cánh tay)",
+    "zoneDescription": "Hệ thống huyệt cánh tay Hậu Tí Bộ",
+    "location": "Tam thần 1: Mặt sau xương cánh tay, mỏm cùi chỏ thẳng lên 1,5 thốn. - Tam thần 2: huyệt Tam thần 1 lên 1 thốn, cách mỏm cùi chỏ 2,5 thốn. - Tam thần 3: huyệt Tam thần 2 lên 1 thốn, cách mỏm cùi chỏ 3,5 thốn | Cách lấy huyệt: Ôm tay vào ngực lấy huyệt, - Tam thần 1: Mặt sau xương cánh tay, mỏm cùi chỏ thẳng lên 1,5 thốn. - Tam thần 2: huyệt Tam thần 1 lên 1 thốn, cách mỏm cùi chỏ 2,5 thốn. - Tam thần 3: huyệt Tam thần 2 lên 1 thốn, cách mỏm cùi chỏ 3,5 thốn",
+    "anatomy": "Giải phẫu: Liên quan đến kinh Thận, Can và Phế | Quy kinh: Nhập hai kinh Thận và Phế | Tính huyệt: Thanh lý (làm sạch, dọn dẹp hạ tiêu, tư (bổthận bồi (vun đắp nguyên",
+    "indications": [
+      "Chứng tiểu anbumin (Đản bạch niệu 百蛋白尿 albuminuria",
+      "hiện tượng nước tiểu có protein proteinuriaviêm bể thận (thận vu viêm 腎盂炎 pyelonephritisliệt dương (dương nuy 陽痿 impotence",
+      "xuất tinh sớm (tảo tiết 早洩 Premature Ejaculationnhức mỏi thắt lưng (yêu toan 腰酸",
+      "đau thắt lưng (yêu thống 腰痛sỏi thận gây đau (thận kết thạch thống 腎結石痛 khô miệng",
+      "viêm thanh quản (hầu viêm 妹喉炎viêm phế quản (chi khí quản viêm 支氣管炎 bronchitisngười già ho (lão nhân khái thấu 老人咳嗽 ung thư thanh quản (hầu nham 妹喉癌 laryngeal cancer ung thư phổi (phế nham 肺癌 lung cancer"
+    ],
+    "needlingMethod": "Châm xiên 5 phân, trị khô miệng (khẫu càn 口乾lập tức giải. Châm xiên 1 thốn, trị các chứng viêm thanh quản (hầu viêm 妹喉炎 viêm phế quản (chi khí quản viêm 支氣管炎 thận hư (thận khuy 腎虧 | Cảm giác châm: Căng tức tê như điện",
+    "dongQiInstruction": "Ứng dụng: Người già ho phần lớn do hư, mà huyệt Tam thần nhập kinh Thận, có công năng điều bổ, trên lâm sàng có thể phối các huyệt bổ liên quan trong Đổng thị kỳ huyệt • Thuyết minh: Châm nông nhập kinh Phế, châm sâu nhập kinh Thận, huyệt Tam thần với huyệt Hậu truỳ, Thủ anh, Dục anh tính năng trị bệnh giống nhau có thể thay thế cho nhau. - Huyệt Tam thần là một trong 72 tuyệt châm của Đổng thị, cũng là huyệt bổ thận. Có thể chọn phép châm đảo mã, hiệu quả tốt hơn • Phối huyệt: (1 Trị phế khí thũng(肺氣腫 emphysema: phế nang bị tổn thương gây khó thở): Huyệt Tam thần phối huyệt Linh cốt, Đại bạch. (2Trị khô miệng (khẫẫu càn 口乾: Lấy các huyệt Thuỷ kim, Thuỷ thông, Thông thận, Thông vị, Thông bối, Tam thần đẳng huyệt, chỉ cần châm một lần đã thấy hiệu quả. (3 Miệng lưỡi khô (khẫẫu càn thiệt táo 口乾舌燥 khàn giọng (âm á 音啞 hoarse voice Huyệt Tam thần có thể phối hợp chích máu huyệt Thuỷ kim, Thuỷ thông",
+    "westernMechanism": "Kích thích phân đoạn tủy sống C5-C8 (thần kinh quay, thần kinh nách, thần kinh cơ bì), giải phóng điểm Trigger point cơ delta/cơ tam đầu và điều hòa huyết áp qua hệ giao cảm cổ - ngực.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-103-dt01",
+    "code": "DT01",
+    "name": "Phân Chi Thượng",
+    "chineseName": "分枝上穴",
+    "vietnameseName": "Huyệt Phân Chi Thượng",
+    "zone": "Khu 44 (Cánh tay)",
+    "zoneDescription": "Hệ thống huyệt cánh tay Hậu Tí Bộ",
+    "location": "Phía sau vai, chỗ giao giữa xương bả vai và xương cánh tay xuống 1 thốn",
+    "anatomy": "Giải phẫu: Liên quan đến bài tiết, kinh Can | Quy kinh: Nhập 3 kinh Can, Phế, Thận | Tính huyệt: Thanh Can giải độc",
+    "indications": [
+      "Trúng độc thuốc (dược vật trung độc 藥物中毒rắn",
+      "bò cạp",
+      "rết các loại côn trùng",
+      "hôi nách (hồ xú 宮狐宮臭hôi miệng (khẫu xú 口宮臭bệnh tiểu đường (đường niệu bệnh 糖尿病vết thương chó dại cắn (phong cẫu giảo thương 瘋狗咬傷",
+      "đi tiểu đau (tiểu tiện thống 小便痛 tiểu ra máu (huyết lâm 血淋bệnh lậu (lâm bệnh 淋病bệnh giang mai (mai độc 梅毒ngộ độc thức ăn (thực vật trúng độc 食物中毒 uống thuốc độc tự sát (phục độc tự sát 服毒自殺 - nhẹ có thể trị",
+      "nặng thì khó ngứa toàn thân (toàn thân phát dương 全身發癢",
+      "đau ngực (hung thống 胸痛"
+    ],
+    "needlingMethod": "Châm thẳng 1 - 1,5 thốn | Cảm giác châm: Căng tức",
+    "dongQiInstruction": "Thuyết minh: Huyệt Phân chi thượng, huyệt Phân chi trung, huyệt Phân chi hạ là một trong 32 huyệt giải của Đổng thị. Là huyệt trọng yếu giải độc. - Huyệt Phân chi thượng, huyệt Phân chi trung, huyệt Phân chi hạ, gốc trong Đổng thị kỳ huyệt là huyệt vị thuộc vùng lưng, do vùng lưng phần lớn chọn dùng kim chích máu, mà huyệt này không tương ứng để bố trí vào nhóm huyệt ngực, bụng, lưng, vì huyệt gần cánh tay, do đó đưa vào nhóm huyệt tứ tứ bộ vị (nhóm Hậu tí bộ 后臂部 10. Kinh nghiệm: - Trị bệnh tiểu đường (đường niệu bệnh 糖尿病): Huyệt Phân chi thượng thêm huyệt Hạ tam hoàng (Thiên hoàng, Địa hoàng, Nhân hoàng trị thời gian dài. - Trị liệu bệnh thấp chẫn (濕疹 eczemahoặc da ẫm ngứa (濕癢 dampness itchingmãn: Huyệt Phân chi thượng làm chủ lấy phụ thêm huyệt Tứ mã. - Trị mụn trứng cá sưng tấy (hồng thũng tính thanh xuân đậu 紅腫性青春痘): Huyệt Phân chi thượng, huyệt Phân chi trung, huyệt Phân chi hạ phối huyệt Tứ mã, huyệt Tam trọng. - Bệnh ngoài da (bì phu bệnh 皮膚病): Chích máu Đại truỳ, Phân chi, châm huyệt Hợp cốc, Khúc trì, Huyết hải, Tam âm giao, Tứ mã, Tứ hoa thượng, huyệt Bì phu trên tai. - Trị mụn trứng cá (thanh xuân đậu 青春痘: Tam trọng, Tứ mã, Tứ hoa, Hợp cốc, Khúc trì, Tam âm giao, trên tai lấy điểm Nội phân bí (nội tiết, điểm Phế, Bì chất hạ",
+    "westernMechanism": "Kích thích phân đoạn tủy sống C5-C8 (thần kinh quay, thần kinh nách, thần kinh cơ bì), giải phóng điểm Trigger point cơ delta/cơ tam đầu và điều hòa huyết áp qua hệ giao cảm cổ - ngực.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-104-dt02",
+    "code": "DT02",
+    "name": "Phân Chi Hạ",
+    "chineseName": "分枝下穴",
+    "vietnameseName": "Huyệt Phân Chi Hạ",
+    "zone": "Khu 44 (Cánh tay)",
+    "zoneDescription": "Hệ thống huyệt cánh tay Hậu Tí Bộ",
+    "location": "Huyệt Phân chi thượng xuống 1,5 thốn",
+    "anatomy": "Giải phẫu: Liên quan đến bài tiết, vú, kinh Can | Quy kinh: Nhập 3 kinh Can, Phế Thận | Tính huyệt: Thanh Can giải độc",
+    "indications": [
+      "Trúng độc thuốc (dược vật trung độc 藥物中毒",
+      "bò cạp",
+      "rết các loại côn trùng",
+      "hôi nách (hồ xú 宮狐宮臭hôi miệng (khẫu xú 口宮臭bệnh tiểu đường (đường niệu bệnh 糖尿病 vết thương chó dại cắn (phong cẫu giảo thương 瘋狗咬傷 đi tiểu đau (tiểu tiện thống 小便痛 tiểu ra máu (huyết lâm 血淋 bệnh lậu (lâm bệnh 淋病bệnh giang mai (mai độc 梅毒ngộ độc thức ăn (thực vật trúng độc 食物中毒uống thuốc độc tự sát (phục độc tự sát 服毒自殺 - nhẹ có thể trị",
+      "nặng thì khó ngứa toàn thân (toàn thân phát dương 全身發癢 đau ngực (hung thống 胸痛",
+      "viêm tuyến vú (nhũ tuyến viêm 乳腺炎"
+    ],
+    "needlingMethod": "Châm thẳng 1-1,5 thốn | Cảm giác châm: Căng tức",
+    "dongQiInstruction": "Ứng dụng: Chích máu sợi đen ở huyệt, hiệu quả rất tốt • Thuyết minh: Huyệt Phân chi hạ, được ghi là huyệt vùng lưng trong Đổng thị kỳ huyệt, vì Đổng thị đều châm cứu trên tay chân; ngực, bụng, lưng thường không châm kim, hầu như dùng kim tam lăng, mà huyệt này gần cánh tay nối tiếp lưng, thêm nữa là huyệt trọng yếu. Do tài liệu này chỉ nói về thập thập huyệt vị (Hậu bối bộ vị后背部位không bàn đến những huyệt không phải thập thập huyệt vị, vì thế nhập huyệt này vào tứ tứ bộ vị (Hậu tí bộ 后臂部 11. Kinh nghiệm: - Chích máu sợi đen ở huyệt Phân chi hạ, có thể trị đầu gối đau nhức (tất cái đông thống 膝蓋蓋疼痛và viêm nhẹ quanh vai (khinh vy kiên chu viêm 輕微肩周炎 - Huyệt Phân chi thượng, huyệt Phân chi hạ phối huyệt Vân bạch, huyệt Lý bạch, trị hôi nách (hồ xú 宮狐宮臭hiệu quả. - Huyệt Phân chi thượng, huyệt Phân chi trung, huyệt Phân chi hạ với huyệt Song long, thêm huyệt Kiến trung trị u tuyến vú (nhũ tuyến lựu 乳腺瘤 - Dùng thuốc kháng sinh lâu ngày, thuốc giảm đau, thuốc tiêu viêm làm tích luỹ độc tố trong người, có thể chích máu tại huyệt Phân chi thượng, huyệt Phân chi hạ, vùng lưng kết quả tốt",
+    "westernMechanism": "Kích thích phân đoạn tủy sống C5-C8 (thần kinh quay, thần kinh nách, thần kinh cơ bì), giải phóng điểm Trigger point cơ delta/cơ tam đầu và điều hòa huyết áp qua hệ giao cảm cổ - ngực.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-105-dt01b",
+    "code": "DT01b",
+    "name": "Phân Chi Trung",
+    "chineseName": "分枝中穴",
+    "vietnameseName": "Huyệt Phân Chi Trung",
+    "zone": "Khu 44 (Cánh tay)",
+    "zoneDescription": "Hệ thống huyệt cánh tay Hậu Tí Bộ",
+    "location": "Huyệt Phân chi hạ ngang vào trong 6 phân",
+    "anatomy": "Giải phẫu: Liên quan đến bài tiết, vú, kinh Phế | Quy kinh: Nhập 3 kinh Can, Phế, Thận | Tính huyệt: Thanh Can giải độc",
+    "indications": [
+      "Trúng độc thuốc (dược vật trung độc 藥物中毒 rắn",
+      "bò cạp",
+      "rết các loại côn trùng",
+      "hôi nách (hồ xú 宮狐宮臭hôi miệng (khẫu xú 口宮臭bệnh tiểu đường (đường niệu bệnh 糖尿病 vết thương chó dại cắn (phong cẫu giảo thương 瘋狗咬傷 đi tiểu đau (tiểu tiện thống 小便痛tiểu ra máu (huyết lâm 血淋 bệnh lậu (lâm bệnh 淋病bệnh giang mai (mai độc 梅毒ngộ độc thức ăn (thực vật trúng độc 食物中毒 uống thuốc độc tự sát (phục độc tự sát 服毒自殺 - nhẹ có thể trị",
+      "nặng thì khó ngứa toàn thân (toàn thân phát dương 全身發癢",
+      "đau ngực (hung thống 胸痛viêm tuyến vú (nhũ tuyến viêm 乳腺炎"
+    ],
+    "needlingMethod": "Châm thẳng 1-1,5 thốn | Cảm giác châm: Căng tức",
+    "dongQiInstruction": "Ứng dụng: Cùng lấy 3 huyệt Phân chi thượng, huyệt Phân chi trung, huyệt Phân chi hạ; châm 3 kim có thể hình thành phép châm tam giác đảo mã đặc trưng của Đổng thị, hiệu quả có thể giúp tăng hiệu quả • Thuyết minh: Huyệt Phân chi trung chưa ghi trong tài liệu của thầy Đổng, do thầy Hồ công bố riêng trong tài liệu. Ba huyệt Phân chi thượng, huyệt Phân chi trung, huyệt Phân chi hạ là những huyệt trong 32 huyệt , giải châm, công năng giải độc rất mạnh, cũngchữa khỏi bệnh hoa liễu rất hữu hiệu. - Huyệt Phân chi trung ở vùng lưng, huyệt vùng lưng đa số đều chích máu làm chính, duy huyệt Phân chi lấy châm làm chính, cũng có thể chích máu, ngoài ra huyệt Phân chi lại ở chỗ giao cánh tay và lưng, tài liệu này không bàn đến việc chích máu các huyệt trên, vì vậy nghiên cứu đem huyệt Phân chi nhập vào vùng cánh tay (tứ tứ bộ vị - nhóm Hậu tí bộ 后臂部",
+    "westernMechanism": "Kích thích phân đoạn tủy sống C5-C8 (thần kinh quay, thần kinh nách, thần kinh cơ bì), giải phóng điểm Trigger point cơ delta/cơ tam đầu và điều hòa huyết áp qua hệ giao cảm cổ - ngực.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-106-55-01",
+    "code": "55.01",
+    "name": "Hỏa Bao",
+    "chineseName": "火包",
+    "vietnameseName": "Huyệt Hỏa Bao",
+    "zone": "Khu 55 (Lòng bàn chân)",
+    "zoneDescription": "Hệ thống huyệt lòng bàn chân Cước Để Bộ",
+    "location": "Mặt dưới (lòng) ngón chân thứ 2, chính giữa lằn chỉ khớp liên đốt giữa đốt 1 và đốt 2.",
+    "anatomy": "Thần kinh gan ngón chân chung của thần kinh chày. Quy kinh: Tâm, Can.",
+    "indications": [
+      "Đau thắt ngực, nhồi máu cơ tim cấp, hồi hộp",
+      "Sót nhau thai (Nhau thai không xuống sau sinh)",
+      "Đau tức vùng thượng vị và ngực"
+    ],
+    "needlingMethod": "Châm thẳng sâu 2 - 3 phân hoặc dùng kim tam lăng chích nặn máu đen (cấp cứu đau tim rất nhạy). Cấm châm phụ nữ có thai.",
+    "dongQiInstruction": "Đổng Công dùng Hỏa Bao chích máu cấp cứu cơn đau thắt ngực (Tâm thống) cho hiệu quả tức thì.",
+    "westernMechanism": "Kích thích các nhánh thần kinh gan chân trong và ngoài (nhánh thần kinh chày L4-S3), tạo xung thần kinh hướng tâm mạnh mẽ điều hòa tuần hoàn não, tử cung và tạng phủ.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-107-55-02",
+    "code": "55.02",
+    "name": "Hoa Cốt Nhất (4 Huyệt)",
+    "chineseName": "花骨一",
+    "vietnameseName": "Huyệt Hoa Cốt Nhất (4 Huyệt)",
+    "zone": "Khu 55 (Lòng bàn chân)",
+    "zoneDescription": "Hệ thống huyệt lòng bàn chân Cước Để Bộ",
+    "location": "Lòng bàn chân, nằm trên kẽ giữa xương bàn chân ngón 1 (ngón cái) và ngón 2: Rải đều 4 huyệt từ kẽ ngón chân đo dọc về phía gan chân (cách kẽ ngón 0,5 thốn; 1 thốn; 1,5 thốn và 2 thốn).",
+    "anatomy": "Nhánh thần kinh gan chân trong. Quy kinh: Tỳ, Phế, Thận.",
+    "indications": [
+      "Đau mắt đỏ, viêm kết mạc, viêm giác mạc, chảy nước mắt sống",
+      "Sợ ánh sáng, khô mắt, ngứa mí mắt",
+      "Đau nhức xương mũi, viêm mũi"
+    ],
+    "needlingMethod": "Châm thẳng sâu 5 phân - 1 thốn. Có thể chọn 1 - 2 điểm ấn đau nhất để châm.",
+    "dongQiInstruction": "Hoa Cốt Nhất là thần huyệt trị mọi bệnh lý về mắt (đặc biệt là đau mắt cấp, chảy nước mắt khi ra gió).",
+    "westernMechanism": "Kích thích các nhánh thần kinh gan chân trong và ngoài (nhánh thần kinh chày L4-S3), tạo xung thần kinh hướng tâm mạnh mẽ điều hòa tuần hoàn não, tử cung và tạng phủ.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-108-55-03",
+    "code": "55.03",
+    "name": "Hoa Cốt Nhị (2 Huyệt)",
+    "chineseName": "花骨二",
+    "vietnameseName": "Huyệt Hoa Cốt Nhị (2 Huyệt)",
+    "zone": "Khu 55 (Lòng bàn chân)",
+    "zoneDescription": "Hệ thống huyệt lòng bàn chân Cước Để Bộ",
+    "location": "Lòng bàn chân, nằm trong kẽ giữa xương bàn chân ngón 2 và ngón 3: Huyệt 1 cách kẽ ngón chân 1 thốn, Huyệt 2 cách kẽ ngón chân 1,5 thốn.",
+    "anatomy": "Nhánh thần kinh gan chân trong. Quy kinh: Tỳ.",
+    "indications": [
+      "Ngón tay vô lực, không cầm nắm được",
+      "Đau nhức cánh tay, tê bì bàn tay",
+      "Đau tức bụng dưới"
+    ],
+    "needlingMethod": "Châm thẳng sâu 5 phân - 1 thốn.",
+    "dongQiInstruction": "Dùng phép đối xứng Thượng - Hạ (châm lòng bàn chân để trị chứng yếu liệt ngón tay và bàn tay bên đối diện).",
+    "westernMechanism": "Kích thích các nhánh thần kinh gan chân trong và ngoài (nhánh thần kinh chày L4-S3), tạo xung thần kinh hướng tâm mạnh mẽ điều hòa tuần hoàn não, tử cung và tạng phủ.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-109-55-04",
+    "code": "55.04",
+    "name": "Hoa Cốt Tam (2 Huyệt)",
+    "chineseName": "花骨三",
+    "vietnameseName": "Huyệt Hoa Cốt Tam (2 Huyệt)",
+    "zone": "Khu 55 (Lòng bàn chân)",
+    "zoneDescription": "Hệ thống huyệt lòng bàn chân Cước Để Bộ",
+    "location": "Lòng bàn chân, nằm trong kẽ giữa xương bàn chân ngón 3 và ngón 4: Huyệt 1 cách kẽ ngón 1 thốn, Huyệt 2 cách kẽ ngón 1,5 thốn.",
+    "anatomy": "Nhánh thần kinh gan chân trong và ngoài. Quy kinh: Tỳ, Thận.",
+    "indications": [
+      "Đau thắt lưng, đau thần kinh tọa (Tọa cốt thần kinh thống)",
+      "Đau cột sống lưng, tê nhức cẳng chân và bàn chân"
+    ],
+    "needlingMethod": "Châm thẳng sâu 5 phân - 1 thốn.",
+    "dongQiInstruction": "Thường phối hợp Hoa Cốt Tứ (55.05) châm bên đối diện để trị đau thần kinh tọa lan xuống bàn chân.",
+    "westernMechanism": "Kích thích các nhánh thần kinh gan chân trong và ngoài (nhánh thần kinh chày L4-S3), tạo xung thần kinh hướng tâm mạnh mẽ điều hòa tuần hoàn não, tử cung và tạng phủ.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-110-55-05",
+    "code": "55.05",
+    "name": "Hoa Cốt Tứ (2 Huyệt)",
+    "chineseName": "花骨四",
+    "vietnameseName": "Huyệt Hoa Cốt Tứ (2 Huyệt)",
+    "zone": "Khu 55 (Lòng bàn chân)",
+    "zoneDescription": "Hệ thống huyệt lòng bàn chân Cước Để Bộ",
+    "location": "Lòng bàn chân, nằm trong kẽ giữa xương bàn chân ngón 4 và ngón 5 (ngón út): Huyệt 1 cách kẽ ngón 1 thốn, Huyệt 2 cách kẽ ngón 1,5 thốn.",
+    "anatomy": "Nhánh thần kinh gan chân ngoài. Quy kinh: Thận, Bàng quang.",
+    "indications": [
+      "Đau thần kinh tọa, đau thắt lưng cấp và mạn",
+      "Đau cột sống, tê buốt ngón chân và bàn chân",
+      "Ù tai, điếc tai"
+    ],
+    "needlingMethod": "Châm thẳng sâu 5 phân - 1 thốn.",
+    "dongQiInstruction": "Hoa Cốt Tam & Hoa Cốt Tứ tương ứng với kinh Đởm và Bàng Quang dưới lòng bàn chân, đặc trị đau thần kinh tọa thể Thiếu dương và Thái dương.",
+    "westernMechanism": "Kích thích các nhánh thần kinh gan chân trong và ngoài (nhánh thần kinh chày L4-S3), tạo xung thần kinh hướng tâm mạnh mẽ điều hòa tuần hoàn não, tử cung và tạng phủ.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-111-55-06",
+    "code": "55.06",
+    "name": "Thượng Lưu",
+    "chineseName": "上瘤",
+    "vietnameseName": "Huyệt Thượng Lưu",
+    "zone": "Khu 55 (Lòng bàn chân)",
+    "zoneDescription": "Hệ thống huyệt lòng bàn chân Cước Để Bộ",
+    "location": "Lòng bàn chân, chính giữa bờ trước của đệm thịt gót chân (nơi tiếp giáp giữa vòm gan chân và phần củ xương gót).",
+    "anatomy": "Cân gan chân, thần kinh gan chân trong và ngoài. Quy kinh: Não (Đốc mạch), Thận.",
+    "indications": [
+      "Khối u não (Não lựu), phù não, di chứng chấn thương sọ não",
+      "Đau nhức vùng chẩm và đỉnh đầu dữ dội",
+      "Đau gót chân, gai xương gót",
+      "Chảy máu mũi, suy nhược thần kinh"
+    ],
+    "needlingMethod": "Châm thẳng sâu 3 - 5 phân (không châm quá sâu quá 5 phân để tránh tổn thương màng xương gót).",
+    "dongQiInstruction": "Theo luật Toàn tức: Gót chân tương ứng với đại não và tiểu não; Thượng Lưu là huyệt độc nhất vô nhị của Đổng Thị chuyên trị u não và chấn thương sọ não.",
+    "westernMechanism": "Kích thích các nhánh thần kinh gan chân trong và ngoài (nhánh thần kinh chày L4-S3), tạo xung thần kinh hướng tâm mạnh mẽ điều hòa tuần hoàn não, tử cung và tạng phủ.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-112-66-01",
+    "code": "66.01",
+    "name": "Hải Báo",
+    "chineseName": "海豹",
+    "vietnameseName": "Huyệt Hải Báo",
+    "zone": "Khu 66 (Mu bàn chân)",
+    "zoneDescription": "Hệ thống huyệt mu bàn chân Túc Chưởng Bộ",
+    "location": "Mặt trong ngón chân cái, chính giữa bờ trong đốt thứ nhất ngón chân cái (trên đường tiếp giáp da gan - mu chân).",
+    "anatomy": "Thần kinh bì mu chân trong. Quy kinh: Tâm, Can, Thận.",
+    "indications": [
+      "Đau mắt đỏ cấp tính, sưng mộng mắt",
+      "Thoát vị bẹn (Sán khí)",
+      "Viêm âm đạo, đau tức bụng dưới, đau ngón tay cái và ngón trỏ"
+    ],
+    "needlingMethod": "Châm thẳng hoặc xiên sát xương sâu 1 - 3 phân, hoặc chích nặn máu.",
+    "dongQiInstruction": "Hải Báo nằm trên đường kinh Tỳ/Can ở ngón chân cái, chuyên thanh tiết thấp nhiệt hạ tiêu và can hỏa bốc lên mắt.",
+    "westernMechanism": "Kích thích thần kinh mác sâu, mác nông và thần kinh hiển; giãn mạch vi tuần hoàn ngoại vi, điều hòa nội tiết trục hạ đồi - tuyến yên - buồng trứng và hạ phản xạ đau tạng.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-113-66-02",
+    "code": "66.02",
+    "name": "Mộc Phụ",
+    "chineseName": "木婦",
+    "vietnameseName": "Huyệt Mộc Phụ",
+    "zone": "Khu 66 (Mu bàn chân)",
+    "zoneDescription": "Hệ thống huyệt mu bàn chân Túc Chưởng Bộ",
+    "location": "Mặt lưng (mu) ngón chân thứ 2, chính giữa đốt thứ 2 lệch ra phía ngoài 3 phân.",
+    "anatomy": "Nhánh thần kinh mác sâu và mác nông. Quy kinh: Tâm, Thận, Tử cung.",
+    "indications": [
+      "Bách bệnh phụ khoa: Kinh nguyệt không đều, bế kinh, thống kinh",
+      "Khí hư bạch đới, viêm lộ tuyến cổ tử cung",
+      "Tắc vòi trứng, hiếm muộn vô sinh nữ"
+    ],
+    "needlingMethod": "Dùng kim hào châm 5 phân châm thẳng sâu 2 - 4 phân (châm sát cạnh xương đốt ngón chân).",
+    "dongQiInstruction": "Mộc Phụ (66.02) phối hợp Phụ Khoa (11.24) và Hoàn Sào (11.06) tạo thành bộ Tam Phụ Khoa trứ danh của Đổng Thị trị vô sinh và tắc vòi trứng.",
+    "westernMechanism": "Kích thích thần kinh mác sâu, mác nông và thần kinh hiển; giãn mạch vi tuần hoàn ngoại vi, điều hòa nội tiết trục hạ đồi - tuyến yên - buồng trứng và hạ phản xạ đau tạng.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-114-66-03",
+    "code": "66.03",
+    "name": "Hỏa Ngạnh",
+    "chineseName": "火硬",
+    "vietnameseName": "Huyệt Hỏa Ngạnh",
+    "zone": "Khu 66 (Mu bàn chân)",
+    "zoneDescription": "Hệ thống huyệt mu bàn chân Túc Chưởng Bộ",
+    "location": "Trên mu bàn chân, nằm trong khe giữa xương bàn chân ngón 1 và ngón 2, cách kẽ ngón chân đo lên 0,5 thốn (ngay phía trước huyệt Hành Gian).",
+    "anatomy": "Mạng tĩnh mạch mu chân, nhánh thần kinh mác sâu. Quy kinh: Tâm, Can.",
+    "indications": [
+      "Đánh trống ngực, hồi hộp, bệnh van tim",
+      "Chóng mặt, hoa mắt, đau đỉnh đầu",
+      "Cứng hàm, cấm khẩu, lưỡi cứng không nói được sau trúng phong",
+      "Sót nhau thai, u xơ tử cung"
+    ],
+    "needlingMethod": "Châm thẳng sâu 3 - 5 phân. Phụ nữ có thai cấm châm.",
+    "dongQiInstruction": "Hỏa Ngạnh (66.03) châm Đảo mã cùng Hỏa Chủ (66.04) là bộ huyệt số 1 trên mu bàn chân trị bệnh Can - Tâm, đau đỉnh đầu và u tử cung.",
+    "westernMechanism": "Kích thích thần kinh mác sâu, mác nông và thần kinh hiển; giãn mạch vi tuần hoàn ngoại vi, điều hòa nội tiết trục hạ đồi - tuyến yên - buồng trứng và hạ phản xạ đau tạng.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-115-66-04",
+    "code": "66.04",
+    "name": "Hỏa Chủ",
+    "chineseName": "火主",
+    "vietnameseName": "Huyệt Hỏa Chủ",
+    "zone": "Khu 66 (Mu bàn chân)",
+    "zoneDescription": "Hệ thống huyệt mu bàn chân Túc Chưởng Bộ",
+    "location": "Trên mu bàn chân, nằm tại góc tiếp giáp đầu gần giữa xương bàn chân ngón 1 và ngón 2 (cách huyệt Hỏa Ngạnh 1 thốn về phía cổ chân, ngay sát góc xương phía trên huyệt Thái Xung).",
+    "anatomy": "Động mạch mu chân, thần kinh mác sâu. Quy kinh: Tâm, Can.",
+    "indications": [
+      "Đau đầu đỉnh đầu và nửa đầu, suy nhược thần kinh",
+      "Bệnh tim mạch, suy tim, hồi hộp đánh trống ngực",
+      "Đau dạ dày do can khí phạm vị, đau sườn ngực",
+      "Đau mỏi chân tay, co rút gân cơ toàn thân",
+      "Khó đẻ, u xơ tử cung, thống kinh"
+    ],
+    "needlingMethod": "Châm thẳng sát góc xương sâu 3 - 8 phân. Phụ nữ có thai tuyệt đối cấm châm.",
+    "dongQiInstruction": "Hỏa Chủ và Linh Cốt là cặp huyệt Phối hợp Kinh điển (Linh Cốt + Hỏa Chủ) chuyên trị mọi chứng đau nhức nội tạng, đau đầu và bệnh phụ khoa.",
+    "westernMechanism": "Kích thích thần kinh mác sâu, mác nông và thần kinh hiển; giãn mạch vi tuần hoàn ngoại vi, điều hòa nội tiết trục hạ đồi - tuyến yên - buồng trứng và hạ phản xạ đau tạng.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-116-66-05",
+    "code": "66.05",
+    "name": "Môn Kim",
+    "chineseName": "門金",
+    "vietnameseName": "Huyệt Môn Kim",
+    "zone": "Khu 66 (Mu bàn chân)",
+    "zoneDescription": "Hệ thống huyệt mu bàn chân Túc Chưởng Bộ",
+    "location": "Trên mu bàn chân, nằm tại góc tiếp giáp đầu gần giữa xương bàn chân ngón 2 và ngón 3 (cách huyệt Hãm Cốc kinh Vị lên phía cổ chân khoảng 5 phân).",
+    "anatomy": "Nhánh thần kinh mác nông và mác sâu. Quy kinh: Vị, Đại trường.",
+    "indications": [
+      "Viêm ruột cấp và mạn tính, tiêu chảy, kiết lỵ, đau bụng quặn",
+      "Viêm dạ dày, viêm tá tràng, đầy hơi trướng bụng",
+      "Viêm ruột thừa cấp, sa trực tràng",
+      "Đau nửa đầu (Thiên đầu thống), viêm mũi dị ứng, thống kinh"
+    ],
+    "needlingMethod": "Châm thẳng sâu 5 phân - 1 thốn bằng một kim duy nhất.",
+    "dongQiInstruction": "Môn Kim là đại huyệt đặc hiệu nhất trị viêm dạ dày - ruột cấp tính và đau nửa đầu Thái dương/Dương minh.",
+    "westernMechanism": "Kích thích thần kinh mác sâu, mác nông và thần kinh hiển; giãn mạch vi tuần hoàn ngoại vi, điều hòa nội tiết trục hạ đồi - tuyến yên - buồng trứng và hạ phản xạ đau tạng.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-117-66-06",
+    "code": "66.06",
+    "name": "Mộc Lưu",
+    "chineseName": "木留",
+    "vietnameseName": "Huyệt Mộc Lưu",
+    "zone": "Khu 66 (Mu bàn chân)",
+    "zoneDescription": "Hệ thống huyệt mu bàn chân Túc Chưởng Bộ",
+    "location": "Trên mu bàn chân, nằm trong khe giữa xương bàn chân ngón 3 và ngón 4, cách kẽ ngón chân đo lên 1,5 thốn (ngay sát góc tiếp giáp đầu gần xương bàn 3 và 4).",
+    "anatomy": "Nhánh thần kinh bì mu chân giữa (thần kinh mác nông). Quy kinh: Can, Đởm, Tỳ.",
+    "indications": [
+      "Bệnh bạch cầu (Ung thư máu), lách to (Tỳ thũng đại)",
+      "Viêm gan, xơ gan, viêm túi mật",
+      "Khó tiêu, đầy bụng, nấc cụt, cứng lưỡi",
+      "Tê bì ngón tay thứ 4 (áp út) và ngón thứ 5 (út)"
+    ],
+    "needlingMethod": "Châm thẳng sâu 3 - 5 phân. Thường châm Đảo mã cùng Mộc Đấu (66.07).",
+    "dongQiInstruction": "Mộc Lưu - Mộc Đấu là cặp Đảo mã chuyên sơ Can kiện Tỳ, trị lách to và tê ngón tay áp út/út.",
+    "westernMechanism": "Kích thích thần kinh mác sâu, mác nông và thần kinh hiển; giãn mạch vi tuần hoàn ngoại vi, điều hòa nội tiết trục hạ đồi - tuyến yên - buồng trứng và hạ phản xạ đau tạng.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-118-66-07",
+    "code": "66.07",
+    "name": "Mộc Đấu",
+    "chineseName": "木斗",
+    "vietnameseName": "Huyệt Mộc Đấu",
+    "zone": "Khu 66 (Mu bàn chân)",
+    "zoneDescription": "Hệ thống huyệt mu bàn chân Túc Chưởng Bộ",
+    "location": "Trên mu bàn chân, nằm trong khe giữa xương bàn chân ngón 3 và ngón 4, cách kẽ ngón chân đo lên 0,5 thốn (phía trước huyệt Mộc Lưu 1 thốn).",
+    "anatomy": "Nhánh thần kinh bì mu chân giữa. Quy kinh: Can, Tỳ.",
+    "indications": [
+      "Lách to, bệnh lý gan mật, vàng da",
+      "Rối loạn tiêu hóa, tiêu chảy, mệt mỏi",
+      "Đau nhức và tê bì ngón tay áp út, đau bàn chân"
+    ],
+    "needlingMethod": "Châm thẳng sâu 3 - 5 phân.",
+    "dongQiInstruction": "Phối hợp Mộc Lưu (66.06) theo pháp Đảo mã tăng gấp đôi hiệu lực trị bệnh gan lách.",
+    "westernMechanism": "Kích thích thần kinh mác sâu, mác nông và thần kinh hiển; giãn mạch vi tuần hoàn ngoại vi, điều hòa nội tiết trục hạ đồi - tuyến yên - buồng trứng và hạ phản xạ đau tạng.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-119-66-08",
+    "code": "66.08",
+    "name": "Lục Hoàn",
+    "chineseName": "六完",
+    "vietnameseName": "Huyệt Lục Hoàn",
+    "zone": "Khu 66 (Mu bàn chân)",
+    "zoneDescription": "Hệ thống huyệt mu bàn chân Túc Chưởng Bộ",
+    "location": "Trên mu bàn chân, nằm trong khe giữa xương bàn chân ngón 4 và ngón 5, cách kẽ ngón chân đo lên 0,5 thốn (gần vị trí huyệt Hiệp Khê kinh Đởm).",
+    "anatomy": "Nhánh thần kinh bì mu chân ngoài. Quy kinh: Thận, Phế, Đởm.",
+    "indications": [
+      "Cầm máu khẩn cấp: Chảy máu cam, ho ra máu, xuất huyết dạ dày, băng huyết",
+      "Đau nửa đầu, ù tai, điếc tai, viêm tai giữa"
+    ],
+    "needlingMethod": "Châm thẳng sâu 3 - 5 phân. Kỵ châm hai chân cùng lúc (vì làm hạ huyết áp mạnh).",
+    "dongQiInstruction": "Lục Hoàn là đệ nhất chỉ huyết huyệt (cầm máu) trong hệ thống Đổng Thị Kỳ Huyệt; phối hợp Thủy Khúc (66.09) trị đau nửa đầu và đau thần kinh tọa.",
+    "westernMechanism": "Kích thích thần kinh mác sâu, mác nông và thần kinh hiển; giãn mạch vi tuần hoàn ngoại vi, điều hòa nội tiết trục hạ đồi - tuyến yên - buồng trứng và hạ phản xạ đau tạng.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-120-66-09",
+    "code": "66.09",
+    "name": "Thủy Khúc",
+    "chineseName": "水曲",
+    "vietnameseName": "Huyệt Thủy Khúc",
+    "zone": "Khu 66 (Mu bàn chân)",
+    "zoneDescription": "Hệ thống huyệt mu bàn chân Túc Chưởng Bộ",
+    "location": "Trên mu bàn chân, nằm tại góc tiếp giáp đầu gần giữa xương bàn chân ngón 4 và ngón 5 (phía trên huyệt Lục Hoàn 1 thốn, sát góc xương gần huyệt Túc Lâm Khấp).",
+    "anatomy": "Mạng tĩnh mạch mu chân ngoài, thần kinh bì mu chân ngoài. Quy kinh: Thận, Đởm.",
+    "indications": [
+      "Đau thắt lưng, đau thần kinh tọa (đặc biệt đau mặt ngoài đùi và cẳng chân)",
+      "Tê bại tứ chi, phù thũng tay chân",
+      "Đau cổ gáy, đau nửa đầu, rối loạn kinh nguyệt"
+    ],
+    "needlingMethod": "Châm thẳng sâu 4 - 8 phân.",
+    "dongQiInstruction": "Thủy Khúc thông kinh Thiếu dương và Thái âm/Thiếu âm, trị đau thần kinh tọa và đau mỏi cổ gáy rất nhạy.",
+    "westernMechanism": "Kích thích thần kinh mác sâu, mác nông và thần kinh hiển; giãn mạch vi tuần hoàn ngoại vi, điều hòa nội tiết trục hạ đồi - tuyến yên - buồng trứng và hạ phản xạ đau tạng.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-121-66-10",
+    "code": "66.10",
+    "name": "Hỏa Liên",
+    "chineseName": "火連",
+    "vietnameseName": "Huyệt Hỏa Liên",
+    "zone": "Khu 66 (Mu bàn chân)",
+    "zoneDescription": "Hệ thống huyệt mu bàn chân Túc Chưởng Bộ",
+    "location": "Mặt trong bàn chân, bờ dưới xương bàn chân ngón 1 (trên đường ranh giới da trắng - đỏ), cách khớp bàn - ngón chân cái đo về phía gót chân 1,5 thốn (gần huyệt Thái Bạch).",
+    "anatomy": "Nhánh thần kinh hiển và thần kinh gan chân trong. Quy kinh: Tâm, Thận.",
+    "indications": [
+      "Tăng huyết áp gây choáng váng, đau đầu, mắt đỏ",
+      "Suy tim, đánh trống ngực, tức ngực",
+      "U não, hôn mê, trúng phong"
+    ],
+    "needlingMethod": "Châm thẳng vuông góc sát bờ dưới xương bàn chân sâu 5 - 8 phân. Kỵ châm hai chân cùng lúc; phụ nữ có thai cấm châm.",
+    "dongQiInstruction": "Hỏa Liên (66.10), Hỏa Cúc (66.11), Hỏa Tản (66.12) hợp thành bộ Tam Hỏa ở bờ trong bàn chân, chuyên thanh Tâm hỏa, giáng huyết áp và tiêu u não.",
+    "westernMechanism": "Kích thích thần kinh mác sâu, mác nông và thần kinh hiển; giãn mạch vi tuần hoàn ngoại vi, điều hòa nội tiết trục hạ đồi - tuyến yên - buồng trứng và hạ phản xạ đau tạng.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-122-66-11",
+    "code": "66.11",
+    "name": "Hỏa Cúc",
+    "chineseName": "火菊",
+    "vietnameseName": "Huyệt Hỏa Cúc",
+    "zone": "Khu 66 (Mu bàn chân)",
+    "zoneDescription": "Hệ thống huyệt mu bàn chân Túc Chưởng Bộ",
+    "location": "Mặt trong bàn chân, bờ dưới xương bàn chân ngón 1, nằm phía sau huyệt Hỏa Liên (66.10) 1 thốn (gần huyệt Công Tôn).",
+    "anatomy": "Cơ dạng ngón cái, nhánh thần kinh hiển. Quy kinh: Tâm, Thận.",
+    "indications": [
+      "Tê bì bàn tay, đau khớp cổ tay và ngón tay",
+      "Đánh trống ngực, tăng huyết áp, chóng mặt",
+      "Đau cứng cổ gáy, không quay đầu được",
+      "U não, viêm màng não"
+    ],
+    "needlingMethod": "Châm thẳng sát bờ dưới xương sâu 5 - 8 phân. Phụ nữ có thai cấm châm.",
+    "dongQiInstruction": "Châm Đảo mã Hỏa Liên - Hỏa Cúc - Hỏa Tản trị di chứng tai biến mạch máu não, cao huyết áp và u não.",
+    "westernMechanism": "Kích thích thần kinh mác sâu, mác nông và thần kinh hiển; giãn mạch vi tuần hoàn ngoại vi, điều hòa nội tiết trục hạ đồi - tuyến yên - buồng trứng và hạ phản xạ đau tạng.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-123-66-12",
+    "code": "66.12",
+    "name": "Hỏa Tản",
+    "chineseName": "火散",
+    "vietnameseName": "Huyệt Hỏa Tản",
+    "zone": "Khu 66 (Mu bàn chân)",
+    "zoneDescription": "Hệ thống huyệt mu bàn chân Túc Chưởng Bộ",
+    "location": "Mặt trong bàn chân, phía sau huyệt Hỏa Cúc (66.11) 1 thốn (bờ dưới xương chêm trong và xương ghe, gần huyệt Nhiên Cốc).",
+    "anatomy": "Nhánh thần kinh hiển và thần kinh gan chân trong. Quy kinh: Tâm, Thận, Não.",
+    "indications": [
+      "Đau đầu dữ dội, căng thẳng thần kinh, mất ngủ",
+      "Đau mỏi thắt lưng do thận hư, hoa mắt chóng mặt",
+      "U não, đau góc mắt trong"
+    ],
+    "needlingMethod": "Châm thẳng sát bờ xương sâu 5 - 8 phân.",
+    "dongQiInstruction": "Cùng với Hỏa Liên và Hỏa Cúc tạo thành tổ hợp Tam Hỏa vừa bổ Thận thủy vừa tả Tâm hỏa.",
+    "westernMechanism": "Kích thích thần kinh mác sâu, mác nông và thần kinh hiển; giãn mạch vi tuần hoàn ngoại vi, điều hòa nội tiết trục hạ đồi - tuyến yên - buồng trứng và hạ phản xạ đau tạng.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-124-66-13",
+    "code": "66.13",
+    "name": "Thủy Tinh",
+    "chineseName": "水晶",
+    "vietnameseName": "Huyệt Thủy Tinh",
+    "zone": "Khu 66 (Mu bàn chân)",
+    "zoneDescription": "Hệ thống huyệt mu bàn chân Túc Chưởng Bộ",
+    "location": "Mặt trong cổ chân, từ đỉnh mắt cá chân trong đo thẳng xuống dưới 2 thốn (nằm dưới huyệt Chiếu Hải).",
+    "anatomy": "Nhánh thần kinh hiển và thần kinh chày sau. Quy kinh: Tử cung, Thận.",
+    "indications": [
+      "U xơ tử cung, viêm nội mạc tử cung, sa tử cung",
+      "Kinh nguyệt không đều, thống kinh, bạch đới",
+      "Trướng bụng dưới, phù thũng, tiểu khó"
+    ],
+    "needlingMethod": "Châm thẳng hoặc xiên sâu 5 phân - 1 thốn.",
+    "dongQiInstruction": "Thủy Tinh chủ trị các khối tích tụ và viêm nhiễm ở tử cung - phần phụ.",
+    "westernMechanism": "Kích thích thần kinh mác sâu, mác nông và thần kinh hiển; giãn mạch vi tuần hoàn ngoại vi, điều hòa nội tiết trục hạ đồi - tuyến yên - buồng trứng và hạ phản xạ đau tạng.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-125-66-14",
+    "code": "66.14",
+    "name": "Thủy Tương",
+    "chineseName": "水相",
+    "vietnameseName": "Huyệt Thủy Tương",
+    "zone": "Khu 66 (Mu bàn chân)",
+    "zoneDescription": "Hệ thống huyệt mu bàn chân Túc Chưởng Bộ",
+    "location": "Mặt trong cổ chân, nằm tại chỗ lõm giữa bờ sau mắt cá chân trong và bờ trước gân gót Achilles (tương ứng vị trí huyệt Thái Khê kinh Thận).",
+    "anatomy": "Động mạch chày sau và thần kinh chày. Quy kinh: Thận, Não.",
+    "indications": [
+      "Viêm thận cấp và mạn, hội chứng thận hư, phù thũng",
+      "Đau cột sống thắt lưng, đau gót chân, mỏi gối",
+      "Bệnh đục thủy tinh thể, mờ mắt người già",
+      "Suy nhược sau sinh, ù tai, điếc tai"
+    ],
+    "needlingMethod": "Châm thẳng sâu 3 - 5 phân, hoặc châm xuyên ra phía mắt cá ngoài (thấu Côn Lôn).",
+    "dongQiInstruction": "Thủy Tương (66.14) phối hợp Thủy Tiên (66.15) là cặp Đảo mã đại bổ Thận thủy, thông cột sống và làm sáng mắt.",
+    "westernMechanism": "Kích thích thần kinh mác sâu, mác nông và thần kinh hiển; giãn mạch vi tuần hoàn ngoại vi, điều hòa nội tiết trục hạ đồi - tuyến yên - buồng trứng và hạ phản xạ đau tạng.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-126-66-15",
+    "code": "66.15",
+    "name": "Thủy Tiên",
+    "chineseName": "水仙",
+    "vietnameseName": "Huyệt Thủy Tiên",
+    "zone": "Khu 66 (Mu bàn chân)",
+    "zoneDescription": "Hệ thống huyệt mu bàn chân Túc Chưởng Bộ",
+    "location": "Mặt trong cổ chân, từ huyệt Thủy Tương (66.14) đo thẳng xuống dưới 2 thốn (sát bờ trên trong xương gót, gần huyệt Thủy Tuyền).",
+    "anatomy": "Nhánh thần kinh chày và mạch máu gót trong. Quy kinh: Thận, Não.",
+    "indications": [
+      "Viêm thận, sỏi thận, tiểu đục, tiểu đêm nhiều",
+      "Đau lưng, đau cột sống, đau thần kinh tọa",
+      "Đau gót chân, lạnh bàn chân"
+    ],
+    "needlingMethod": "Châm thẳng sâu 3 - 5 phân.",
+    "dongQiInstruction": "Châm Đảo mã Thủy Tương - Thủy Tiên là phương pháp chủ lực của Đổng Thị trị thận hư cốt yếu.",
+    "westernMechanism": "Kích thích thần kinh mác sâu, mác nông và thần kinh hiển; giãn mạch vi tuần hoàn ngoại vi, điều hòa nội tiết trục hạ đồi - tuyến yên - buồng trứng và hạ phản xạ đau tạng.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-127-77-01",
+    "code": "77.01",
+    "name": "Chính Cân",
+    "chineseName": "正筋",
+    "vietnameseName": "Huyệt Chính Cân",
+    "zone": "Khu 77 (Cẳng chân)",
+    "zoneDescription": "Hệ thống huyệt cẳng chân Tiểu Thối Bộ",
+    "location": "Mặt sau cổ chân, nằm chính giữa trên gân gót Achilles, cách đáy gót chân đo lên 3,5 thốn (ngang mức đỉnh mắt cá chân).",
+    "anatomy": "Gân gót Achilles, thần kinh bắp chân. Quy kinh: Bàng quang, Đốc mạch, Não.",
+    "indications": [
+      "Đau cứng cổ gáy cấp tính (Lạc chẩm), thoái hóa đốt sống cổ",
+      "Đau cột sống lưng và thắt lưng, thoát vị đĩa đệm, gai cột sống",
+      "Chấn thương sọ não, não tích thủy (não úng thủy), u não"
+    ],
+    "needlingMethod": "Châm thẳng xuyên qua chính giữa gân Achilles chạm nhẹ vào bờ sau xương chày sâu 5 - 8 phân.",
+    "dongQiInstruction": "Chính Cân (77.01) châm Đảo mã cùng Chính Tông (77.02) là bộ huyệt thần hiệu bậc nhất của Đổng Thị trị đau cứng cổ gáy và bệnh lý toàn bộ cột sống.",
+    "westernMechanism": "Kích thích thần kinh chày, thần kinh mác sâu/nông và thần kinh hiển (L4-S2); điều hòa miễn dịch, cải thiện chức năng lọc cầu thận, nhu động dạ dày - ruột và phục hồi dẫn truyền vận động.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-128-77-02",
+    "code": "77.02",
+    "name": "Chính Tông",
+    "chineseName": "正宗",
+    "vietnameseName": "Huyệt Chính Tông",
+    "zone": "Khu 77 (Cẳng chân)",
+    "zoneDescription": "Hệ thống huyệt cẳng chân Tiểu Thối Bộ",
+    "location": "Mặt sau cổ chân, nằm chính giữa trên gân gót Achilles, phía trên huyệt Chính Cân (77.01) 2 thốn (cách đáy gót chân lên 5,5 thốn).",
+    "anatomy": "Gân gót Achilles, thần kinh bắp chân. Quy kinh: Bàng quang, Đốc mạch, Não.",
+    "indications": [
+      "Đau cứng cổ gáy, thoái hóa đốt sống cổ lan xuống vai",
+      "Đau thắt lưng, đau thần kinh tọa",
+      "Phù não, chấn thương sọ não"
+    ],
+    "needlingMethod": "Châm thẳng xuyên qua gân Achilles sâu 5 - 8 phân. Luôn châm Đảo mã cùng Chính Cân (77.01).",
+    "dongQiInstruction": "Vừa vê kim Chính Cân - Chính Tông vừa bảo bệnh nhân xoay cổ gáy từ từ, cơn đau cổ gáy biến mất ngay dưới mũi kim.",
+    "westernMechanism": "Kích thích thần kinh chày, thần kinh mác sâu/nông và thần kinh hiển (L4-S2); điều hòa miễn dịch, cải thiện chức năng lọc cầu thận, nhu động dạ dày - ruột và phục hồi dẫn truyền vận động.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-129-77-03",
+    "code": "77.03",
+    "name": "Chính Sĩ",
+    "chineseName": "正士",
+    "vietnameseName": "Huyệt Chính Sĩ",
+    "zone": "Khu 77 (Cẳng chân)",
+    "zoneDescription": "Hệ thống huyệt cẳng chân Tiểu Thối Bộ",
+    "location": "Mặt sau cẳng chân, nằm chính giữa bắp chân trên đường nối từ Chính Tông lên khoeo chân, phía trên huyệt Chính Tông (77.02) 2 thốn (cách đáy gót chân 7,5 thốn).",
+    "anatomy": "Cơ bụng chân, thần kinh bì bắp chân. Quy kinh: Bàng quang, Phế, Thận.",
+    "indications": [
+      "Đau vai, đau lưng trên, đau cột sống ngực",
+      "Đau thắt lưng, đau thần kinh tọa",
+      "Khó thở, hen suyễn"
+    ],
+    "needlingMethod": "Châm thẳng sâu 5 phân - 1 thốn.",
+    "dongQiInstruction": "Chính Cân - Chính Tông - Chính Sĩ tạo thành bộ Tam Chính thông suốt toàn bộ Đốc mạch từ xương cùng lên đại não.",
+    "westernMechanism": "Kích thích thần kinh chày, thần kinh mác sâu/nông và thần kinh hiển (L4-S2); điều hòa miễn dịch, cải thiện chức năng lọc cầu thận, nhu động dạ dày - ruột và phục hồi dẫn truyền vận động.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-130-77-04",
+    "code": "77.04",
+    "name": "Bác Cầu",
+    "chineseName": "搏球",
+    "vietnameseName": "Huyệt Bác Cầu",
+    "zone": "Khu 77 (Cẳng chân)",
+    "zoneDescription": "Hệ thống huyệt cẳng chân Tiểu Thối Bộ",
+    "location": "Mặt sau bắp chân, phía trên huyệt Chính Sĩ (77.03) 2,5 thốn (gần vị trí huyệt Thừa Sơn kinh Bàng Quang).",
+    "anatomy": "Chỗ tiếp nối hai đầu cơ bụng chân, thần kinh chày. Quy kinh: Phế, Thận.",
+    "indications": [
+      "Chuột rút bắp chân (Vọp bẻ), đau nhức bắp chân",
+      "Đau lưng, đau cột sống ngực và thắt lưng",
+      "Trĩ nội, trĩ ngoại, chảy máu mũi"
+    ],
+    "needlingMethod": "Châm thẳng sâu 1 - 2 thốn.",
+    "dongQiInstruction": "Đặc trị chứng co rút gân cơ bắp chân (chuột rút ban đêm) và đau mỏi thắt lưng.",
+    "westernMechanism": "Kích thích thần kinh chày, thần kinh mác sâu/nông và thần kinh hiển (L4-S2); điều hòa miễn dịch, cải thiện chức năng lọc cầu thận, nhu động dạ dày - ruột và phục hồi dẫn truyền vận động.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-131-77-05",
+    "code": "77.05",
+    "name": "Nhất Trọng",
+    "chineseName": "一重",
+    "vietnameseName": "Huyệt Nhất Trọng",
+    "zone": "Khu 77 (Cẳng chân)",
+    "zoneDescription": "Hệ thống huyệt cẳng chân Tiểu Thối Bộ",
+    "location": "Mặt ngoài cẳng chân, từ đỉnh mắt cá chân ngoài đo thẳng lên 3 thốn rồi đo ra phía trước bờ xương mác 1 thốn.",
+    "anatomy": "Cơ mác dài và cơ duỗi dài các ngón chân, thần kinh mác nông. Quy kinh: Tâm, Phế, Tỳ.",
+    "indications": [
+      "Cường giáp (Basedow), bướu cổ, mắt lồi",
+      "Lách to (Tỳ thũng đại), xơ gan, u vú, viêm tuyến vú",
+      "Liệt dây thần kinh mặt (Liệt VII ngoại biên), đau nửa đầu",
+      "Trúng phong bán thân bất toại, u não, viêm màng não"
+    ],
+    "needlingMethod": "Châm thẳng sâu 1 - 2 thốn. Luôn phối hợp Nhị Trọng (77.06) và Tam Trọng (77.07) thành bộ Tam Trọng.",
+    "dongQiInstruction": "Tam Trọng (Nhất Trọng, Nhị Trọng, Tam Trọng) là Đệ nhất Phá khí hành huyết tiêu u huyệt của Đổng Thị, chuyên trị mọi khối u bướu (u tuyến giáp, u vú, u tử cung, u não) và trúng phong.",
+    "westernMechanism": "Kích thích thần kinh chày, thần kinh mác sâu/nông và thần kinh hiển (L4-S2); điều hòa miễn dịch, cải thiện chức năng lọc cầu thận, nhu động dạ dày - ruột và phục hồi dẫn truyền vận động.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-132-77-06",
+    "code": "77.06",
+    "name": "Nhị Trọng",
+    "chineseName": "二重",
+    "vietnameseName": "Huyệt Nhị Trọng",
+    "zone": "Khu 77 (Cẳng chân)",
+    "zoneDescription": "Hệ thống huyệt cẳng chân Tiểu Thối Bộ",
+    "location": "Mặt ngoài cẳng chân, nằm ngay phía trên huyệt Nhất Trọng (77.05) 2 thốn (cách mắt cá ngoài lên 5 thốn, ra trước 1 thốn).",
+    "anatomy": "Nhánh thần kinh mác nông và mác sâu. Quy kinh: Tâm, Phế, Tỳ.",
+    "indications": [
+      "Bướu cổ, cường giáp, viêm tuyến giáp",
+      "U vú, tăng sinh tuyến vú, u xơ tử cung, u não",
+      "Đau nửa đầu, liệt mặt, di chứng tai biến mạch máu não",
+      "Lách to, gan to, viêm gan mạn"
+    ],
+    "needlingMethod": "Châm thẳng sâu 1 - 2 thốn hoặc chích nặn máu tĩnh mạch.",
+    "dongQiInstruction": "Châm Đảo mã Tam Trọng vừa phá huyết ứ vừa trừ đàm trọc kết tụ lâu ngày.",
+    "westernMechanism": "Kích thích thần kinh chày, thần kinh mác sâu/nông và thần kinh hiển (L4-S2); điều hòa miễn dịch, cải thiện chức năng lọc cầu thận, nhu động dạ dày - ruột và phục hồi dẫn truyền vận động.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-133-77-07",
+    "code": "77.07",
+    "name": "Tam Trọng",
+    "chineseName": "三重",
+    "vietnameseName": "Huyệt Tam Trọng",
+    "zone": "Khu 77 (Cẳng chân)",
+    "zoneDescription": "Hệ thống huyệt cẳng chân Tiểu Thối Bộ",
+    "location": "Mặt ngoài cẳng chân, nằm ngay phía trên huyệt Nhị Trọng (77.06) 2 thốn (cách mắt cá ngoài lên 7 thốn, ra trước 1 thốn).",
+    "anatomy": "Nhánh thần kinh mác nông và mác sâu. Quy kinh: Tâm, Phế, Tỳ.",
+    "indications": [
+      "Tiêu u bướu toàn thân (bướu giáp, u vú, u não, hạch cổ tràng nhạc)",
+      "Trúng phong liệt nửa người, đau nửa đầu dữ dội",
+      "Viêm màng não, chấn thương sọ não, lách to"
+    ],
+    "needlingMethod": "Châm thẳng sâu 1 - 2 thốn, hoặc dùng kim tam lăng chích nặn máu vùng Tam Trọng.",
+    "dongQiInstruction": "Mọi chứng bệnh quái ác, u cục, huyết ứ lâu ngày không tan đều lấy Tam Trọng châm hoặc trích huyết làm chủ.",
+    "westernMechanism": "Kích thích thần kinh chày, thần kinh mác sâu/nông và thần kinh hiển (L4-S2); điều hòa miễn dịch, cải thiện chức năng lọc cầu thận, nhu động dạ dày - ruột và phục hồi dẫn truyền vận động.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-134-77-08",
+    "code": "77.08",
+    "name": "Tứ Hoa Thượng",
+    "chineseName": "四花上",
+    "vietnameseName": "Huyệt Tứ Hoa Thượng",
+    "zone": "Khu 77 (Cẳng chân)",
+    "zoneDescription": "Hệ thống huyệt cẳng chân Tiểu Thối Bộ",
+    "location": "Mặt trước ngoài cẳng chân, từ hõm mắt gối ngoài (Độc Tỵ) đo thẳng xuống 3 thốn, sát bờ ngoài mào xương chày (tương ứng vị trí huyệt Túc Tam Lý).",
+    "anatomy": "Cơ chày trước, động mạch chày trước, thần kinh mác sâu. Quy kinh: Lục phủ, Phế, Tâm.",
+    "indications": [
+      "Hen suyễn, khó thở, viêm phế quản",
+      "Bệnh tim mạch, hẹp động mạch vành, đánh trống ngực",
+      "Viêm dạ dày - ruột cấp và mạn, đau bụng, nôn mửa",
+      "Đau răng, hoa mắt chóng mặt, đau khớp vai và khuỷu tay"
+    ],
+    "needlingMethod": "Châm thẳng sâu 2 - 3 thốn (châm sâu 2 thốn trị hen suyễn, châm sâu 3 thốn trị bệnh tim).",
+    "dongQiInstruction": "Tứ Hoa Thượng phối hợp Tứ Hoa Trung (77.09) và Tứ Hoa Hạ (77.11) là đại huyệt thanh lọc Tâm Phế và kiện toàn Tỳ Vị.",
+    "westernMechanism": "Kích thích thần kinh chày, thần kinh mác sâu/nông và thần kinh hiển (L4-S2); điều hòa miễn dịch, cải thiện chức năng lọc cầu thận, nhu động dạ dày - ruột và phục hồi dẫn truyền vận động.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-135-77-09",
+    "code": "77.09",
+    "name": "Tứ Hoa Trung",
+    "chineseName": "四花中",
+    "vietnameseName": "Huyệt Tứ Hoa Trung",
+    "zone": "Khu 77 (Cẳng chân)",
+    "zoneDescription": "Hệ thống huyệt cẳng chân Tiểu Thối Bộ",
+    "location": "Mặt trước ngoài cẳng chân, từ huyệt Tứ Hoa Thượng (77.08) đo thẳng xuống 4,5 thốn (tức cách hõm mắt gối ngoài xuống 7,5 thốn, sát bờ ngoài xương chày).",
+    "anatomy": "Cơ chày trước, thần kinh mác sâu, mạng tĩnh mạch nông cẳng chân. Quy kinh: Tâm, Phế, Lục phủ.",
+    "indications": [
+      "Bệnh động mạch vành, nhồi máu cơ tim, xơ cứng động mạch, viêm cơ tim",
+      "Hen suyễn cấp, tràn dịch màng phổi, lao phổi",
+      "Viêm dạ dày cấp, viêm ruột, đau khối u trong bụng",
+      "Đau nhức khớp vai, khuỷu tay, sưng đau ngón tay trỏ",
+      "Đau nhức nhãn cầu, chắp lẹo mắt"
+    ],
+    "needlingMethod": "Châm thẳng sâu 2 - 3 thốn, hoặc dùng kim tam lăng chích nặn máu đen tại các tĩnh mạch nổi quanh Tứ Hoa Trung - Tứ Hoa Ngoại.",
+    "dongQiInstruction": "Trích huyết tại Tứ Hoa Trung & Tứ Hoa Ngoại là tuyệt kỹ số 1 của Đổng Công trị bệnh mạch vành tim, đau dạ dày cấp và viêm quanh khớp vai.",
+    "westernMechanism": "Kích thích thần kinh chày, thần kinh mác sâu/nông và thần kinh hiển (L4-S2); điều hòa miễn dịch, cải thiện chức năng lọc cầu thận, nhu động dạ dày - ruột và phục hồi dẫn truyền vận động.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-136-77-10",
+    "code": "77.10",
+    "name": "Tứ Hoa Phó",
+    "chineseName": "四花副",
+    "vietnameseName": "Huyệt Tứ Hoa Phó",
+    "zone": "Khu 77 (Cẳng chân)",
+    "zoneDescription": "Hệ thống huyệt cẳng chân Tiểu Thối Bộ",
+    "location": "Mặt trước ngoài cẳng chân, nằm ngay phía dưới huyệt Tứ Hoa Trung (77.09) 2,5 thốn (cách hõm gối ngoài xuống 10 thốn).",
+    "anatomy": "Cơ chày trước, thần kinh mác sâu. Quy kinh: Tâm, Phế, Lục phủ.",
+    "indications": [
+      "Tương tự Tứ Hoa Trung: Bệnh tim mạch, hen suyễn, viêm dạ dày - ruột",
+      "Đau bụng kinh, sưng đau khớp vai và bàn chân"
+    ],
+    "needlingMethod": "Châm thẳng sâu 1,5 - 2,5 thốn hoặc chích nặn máu tĩnh mạch.",
+    "dongQiInstruction": "Thường châm Đảo mã cùng Tứ Hoa Hạ (77.11) để thông giáng vị khí và trừ trướng bụng.",
+    "westernMechanism": "Kích thích thần kinh chày, thần kinh mác sâu/nông và thần kinh hiển (L4-S2); điều hòa miễn dịch, cải thiện chức năng lọc cầu thận, nhu động dạ dày - ruột và phục hồi dẫn truyền vận động.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-137-77-11",
+    "code": "77.11",
+    "name": "Tứ Hoa Hạ",
+    "chineseName": "四花下",
+    "vietnameseName": "Huyệt Tứ Hoa Hạ",
+    "zone": "Khu 77 (Cẳng chân)",
+    "zoneDescription": "Hệ thống huyệt cẳng chân Tiểu Thối Bộ",
+    "location": "Mặt trước ngoài cẳng chân, từ huyệt Tứ Hoa Phó (77.10) đo xuống 2,5 thốn (cách hõm gối ngoài xuống 12,5 thốn).",
+    "anatomy": "Cơ duỗi dài các ngón chân, thần kinh mác sâu. Quy kinh: Lục phủ, Tỳ, Thận.",
+    "indications": [
+      "Viêm ruột, đầy hơi trướng bụng, khó tiêu, phù thũng",
+      "Tật nghiến răng khi ngủ (Ma nha)",
+      "Gai xương gót chân, sưng đau mu bàn chân"
+    ],
+    "needlingMethod": "Châm thẳng sâu 1 - 2 thốn. Thường châm Đảo mã cùng Phủ Trường (77.12).",
+    "dongQiInstruction": "Tứ Hoa Hạ phối hợp Phủ Trường là bộ huyệt đặc hiệu nhất trị tật nghiến răng khi ngủ và đầy chướng đường ruột.",
+    "westernMechanism": "Kích thích thần kinh chày, thần kinh mác sâu/nông và thần kinh hiển (L4-S2); điều hòa miễn dịch, cải thiện chức năng lọc cầu thận, nhu động dạ dày - ruột và phục hồi dẫn truyền vận động.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-138-77-12",
+    "code": "77.12",
+    "name": "Phủ Trường",
+    "chineseName": "腑腸",
+    "vietnameseName": "Huyệt Phủ Trường",
+    "zone": "Khu 77 (Cẳng chân)",
+    "zoneDescription": "Hệ thống huyệt cẳng chân Tiểu Thối Bộ",
+    "location": "Mặt trước ngoài cẳng chân, nằm ngay phía trên huyệt Tứ Hoa Hạ (77.11) 1,5 thốn (cách hõm gối ngoài xuống 11 thốn).",
+    "anatomy": "Cơ chày trước, thần kinh mác sâu. Quy kinh: Lục phủ, Tâm, Thận.",
+    "indications": [
+      "Viêm ruột, tiêu chảy, đầy bụng sôi bụng",
+      "Nghiến răng khi ngủ, đau mỏi thắt lưng"
+    ],
+    "needlingMethod": "Châm thẳng sâu 1 - 2 thốn, châm Đảo mã cùng Tứ Hoa Hạ (77.11).",
+    "dongQiInstruction": "Giúp điều hòa nhu động đại - tiểu trường và kiện tỳ hóa thấp.",
+    "westernMechanism": "Kích thích thần kinh chày, thần kinh mác sâu/nông và thần kinh hiển (L4-S2); điều hòa miễn dịch, cải thiện chức năng lọc cầu thận, nhu động dạ dày - ruột và phục hồi dẫn truyền vận động.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-139-77-13",
+    "code": "77.13",
+    "name": "Tứ Hoa Lý",
+    "chineseName": "四花裡",
+    "vietnameseName": "Huyệt Tứ Hoa Lý",
+    "zone": "Khu 77 (Cẳng chân)",
+    "zoneDescription": "Hệ thống huyệt cẳng chân Tiểu Thối Bộ",
+    "location": "Mặt trước trong cẳng chân, từ huyệt Tứ Hoa Trung (77.09) đo ngang vào phía trong mào xương chày 1,2 thốn (bám sát bờ trong xương chày).",
+    "anatomy": "Nhánh thần kinh hiển, tĩnh mạch hiển lớn. Quy kinh: Tâm, Phế, Tỳ.",
+    "indications": [
+      "Viêm dạ dày - ruột cấp và mạn, nôn mửa, tiêu chảy",
+      "Bệnh tim mạch, đánh trống ngực, hen suyễn",
+      "Chóng mặt, ù tai"
+    ],
+    "needlingMethod": "Châm thẳng sâu 1,5 - 2 thốn hoặc chích nặn máu.",
+    "dongQiInstruction": "Phối hợp Tứ Hoa Trung tạo thế kẹp hai bên xương chày tăng cường hiệu lực lên hệ tiêu hóa và tim phổi.",
+    "westernMechanism": "Kích thích thần kinh chày, thần kinh mác sâu/nông và thần kinh hiển (L4-S2); điều hòa miễn dịch, cải thiện chức năng lọc cầu thận, nhu động dạ dày - ruột và phục hồi dẫn truyền vận động.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-140-77-14",
+    "code": "77.14",
+    "name": "Tứ Hoa Ngoại",
+    "chineseName": "四花外",
+    "vietnameseName": "Huyệt Tứ Hoa Ngoại",
+    "zone": "Khu 77 (Cẳng chân)",
+    "zoneDescription": "Hệ thống huyệt cẳng chân Tiểu Thối Bộ",
+    "location": "Mặt trước ngoài cẳng chân, từ huyệt Tứ Hoa Trung (77.09) đo ngang ra phía ngoài 1,5 thốn (gần vị trí huyệt Phong Long).",
+    "anatomy": "Cơ duỗi dài các ngón chân và cơ mác dài, thần kinh mác nông. Quy kinh: Phế, Lục phủ.",
+    "indications": [
+      "Đau nửa đầu, đau răng cấp, liệt mặt",
+      "Viêm dạ dày - ruột cấp, đau sườn ngực, viêm màng phổi",
+      "Đau khớp vai, đau khuỷu tay, đau thần kinh tọa",
+      "Cao huyết áp, di chứng trúng phong"
+    ],
+    "needlingMethod": "Châm thẳng sâu 1,5 - 2,5 thốn, hoặc dùng kim tam lăng chích nặn máu đen tại các tĩnh mạch nổi.",
+    "dongQiInstruction": "Chích máu Tứ Hoa Trung + Tứ Hoa Ngoại là pháp bảo trị bách bệnh mạn tính do huyết ứ đàm trọc (cao huyết áp, bệnh tim, đau dạ dày, viêm khớp vai).",
+    "westernMechanism": "Kích thích thần kinh chày, thần kinh mác sâu/nông và thần kinh hiển (L4-S2); điều hòa miễn dịch, cải thiện chức năng lọc cầu thận, nhu động dạ dày - ruột và phục hồi dẫn truyền vận động.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-141-77-15",
+    "code": "77.15",
+    "name": "Thượng Thần",
+    "chineseName": "上唇",
+    "vietnameseName": "Huyệt Thượng Thần",
+    "zone": "Khu 77 (Cẳng chân)",
+    "zoneDescription": "Hệ thống huyệt cẳng chân Tiểu Thối Bộ",
+    "location": "Mặt trước đầu gối, chính giữa bờ dưới xương bánh chè trên dây chằng bánh chè.",
+    "anatomy": "Dây chằng bánh chè, mạng mạch khớp gối. Quy kinh: Thận, Tỳ, Vị.",
+    "indications": [
+      "Lở loét môi miệng (Khẩu thần sinh sang), bạch biến vùng môi và quanh miệng",
+      "Đau khớp gối"
+    ],
+    "needlingMethod": "Dùng kim tam lăng chích nặn máu đen tại huyệt và quanh vùng dưới bánh chè.",
+    "dongQiInstruction": "Theo đồng khí tương cầu: Xương bánh chè và dây chằng bánh chè phản chiếu miệng và hai môi; chích máu Thượng Thần & Hạ Thần trị lở môi miệng và bạch biến cực hay.",
+    "westernMechanism": "Kích thích thần kinh chày, thần kinh mác sâu/nông và thần kinh hiển (L4-S2); điều hòa miễn dịch, cải thiện chức năng lọc cầu thận, nhu động dạ dày - ruột và phục hồi dẫn truyền vận động.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-142-77-16",
+    "code": "77.16",
+    "name": "Hạ Thần",
+    "chineseName": "下唇",
+    "vietnameseName": "Huyệt Hạ Thần",
+    "zone": "Khu 77 (Cẳng chân)",
+    "zoneDescription": "Hệ thống huyệt cẳng chân Tiểu Thối Bộ",
+    "location": "Mặt trước dưới đầu gối, nằm ngay phía dưới huyệt Thượng Thần (77.15) 1 thốn trên dây chằng bánh chè.",
+    "anatomy": "Dây chằng bánh chè, nhánh thần kinh hiển. Quy kinh: Thận, Tỳ, Vị.",
+    "indications": [
+      "Lở miệng, viêm nhiệt môi miệng, nấm miệng trẻ em",
+      "Bạch biến vùng môi và bộ phận sinh dục"
+    ],
+    "needlingMethod": "Dùng kim tam lăng chích nặn máu đen.",
+    "dongQiInstruction": "Luôn phối hợp cùng Thượng Thần (77.15) để thanh tả nhiệt độc ở Tỳ Vị.",
+    "westernMechanism": "Kích thích thần kinh chày, thần kinh mác sâu/nông và thần kinh hiển (L4-S2); điều hòa miễn dịch, cải thiện chức năng lọc cầu thận, nhu động dạ dày - ruột và phục hồi dẫn truyền vận động.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-143-77-17",
+    "code": "77.17",
+    "name": "Thiên Hoàng",
+    "chineseName": "天皇",
+    "vietnameseName": "Huyệt Thiên Hoàng",
+    "zone": "Khu 77 (Cẳng chân)",
+    "zoneDescription": "Hệ thống huyệt cẳng chân Tiểu Thối Bộ",
+    "location": "Mặt trong cẳng chân, nằm ngay chỗ lõm bờ dưới lồi cầu trong xương chày (tương ứng vị trí huyệt Âm Lăng Tuyền kinh Tỳ).",
+    "anatomy": "Nhánh thần kinh hiển, tĩnh mạch hiển lớn. Quy kinh: Thận, Tỳ, Tâm.",
+    "indications": [
+      "Đái tháo đường (Tiểu đường), protein niệu, viêm thận, phù thũng",
+      "Tăng huyết áp, bệnh mạch vành tim, chóng mặt, mất ngủ",
+      "Trào ngược dạ dày, ợ chua, nôn trớ"
+    ],
+    "needlingMethod": "Châm thẳng sâu 1 - 2 thốn. Phụ nữ có thai cấm châm.",
+    "dongQiInstruction": "Thiên Hoàng (77.17) hoặc Thận Quan (77.18) phối hợp Địa Hoàng (77.19) và Nhân Hoàng (77.21) tạo thành bộ Hạ Tam Hoàng (Tam Hoàng Bổ Thận) nổi tiếng nhất của Đổng Thị.",
+    "westernMechanism": "Kích thích thần kinh chày, thần kinh mác sâu/nông và thần kinh hiển (L4-S2); điều hòa miễn dịch, cải thiện chức năng lọc cầu thận, nhu động dạ dày - ruột và phục hồi dẫn truyền vận động.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-144-77-18",
+    "code": "77.18",
+    "name": "Thận Quan",
+    "chineseName": "腎關",
+    "vietnameseName": "Huyệt Thận Quan",
+    "zone": "Khu 77 (Cẳng chân)",
+    "zoneDescription": "Hệ thống huyệt cẳng chân Tiểu Thối Bộ",
+    "location": "Mặt trong cẳng chân, từ huyệt Thiên Hoàng (Âm Lăng Tuyền - 77.17) đo thẳng xuống dưới 1,5 thốn, sát bờ sau xương chày.",
+    "anatomy": "Cơ gấp dài các ngón chân, thần kinh hiển và thần kinh chày. Quy kinh: Thận, Lục phủ.",
+    "indications": [
+      "Đệ nhất Bổ Thận Dương & Thận Khí: Đau thắt lưng, đau thần kinh tọa, tiểu đêm, di tinh, liệt dương",
+      "Viêm quanh khớp vai (Đông kiên), đau cổ gáy, tê bì bàn tay",
+      "Đái tháo đường, viêm thận, suy thận, thống풍 (Gout)",
+      "Đau đầu đỉnh đầu và vùng trán, chóng mặt, loạn thị, cận thị",
+      "Trào ngược dạ dày (ợ chua), nấc cụt, suy nhược toàn thân"
+    ],
+    "needlingMethod": "Châm thẳng vuông góc sát bờ sau xương chày sâu 1,5 - 2 thốn (bổ Thận thì châm thẳng, trị đau vai gáy thì châm hơi xiên hướng ra sau).",
+    "dongQiInstruction": "Thận Quan là một trong 4 đại huyệt quan trọng nhất của Đổng Thị (cùng Linh Cốt, Đại Bạch, Hỏa Chủ); thường thay thế Thiên Hoàng để lập thành bộ Hạ Tam Hoàng (Thận Quan - Địa Hoàng - Nhân Hoàng).",
+    "westernMechanism": "Kích thích thần kinh chày, thần kinh mác sâu/nông và thần kinh hiển (L4-S2); điều hòa miễn dịch, cải thiện chức năng lọc cầu thận, nhu động dạ dày - ruột và phục hồi dẫn truyền vận động.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-145-77-19",
+    "code": "77.19",
+    "name": "Địa Hoàng",
+    "chineseName": "地皇",
+    "vietnameseName": "Huyệt Địa Hoàng",
+    "zone": "Khu 77 (Cẳng chân)",
+    "zoneDescription": "Hệ thống huyệt cẳng chân Tiểu Thối Bộ",
+    "location": "Mặt trong cẳng chân, từ đỉnh mắt cá chân trong đo thẳng lên 7 thốn, sát bờ sau xương chày (tương ứng vùng huyệt Lậu Cốc lên 1 thốn).",
+    "anatomy": "Thần kinh hiển, thần kinh chày sau. Quy kinh: Thận.",
+    "indications": [
+      "Viêm thận cấp và mạn, phù thũng tứ chi, đái tháo đường",
+      "Tiểu rắt, tiểu buốt, tiểu ra máu, liệt dương, di tinh, xuất tinh sớm",
+      "Tử cung lạnh vô sinh, kinh nguyệt không đều, đau thắt lưng do thận hư"
+    ],
+    "needlingMethod": "Châm thẳng hoặc xiên 45 độ lên trên sâu 1 - 2 thốn. Phụ nữ có thai cấm châm.",
+    "dongQiInstruction": "Huyệt chủ lực trong bộ Hạ Tam Hoàng chuyên tư bổ Thận âm và cố sáp tinh huyết.",
+    "westernMechanism": "Kích thích thần kinh chày, thần kinh mác sâu/nông và thần kinh hiển (L4-S2); điều hòa miễn dịch, cải thiện chức năng lọc cầu thận, nhu động dạ dày - ruột và phục hồi dẫn truyền vận động.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-146-77-20",
+    "code": "77.20",
+    "name": "Tứ Chi",
+    "chineseName": "四肢",
+    "vietnameseName": "Huyệt Tứ Chi",
+    "zone": "Khu 77 (Cẳng chân)",
+    "zoneDescription": "Hệ thống huyệt cẳng chân Tiểu Thối Bộ",
+    "location": "Mặt trong cẳng chân, từ đỉnh mắt cá chân trong đo thẳng lên 4,5 thốn, sát bờ sau xương chày.",
+    "anatomy": "Nhánh thần kinh hiển và thần kinh chày. Quy kinh: Thận, Tứ chi.",
+    "indications": [
+      "Đau nhức khắp tứ chi (tay và chân đều đau mỏi, tê bại)",
+      "Đau cổ gáy, đau khớp vai, đái tháo đường"
+    ],
+    "needlingMethod": "Châm xiên 30 độ từ dưới lên trên sâu 1 - 1,5 thốn. Phụ nữ có thai cấm châm.",
+    "dongQiInstruction": "Đúng như tên gọi Tứ Chi, huyệt này thông suốt kinh lạc cả hai tay và hai chân, đặc trị chứng phong thấp đau mỏi tứ chi.",
+    "westernMechanism": "Kích thích thần kinh chày, thần kinh mác sâu/nông và thần kinh hiển (L4-S2); điều hòa miễn dịch, cải thiện chức năng lọc cầu thận, nhu động dạ dày - ruột và phục hồi dẫn truyền vận động.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-147-77-21",
+    "code": "77.21",
+    "name": "Nhân Hoàng",
+    "chineseName": "人皇",
+    "vietnameseName": "Huyệt Nhân Hoàng",
+    "zone": "Khu 77 (Cẳng chân)",
+    "zoneDescription": "Hệ thống huyệt cẳng chân Tiểu Thối Bộ",
+    "location": "Mặt trong cẳng chân, từ đỉnh mắt cá chân trong đo thẳng lên 3,5 thốn, sát bờ sau xương chày (phía trên huyệt Tam Âm Giao 0,5 thốn).",
+    "anatomy": "Thần kinh hiển, động mạch và thần kinh chày sau. Quy kinh: Thận, Can, Tỳ.",
+    "indications": [
+      "Đái tháo đường, viêm thận, phù thũng, sỏi tiết niệu",
+      "Di tinh, mộng tinh, liệt dương, vô sinh nam nữ, thống kinh",
+      "Đau cột sống thắt lưng, đau cổ gáy, tê bì bàn tay và bàn chân",
+      "Chóng mặt, ù tai, mất ngủ"
+    ],
+    "needlingMethod": "Châm thẳng sâu 1 - 1,5 thốn. Phụ nữ có thai tuyệt đối cấm châm.",
+    "dongQiInstruction": "Hoàn thiện bộ Hạ Tam Hoàng (Thiên Hoàng/Thận Quan - Địa Hoàng - Nhân Hoàng): Thánh phương bổ Thận, kiện Tỳ, sơ Can trị mọi bệnh nội tiết, tiết niệu và sinh dục.",
+    "westernMechanism": "Kích thích thần kinh chày, thần kinh mác sâu/nông và thần kinh hiển (L4-S2); điều hòa miễn dịch, cải thiện chức năng lọc cầu thận, nhu động dạ dày - ruột và phục hồi dẫn truyền vận động.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-148-77-22",
+    "code": "77.22",
+    "name": "Trắc Tam Lý",
+    "chineseName": "側三里",
+    "vietnameseName": "Huyệt Trắc Tam Lý",
+    "zone": "Khu 77 (Cẳng chân)",
+    "zoneDescription": "Hệ thống huyệt cẳng chân Tiểu Thối Bộ",
+    "location": "Mặt trước ngoài cẳng chân, từ huyệt Tứ Hoa Thượng (Túc Tam Lý - 77.08) đo ngang ra phía ngoài 1,5 thốn (sát bờ trước xương mác).",
+    "anatomy": "Cơ mác dài, thần kinh mác nông và sâu. Quy kinh: Phế, Răng.",
+    "indications": [
+      "Đau dây thần kinh tam thoa (Đau dây V), liệt dây thần kinh mặt (Liệt VII)",
+      "Đau răng dữ dội, viêm nha chu, đau nửa đầu",
+      "Viêm họng, sưng amidan, bướu cổ"
+    ],
+    "needlingMethod": "Châm thẳng sâu 1 - 2 thốn. Luôn châm Đảo mã cùng Trắc Hạ Tam Lý (77.23).",
+    "dongQiInstruction": "Trắc Tam Lý & Trắc Hạ Tam Lý châm bên đối diện là bộ huyệt số 1 của Đổng Thị trị Đau dây thần kinh tam thoa (dây V) và Liệt mặt (dây VII).",
+    "westernMechanism": "Kích thích thần kinh chày, thần kinh mác sâu/nông và thần kinh hiển (L4-S2); điều hòa miễn dịch, cải thiện chức năng lọc cầu thận, nhu động dạ dày - ruột và phục hồi dẫn truyền vận động.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-149-77-23",
+    "code": "77.23",
+    "name": "Trắc Hạ Tam Lý",
+    "chineseName": "側下三里",
+    "vietnameseName": "Huyệt Trắc Hạ Tam Lý",
+    "zone": "Khu 77 (Cẳng chân)",
+    "zoneDescription": "Hệ thống huyệt cẳng chân Tiểu Thối Bộ",
+    "location": "Mặt trước ngoài cẳng chân, nằm ngay phía dưới huyệt Trắc Tam Lý (77.22) 2 thốn.",
+    "anatomy": "Cơ mác dài, thần kinh mác nông. Quy kinh: Phế, Răng.",
+    "indications": [
+      "Đau dây thần kinh tam thoa (dây V), liệt mặt méo miệng",
+      "Đau răng, viêm tuyến mang tai, đau sườn ngực"
+    ],
+    "needlingMethod": "Châm thẳng sâu 1 - 2 thốn. Châm Đảo mã cùng Trắc Tam Lý (77.22) bên đối diện.",
+    "dongQiInstruction": "Khi châm Trắc Tam Lý - Trắc Hạ Tam Lý kết hợp vê kim và bảo bệnh nhân nhai/cử động cơ mặt, cơn đau dây V giảm ngay lập tức.",
+    "westernMechanism": "Kích thích thần kinh chày, thần kinh mác sâu/nông và thần kinh hiển (L4-S2); điều hòa miễn dịch, cải thiện chức năng lọc cầu thận, nhu động dạ dày - ruột và phục hồi dẫn truyền vận động.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-150-77-24",
+    "code": "77.24",
+    "name": "Túc Thiên Kim",
+    "chineseName": "足千金",
+    "vietnameseName": "Huyệt Túc Thiên Kim",
+    "zone": "Khu 77 (Cẳng chân)",
+    "zoneDescription": "Hệ thống huyệt cẳng chân Tiểu Thối Bộ",
+    "location": "Mặt ngoài cẳng chân, từ huyệt Trắc Hạ Tam Lý (77.23) đo ngang ra phía ngoài 5 phân rồi đo xuống dưới 2 thốn (nằm giữa xương chày và xương mác).",
+    "anatomy": "Cơ mác dài và cơ duỗi dài các ngón chân, thần kinh mác nông. Quy kinh: Phế, Thận, Hầu họng.",
+    "indications": [
+      "Viêm ruột cấp tính, đau bụng dữ dội",
+      "Hóc xương cá ở cổ họng, viêm họng cấp, viêm amidan có mủ, bạch hầu",
+      "Đau khớp vai và bả vai, viêm tuyến giáp"
+    ],
+    "needlingMethod": "Châm thẳng sâu 1 - 2 thốn, hoặc dùng kim tam lăng chích nặn máu đen.",
+    "dongQiInstruction": "Túc Thiên Kim (77.24) & Túc Ngũ Kim (77.25) châm Đảo mã là thần phương trị hóc xương cá và viêm amidan cấp tính.",
+    "westernMechanism": "Kích thích thần kinh chày, thần kinh mác sâu/nông và thần kinh hiển (L4-S2); điều hòa miễn dịch, cải thiện chức năng lọc cầu thận, nhu động dạ dày - ruột và phục hồi dẫn truyền vận động.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-151-77-25",
+    "code": "77.25",
+    "name": "Túc Ngũ Kim",
+    "chineseName": "足五金",
+    "vietnameseName": "Huyệt Túc Ngũ Kim",
+    "zone": "Khu 77 (Cẳng chân)",
+    "zoneDescription": "Hệ thống huyệt cẳng chân Tiểu Thối Bộ",
+    "location": "Mặt ngoài cẳng chân, nằm ngay phía dưới huyệt Túc Thiên Kim (77.24) 2 thốn.",
+    "anatomy": "Cơ mác dài, thần kinh mác nông. Quy kinh: Phế, Thận, Đại trường.",
+    "indications": [
+      "Hóc xương cá, viêm họng hạt, viêm thanh quản mất tiếng",
+      "Viêm ruột cấp, kiết lỵ, đau bụng sôi ruột",
+      "Đau mỏi bả vai và cánh tay"
+    ],
+    "needlingMethod": "Châm thẳng sâu 1 - 2 thốn hoặc chích nặn máu.",
+    "dongQiInstruction": "Luôn phối hợp cùng Túc Thiên Kim (77.24) theo pháp Đảo mã.",
+    "westernMechanism": "Kích thích thần kinh chày, thần kinh mác sâu/nông và thần kinh hiển (L4-S2); điều hòa miễn dịch, cải thiện chức năng lọc cầu thận, nhu động dạ dày - ruột và phục hồi dẫn truyền vận động.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-152-77-26",
+    "code": "77.26",
+    "name": "Thất Hổ (3 Huyệt)",
+    "chineseName": "七虎",
+    "vietnameseName": "Huyệt Thất Hổ (3 Huyệt)",
+    "zone": "Khu 77 (Cẳng chân)",
+    "zoneDescription": "Hệ thống huyệt cẳng chân Tiểu Thối Bộ",
+    "location": "Mặt ngoài cổ chân, từ đỉnh mắt cá chân ngoài đo ra phía sau 1,5 thốn (giữa mắt cá ngoài và gân Achilles), từ đó đo thẳng lên 2 thốn (Thất Hổ 1), 4 thốn (Thất Hổ 2) và 6 thốn (Thất Hổ 3).",
+    "anatomy": "Thần kinh bắp chân, tĩnh mạch hiển bé. Quy kinh: Phế, Can, Xương đòn & Xương sườn.",
+    "indications": [
+      "Đau xương đòn, viêm khớp ức - đòn, đau xương ức",
+      "Đau thần kinh liên sườn, viêm màng phổi, chấn thương ngực sườn",
+      "Sưng đau vú, viêm tuyến vú"
+    ],
+    "needlingMethod": "Châm thẳng sâu 5 - 8 phân.",
+    "dongQiInstruction": "Thất Hổ là bộ huyệt đặc hiệu trị mọi chấn thương và đau nhức vùng lồng ngực, xương ức và xương đòn.",
+    "westernMechanism": "Kích thích thần kinh chày, thần kinh mác sâu/nông và thần kinh hiển (L4-S2); điều hòa miễn dịch, cải thiện chức năng lọc cầu thận, nhu động dạ dày - ruột và phục hồi dẫn truyền vận động.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-153-77-27",
+    "code": "77.27",
+    "name": "Ngoại Tam Quan (3 Huyệt)",
+    "chineseName": "外三關",
+    "vietnameseName": "Huyệt Ngoại Tam Quan (3 Huyệt)",
+    "zone": "Khu 77 (Cẳng chân)",
+    "zoneDescription": "Hệ thống huyệt cẳng chân Tiểu Thối Bộ",
+    "location": "Mặt ngoài cẳng chân, trên đường thẳng nối từ chỏm xương mác đến đỉnh mắt cá chân ngoài: Chia đoạn thẳng làm 4 phần đều nhau, lấy 3 điểm ở 1/4 dưới (Ngoại Tam Quan 1), 1/2 giữa (Ngoại Tam Quan 2) và 1/4 trên (Ngoại Tam Quan 3).",
+    "anatomy": "Cơ mác dài, thần kinh mác nông. Quy kinh: Phế.",
+    "indications": [
+      "Ung thư các loại (ung thư phổi, ung thư vòm họng, u ác tính), khối u bướu toàn thân",
+      "Viêm amidan cấp, viêm tuyến mang tai (Quai bị), lao hạch cổ (Tràng nhạc)",
+      "Đau khớp vai, cánh tay không giơ lên được, đau thần kinh tọa"
+    ],
+    "needlingMethod": "Châm thẳng sâu 1 - 1,5 thốn hoặc dùng kim tam lăng chích nặn máu.",
+    "dongQiInstruction": "Ngoại Tam Quan cùng với Tam Trọng là hai bộ huyệt kháng ung thư và tiêu u bướu mạnh nhất trong y học Đổng Thị.",
+    "westernMechanism": "Kích thích thần kinh chày, thần kinh mác sâu/nông và thần kinh hiển (L4-S2); điều hòa miễn dịch, cải thiện chức năng lọc cầu thận, nhu động dạ dày - ruột và phục hồi dẫn truyền vận động.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-154-77-28",
+    "code": "77.28",
+    "name": "Quang Minh",
+    "chineseName": "光明",
+    "vietnameseName": "Huyệt Quang Minh",
+    "zone": "Khu 77 (Cẳng chân)",
+    "zoneDescription": "Hệ thống huyệt cẳng chân Tiểu Thối Bộ",
+    "location": "Mặt trong cổ chân, từ đỉnh mắt cá chân trong đo ra phía sau 1 thốn rồi đo thẳng lên trên 2 thốn (tương ứng vị trí huyệt Phục Lưu kinh Thận).",
+    "anatomy": "Thần kinh chày và thần kinh hiển. Quy kinh: Thận, Can, Mắt.",
+    "indications": [
+      "Loạn thị, đục thủy tinh thể, teo dây thần kinh thị giác",
+      "Mờ mắt, hoa mắt, mỏi mắt, chảy nước mắt sống"
+    ],
+    "needlingMethod": "Châm thẳng sâu 5 phân - 1 thốn.",
+    "dongQiInstruction": "Quang Minh phối hợp Thận Quan (77.18) chuyên bổ Thận thủy dưỡng Can mộc để làm sáng mắt.",
+    "westernMechanism": "Kích thích thần kinh chày, thần kinh mác sâu/nông và thần kinh hiển (L4-S2); điều hòa miễn dịch, cải thiện chức năng lọc cầu thận, nhu động dạ dày - ruột và phục hồi dẫn truyền vận động.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-155-88-01",
+    "code": "88.01",
+    "name": "Thông Quan",
+    "chineseName": "通關",
+    "vietnameseName": "Huyệt Thông Quan",
+    "zone": "Khu 88 (Đùi)",
+    "zoneDescription": "Hệ thống huyệt mặt trong, trước và ngoài đùi Đại Thối Bộ",
+    "location": "Mặt trước đùi, trên đường chính giữa mặt trước đùi, từ điểm giữa bờ trên xương bánh chè đo thẳng lên 5 thốn.",
+    "anatomy": "Cơ thẳng đùi (cơ tứ đầu đùi), thần kinh đùi. Quy kinh: Tâm.",
+    "indications": [
+      "Bệnh lý tim mạch: Thiếu máu cơ tim, hẹp van tim, đau thắt ngực, hồi hộp đánh trống ngực",
+      "Chóng mặt, hoa mắt do thiếu máu lên não, huyết áp thấp hoặc cao",
+      "Đau dạ dày, đau tức vùng thượng vị, mệt mỏi tứ chi"
+    ],
+    "needlingMethod": "Châm thẳng sâu 1 - 1,5 thốn.",
+    "dongQiInstruction": "Thông Quan (88.01) - Thông Sơn (88.02) - Thông Thiên (88.03) hợp thành bộ Tâm Tam Thông (Thượng Tam Thông), là Đệ nhất Cường Tâm Hoạt Huyết phương của Đổng Công trị mọi bệnh lý về Tim.",
+    "westernMechanism": "Kích thích các bó cơ lớn vùng đùi và thân thần kinh đùi (L2-L4), thần kinh bịt, thần kinh bì đùi ngoài; tăng cường cung lượng tim, tuần hoàn gan - thận và phục hồi liệt trung ương.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-156-88-02",
+    "code": "88.02",
+    "name": "Thông Sơn",
+    "chineseName": "通山",
+    "vietnameseName": "Huyệt Thông Sơn",
+    "zone": "Khu 88 (Đùi)",
+    "zoneDescription": "Hệ thống huyệt mặt trong, trước và ngoài đùi Đại Thối Bộ",
+    "location": "Mặt trước đùi, trên đường chính giữa đùi, từ điểm giữa bờ trên xương bánh chè đo thẳng lên 7 thốn (phía trên huyệt Thông Quan 2 thốn).",
+    "anatomy": "Cơ thẳng đùi, thần kinh đùi. Quy kinh: Tâm.",
+    "indications": [
+      "Bệnh mạch vành, suy tim, nhồi máu cơ tim, loạn nhịp tim",
+      "Đau vùng thượng vị, viêm loét dạ dày",
+      "Choáng váng, thiếu máu não, đau mỏi đùi và đầu gối"
+    ],
+    "needlingMethod": "Châm thẳng sâu 1 - 2 thốn.",
+    "dongQiInstruction": "Thường chọn 2 trong 3 huyệt (Thông Quan - Thông Sơn hoặc Thông Quan - Thông Thiên) châm Đảo mã mỗi bên (không châm quá 4 kim cả hai đùi).",
+    "westernMechanism": "Kích thích các bó cơ lớn vùng đùi và thân thần kinh đùi (L2-L4), thần kinh bịt, thần kinh bì đùi ngoài; tăng cường cung lượng tim, tuần hoàn gan - thận và phục hồi liệt trung ương.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-157-88-03",
+    "code": "88.03",
+    "name": "Thông Thiên",
+    "chineseName": "通天",
+    "vietnameseName": "Huyệt Thông Thiên",
+    "zone": "Khu 88 (Đùi)",
+    "zoneDescription": "Hệ thống huyệt mặt trong, trước và ngoài đùi Đại Thối Bộ",
+    "location": "Mặt trước đùi, trên đường chính giữa đùi, từ điểm giữa bờ trên xương bánh chè đo thẳng lên 9 thốn (phía trên huyệt Thông Sơn 2 thốn).",
+    "anatomy": "Cơ thẳng đùi, thần kinh đùi. Quy kinh: Tâm, Phế.",
+    "indications": [
+      "Bệnh tim mạch, tăng huyết áp, xơ vữa mạch máu não",
+      "Phù thũng hai chi dưới do suy tim",
+      "Đau khớp gối, đau cơ đùi"
+    ],
+    "needlingMethod": "Châm thẳng sâu 1,5 - 2 thốn.",
+    "dongQiInstruction": "Bộ Tâm Tam Thông (88.01 - 88.03) giúp tăng lưu lượng tuần hoàn động mạch vành và động mạch cảnh rõ rệt.",
+    "westernMechanism": "Kích thích các bó cơ lớn vùng đùi và thân thần kinh đùi (L2-L4), thần kinh bịt, thần kinh bì đùi ngoài; tăng cường cung lượng tim, tuần hoàn gan - thận và phục hồi liệt trung ương.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-158-88-04",
+    "code": "88.04",
+    "name": "Thư Muội Nhất",
+    "chineseName": "姐妹妹一",
+    "vietnameseName": "Huyệt Thư Muội Nhất",
+    "zone": "Khu 88 (Đùi)",
+    "zoneDescription": "Hệ thống huyệt mặt trong, trước và ngoài đùi Đại Thối Bộ",
+    "location": "Mặt trước trong đùi, từ huyệt Thông Sơn (88.02) đo vào phía trong 1 thốn rồi đo lên trên 1 thốn (tức cách bờ trên xương bánh chè lên 8 thốn, lệch vào trong 1 thốn).",
+    "anatomy": "Cơ rộng trong, thần kinh đùi. Quy kinh: Thận, Tử cung, Lục phủ.",
+    "indications": [
+      "Bách bệnh phụ khoa: U xơ tử cung, u nang buồng trứng, kinh nguyệt không đều, bế kinh",
+      "Vô sinh nữ, tử cung lạnh, khí hư bạch đới",
+      "Xuất huyết dạ dày - ruột"
+    ],
+    "needlingMethod": "Châm thẳng sâu 1,5 - 2,5 thốn.",
+    "dongQiInstruction": "Thư Muội Nhất (88.04) - Thư Muội Nhị (88.05) - Thư Muội Tam (88.06) là bộ Tam Thư Muội chuyên điều hòa nội tiết tố nữ (Estrogen/Progesterone) và trị vô sinh.",
+    "westernMechanism": "Kích thích các bó cơ lớn vùng đùi và thân thần kinh đùi (L2-L4), thần kinh bịt, thần kinh bì đùi ngoài; tăng cường cung lượng tim, tuần hoàn gan - thận và phục hồi liệt trung ương.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-159-88-05",
+    "code": "88.05",
+    "name": "Thư Muội Nhị",
+    "chineseName": "姐妹妹二",
+    "vietnameseName": "Huyệt Thư Muội Nhị",
+    "zone": "Khu 88 (Đùi)",
+    "zoneDescription": "Hệ thống huyệt mặt trong, trước và ngoài đùi Đại Thối Bộ",
+    "location": "Mặt trước trong đùi, nằm ngay phía trên huyệt Thư Muội Nhất (88.04) 2,5 thốn (cách bờ trên xương bánh chè lên 10,5 thốn, lệch vào trong 1 thốn).",
+    "anatomy": "Cơ rộng trong và cơ may, thần kinh đùi. Quy kinh: Thận, Tử cung.",
+    "indications": [
+      "Kinh nguyệt không đều, thống kinh, rong kinh, tắc vòi trứng",
+      "U nang buồng trứng, u xơ tử cung, ngứa âm hộ"
+    ],
+    "needlingMethod": "Châm thẳng sâu 1,5 - 2,5 thốn.",
+    "dongQiInstruction": "Châm Đảo mã Tam Thư Muội kết hợp Phụ Khoa (11.24) trị các ca vô sinh hiếm muộn lâu năm.",
+    "westernMechanism": "Kích thích các bó cơ lớn vùng đùi và thân thần kinh đùi (L2-L4), thần kinh bịt, thần kinh bì đùi ngoài; tăng cường cung lượng tim, tuần hoàn gan - thận và phục hồi liệt trung ương.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-160-88-06",
+    "code": "88.06",
+    "name": "Thư Muội Tam",
+    "chineseName": "姐妹妹三",
+    "vietnameseName": "Huyệt Thư Muội Tam",
+    "zone": "Khu 88 (Đùi)",
+    "zoneDescription": "Hệ thống huyệt mặt trong, trước và ngoài đùi Đại Thối Bộ",
+    "location": "Mặt trước trong đùi, nằm ngay phía trên huyệt Thư Muội Nhị (88.05) 2,5 thốn (cách bờ trên xương bánh chè lên 13 thốn, lệch vào trong 1 thốn).",
+    "anatomy": "Cơ may và cơ khép dài, thần kinh đùi. Quy kinh: Thận, Tử cung, Trường vị.",
+    "indications": [
+      "Rối loạn kinh nguyệt, băng huyết, viêm phần phụ",
+      "Xuất huyết tiêu hóa, đau tức vùng bụng dưới"
+    ],
+    "needlingMethod": "Châm thẳng sâu 1,5 - 2,5 thốn.",
+    "dongQiInstruction": "Hoàn chỉnh bộ Tam Thư Muội điều bổ Xung - Nhâm và tử cung.",
+    "westernMechanism": "Kích thích các bó cơ lớn vùng đùi và thân thần kinh đùi (L2-L4), thần kinh bịt, thần kinh bì đùi ngoài; tăng cường cung lượng tim, tuần hoàn gan - thận và phục hồi liệt trung ương.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-161-88-07",
+    "code": "88.07",
+    "name": "Cảm Mạo Nhất",
+    "chineseName": "感冒一",
+    "vietnameseName": "Huyệt Cảm Mạo Nhất",
+    "zone": "Khu 88 (Đùi)",
+    "zoneDescription": "Hệ thống huyệt mặt trong, trước và ngoài đùi Đại Thối Bộ",
+    "location": "Mặt trước trong đùi, từ huyệt Thư Muội Nhị (88.05) đo ngang vào phía trong thêm 1 thốn (cách bờ trên xương bánh chè lên 10,5 thốn, lệch vào trong 2 thốn).",
+    "anatomy": "Cơ may và cơ thon, thần kinh đùi và thần kinh bịt. Quy kinh: Phế, Lục phủ.",
+    "indications": [
+      "Cảm cúm nặng, sốt cao, ớn lạnh, đau nhức mình mẩy",
+      "Đau đầu do cảm phong hàn hoặc phong nhiệt",
+      "Dị ứng thời tiết, sổ mũi, nghẹt mũi"
+    ],
+    "needlingMethod": "Châm thẳng sâu 1,5 - 2,5 thốn (không cần lưu kim lâu, đắc khí mạnh là hạ sốt).",
+    "dongQiInstruction": "Cảm Mạo Nhất (88.07) & Cảm Mạo Nhị (88.08) châm Đảo mã giúp phát hãn giải biểu,退 sốt cực nhanh.",
+    "westernMechanism": "Kích thích các bó cơ lớn vùng đùi và thân thần kinh đùi (L2-L4), thần kinh bịt, thần kinh bì đùi ngoài; tăng cường cung lượng tim, tuần hoàn gan - thận và phục hồi liệt trung ương.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-162-88-08",
+    "code": "88.08",
+    "name": "Cảm Mạo Nhị",
+    "chineseName": "感冒二",
+    "vietnameseName": "Huyệt Cảm Mạo Nhị",
+    "zone": "Khu 88 (Đùi)",
+    "zoneDescription": "Hệ thống huyệt mặt trong, trước và ngoài đùi Đại Thối Bộ",
+    "location": "Mặt trước trong đùi, nằm ngay phía trên huyệt Cảm Mạo Nhất (88.07) 2,5 thốn (ngang với huyệt Thư Muội Tam đo vào trong 1 thốn).",
+    "anatomy": "Cơ khép dài, thần kinh bịt. Quy kinh: Phế, Lục phủ.",
+    "indications": [
+      "Cảm mạo nặng, sốt cao không ra mồ hôi, đau đầu, ho đờm"
+    ],
+    "needlingMethod": "Châm thẳng sâu 1,5 - 2,5 thốn.",
+    "dongQiInstruction": "Phối hợp Đại Bạch (22.04) và Tam Xoa Tam trị cảm sốt nặng.",
+    "westernMechanism": "Kích thích các bó cơ lớn vùng đùi và thân thần kinh đùi (L2-L4), thần kinh bịt, thần kinh bì đùi ngoài; tăng cường cung lượng tim, tuần hoàn gan - thận và phục hồi liệt trung ương.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-163-88-09",
+    "code": "88.09",
+    "name": "Thông Thận",
+    "chineseName": "通腎",
+    "vietnameseName": "Huyệt Thông Thận",
+    "zone": "Khu 88 (Đùi)",
+    "zoneDescription": "Hệ thống huyệt mặt trong, trước và ngoài đùi Đại Thối Bộ",
+    "location": "Mặt trước trong đùi, nằm ngay tại góc trên-trong của xương bánh chè.",
+    "anatomy": "Cơ rộng trong, nhánh thần kinh đùi và thần kinh hiển. Quy kinh: Thận.",
+    "indications": [
+      "Viêm thận, suy thận, phù thũng, đái tháo đường",
+      "Liệt dương, xuất tinh sớm, di tinh, đau mỏi thắt lưng, lạnh đầu gối",
+      "Khô miệng, khô họng, đau họng mạn tính do thận âm hư",
+      "An thai (phòng ngừa sảy thai quen dạ)"
+    ],
+    "needlingMethod": "Châm thẳng sâu 5 phân - 1 thốn.",
+    "dongQiInstruction": "Thông Thận (88.09) - Thông Vị (88.10) - Thông Bối (88.11) hợp thành bộ Thận Tam Thông, vừa đại bổ Thận thủy, trị bệnh dạ dày, vừa là thánh huyệt An Thai.",
+    "westernMechanism": "Kích thích các bó cơ lớn vùng đùi và thân thần kinh đùi (L2-L4), thần kinh bịt, thần kinh bì đùi ngoài; tăng cường cung lượng tim, tuần hoàn gan - thận và phục hồi liệt trung ương.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-164-88-10",
+    "code": "88.10",
+    "name": "Thông Vị",
+    "chineseName": "通胃",
+    "vietnameseName": "Huyệt Thông Vị",
+    "zone": "Khu 88 (Đùi)",
+    "zoneDescription": "Hệ thống huyệt mặt trong, trước và ngoài đùi Đại Thối Bộ",
+    "location": "Mặt trước trong đùi, từ huyệt Thông Thận (góc trên-trong xương bánh chè - 88.09) đo thẳng lên 2 thốn (gần vị trí huyệt Huyết Hải).",
+    "anatomy": "Cơ rộng trong, thần kinh đùi. Quy kinh: Thận, Vị.",
+    "indications": [
+      "Đau dạ dày, viêm loét dạ dày - tá tràng, trào ngược thực quản",
+      "Viêm thận, phù mặt và chân, đau thắt lưng",
+      "Đau khớp gối, dưỡng huyết an thai"
+    ],
+    "needlingMethod": "Châm thẳng sâu 1 - 1,5 thốn.",
+    "dongQiInstruction": "Châm Đảo mã Thông Thận - Thông Vị trị đau dạ dày kèm thận hư đau lưng cực kỳ hiệu quả.",
+    "westernMechanism": "Kích thích các bó cơ lớn vùng đùi và thân thần kinh đùi (L2-L4), thần kinh bịt, thần kinh bì đùi ngoài; tăng cường cung lượng tim, tuần hoàn gan - thận và phục hồi liệt trung ương.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-165-88-11",
+    "code": "88.11",
+    "name": "Thông Bối",
+    "chineseName": "通背",
+    "vietnameseName": "Huyệt Thông Bối",
+    "zone": "Khu 88 (Đùi)",
+    "zoneDescription": "Hệ thống huyệt mặt trong, trước và ngoài đùi Đại Thối Bộ",
+    "location": "Mặt trước trong đùi, từ huyệt Thông Vị (88.10) đo thẳng lên 2 thốn (tức cách góc trên-trong xương bánh chè lên 4 thốn).",
+    "anatomy": "Cơ rộng trong, thần kinh đùi. Quy kinh: Thận, Đốc mạch.",
+    "indications": [
+      "Đau toàn bộ lưng và cột sống thắt lưng, đau bả vai",
+      "Viêm thận, tiểu đục, phù thũng",
+      "Sảy thai liên tiếp (Quen sảy thai), suy nhược cơ thể"
+    ],
+    "needlingMethod": "Châm thẳng sâu 1 - 2 thốn.",
+    "dongQiInstruction": "Bộ Thận Tam Thông (Thông Thận - Thông Vị - Thông Bối) là trụ cột điều trị bệnh lý Thận - Vị - Lưng.",
+    "westernMechanism": "Kích thích các bó cơ lớn vùng đùi và thân thần kinh đùi (L2-L4), thần kinh bịt, thần kinh bì đùi ngoài; tăng cường cung lượng tim, tuần hoàn gan - thận và phục hồi liệt trung ương.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-166-88-12",
+    "code": "88.12",
+    "name": "Minh Hoàng",
+    "chineseName": "明黃",
+    "vietnameseName": "Huyệt Minh Hoàng",
+    "zone": "Khu 88 (Đùi)",
+    "zoneDescription": "Hệ thống huyệt mặt trong, trước và ngoài đùi Đại Thối Bộ",
+    "location": "Chính giữa mặt trong đùi (trên đường gân cơ nối từ háng xuống bờ trong đầu gối), tại điểm giữa của đoạn nối từ nếp bẹn đến bờ trên khớp gối.",
+    "anatomy": "Cơ thon và cơ rộng trong, thần kinh đùi và thần kinh bịt. Quy kinh: Can, Tâm.",
+    "indications": [
+      "Bách bệnh về Gan: Viêm gan cấp và mạn (A, B, C), xơ gan, gan nhiễm mỡ, ung thư gan, vàng da",
+      "Chóng mặt, hoa mắt, đau nhức mắt, mờ mắt",
+      "Bệnh Parkinson, múa vờn, run tay chân, động kinh",
+      "Đau cột sống, thoái hóa đốt sống, gai cột sống, mệt mỏi kiệt sức"
+    ],
+    "needlingMethod": "Châm thẳng sâu 1,5 - 2,5 thốn (châm tầng nông trị bệnh Tâm, tầng trung trị bệnh Tỳ, tầng sâu sát xương trị bệnh Can và Thận).",
+    "dongQiInstruction": "Minh Hoàng (88.12) phối hợp Thiên Hoàng (88.13) và Kỳ Hoàng (88.14) tạo thành bộ Thượng Tam Hoàng — Đệ nhất Bảo Can Lợi Đởm phương của Đổng Thị Kỳ Huyệt!",
+    "westernMechanism": "Kích thích các bó cơ lớn vùng đùi và thân thần kinh đùi (L2-L4), thần kinh bịt, thần kinh bì đùi ngoài; tăng cường cung lượng tim, tuần hoàn gan - thận và phục hồi liệt trung ương.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-167-88-13",
+    "code": "88.13",
+    "name": "Thiên Hoàng (Đùi)",
+    "chineseName": "天黃",
+    "vietnameseName": "Huyệt Thiên Hoàng (Đùi)",
+    "zone": "Khu 88 (Đùi)",
+    "zoneDescription": "Hệ thống huyệt mặt trong, trước và ngoài đùi Đại Thối Bộ",
+    "location": "Mặt trong đùi, nằm ngay phía trên huyệt Minh Hoàng (88.12) 3 thốn.",
+    "anatomy": "Cơ thon và cơ khép dài, thần kinh bịt. Quy kinh: Can, Đởm, Tâm.",
+    "indications": [
+      "Viêm gan cấp và mạn, xơ gan cổ trướng, men gan cao",
+      "Đau tức hạ sườn, chóng mặt, đau đỉnh đầu",
+      "Bệnh Parkinson, run giật, đau cột sống lưng"
+    ],
+    "needlingMethod": "Châm thẳng sâu 1,5 - 2,5 thốn.",
+    "dongQiInstruction": "Luôn phối hợp cùng Minh Hoàng (88.12) và Kỳ Hoàng (88.14) thành bộ Thượng Tam Hoàng.",
+    "westernMechanism": "Kích thích các bó cơ lớn vùng đùi và thân thần kinh đùi (L2-L4), thần kinh bịt, thần kinh bì đùi ngoài; tăng cường cung lượng tim, tuần hoàn gan - thận và phục hồi liệt trung ương.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-168-88-14",
+    "code": "88.14",
+    "name": "Kỳ Hoàng",
+    "chineseName": "其黃",
+    "vietnameseName": "Huyệt Kỳ Hoàng",
+    "zone": "Khu 88 (Đùi)",
+    "zoneDescription": "Hệ thống huyệt mặt trong, trước và ngoài đùi Đại Thối Bộ",
+    "location": "Mặt trong đùi, nằm ngay phía dưới huyệt Minh Hoàng (88.12) 3 thốn.",
+    "anatomy": "Cơ thon và cơ may, thần kinh hiển. Quy kinh: Can, Đởm.",
+    "indications": [
+      "Viêm túi mật, sỏi mật, vàng da (Hoàng đản), viêm gan",
+      "Đầy bụng khó tiêu do thiếu dịch mật, đắng miệng",
+      "Đau mỏi khớp gối và mặt trong đùi"
+    ],
+    "needlingMethod": "Châm thẳng sâu 1,5 - 2 thốn.",
+    "dongQiInstruction": "Thượng Tam Hoàng (Thiên Hoàng - Minh Hoàng - Kỳ Hoàng) là thánh phương trị mọi bệnh lý Gan - Mật, giải độc gan và điều trị bệnh Parkinson.",
+    "westernMechanism": "Kích thích các bó cơ lớn vùng đùi và thân thần kinh đùi (L2-L4), thần kinh bịt, thần kinh bì đùi ngoài; tăng cường cung lượng tim, tuần hoàn gan - thận và phục hồi liệt trung ương.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-169-88-15",
+    "code": "88.15",
+    "name": "Hỏa Chi",
+    "chineseName": "火枝",
+    "vietnameseName": "Huyệt Hỏa Chi",
+    "zone": "Khu 88 (Đùi)",
+    "zoneDescription": "Hệ thống huyệt mặt trong, trước và ngoài đùi Đại Thối Bộ",
+    "location": "Mặt trong đùi, từ huyệt Kỳ Hoàng (88.14) đo thẳng xuống dưới 1,5 thốn (tức cách huyệt Minh Hoàng xuống 4,5 thốn).",
+    "anatomy": "Cơ may và cơ rộng trong, thần kinh hiển. Quy kinh: Can, Đởm, Tâm.",
+    "indications": [
+      "Vàng da, viêm gan, viêm túi mật cấp và mạn",
+      "Chóng mặt, hoa mắt, nhìn mờ, đau lưng"
+    ],
+    "needlingMethod": "Châm thẳng sâu 1,5 - 2 thốn.",
+    "dongQiInstruction": "Thường phối hợp Minh Hoàng - Kỳ Hoàng - Hỏa Chi thành bộ Tam Hoàng trị Hoàng đản (vàng da).",
+    "westernMechanism": "Kích thích các bó cơ lớn vùng đùi và thân thần kinh đùi (L2-L4), thần kinh bịt, thần kinh bì đùi ngoài; tăng cường cung lượng tim, tuần hoàn gan - thận và phục hồi liệt trung ương.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-170-88-16",
+    "code": "88.16",
+    "name": "Hỏa Toàn",
+    "chineseName": "火全",
+    "vietnameseName": "Huyệt Hỏa Toàn",
+    "zone": "Khu 88 (Đùi)",
+    "zoneDescription": "Hệ thống huyệt mặt trong, trước và ngoài đùi Đại Thối Bộ",
+    "location": "Mặt trong đùi, từ huyệt Hỏa Chi (88.15) đo thẳng xuống dưới 1,5 thốn (cách huyệt Minh Hoàng xuống 6 thốn).",
+    "anatomy": "Cơ may và cơ rộng trong, thần kinh hiển. Quy kinh: Can, Đởm, Đốc mạch.",
+    "indications": [
+      "Chóng mặt, hoa mắt, vàng da, viêm túi mật",
+      "Đau cột sống lưng, gai cột sống, đau gót chân"
+    ],
+    "needlingMethod": "Châm thẳng sâu 1 - 1,5 thốn.",
+    "dongQiInstruction": "Hỗ trợ bộ Thượng Tam Hoàng trong điều trị bệnh lý gan mật và đau cột sống.",
+    "westernMechanism": "Kích thích các bó cơ lớn vùng đùi và thân thần kinh đùi (L2-L4), thần kinh bịt, thần kinh bì đùi ngoài; tăng cường cung lượng tim, tuần hoàn gan - thận và phục hồi liệt trung ương.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-171-88-17",
+    "code": "88.17",
+    "name": "Tứ Mã Trung",
+    "chineseName": "駟馬中",
+    "vietnameseName": "Huyệt Tứ Mã Trung",
+    "zone": "Khu 88 (Đùi)",
+    "zoneDescription": "Hệ thống huyệt mặt trong, trước và ngoài đùi Đại Thối Bộ",
+    "location": "Mặt trước ngoài đùi: Từ điểm giữa bờ trên xương bánh chè đo thẳng lên 8 thốn, rồi đo ngang ra phía ngoài 3 thốn (hoặc đứng thẳng duỗi tay áp vào đùi, từ đầu ngón tay giữa tại Phong Thị đo ra phía trước 3 thốn).",
+    "anatomy": "Cơ rộng ngoài, thần kinh bì đùi ngoài và thần kinh đùi. Quy kinh: Phế, Can.",
+    "indications": [
+      "Đệ nhất Phế - Bì Phu - Tỵ Khoa huyệt: Viêm mũi dị ứng, viêm xoang, polyp mũi, hen suyễn, viêm phổi, lao phổi",
+      "Bách bệnh ngoài da: Vẩy nến, chàm (Eczema), mề đay, dị ứng, mụn trứng cá bọc, tàn nhang",
+      "Đau thần kinh liên sườn, đau tức ngực, viêm màng phổi, đau vú",
+      "Viêm kết mạc, ù tai, điếc tai, cường giáp",
+      "Đau thần kinh tọa, đau thắt lưng do xoay vặn người"
+    ],
+    "needlingMethod": "Châm thẳng sâu 1,5 - 2,5 thốn. Luôn châm Đảo mã 3 kim cùng Tứ Mã Thượng (88.18) và Tứ Mã Hạ (88.19).",
+    "dongQiInstruction": "Túc Tứ Mã (Tứ Mã Thượng, Trung, Hạ) là một trong những bộ huyệt vĩ đại nhất của Đổng Thị Kỳ Huyệt: Đại bổ Phế khí, thống lĩnh toàn bộ bệnh lý Phổi, Mũi Xoang, Bệnh Ngoài Da, Tuyến Giáp và Đau Sườn Ngực!",
+    "westernMechanism": "Kích thích các bó cơ lớn vùng đùi và thân thần kinh đùi (L2-L4), thần kinh bịt, thần kinh bì đùi ngoài; tăng cường cung lượng tim, tuần hoàn gan - thận và phục hồi liệt trung ương.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-172-88-18",
+    "code": "88.18",
+    "name": "Tứ Mã Thượng",
+    "chineseName": "駟馬上",
+    "vietnameseName": "Huyệt Tứ Mã Thượng",
+    "zone": "Khu 88 (Đùi)",
+    "zoneDescription": "Hệ thống huyệt mặt trong, trước và ngoài đùi Đại Thối Bộ",
+    "location": "Mặt trước ngoài đùi, nằm ngay phía trên huyệt Tứ Mã Trung (88.17) 2 thốn (cách bờ trên xương bánh chè lên 10 thốn, ra ngoài 3 thốn).",
+    "anatomy": "Cơ rộng ngoài, thần kinh đùi. Quy kinh: Phế, Can.",
+    "indications": [
+      "Viêm mũi dị ứng, viêm xoang, hen suyễn, giãn phế quản",
+      "Bệnh vẩy nến, mề đay, mụn trứng cá, viêm da cơ địa",
+      "Đau sườn ngực, đau lưng, đau thần kinh tọa, ù tai"
+    ],
+    "needlingMethod": "Châm thẳng sâu 1,5 - 2,5 thốn.",
+    "dongQiInstruction": "Cùng với Tứ Mã Trung và Tứ Mã Hạ hợp thành bộ Túc Tứ Mã Đảo Mã Tam Châm.",
+    "westernMechanism": "Kích thích các bó cơ lớn vùng đùi và thân thần kinh đùi (L2-L4), thần kinh bịt, thần kinh bì đùi ngoài; tăng cường cung lượng tim, tuần hoàn gan - thận và phục hồi liệt trung ương.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-173-88-19",
+    "code": "88.19",
+    "name": "Tứ Mã Hạ",
+    "chineseName": "駟馬下",
+    "vietnameseName": "Huyệt Tứ Mã Hạ",
+    "zone": "Khu 88 (Đùi)",
+    "zoneDescription": "Hệ thống huyệt mặt trong, trước và ngoài đùi Đại Thối Bộ",
+    "location": "Mặt trước ngoài đùi, nằm ngay phía dưới huyệt Tứ Mã Trung (88.17) 2 thốn (cách bờ trên xương bánh chè lên 6 thốn, ra ngoài 3 thốn).",
+    "anatomy": "Cơ rộng ngoài, thần kinh đùi. Quy kinh: Phế, Can.",
+    "indications": [
+      "Bệnh phổi, viêm mũi xoang, bệnh ngoài da dị ứng",
+      "Đau nhức xương sườn, viêm tuyến vú, đau lưng"
+    ],
+    "needlingMethod": "Châm thẳng sâu 1,5 - 2,5 thốn.",
+    "dongQiInstruction": "Châm đủ 3 kim Tứ Mã Thượng - Trung - Hạ ở hai bên đùi (6 kim) tạo hiệu lực giải độc da và thông Phế khí mạnh gấp bội.",
+    "westernMechanism": "Kích thích các bó cơ lớn vùng đùi và thân thần kinh đùi (L2-L4), thần kinh bịt, thần kinh bì đùi ngoài; tăng cường cung lượng tim, tuần hoàn gan - thận và phục hồi liệt trung ương.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-174-88-20",
+    "code": "88.20",
+    "name": "Hạ Tuyền",
+    "chineseName": "下泉",
+    "vietnameseName": "Huyệt Hạ Tuyền",
+    "zone": "Khu 88 (Đùi)",
+    "zoneDescription": "Hệ thống huyệt mặt trong, trước và ngoài đùi Đại Thối Bộ",
+    "location": "Mặt ngoài đùi (trên đường chính giữa mặt ngoài đùi dọc dải chậu - chày), từ nếp ngang khoeo chân (hoặc mặt khớp gối) đo thẳng lên 2,5 thốn.",
+    "anatomy": "Dải chậu - chày, cơ rộng ngoài, thần kinh bì đùi ngoài. Quy kinh: Phế, Cân.",
+    "indications": [
+      "Liệt dây thần kinh mặt (Liệt VII ngoại biên, méo miệng, mắt nhắm không kín)",
+      "Co giật cơ mặt (Tic cơ mặt), đau dây thần kinh tam thoa",
+      "Tinnitus (ù tai), nghễnh ngãng"
+    ],
+    "needlingMethod": "Châm thẳng sâu 5 phân - 1 thốn. Luôn châm Đảo mã cùng Trung Tuyền (88.21) và Thượng Tuyền (88.22).",
+    "dongQiInstruction": "Tam Tuyền (Hạ Tuyền - Trung Tuyền - Thượng Tuyền) châm bên đối diện là bộ huyệt chuyên trị Liệt mặt (Liệt dây VII) và co giật cơ mặt.",
+    "westernMechanism": "Kích thích các bó cơ lớn vùng đùi và thân thần kinh đùi (L2-L4), thần kinh bịt, thần kinh bì đùi ngoài; tăng cường cung lượng tim, tuần hoàn gan - thận và phục hồi liệt trung ương.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-175-88-21",
+    "code": "88.21",
+    "name": "Trung Tuyền",
+    "chineseName": "中泉",
+    "vietnameseName": "Huyệt Trung Tuyền",
+    "zone": "Khu 88 (Đùi)",
+    "zoneDescription": "Hệ thống huyệt mặt trong, trước và ngoài đùi Đại Thối Bộ",
+    "location": "Mặt ngoài đùi, nằm ngay phía trên huyệt Hạ Tuyền (88.20) 2 thốn (cách mặt khớp gối đo lên 4,5 thốn).",
+    "anatomy": "Dải chậu - chày, thần kinh bì đùi ngoài. Quy kinh: Phế, Cân.",
+    "indications": [
+      "Liệt dây thần kinh mặt, méo miệng, co giật mí mắt và cơ mặt",
+      "Đau cứng vai và cánh tay"
+    ],
+    "needlingMethod": "Châm thẳng sâu 8 phân - 1,2 thốn.",
+    "dongQiInstruction": "Châm Đảo mã Tam Tuyền kết hợp Trắc Tam Lý (77.22) trị liệt mặt lâu ngày rất hiệu quả.",
+    "westernMechanism": "Kích thích các bó cơ lớn vùng đùi và thân thần kinh đùi (L2-L4), thần kinh bịt, thần kinh bì đùi ngoài; tăng cường cung lượng tim, tuần hoàn gan - thận và phục hồi liệt trung ương.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-176-88-22",
+    "code": "88.22",
+    "name": "Thượng Tuyền",
+    "chineseName": "上泉",
+    "vietnameseName": "Huyệt Thượng Tuyền",
+    "zone": "Khu 88 (Đùi)",
+    "zoneDescription": "Hệ thống huyệt mặt trong, trước và ngoài đùi Đại Thối Bộ",
+    "location": "Mặt ngoài đùi, nằm ngay phía trên huyệt Trung Tuyền (88.21) 2 thốn (cách mặt khớp gối đo lên 6,5 thốn).",
+    "anatomy": "Dải chậu - chày, thần kinh bì đùi ngoài. Quy kinh: Phế, Cân.",
+    "indications": [
+      "Liệt mặt, méo miệng, giật cơ mặt, ù tai",
+      "Tê bại nửa người sau trúng phong"
+    ],
+    "needlingMethod": "Châm thẳng sâu 1 - 1,5 thốn.",
+    "dongQiInstruction": "Hoàn chỉnh bộ Tam Tuyền trên đường Thiếu dương mặt ngoài đùi.",
+    "westernMechanism": "Kích thích các bó cơ lớn vùng đùi và thân thần kinh đùi (L2-L4), thần kinh bịt, thần kinh bì đùi ngoài; tăng cường cung lượng tim, tuần hoàn gan - thận và phục hồi liệt trung ương.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-177-88-23",
+    "code": "88.23",
+    "name": "Kim Tiền Hạ",
+    "chineseName": "金前下",
+    "vietnameseName": "Huyệt Kim Tiền Hạ",
+    "zone": "Khu 88 (Đùi)",
+    "zoneDescription": "Hệ thống huyệt mặt trong, trước và ngoài đùi Đại Thối Bộ",
+    "location": "Mặt trước ngoài đùi, từ góc trên-ngoài của xương bánh chè đo thẳng lên 1 thốn.",
+    "anatomy": "Cơ rộng ngoài, thần kinh đùi. Quy kinh: Phế, Can.",
+    "indications": [
+      "Dị ứng da, nổi mề đay, ngứa da",
+      "Suy nhược thần kinh, đau đầu, đau ngực",
+      "Sưng đau khớp gối, yếu cơ tứ đầu đùi"
+    ],
+    "needlingMethod": "Châm thẳng sâu 5 phân - 1 thốn.",
+    "dongQiInstruction": "Thường châm Đảo mã cùng Kim Tiền Thượng (88.24).",
+    "westernMechanism": "Kích thích các bó cơ lớn vùng đùi và thân thần kinh đùi (L2-L4), thần kinh bịt, thần kinh bì đùi ngoài; tăng cường cung lượng tim, tuần hoàn gan - thận và phục hồi liệt trung ương.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-178-88-24",
+    "code": "88.24",
+    "name": "Kim Tiền Thượng",
+    "chineseName": "金前上",
+    "vietnameseName": "Huyệt Kim Tiền Thượng",
+    "zone": "Khu 88 (Đùi)",
+    "zoneDescription": "Hệ thống huyệt mặt trong, trước và ngoài đùi Đại Thối Bộ",
+    "location": "Mặt trước ngoài đùi, từ góc trên-ngoài xương bánh chè đo thẳng lên 2,5 thốn (phía trên huyệt Kim Tiền Hạ 1,5 thốn).",
+    "anatomy": "Cơ rộng ngoài, thần kinh đùi. Quy kinh: Phế, Can.",
+    "indications": [
+      "Đau sưng khớp gối, thoái hóa khớp gối",
+      "Đau tức ngực sườn, dị ứng ngoài da, động kinh"
+    ],
+    "needlingMethod": "Châm thẳng sâu 1 - 1,5 thốn.",
+    "dongQiInstruction": "Kim Tiền Thượng & Kim Tiền Hạ vừa trị đau gối tại chỗ vừa sơ tiết Phế Can.",
+    "westernMechanism": "Kích thích các bó cơ lớn vùng đùi và thân thần kinh đùi (L2-L4), thần kinh bịt, thần kinh bì đùi ngoài; tăng cường cung lượng tim, tuần hoàn gan - thận và phục hồi liệt trung ương.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-179-88-25",
+    "code": "88.25",
+    "name": "Trung Cửu Lý",
+    "chineseName": "中九里",
+    "vietnameseName": "Huyệt Trung Cửu Lý",
+    "zone": "Khu 88 (Đùi)",
+    "zoneDescription": "Hệ thống huyệt mặt trong, trước và ngoài đùi Đại Thối Bộ",
+    "location": "Chính giữa mặt ngoài đùi (trên đường nối từ mấu chuyển lớn xương đùi xuống đầu ngoài khớp gối), từ nếp ngang khoeo chân đo lên 7 thốn (tương ứng vị trí huyệt Phong Thị kinh Đởm).",
+    "anatomy": "Dải chậu - chày, cơ rộng ngoài, thần kinh bì đùi ngoài (L2-L3). Quy kinh: Phế, Tứ chi (Toàn bộ hệ thần kinh cảm giác và vận động).",
+    "indications": [
+      "Đệ nhất Chỉ Thống & Khu Phong huyệt: Đau nửa người, liệt nửa người (Bán thân bất toại)",
+      "Đau thần kinh tọa, đau thắt lưng, đau đốt sống cổ và lưng",
+      "Đau dây thần kinh tam thoa, liệt mặt, chóng mặt, ù tai",
+      "Đau nhức xương khớp toàn thân, tê bì tứ chi"
+    ],
+    "needlingMethod": "Châm thẳng sâu 1,5 - 2,5 thốn.",
+    "dongQiInstruction": "Trung Cửu Lý (88.25) cùng Thượng Cửu Lý (88.26), Hạ Cửu Lý (88.27) và Thất Lý tạo thành tổ hợp Cửu Lý - Thất Lý — đại huyệt giảm đau thần kinh và phục hồi liệt mạnh nhất vùng đùi.",
+    "westernMechanism": "Kích thích các bó cơ lớn vùng đùi và thân thần kinh đùi (L2-L4), thần kinh bịt, thần kinh bì đùi ngoài; tăng cường cung lượng tim, tuần hoàn gan - thận và phục hồi liệt trung ương.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-180-88-26",
+    "code": "88.26",
+    "name": "Thượng Cửu Lý",
+    "chineseName": "上九里",
+    "vietnameseName": "Huyệt Thượng Cửu Lý",
+    "zone": "Khu 88 (Đùi)",
+    "zoneDescription": "Hệ thống huyệt mặt trong, trước và ngoài đùi Đại Thối Bộ",
+    "location": "Mặt ngoài đùi, từ huyệt Trung Cửu Lý (88.25) đo ngang ra phía trước 1,5 thốn.",
+    "anatomy": "Cơ rộng ngoài, thần kinh đùi. Quy kinh: Tâm, Thận.",
+    "indications": [
+      "Đau cánh tay, đau khớp vai, tê bì chi trên",
+      "Đau mắt, chảy nước mắt khi ra gió, trướng bụng do thận khí hư"
+    ],
+    "needlingMethod": "Châm thẳng sâu 1,5 - 2 thốn.",
+    "dongQiInstruction": "Phối hợp Trung Cửu Lý và Hạ Cửu Lý tạo thành pháp Tam Châm Cửu Lý.",
+    "westernMechanism": "Kích thích các bó cơ lớn vùng đùi và thân thần kinh đùi (L2-L4), thần kinh bịt, thần kinh bì đùi ngoài; tăng cường cung lượng tim, tuần hoàn gan - thận và phục hồi liệt trung ương.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-181-88-27",
+    "code": "88.27",
+    "name": "Hạ Cửu Lý",
+    "chineseName": "下九里",
+    "vietnameseName": "Huyệt Hạ Cửu Lý",
+    "zone": "Khu 88 (Đùi)",
+    "zoneDescription": "Hệ thống huyệt mặt trong, trước và ngoài đùi Đại Thối Bộ",
+    "location": "Mặt ngoài đùi, từ huyệt Trung Cửu Lý (88.25) đo ngang ra phía sau 1,5 thốn.",
+    "anatomy": "Cơ nhị đầu đùi, thần kinh bì đùi sau. Quy kinh: Đốc mạch, Bàng quang.",
+    "indications": [
+      "Đau lưng, đau cột sống thắt lưng, đau thần kinh tọa mặt sau đùi",
+      "Chóng mặt, đau đầu vùng chẩm"
+    ],
+    "needlingMethod": "Châm thẳng sâu 1,5 - 2 thốn.",
+    "dongQiInstruction": "Trị đau thần kinh tọa lan dọc mặt sau đùi cực kỳ đắc lực.",
+    "westernMechanism": "Kích thích các bó cơ lớn vùng đùi và thân thần kinh đùi (L2-L4), thần kinh bịt, thần kinh bì đùi ngoài; tăng cường cung lượng tim, tuần hoàn gan - thận và phục hồi liệt trung ương.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-182-88-28",
+    "code": "88.28",
+    "name": "Giải",
+    "chineseName": "解",
+    "vietnameseName": "Huyệt Giải",
+    "zone": "Khu 88 (Đùi)",
+    "zoneDescription": "Hệ thống huyệt mặt trong, trước và ngoài đùi Đại Thối Bộ",
+    "location": "Mặt trước ngoài đùi, từ góc trên-ngoài của xương bánh chè đo thẳng lên 1 thốn rồi đo vào phía trong 3 phân (tương ứng gần vị trí huyệt Lương Khâu).",
+    "anatomy": "Cơ rộng ngoài, nhánh thần kinh đùi. Quy kinh: Tâm, Huyết mạch.",
+    "indications": [
+      "Giải độc cấp thời: Ngộ độc thuốc, dị ứng thuốc tiêm, choáng váng do châm cứu (ựng châm)",
+      "Đau cấp tính do chấn thương bong gân, đụng giập phần mềm mới phát sinh",
+      "Đau dạ dày cấp, đau khớp gối cấp, mệt mỏi kiệt sức"
+    ],
+    "needlingMethod": "Châm thẳng sâu 3 - 5 phân, vê kim liên tục, lưu kim 15 - 20 phút (không lưu quá lâu).",
+    "dongQiInstruction": "Huyệt Giải (88.28) cùng với Thủ Giải (22.10) là hai đại huyệt Giải Độc & Cắt Cơn Đau Cấp Tính tức thời trong vòng vài giây của Đổng Thị!",
+    "westernMechanism": "Kích thích các bó cơ lớn vùng đùi và thân thần kinh đùi (L2-L4), thần kinh bịt, thần kinh bì đùi ngoài; tăng cường cung lượng tim, tuần hoàn gan - thận và phục hồi liệt trung ương.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-183-88-29",
+    "code": "88.29",
+    "name": "Nội Thông Quan",
+    "chineseName": "內通關",
+    "vietnameseName": "Huyệt Nội Thông Quan",
+    "zone": "Khu 88 (Đùi)",
+    "zoneDescription": "Hệ thống huyệt mặt trong, trước và ngoài đùi Đại Thối Bộ",
+    "location": "Mặt trước trong đùi, từ huyệt Thông Quan (88.01) đo ngang vào phía trong 5 phân.",
+    "anatomy": "Cơ thẳng đùi và cơ rộng trong, thần kinh đùi. Quy kinh: Tâm.",
+    "indications": [
+      "Liệt nửa người (Bán thân bất toại), yếu liệt tứ chi",
+      "Suy tim, hẹp van tim, thiếu máu cơ tim, hồi hộp",
+      "Mất tiếng do trúng phong (Thất âm)"
+    ],
+    "needlingMethod": "Châm thẳng sâu 1,5 - 2 thốn.",
+    "dongQiInstruction": "Nội Thông Quan (88.29) - Nội Thông Sơn (88.30) - Nội Thông Thiên (88.31) chuyên trị di chứng tai biến mạch máu não kèm bệnh lý tim mạch.",
+    "westernMechanism": "Kích thích các bó cơ lớn vùng đùi và thân thần kinh đùi (L2-L4), thần kinh bịt, thần kinh bì đùi ngoài; tăng cường cung lượng tim, tuần hoàn gan - thận và phục hồi liệt trung ương.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-184-88-30",
+    "code": "88.30",
+    "name": "Nội Thông Sơn",
+    "chineseName": "內通山",
+    "vietnameseName": "Huyệt Nội Thông Sơn",
+    "zone": "Khu 88 (Đùi)",
+    "zoneDescription": "Hệ thống huyệt mặt trong, trước và ngoài đùi Đại Thối Bộ",
+    "location": "Mặt trước trong đùi, từ huyệt Thông Sơn (88.02) đo ngang vào phía trong 5 phân (phía trên huyệt Nội Thông Quan 2 thốn).",
+    "anatomy": "Cơ rộng trong, thần kinh đùi. Quy kinh: Tâm.",
+    "indications": [
+      "Liệt nửa người, tứ chi vô lực, suy tim, đau thắt ngực"
+    ],
+    "needlingMethod": "Châm thẳng sâu 1,5 - 2 thốn.",
+    "dongQiInstruction": "Châm Đảo mã cùng Nội Thông Quan và Nội Thông Thiên.",
+    "westernMechanism": "Kích thích các bó cơ lớn vùng đùi và thân thần kinh đùi (L2-L4), thần kinh bịt, thần kinh bì đùi ngoài; tăng cường cung lượng tim, tuần hoàn gan - thận và phục hồi liệt trung ương.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-185-88-31",
+    "code": "88.31",
+    "name": "Nội Thông Thiên",
+    "chineseName": "內通天",
+    "vietnameseName": "Huyệt Nội Thông Thiên",
+    "zone": "Khu 88 (Đùi)",
+    "zoneDescription": "Hệ thống huyệt mặt trong, trước và ngoài đùi Đại Thối Bộ",
+    "location": "Mặt trước trong đùi, từ huyệt Thông Thiên (88.03) đo ngang vào phía trong 5 phân (phía trên huyệt Nội Thông Sơn 2 thốn).",
+    "anatomy": "Cơ rộng trong, thần kinh đùi. Quy kinh: Tâm.",
+    "indications": [
+      "Liệt nửa người, phục hồi vận động sau đột quỵ, bệnh tim mạch"
+    ],
+    "needlingMethod": "Châm thẳng sâu 1,5 - 2 thốn.",
+    "dongQiInstruction": "Tăng cường tuần hoàn máu não và phục hồi sức cơ chi dưới.",
+    "westernMechanism": "Kích thích các bó cơ lớn vùng đùi và thân thần kinh đùi (L2-L4), thần kinh bịt, thần kinh bì đùi ngoài; tăng cường cung lượng tim, tuần hoàn gan - thận và phục hồi liệt trung ương.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-186-88-32",
+    "code": "88.32",
+    "name": "Thất Âm (2 Huyệt)",
+    "chineseName": "失音",
+    "vietnameseName": "Huyệt Thất Âm (2 Huyệt)",
+    "zone": "Khu 88 (Đùi)",
+    "zoneDescription": "Hệ thống huyệt mặt trong, trước và ngoài đùi Đại Thối Bộ",
+    "location": "Mặt trong khớp gối: Huyệt 1 nằm chính giữa mặt trong khớp gối; Huyệt 2 nằm ngay dưới Huyệt 1 đúng 2 thốn.",
+    "anatomy": "Nhánh thần kinh hiển và thần kinh đùi. Quy kinh: Thận, Hầu họng.",
+    "indications": [
+      "Mất tiếng cấp và mạn tính (Thất âm), khàn tiếng, viêm thanh quản, hạt xơ dây thanh",
+      "Cứng lưỡi nói ngọng sau tai biến mạch máu não"
+    ],
+    "needlingMethod": "Châm thẳng sâu 3 - 5 phân.",
+    "dongQiInstruction": "Thất Âm là huyệt đặc hiệu duy nhất ở mặt trong gối chuyên khai âm thông khiếu trị mất tiếng và cứng lưỡi.",
+    "westernMechanism": "Kích thích các bó cơ lớn vùng đùi và thân thần kinh đùi (L2-L4), thần kinh bịt, thần kinh bì đùi ngoài; tăng cường cung lượng tim, tuần hoàn gan - thận và phục hồi liệt trung ương.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-187-99-01",
+    "code": "99.01",
+    "name": "Nhĩ Hoàn",
+    "chineseName": "耳環",
+    "vietnameseName": "Huyệt Nhĩ Hoàn",
+    "zone": "Khu 99 (Tai)",
+    "zoneDescription": "Hệ thống huyệt vành tai & sau tai Nhĩ Đóa Bộ",
+    "location": "Chính giữa mặt ngoài dái tai (thùy tai).",
+    "anatomy": "Nhánh thần kinh tai lớn. Quy kinh: Lục phủ (Vị, Can).",
+    "indications": [
+      "Giải rượu (Tỉnh rượu khi say rượu nặng), nôn mửa do ngộ độc rượu",
+      "Đau đầu, chóng mặt, mỏi mắt"
+    ],
+    "needlingMethod": "Châm thẳng hoặc xiên sâu 1 - 2 phân, hoặc chích nặn 1 - 2 giọt máu.",
+    "dongQiInstruction": "Nhĩ Hoàn phối hợp tố Tiên (chóp mũi) là tuyệt chiêu giải rượu tức thời của Đổng Công.",
+    "westernMechanism": "Kích thích nhánh tai của dây thần kinh phế vị (dây X - Arnold's nerve), thần kinh tai lớn và thần kinh tai - thái dương; điều hòa trực tiếp hệ phó giao cảm, hạ sốt và giảm đau cấp.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-188-99-02",
+    "code": "99.02",
+    "name": "Mộc Nhĩ",
+    "chineseName": "木耳",
+    "vietnameseName": "Huyệt Mộc Nhĩ",
+    "zone": "Khu 99 (Tai)",
+    "zoneDescription": "Hệ thống huyệt vành tai & sau tai Nhĩ Đóa Bộ",
+    "location": "Mặt sau vành tai (lưng tai), trên đường ngang qua phần giữa mặt sau vành tai, cách rìa ngoài vành tai vào trong 3 phân.",
+    "anatomy": "Nhánh sau thần kinh tai lớn và thần kinh chẩm nhỏ. Quy kinh: Can, Đởm.",
+    "indications": [
+      "Bệnh lý gan mật, gan to, xơ gan, mệt mỏi suy nhược",
+      "Kinh nguyệt không đều, bạch đới, liệt nửa người"
+    ],
+    "needlingMethod": "Châm nông 1 - 2 phân hoặc chích nặn máu tĩnh mạch sau tai.",
+    "dongQiInstruction": "Thuộc hệ thống Ngũ Hành Nhĩ Huyệt (Mộc, Hỏa, Thổ, Kim, Thủy Nhĩ) ở vành tai của Đổng Thị.",
+    "westernMechanism": "Kích thích nhánh tai của dây thần kinh phế vị (dây X - Arnold's nerve), thần kinh tai lớn và thần kinh tai - thái dương; điều hòa trực tiếp hệ phó giao cảm, hạ sốt và giảm đau cấp.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-189-99-03",
+    "code": "99.03",
+    "name": "Hỏa Nhĩ",
+    "chineseName": "火耳",
+    "vietnameseName": "Huyệt Hỏa Nhĩ",
+    "zone": "Khu 99 (Tai)",
+    "zoneDescription": "Hệ thống huyệt vành tai & sau tai Nhĩ Đóa Bộ",
+    "location": "Mặt trước vành tai, ở chính giữa bờ ngoài đối luân.",
+    "anatomy": "Nhánh thần kinh tai - thái dương. Quy kinh: Tâm, Thận.",
+    "indications": [
+      "Đau mỏi thắt lưng, đau khớp gối, tức ngực đánh trống ngực"
+    ],
+    "needlingMethod": "Châm nông 1 - 2 phân.",
+    "dongQiInstruction": "Thanh Tâm hỏa và thông kinh lạc vùng lưng gối.",
+    "westernMechanism": "Kích thích nhánh tai của dây thần kinh phế vị (dây X - Arnold's nerve), thần kinh tai lớn và thần kinh tai - thái dương; điều hòa trực tiếp hệ phó giao cảm, hạ sốt và giảm đau cấp.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-190-99-04",
+    "code": "99.04",
+    "name": "Thổ Nhĩ",
+    "chineseName": "土耳",
+    "vietnameseName": "Huyệt Thổ Nhĩ",
+    "zone": "Khu 99 (Tai)",
+    "zoneDescription": "Hệ thống huyệt vành tai & sau tai Nhĩ Đóa Bộ",
+    "location": "Trong hố xoắn tai (xoăn tai dưới), tương ứng vùng Tỳ trên loa tai.",
+    "anatomy": "Nhánh tai của dây thần kinh phế vị (dây X). Quy kinh: Tỳ, Vị.",
+    "indications": [
+      "Suy nhược thần kinh, mất ngủ, sốt cao, đái tháo đường, rối loạn tiêu hóa"
+    ],
+    "needlingMethod": "Châm thẳng 1 - 2 phân.",
+    "dongQiInstruction": "Kích thích nhánh thần kinh phế vị tai giúp ổn định đường huyết và an thần.",
+    "westernMechanism": "Kích thích nhánh tai của dây thần kinh phế vị (dây X - Arnold's nerve), thần kinh tai lớn và thần kinh tai - thái dương; điều hòa trực tiếp hệ phó giao cảm, hạ sốt và giảm đau cấp.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-191-99-05",
+    "code": "99.05",
+    "name": "Kim Nhĩ",
+    "chineseName": "金耳",
+    "vietnameseName": "Huyệt Kim Nhĩ",
+    "zone": "Khu 99 (Tai)",
+    "zoneDescription": "Hệ thống huyệt vành tai & sau tai Nhĩ Đóa Bộ",
+    "location": "Mặt sau vành tai, ở bờ ngoài phần trên lưng sụn vành tai.",
+    "anatomy": "Nhánh thần kinh tai lớn. Quy kinh: Phế, Bàng quang.",
+    "indications": [
+      "Đau thần kinh tọa, đau thắt lưng, vẹo cột sống lưng, dị ứng cảm mạo"
+    ],
+    "needlingMethod": "Châm nông 1 - 2 phân hoặc dán hạt vương bất lưu hành.",
+    "dongQiInstruction": "Kim Nhĩ trị đau thần kinh tọa và đau lưng rất nhạy.",
+    "westernMechanism": "Kích thích nhánh tai của dây thần kinh phế vị (dây X - Arnold's nerve), thần kinh tai lớn và thần kinh tai - thái dương; điều hòa trực tiếp hệ phó giao cảm, hạ sốt và giảm đau cấp.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-192-99-06",
+    "code": "99.06",
+    "name": "Thủy Nhĩ",
+    "chineseName": "水耳",
+    "vietnameseName": "Huyệt Thủy Nhĩ",
+    "zone": "Khu 99 (Tai)",
+    "zoneDescription": "Hệ thống huyệt vành tai & sau tai Nhĩ Đóa Bộ",
+    "location": "Ở góc dưới của đối luân (nơi tiếp giáp giữa đối luân và đối bình tai).",
+    "anatomy": "Nhánh thần kinh tai lớn. Quy kinh: Thận.",
+    "indications": [
+      "Đau thắt lưng, mỏi gối, ù tai, trướng bụng do thận hư"
+    ],
+    "needlingMethod": "Châm nông 1 - 2 phân.",
+    "dongQiInstruction": "Bổ thận ích khí qua phản xạ loa tai.",
+    "westernMechanism": "Kích thích nhánh tai của dây thần kinh phế vị (dây X - Arnold's nerve), thần kinh tai lớn và thần kinh tai - thái dương; điều hòa trực tiếp hệ phó giao cảm, hạ sốt và giảm đau cấp.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-193-99-07",
+    "code": "99.07",
+    "name": "Nhĩ Bối",
+    "chineseName": "耳背",
+    "vietnameseName": "Huyệt Nhĩ Bối",
+    "zone": "Khu 99 (Tai)",
+    "zoneDescription": "Hệ thống huyệt vành tai & sau tai Nhĩ Đóa Bộ",
+    "location": "Mặt sau vành tai, tại các tĩnh mạch xanh tím nổi rõ ở rãnh hàng chữ V phía sau lưng tai.",
+    "anatomy": "Tĩnh mạch tai sau, thần kinh tai lớn. Quy kinh: Hầu họng, Phế.",
+    "indications": [
+      "Viêm họng cấp, viêm amidan cấp, sốt cao, mụn trứng cá, viêm kết mạc đỏ mắt",
+      "Đau đầu nửa đầu, tăng huyết áp cấp"
+    ],
+    "needlingMethod": "Dùng kim tam lăng chích nặn 3 - 5 giọt máu đen tại tĩnh mạch sau tai.",
+    "dongQiInstruction": "Chích máu Nhĩ Bối làm hạ huyết áp và giảm đau họng/đỏ mắt ngay lập tức.",
+    "westernMechanism": "Kích thích nhánh tai của dây thần kinh phế vị (dây X - Arnold's nerve), thần kinh tai lớn và thần kinh tai - thái dương; điều hòa trực tiếp hệ phó giao cảm, hạ sốt và giảm đau cấp.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-194-99-08",
+    "code": "99.08",
+    "name": "Nhĩ Tam (3 Huyệt)",
+    "chineseName": "耳三",
+    "vietnameseName": "Huyệt Nhĩ Tam (3 Huyệt)",
+    "zone": "Khu 99 (Tai)",
+    "zoneDescription": "Hệ thống huyệt vành tai & sau tai Nhĩ Đóa Bộ",
+    "location": "Dọc theo viền ngoài của vành tai (luân tai): Nhĩ Thượng ở đỉnh cao nhất vành tai (Nhĩ Tiêm), Nhĩ Trung ở giữa viền ngoài vành tai, Nhĩ Hạ ở điểm thấp nhất của dái tai.",
+    "anatomy": "Thần kinh tai - thái dương và thần kinh tai lớn. Quy kinh: Phế, Can, Thận.",
+    "indications": [
+      "Sốt cao ở trẻ em và người lớn, cảm cúm, viêm amidan cấp",
+      "Đau nửa đầu, đỏ mắt, chắp lẹo mắt, dị ứng nổi mề đay, say rượu"
+    ],
+    "needlingMethod": "Dùng kim tam lăng chích nặn máu tại 2 hoặc cả 3 huyệt.",
+    "dongQiInstruction": "Nhĩ Tam chích máu là tuyệt kỹ hạ sốt và tiêu viêm cấp tính cực kỳ an toàn, hiệu quả.",
+    "westernMechanism": "Kích thích nhánh tai của dây thần kinh phế vị (dây X - Arnold's nerve), thần kinh tai lớn và thần kinh tai - thái dương; điều hòa trực tiếp hệ phó giao cảm, hạ sốt và giảm đau cấp.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-195-1010-01",
+    "code": "1010.01",
+    "name": "Chính Hội",
+    "chineseName": "正會",
+    "vietnameseName": "Huyệt Chính Hội",
+    "zone": "Khu 1010 (Đầu mặt)",
+    "zoneDescription": "Hệ thống huyệt vùng đầu mặt Đầu Diện Bộ",
+    "location": "Chính giữa đỉnh đầu, tại giao điểm của đường dọc giữa đầu và đường nối hai đỉnh vành tai (lùi ra sau huyệt Bách Hội khoảng 0,5 thốn tại chỗ lõm đỉnh sọ).",
+    "anatomy": "Cân sọ, nhánh thần kinh chẩm lớn và thần kinh trên ổ mắt. Quy kinh: Não (Đốc mạch).",
+    "indications": [
+      "Di chứng tai biến mạch máu não: Liệt nửa người, liệt tứ chi, mất ngôn ngữ (không nói được)",
+      "Bệnh Parkinson, run tay chân, di chứng bại liệt trẻ em",
+      "Chóng mặt, hoa mắt, suy nhược thần kinh, mất ngủ, động kinh"
+    ],
+    "needlingMethod": "Châm xiên dưới cân sọ sâu 2 - 3 phân. Thường châm phối hợp Tiền Hội (1010.05) hoặc Hậu Hội (1010.06).",
+    "dongQiInstruction": "Chính Hội - Tiền Hội - Hậu Hội (hoặc Chính Hội - Châu Viên - Châu Côn - Châu Luân) là bộ Đầu Tam Hội thống lĩnh trung khu vận động và ngôn ngữ của vỏ não.",
+    "westernMechanism": "Kích thích các nhánh dây thần kinh tam thoa (V1, V2, V3), dây thần kinh mặt (VII) và vùng vận động/ngôn ngữ dưới cân sọ; tăng tưới máu vỏ não và điều hòa dẫn truyền thần kinh trung ương.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-196-1010-02",
+    "code": "1010.02",
+    "name": "Châu Viên",
+    "chineseName": "州圓",
+    "vietnameseName": "Huyệt Châu Viên",
+    "zone": "Khu 1010 (Đầu mặt)",
+    "zoneDescription": "Hệ thống huyệt vùng đầu mặt Đầu Diện Bộ",
+    "location": "Trên vùng đỉnh đầu, từ huyệt Chính Hội (1010.01) đo ngang sang hai bên trái và phải mỗi bên 1,3 thốn.",
+    "anatomy": "Cân sọ, vùng vận động vỏ não. Quy kinh: Não, Phế.",
+    "indications": [
+      "Liệt nửa người (Bán thân bất toại), yếu liệt tứ chi",
+      "Bệnh Parkinson, run tay chân, suy nhược cơ thể, đau thần kinh tọa, đau lưng"
+    ],
+    "needlingMethod": "Châm xiên từ trước ra sau dưới da đầu sâu 2 - 3 phân.",
+    "dongQiInstruction": "Châu Viên (1010.02) - Châu Côn (1010.03) - Châu Luân (1010.04) nằm ngay trên dải vận động vỏ não, trị liệt nửa người và Parkinson cực nhạy.",
+    "westernMechanism": "Kích thích các nhánh dây thần kinh tam thoa (V1, V2, V3), dây thần kinh mặt (VII) và vùng vận động/ngôn ngữ dưới cân sọ; tăng tưới máu vỏ não và điều hòa dẫn truyền thần kinh trung ương.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-197-1010-03",
+    "code": "1010.03",
+    "name": "Châu Côn",
+    "chineseName": "州昆",
+    "vietnameseName": "Huyệt Châu Côn",
+    "zone": "Khu 1010 (Đầu mặt)",
+    "zoneDescription": "Hệ thống huyệt vùng đầu mặt Đầu Diện Bộ",
+    "location": "Trên đỉnh đầu, từ huyệt Châu Viên (1010.02) đo thẳng ra phía sau 1,5 thốn.",
+    "anatomy": "Cân sọ, nhánh thần kinh chẩm lớn. Quy kinh: Não, Phế.",
+    "indications": [
+      "Liệt nửa người, đau thần kinh tọa, đau cột sống lưng",
+      "Run tay chân, chóng mặt, mất ngủ"
+    ],
+    "needlingMethod": "Châm xiên dưới da đầu sâu 2 - 3 phân.",
+    "dongQiInstruction": "Thường châm Đảo mã cùng Châu Viên và Châu Luân.",
+    "westernMechanism": "Kích thích các nhánh dây thần kinh tam thoa (V1, V2, V3), dây thần kinh mặt (VII) và vùng vận động/ngôn ngữ dưới cân sọ; tăng tưới máu vỏ não và điều hòa dẫn truyền thần kinh trung ương.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-198-1010-04",
+    "code": "1010.04",
+    "name": "Châu Luân",
+    "chineseName": "州崙",
+    "vietnameseName": "Huyệt Châu Luân",
+    "zone": "Khu 1010 (Đầu mặt)",
+    "zoneDescription": "Hệ thống huyệt vùng đầu mặt Đầu Diện Bộ",
+    "location": "Trên đỉnh đầu, từ huyệt Châu Viên (1010.02) đo thẳng ra phía trước 1,5 thốn.",
+    "anatomy": "Cân sọ, nhánh thần kinh trán. Quy kinh: Não, Phế.",
+    "indications": [
+      "U não (Não lựu), liệt nửa người, di chứng đột quỵ",
+      "Bệnh Parkinson, đau nhức khớp vai và đùi"
+    ],
+    "needlingMethod": "Châm xiên dưới da đầu sâu 2 - 3 phân.",
+    "dongQiInstruction": "Châu Luân - Châu Viên - Châu Côn tạo thành dải 3 kim song song với đường giữa đỉnh đầu.",
+    "westernMechanism": "Kích thích các nhánh dây thần kinh tam thoa (V1, V2, V3), dây thần kinh mặt (VII) và vùng vận động/ngôn ngữ dưới cân sọ; tăng tưới máu vỏ não và điều hòa dẫn truyền thần kinh trung ương.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-199-1010-05",
+    "code": "1010.05",
+    "name": "Tiền Hội",
+    "chineseName": "前會",
+    "vietnameseName": "Huyệt Tiền Hội",
+    "zone": "Khu 1010 (Đầu mặt)",
+    "zoneDescription": "Hệ thống huyệt vùng đầu mặt Đầu Diện Bộ",
+    "location": "Trên đường dọc giữa đỉnh đầu, từ huyệt Chính Hội (1010.01) đo thẳng ra phía trước 1,5 thốn (tương ứng vị trí huyệt Tiền Đỉnh mạch Đốc).",
+    "anatomy": "Cân sọ, nhánh thần kinh trên ổ mắt. Quy kinh: Não.",
+    "indications": [
+      "Choáng váng, hoa mắt, hôn mê bất tỉnh (tỉnh não khai khiếu)",
+      "Suy nhược thần kinh, đau đỉnh đầu và trán, chảy máu cam"
+    ],
+    "needlingMethod": "Châm xiên dưới da đầu sâu 1 - 3 phân.",
+    "dongQiInstruction": "Phối hợp Chính Hội và Hậu Hội để điều hòa khí huyết toàn bộ đại não.",
+    "westernMechanism": "Kích thích các nhánh dây thần kinh tam thoa (V1, V2, V3), dây thần kinh mặt (VII) và vùng vận động/ngôn ngữ dưới cân sọ; tăng tưới máu vỏ não và điều hòa dẫn truyền thần kinh trung ương.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-200-1010-06",
+    "code": "1010.06",
+    "name": "Hậu Hội",
+    "chineseName": "後會",
+    "vietnameseName": "Huyệt Hậu Hội",
+    "zone": "Khu 1010 (Đầu mặt)",
+    "zoneDescription": "Hệ thống huyệt vùng đầu mặt Đầu Diện Bộ",
+    "location": "Trên đường dọc giữa đầu, từ huyệt Chính Hội (1010.01) đo thẳng ra phía sau 1,6 thốn (tương ứng vị trí huyệt Hậu Đỉnh mạch Đốc).",
+    "anatomy": "Cân sọ, nhánh thần kinh chẩm lớn. Quy kinh: Não, Đốc mạch.",
+    "indications": [
+      "Đau cột sống (đặc biệt đốt sống ngực và thắt lưng), đau cứng gáy",
+      "Liệt nửa người, mất tiếng sau đột quỵ, chóng mặt, đau đầu sau gáy"
+    ],
+    "needlingMethod": "Châm xiên dưới da đầu sâu 1 - 3 phân.",
+    "dongQiInstruction": "Hậu Hội phản chiếu vùng cột sống thắt lưng và tiểu não, trị đau lưng và chóng mặt tiền đình rất tốt.",
+    "westernMechanism": "Kích thích các nhánh dây thần kinh tam thoa (V1, V2, V3), dây thần kinh mặt (VII) và vùng vận động/ngôn ngữ dưới cân sọ; tăng tưới máu vỏ não và điều hòa dẫn truyền thần kinh trung ương.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-201-1010-07",
+    "code": "1010.07",
+    "name": "Tổng Khu",
+    "chineseName": "總樞",
+    "vietnameseName": "Huyệt Tổng Khu",
+    "zone": "Khu 1010 (Đầu mặt)",
+    "zoneDescription": "Hệ thống huyệt vùng đầu mặt Đầu Diện Bộ",
+    "location": "Chính giữa gáy sau, trong hõm dưới ụ chẩm ngoài, cách chân tóc gáy đo lên 0,8 thốn (giữa huyệt Phong Phủ và Á Môn).",
+    "anatomy": "Dây chằng gáy, nhánh thần kinh chẩm thứ 3. Quy kinh: Đốc mạch, Não.",
+    "indications": [
+      "Mất tiếng, câm, nói ngọng, cứng lưỡi sau tai biến",
+      "Đau cứng cổ gáy, nôn mửa, hồi hộp, trẻ em co giật"
+    ],
+    "needlingMethod": "Châm thẳng hoặc hơi hướng xuống dưới sâu 3 - 5 phân (Tuyệt đối không châm sâu quá 5 phân hoặc hướng lên trên để tránh hành não); hoặc dùng kim tam lăng chích nặn máu.",
+    "dongQiInstruction": "Tổng Khu là trung khu khai âm và điều hòa hành não; chích nặn máu tại Tổng Khu trị mất tiếng và đau đầu vùng chẩm rất nhạy.",
+    "westernMechanism": "Kích thích các nhánh dây thần kinh tam thoa (V1, V2, V3), dây thần kinh mặt (VII) và vùng vận động/ngôn ngữ dưới cân sọ; tăng tưới máu vỏ não và điều hòa dẫn truyền thần kinh trung ương.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-202-1010-08",
+    "code": "1010.08",
+    "name": "Trấn Tĩnh",
+    "chineseName": "鎮靜",
+    "vietnameseName": "Huyệt Trấn Tĩnh",
+    "zone": "Khu 1010 (Đầu mặt)",
+    "zoneDescription": "Hệ thống huyệt vùng đầu mặt Đầu Diện Bộ",
+    "location": "Giữa hai đầu lông mày, từ huyệt Ấn Đường đo thẳng lên trên 3 phân.",
+    "anatomy": "Cơ mảnh khảnh, nhánh thần kinh trên ròng rọc. Quy kinh: Não, Tâm.",
+    "indications": [
+      "Mất ngủ kinh niên, rối loạn lo âu, tâm thần bất an, hay giật mình ác mộng",
+      "Đau đầu vùng trán, chóng mặt, trẻ em khóc đêm (Dạ đề), co giật",
+      "Đau nhức và tê mỏi hai chân"
+    ],
+    "needlingMethod": "Véo da châm xiên từ trên xuống dưới (hướng về Ấn Đường) sâu 2 - 3 phân.",
+    "dongQiInstruction": "Trấn Tĩnh phối hợp Hạ Tam Hoàng là phác đồ số 1 của Đổng Thị trị mất ngủ kinh niên và rối loạn thần kinh thực vật.",
+    "westernMechanism": "Kích thích các nhánh dây thần kinh tam thoa (V1, V2, V3), dây thần kinh mặt (VII) và vùng vận động/ngôn ngữ dưới cân sọ; tăng tưới máu vỏ não và điều hòa dẫn truyền thần kinh trung ương.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-203-1010-09",
+    "code": "1010.09",
+    "name": "Thượng Lý",
+    "chineseName": "上里",
+    "vietnameseName": "Huyệt Thượng Lý",
+    "zone": "Khu 1010 (Đầu mặt)",
+    "zoneDescription": "Hệ thống huyệt vùng đầu mặt Đầu Diện Bộ",
+    "location": "Từ đầu trong lông mày (huyệt Toàn Trúc) đo thẳng lên trên 2 phân.",
+    "anatomy": "Cơ vòng mắt, thần kinh trên ổ mắt. Quy kinh: Phế, Mắt.",
+    "indications": [
+      "Đau đầu, chóng mặt, hoa mắt, mờ mắt, chảy nước mắt",
+      "Viêm mũi dị ứng, nghẹt mũi"
+    ],
+    "needlingMethod": "Châm xiên từ trên xuống dưới hoặc hướng ra ngoài theo cung mày sâu 2 - 3 phân.",
+    "dongQiInstruction": "Thường phối hợp Trấn Tĩnh (1010.08) tạo thành bộ Tam Châm vùng ấn đường - đầu mày trị đau đầu và mất ngủ.",
+    "westernMechanism": "Kích thích các nhánh dây thần kinh tam thoa (V1, V2, V3), dây thần kinh mặt (VII) và vùng vận động/ngôn ngữ dưới cân sọ; tăng tưới máu vỏ não và điều hòa dẫn truyền thần kinh trung ương.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-204-1010-10",
+    "code": "1010.10",
+    "name": "Tứ Phủ Nhị",
+    "chineseName": "四腑二",
+    "vietnameseName": "Huyệt Tứ Phủ Nhị",
+    "zone": "Khu 1010 (Đầu mặt)",
+    "zoneDescription": "Hệ thống huyệt vùng đầu mặt Đầu Diện Bộ",
+    "location": "Ở chính giữa cung lông mày (ngay trên huyệt Ngư Yêu) đo thẳng lên 2 phân.",
+    "anatomy": "Cơ trán, nhánh thần kinh trên ổ mắt. Quy kinh: Phế, Mắt.",
+    "indications": [
+      "Trướng bụng dưới, đầy hơi, đau đầu vùng trán và thái dương, mờ mắt"
+    ],
+    "needlingMethod": "Châm xiên hướng ra ngoài theo bờ trên lông mày sâu 2 - 3 phân.",
+    "dongQiInstruction": "Phối hợp Thượng Lý và Tứ Phủ Nhất để sơ tiết khí cơ vùng đầu mặt và ổ bụng.",
+    "westernMechanism": "Kích thích các nhánh dây thần kinh tam thoa (V1, V2, V3), dây thần kinh mặt (VII) và vùng vận động/ngôn ngữ dưới cân sọ; tăng tưới máu vỏ não và điều hòa dẫn truyền thần kinh trung ương.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-205-1010-11",
+    "code": "1010.11",
+    "name": "Tứ Phủ Nhất",
+    "chineseName": "四腑一",
+    "vietnameseName": "Huyệt Tứ Phủ Nhất",
+    "zone": "Khu 1010 (Đầu mặt)",
+    "zoneDescription": "Hệ thống huyệt vùng đầu mặt Đầu Diện Bộ",
+    "location": "Ở đuôi lông mày (huyệt Ty Trúc Không) đo thẳng lên 2 phân.",
+    "anatomy": "Cơ vòng mắt, nhánh thần kinh mặt và thần kinh thái dương. Quy kinh: Phế, Đởm.",
+    "indications": [
+      "Đau nửa đầu (Migraine), trướng bụng, mỏi mắt, sụp mí mắt"
+    ],
+    "needlingMethod": "Châm xiên dưới da sâu 2 - 3 phân.",
+    "dongQiInstruction": "Thượng Lý - Tứ Phủ Nhị - Tứ Phủ Nhất tạo thành dải Tam Châm cung mày.",
+    "westernMechanism": "Kích thích các nhánh dây thần kinh tam thoa (V1, V2, V3), dây thần kinh mặt (VII) và vùng vận động/ngôn ngữ dưới cân sọ; tăng tưới máu vỏ não và điều hòa dẫn truyền thần kinh trung ương.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-206-1010-12",
+    "code": "1010.12",
+    "name": "Chính Bổn",
+    "chineseName": "正本",
+    "vietnameseName": "Huyệt Chính Bổn",
+    "zone": "Khu 1010 (Đầu mặt)",
+    "zoneDescription": "Hệ thống huyệt vùng đầu mặt Đầu Diện Bộ",
+    "location": "Ngay chính giữa đỉnh chóp mũi (tương ứng vị trí huyệt Tố Liêu mạch Đốc).",
+    "anatomy": "Nhánh mũi ngoài của thần kinh sàng trước. Quy kinh: Phế.",
+    "indications": [
+      "Viêm mũi dị ứng, viêm mũi vận mạch, polyp mũi, chảy máu cam",
+      "Hạ huyết áp cấp cứu, trụy mạch, say rượu bất tỉnh",
+      "Bệnh tâm thần phân liệt, ảo giác"
+    ],
+    "needlingMethod": "Châm thẳng sâu 1 - 2 phân hoặc dùng kim tam lăng chích nặn 1 - 2 giọt máu.",
+    "dongQiInstruction": "Chích máu Chính Bổn trị viêm mũi dị ứng và giải rượu cực nhạy.",
+    "westernMechanism": "Kích thích các nhánh dây thần kinh tam thoa (V1, V2, V3), dây thần kinh mặt (VII) và vùng vận động/ngôn ngữ dưới cân sọ; tăng tưới máu vỏ não và điều hòa dẫn truyền thần kinh trung ương.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-207-1010-13",
+    "code": "1010.13",
+    "name": "Mã Kim Thủy",
+    "chineseName": "馬金水",
+    "vietnameseName": "Huyệt Mã Kim Thủy",
+    "zone": "Khu 1010 (Đầu mặt)",
+    "zoneDescription": "Hệ thống huyệt vùng đầu mặt Đầu Diện Bộ",
+    "location": "Trên gò má, tại chỗ lõm bờ dưới xương gò má, trên đường thẳng dọc từ khóe mắt ngoài kéo xuống (ngang mức cánh mũi).",
+    "anatomy": "Cơ gò má, nhánh thần kinh dưới ổ mắt và thần kinh mặt. Quy kinh: Thận, Phế.",
+    "indications": [
+      "Sỏi thận, sỏi niệu quản, cơn đau quặn thận cấp",
+      "Chấn thương thắt lưng cấp (Trật đả thắt lưng không cúi ngửa được), đau tức ngực khi hít thở",
+      "Viêm mũi, liệt mặt, đau dây thần kinh tam thoa"
+    ],
+    "needlingMethod": "Châm thẳng sâu 2 - 4 phân.",
+    "dongQiInstruction": "Mã Kim Thủy (1010.13) & Mã Khoái Thủy (1010.14) là cặp thần huyệt trên mặt đặc trị Sỏi thận - Sỏi tiết niệu và Bong gân thắt lưng cấp tính!",
+    "westernMechanism": "Kích thích các nhánh dây thần kinh tam thoa (V1, V2, V3), dây thần kinh mặt (VII) và vùng vận động/ngôn ngữ dưới cân sọ; tăng tưới máu vỏ não và điều hòa dẫn truyền thần kinh trung ương.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-208-1010-14",
+    "code": "1010.14",
+    "name": "Mã Khoái Thủy",
+    "chineseName": "馬快水",
+    "vietnameseName": "Huyệt Mã Khoái Thủy",
+    "zone": "Khu 1010 (Đầu mặt)",
+    "zoneDescription": "Hệ thống huyệt vùng đầu mặt Đầu Diện Bộ",
+    "location": "Trên mặt, nằm ngay phía dưới huyệt Mã Kim Thủy (1010.13) 4 phân (ngang mức bờ dưới lỗ mũi).",
+    "anatomy": "Cơ nâng môi trên, thần kinh dưới ổ mắt. Quy kinh: Thận, Bàng quang.",
+    "indications": [
+      "Sỏi bàng quang, sỏi niệu quản, viêm bàng quang, tiểu buốt, tiểu rắt, tiểu đêm",
+      "Đau cột sống thắt lưng, liệt mặt, viêm mũi"
+    ],
+    "needlingMethod": "Châm thẳng hoặc xiên xuống dưới sâu 2 - 4 phân.",
+    "dongQiInstruction": "Châm Đảo mã Mã Kim Thủy - Mã Khoái Thủy giúp giãn cơ trơn niệu quản, tống sỏi thận - tiết niệu ra ngoài nhanh chóng.",
+    "westernMechanism": "Kích thích các nhánh dây thần kinh tam thoa (V1, V2, V3), dây thần kinh mặt (VII) và vùng vận động/ngôn ngữ dưới cân sọ; tăng tưới máu vỏ não và điều hòa dẫn truyền thần kinh trung ương.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-209-1010-15",
+    "code": "1010.15",
+    "name": "Phủ Khoái",
+    "chineseName": "腑快",
+    "vietnameseName": "Huyệt Phủ Khoái",
+    "zone": "Khu 1010 (Đầu mặt)",
+    "zoneDescription": "Hệ thống huyệt vùng đầu mặt Đầu Diện Bộ",
+    "location": "Trên mặt, từ bờ ngoài cánh mũi đo ngang ra 5 phân (gần huyệt Nghinh Hương).",
+    "anatomy": "Cơ vòng miệng, nhánh thần kinh mặt và dưới ổ mắt. Quy kinh: Thận, Lục phủ.",
+    "indications": [
+      "Trướng bụng, đau bụng dưới, thoát vị bẹn (Sán khí)",
+      "Viêm mũi dị ứng, nghẹt mũi, liệt mặt"
+    ],
+    "needlingMethod": "Châm thẳng sâu 2 - 3 phân.",
+    "dongQiInstruction": "Khai thông khiếu mũi và hành khí tiêu trướng ổ bụng.",
+    "westernMechanism": "Kích thích các nhánh dây thần kinh tam thoa (V1, V2, V3), dây thần kinh mặt (VII) và vùng vận động/ngôn ngữ dưới cân sọ; tăng tưới máu vỏ não và điều hòa dẫn truyền thần kinh trung ương.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-210-1010-16",
+    "code": "1010.16",
+    "name": "Lục Khoái",
+    "chineseName": "六快",
+    "vietnameseName": "Huyệt Lục Khoái",
+    "zone": "Khu 1010 (Đầu mặt)",
+    "zoneDescription": "Hệ thống huyệt vùng đầu mặt Đầu Diện Bộ",
+    "location": "Trên mặt, từ điểm giữa nhân trung đo ngang ra hai bên mỗi bên 1,4 thốn (nằm phía trên khóe miệng khoảng 4 phân).",
+    "anatomy": "Cơ vòng miệng, nhánh thần kinh mặt. Quy kinh: Niệu đạo, Thận.",
+    "indications": [
+      "Sỏi niệu đạo, viêm niệu đạo, tiểu buốt, tiểu ra máu",
+      "Liệt mặt méo miệng, đau răng hàm trên"
+    ],
+    "needlingMethod": "Châm thẳng sâu 2 - 3 phân hoặc châm xiên hướng về khóe miệng.",
+    "dongQiInstruction": "Phối hợp Mã Khoái Thủy (1010.14) trị sỏi kẹt ở niệu đạo và tiểu buốt.",
+    "westernMechanism": "Kích thích các nhánh dây thần kinh tam thoa (V1, V2, V3), dây thần kinh mặt (VII) và vùng vận động/ngôn ngữ dưới cân sọ; tăng tưới máu vỏ não và điều hòa dẫn truyền thần kinh trung ương.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-211-1010-17",
+    "code": "1010.17",
+    "name": "Thất Khoái",
+    "chineseName": "七快",
+    "vietnameseName": "Huyệt Thất Khoái",
+    "zone": "Khu 1010 (Đầu mặt)",
+    "zoneDescription": "Hệ thống huyệt vùng đầu mặt Đầu Diện Bộ",
+    "location": "Trên mặt, nằm cách khóe miệng (huyệt Địa Thương) ra ngoài 5 phân.",
+    "anatomy": "Cơ vòng miệng và cơ mút, nhánh thần kinh mặt. Quy kinh: Phế.",
+    "indications": [
+      "Liệt dây thần kinh mặt (Liệt VII méo miệng, chảy nước dãi)",
+      "Đờm tắc cổ họng, ho đờm, loét miệng"
+    ],
+    "needlingMethod": "Châm xiên từ khóe miệng hướng ra ngoài sâu 5 phân - 1 thốn.",
+    "dongQiInstruction": "Chuyên trị liệt cơ vòng miệng và méo miệng sau trúng phong.",
+    "westernMechanism": "Kích thích các nhánh dây thần kinh tam thoa (V1, V2, V3), dây thần kinh mặt (VII) và vùng vận động/ngôn ngữ dưới cân sọ; tăng tưới máu vỏ não và điều hòa dẫn truyền thần kinh trung ương.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-212-1010-18",
+    "code": "1010.18",
+    "name": "Mộc Chi",
+    "chineseName": "木枝",
+    "vietnameseName": "Huyệt Mộc Chi",
+    "zone": "Khu 1010 (Đầu mặt)",
+    "zoneDescription": "Hệ thống huyệt vùng đầu mặt Đầu Diện Bộ",
+    "location": "Trên vùng má - thái dương hàm, từ huyệt Hạ Quan (chỗ lõm trước tai dưới cung gò má) đo thẳng xuống 1 thốn.",
+    "anatomy": "Cơ cắn, tuyến mang tai, nhánh thần kinh mặt và thần kinh hàm dưới. Quy kinh: Can, Đởm.",
+    "indications": [
+      "Kinh phong, co giật, động kinh, nghiến răng",
+      "Đau khớp thái dương - hàm, liệt mặt, đau dây thần kinh tam thoa",
+      "Mệt mỏi suy nhược do Can Đởm hư, sỏi mật"
+    ],
+    "needlingMethod": "Châm thẳng sâu 3 - 5 phân.",
+    "dongQiInstruction": "Mộc Chi điều hòa thiếu dương Đởm kinh và giải tỏa co thắt cơ nhai.",
+    "westernMechanism": "Kích thích các nhánh dây thần kinh tam thoa (V1, V2, V3), dây thần kinh mặt (VII) và vùng vận động/ngôn ngữ dưới cân sọ; tăng tưới máu vỏ não và điều hòa dẫn truyền thần kinh trung ương.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-213-1010-19",
+    "code": "1010.19",
+    "name": "Thủy Thông",
+    "chineseName": "水通",
+    "vietnameseName": "Huyệt Thủy Thông",
+    "zone": "Khu 1010 (Đầu mặt)",
+    "zoneDescription": "Hệ thống huyệt vùng đầu mặt Đầu Diện Bộ",
+    "location": "Dưới khóe miệng (huyệt Địa Thương) đo thẳng xuống 4 phân trên vùng cằm.",
+    "anatomy": "Cơ hạ góc miệng, nhánh thần kinh cằm và thần kinh mặt. Quy kinh: Thận.",
+    "indications": [
+      "Thánh huyệt Bổ Thận Nạp Khí: Hen suyễn khó thở (Khí suyễn), ho lâu ngày, nấc cụt, nôn mửa",
+      "Đau thắt lưng cấp và mạn, thoái hóa cột sống thắt lưng, đau thần kinh tọa",
+      "Chóng mặt, hoa mắt, suy nhược cơ thể, kiệt sức, ù tai",
+      "Phong thấp thấp khớp, liệt mặt, trúng phong cấm khẩu"
+    ],
+    "needlingMethod": "Châm xiên từ trong ra ngoài (dọc theo xương hàm dưới) sâu 3 - 8 phân. Luôn châm Đảo mã cùng Thủy Kim (1010.20).",
+    "dongQiInstruction": "Thủy Kim (1010.20) & Thủy Thông (1010.19) là cặp Đảo mã tuyệt diệu ở vùng cằm của Đổng Thị: Chuyên bổ Thận nạp Phế khí, cắt cơn hen suyễn, nấc cụt và đau thắt lưng tức thời!",
+    "westernMechanism": "Kích thích các nhánh dây thần kinh tam thoa (V1, V2, V3), dây thần kinh mặt (VII) và vùng vận động/ngôn ngữ dưới cân sọ; tăng tưới máu vỏ não và điều hòa dẫn truyền thần kinh trung ương.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-214-1010-20",
+    "code": "1010.20",
+    "name": "Thủy Kim",
+    "chineseName": "水金",
+    "vietnameseName": "Huyệt Thủy Kim",
+    "zone": "Khu 1010 (Đầu mặt)",
+    "zoneDescription": "Hệ thống huyệt vùng đầu mặt Đầu Diện Bộ",
+    "location": "Trên vùng cằm, từ huyệt Thủy Thông (1010.19) đo ngang vào phía trong (về phía chính giữa cằm) 5 phân.",
+    "anatomy": "Cơ hạ môi dưới, thần kinh cằm. Quy kinh: Thận, Phế.",
+    "indications": [
+      "Hen suyễn cấp và mạn, khó thở, ho khan, viêm phế quản, nấc cụt",
+      "Đau thắt lưng, bong gân thắt lưng cấp, đau thần kinh tọa",
+      "Mệt mỏi kiệt sức, thiếu máu não, chóng mặt, đau bụng, sôi ruột"
+    ],
+    "needlingMethod": "Châm xiên từ trong ra ngoài hướng về phía Thủy Thông sâu 3 - 8 phân (một kim Thủy Kim có thể châm thấu sang Thủy Thông).",
+    "dongQiInstruction": "Kim sinh Thủy, Thủy Kim - Thủy Thông giúp Phế Kim và Thận Thủy tương sinh, là bảo bối lâm sàng trị hen suyễn và đau lưng.",
+    "westernMechanism": "Kích thích các nhánh dây thần kinh tam thoa (V1, V2, V3), dây thần kinh mặt (VII) và vùng vận động/ngôn ngữ dưới cân sọ; tăng tưới máu vỏ não và điều hòa dẫn truyền thần kinh trung ương.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-215-1010-21",
+    "code": "1010.21",
+    "name": "Ngọc Hỏa",
+    "chineseName": "玉火",
+    "vietnameseName": "Huyệt Ngọc Hỏa",
+    "zone": "Khu 1010 (Đầu mặt)",
+    "zoneDescription": "Hệ thống huyệt vùng đầu mặt Đầu Diện Bộ",
+    "location": "Trên má, nằm ngay tại lỗ dưới ổ mắt (tương ứng vị trí huyệt Tứ Bạch kinh Vị).",
+    "anatomy": "Lỗ dưới ổ mắt, dây thần kinh dưới ổ mắt (nhánh V2). Quy kinh: Tâm, Can.",
+    "indications": [
+      "Đau dây thần kinh tam thoa (nhánh V2) dữ dội, liệt mặt, co giật cơ mặt",
+      "Đau thần kinh tọa, đau khớp vai và cánh tay, đau nhức tứ chi"
+    ],
+    "needlingMethod": "Châm thẳng hoặc hơi xiên sâu 1 - 3 phân.",
+    "dongQiInstruction": "Ngọc Hỏa tác động trực tiếp vào thân dây thần kinh dưới ổ mắt, cắt cơn đau dây V rất nhanh.",
+    "westernMechanism": "Kích thích các nhánh dây thần kinh tam thoa (V1, V2, V3), dây thần kinh mặt (VII) và vùng vận động/ngôn ngữ dưới cân sọ; tăng tưới máu vỏ não và điều hòa dẫn truyền thần kinh trung ương.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-216-1010-22",
+    "code": "1010.22",
+    "name": "Tị Dực",
+    "chineseName": "鼻翼",
+    "vietnameseName": "Huyệt Tị Dực",
+    "zone": "Khu 1010 (Đầu mặt)",
+    "zoneDescription": "Hệ thống huyệt vùng đầu mặt Đầu Diện Bộ",
+    "location": "Ở chính giữa rãnh trên của cánh mũi (nơi tiếp giáp cánh mũi với má).",
+    "anatomy": "Nhánh thần kinh dưới ổ mắt và thần kinh mặt. Quy kinh: Phế, Tỳ, Thận.",
+    "indications": [
+      "Đau nhức xương mày, chóng mặt, hoa mắt, mờ mắt",
+      "Đau nửa đầu, liệt mặt, đau thần kinh tọa, mỏi tứ chi",
+      "Viêm mũi dị ứng, nghẹt mũi"
+    ],
+    "needlingMethod": "Châm thẳng sâu 1 - 2 phân.",
+    "dongQiInstruction": "Tị Dực giúp khai thông thanh dương lên đầu mắt và sơ thông Phế khí.",
+    "westernMechanism": "Kích thích các nhánh dây thần kinh tam thoa (V1, V2, V3), dây thần kinh mặt (VII) và vùng vận động/ngôn ngữ dưới cân sọ; tăng tưới máu vỏ não và điều hòa dẫn truyền thần kinh trung ương.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-217-1010-23",
+    "code": "1010.23",
+    "name": "Châu Hỏa",
+    "chineseName": "州火",
+    "vietnameseName": "Huyệt Châu Hỏa",
+    "zone": "Khu 1010 (Đầu mặt)",
+    "zoneDescription": "Hệ thống huyệt vùng đầu mặt Đầu Diện Bộ",
+    "location": "Ở vùng thái dương - trên tai, từ đỉnh vành tai đo thẳng lên 1,5 thốn (tương ứng vị trí huyệt Suất Cốc kinh Đởm).",
+    "anatomy": "Cơ thái dương, nhánh thần kinh tai - thái dương. Quy kinh: Tâm.",
+    "indications": [
+      "Đau nửa đầu (Thiên đầu thống), chóng mặt, đánh trống ngực",
+      "Liệt nửa người, đau khớp chân tay do phong thấp"
+    ],
+    "needlingMethod": "Châm xiên dưới da đầu sâu 2 - 5 phân.",
+    "dongQiInstruction": "Phối hợp Châu Kim (1010.24) trị đau nửa đầu Migraine và di chứng đột quỵ.",
+    "westernMechanism": "Kích thích các nhánh dây thần kinh tam thoa (V1, V2, V3), dây thần kinh mặt (VII) và vùng vận động/ngôn ngữ dưới cân sọ; tăng tưới máu vỏ não và điều hòa dẫn truyền thần kinh trung ương.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-218-1010-24",
+    "code": "1010.24",
+    "name": "Châu Kim",
+    "chineseName": "州金",
+    "vietnameseName": "Huyệt Châu Kim",
+    "zone": "Khu 1010 (Đầu mặt)",
+    "zoneDescription": "Hệ thống huyệt vùng đầu mặt Đầu Diện Bộ",
+    "location": "Ở vùng trên sau tai, từ huyệt Châu Hỏa (1010.23) đo ngang ra phía sau 1 thốn.",
+    "anatomy": "Cơ thái dương, thần kinh chẩm nhỏ. Quy kinh: Phế.",
+    "indications": [
+      "Đau thần kinh tọa, đau thắt lưng, đau khớp vai",
+      "Đau nửa đầu, liệt nửa người, cảm mạo phong thấp"
+    ],
+    "needlingMethod": "Châm xiên dưới da đầu sâu 2 - 5 phân.",
+    "dongQiInstruction": "Châu Hỏa & Châu Kim trên vùng da đầu thái dương giúp sơ thông Thiếu dương kinh.",
+    "westernMechanism": "Kích thích các nhánh dây thần kinh tam thoa (V1, V2, V3), dây thần kinh mặt (VII) và vùng vận động/ngôn ngữ dưới cân sọ; tăng tưới máu vỏ não và điều hòa dẫn truyền thần kinh trung ương.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-219-1010-25",
+    "code": "1010.25",
+    "name": "Châu Thủy (2 Huyệt)",
+    "chineseName": "州水",
+    "vietnameseName": "Huyệt Châu Thủy (2 Huyệt)",
+    "zone": "Khu 1010 (Đầu mặt)",
+    "zoneDescription": "Hệ thống huyệt vùng đầu mặt Đầu Diện Bộ",
+    "location": "Vùng chẩm sau đầu: Huyệt 1 nằm ngay trên đỉnh ụ chẩm ngoài (huyệt Não Hổ); Huyệt 2 nằm ngay phía trên Huyệt 1 đúng 8 phân.",
+    "anatomy": "Cân sọ vùng chẩm, nhánh thần kinh chẩm lớn. Quy kinh: Thận, Não.",
+    "indications": [
+      "Đau cột sống thắt lưng, yếu liệt hai chi dưới",
+      "Đau đầu vùng chẩm, chóng mặt, mờ mắt, thần kinh suy nhược"
+    ],
+    "needlingMethod": "Châm xiên dưới da đầu sâu 2 - 3 phân.",
+    "dongQiInstruction": "Vùng chẩm phản chiếu tiểu não và thị giác; Châu Thủy trị chóng mặt và đau thắt lưng rất hay.",
+    "westernMechanism": "Kích thích các nhánh dây thần kinh tam thoa (V1, V2, V3), dây thần kinh mặt (VII) và vùng vận động/ngôn ngữ dưới cân sọ; tăng tưới máu vỏ não và điều hòa dẫn truyền thần kinh trung ương.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-220-dt03",
+    "code": "DT03",
+    "name": "Thất Tinh (7 Huyệt)",
+    "chineseName": "七星",
+    "vietnameseName": "Huyệt Thất Tinh (7 Huyệt)",
+    "zone": "Khu Hậu Bối (Lưng)",
+    "zoneDescription": "Hệ thống huyệt vùng lưng Hậu Bối Bộ Vị (Trích huyết giải độc)",
+    "location": "Vùng gáy và lưng trên: Tổng Khu (hõm dưới chẩm), Đại Chùy (dưới C7), Đào Đạo (dưới T1), Thần Trụ (dưới T3) và 3 điểm phản ứng hai bên cách mạch Đốc 0,8 - 1,5 thốn.",
+    "anatomy": "Mạng tĩnh mạch nông vùng cổ gáy và lưng trên, nhánh sau thần kinh cổ - ngực. Quy kinh: Phế, Tâm, Não.",
+    "indications": [
+      "Cảm sốt cao, trúng thử (say nắng), nôn mửa cấp tính (Hoắc loạn)",
+      "Đau đầu dữ dội, tăng huyết áp cấp, co giật trẻ em, tâm thần phân liệt"
+    ],
+    "needlingMethod": "Dùng kim tam lăng chích nặn máu đen (không lưu kim).",
+    "dongQiInstruction": "Thất Tinh là bộ huyệt Trích Huyết đầu bảng ở vùng cổ lưng giúp thanh tả nhiệt độc ở Tâm - Phế - Não tức thời.",
+    "westernMechanism": "Trích huyết nặn máu tại mạng tĩnh mạch nông cạnh sống (T1-S4) kích thích trực tiếp các hạch giao cảm cạnh sống và rễ thần kinh tủy, giải phóng ứ trệ vi tuần hoàn và phản xạ tạng - lưng.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-221-dt04",
+    "code": "DT04",
+    "name": "Ngũ Lĩnh (5 Hàng - 38 Huyệt)",
+    "chineseName": "五嶺",
+    "vietnameseName": "Huyệt Ngũ Lĩnh (5 Hàng Huyệt - 38 Huyệt)",
+    "zone": "Khu Hậu Bối (Lưng)",
+    "zoneDescription": "Hệ thống huyệt vùng lưng Hậu Bối Bộ Vị (Trích huyết giải độc)",
+    "location": "Vùng lưng từ đốt sống ngực T1 đến đốt sống thắt lưng L2: Gồm 5 đường dọc (Đường 1 là mạch Đốc từ T1-T10; Đường 2 và 3 cách mạch Đốc 1,5 thốn; Đường 4 và 5 cách mạch Đốc 3 thốn).",
+    "anatomy": "Nhánh sau các dây thần kinh tủy sống T1-L2, mạng tĩnh mạch lưng. Quy kinh: Ngũ tạng Lục phủ.",
+    "indications": [
+      "Tăng huyết áp, xơ vữa động mạch, trúng phong bán thân bất toại",
+      "Cảm sốt nặng, đau đầu, chóng mặt, đau dạ dày cấp, nôn mửa, tiêu chảy cấp",
+      "Đau thắt lưng, đau cột sống, tê bì tay chân"
+    ],
+    "needlingMethod": "Tìm các điểm ứ huyết tím đen hoặc nốt sẩn trên 5 đường Ngũ Lĩnh, dùng kim tam lăng chích nặn máu.",
+    "dongQiInstruction": "Ngũ Lĩnh bao quát toàn bộ Du huyệt của Ngũ tạng Lục phủ; chích máu Ngũ Lĩnh là phương pháp căn bản giải độc tạng phủ của Đổng Thị.",
+    "westernMechanism": "Trích huyết nặn máu tại mạng tĩnh mạch nông cạnh sống (T1-S4) kích thích trực tiếp các hạch giao cảm cạnh sống và rễ thần kinh tủy, giải phóng ứ trệ vi tuần hoàn và phản xạ tạng - lưng.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-222-dt05",
+    "code": "DT05",
+    "name": "Song Phượng (14 Huyệt)",
+    "chineseName": "雙鳯",
+    "vietnameseName": "Huyệt Song Phượng (14 Huyệt)",
+    "zone": "Khu Hậu Bối (Lưng)",
+    "zoneDescription": "Hệ thống huyệt vùng lưng Hậu Bối Bộ Vị (Trích huyết giải độc)",
+    "location": "Vùng lưng trên: Từ mỏm gai đốt sống ngực T2 đến T8, đo ngang sang hai bên mỗi bên 1,5 thốn (mỗi bên 7 huyệt dọc kinh Bàng Quang).",
+    "anatomy": "Nhánh sau thần kinh ngực T2-T8. Quy kinh: Tâm, Phế.",
+    "indications": [
+      "Đau nhức và tê buốt bàn tay, ngón tay, bàn chân",
+      "Xơ cứng động mạch vành, đau thắt ngực, viêm phế quản, hen suyễn",
+      "Chữa gai đốt sống cổ và đốt sống ngực"
+    ],
+    "needlingMethod": "Dùng kim tam lăng chích nặn máu đen.",
+    "dongQiInstruction": "Trích huyết Song Phượng giải phóng chèn ép rễ thần kinh ngực T2-T8, trị tê buốt tay chân cực nhạy.",
+    "westernMechanism": "Trích huyết nặn máu tại mạng tĩnh mạch nông cạnh sống (T1-S4) kích thích trực tiếp các hạch giao cảm cạnh sống và rễ thần kinh tủy, giải phóng ứ trệ vi tuần hoàn và phản xạ tạng - lưng.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-223-dt06",
+    "code": "DT06",
+    "name": "Cửu Hầu (9 Huyệt)",
+    "chineseName": "九猴",
+    "vietnameseName": "Huyệt Cửu Hầu (9 Huyệt)",
+    "zone": "Khu Hậu Bối (Lưng)",
+    "zoneDescription": "Hệ thống huyệt vùng lưng Hậu Bối Bộ Vị (Trích huyết giải độc)",
+    "location": "Vùng lưng trên quanh bả vai (phía trên - trong xương bả vai, tương ứng vùng Phế Du, Quyết Âm Du, Tâm Du, Cao Hoang, Phách Hộ).",
+    "anatomy": "Mạng tĩnh mạch nông vùng bả vai, nhánh thần kinh ngực trên. Quy kinh: Phế, Tâm, Hầu họng.",
+    "indications": [
+      "Sốt tinh hồng nhiệt (Scarlet fever), sốt phát ban, nhiễm độc máu",
+      "Viêm họng cấp, viêm phổi, ho ra máu"
+    ],
+    "needlingMethod": "Dùng kim tam lăng chích nặn máu.",
+    "dongQiInstruction": "Chuyên thanh nhiệt lương huyết giải độc ở Thượng tiêu.",
+    "westernMechanism": "Trích huyết nặn máu tại mạng tĩnh mạch nông cạnh sống (T1-S4) kích thích trực tiếp các hạch giao cảm cạnh sống và rễ thần kinh tủy, giải phóng ứ trệ vi tuần hoàn và phản xạ tạng - lưng.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-224-dt07",
+    "code": "DT07",
+    "name": "Tam Kim (6 Huyệt)",
+    "chineseName": "三金",
+    "vietnameseName": "Huyệt Tam Kim (6 Huyệt)",
+    "zone": "Khu Hậu Bối (Lưng)",
+    "zoneDescription": "Hệ thống huyệt vùng lưng Hậu Bối Bộ Vị (Trích huyết giải độc)",
+    "location": "Vùng lưng trên: Từ dưới mỏm gai đốt sống ngực T3, T4, T5 đo ngang ra hai bên mỗi bên 3 thốn (tương ứng vị trí Phách Hộ, Cao Hoang, Thần Đường).",
+    "anatomy": "Cơ trám, nhánh sau thần kinh ngực T3-T5. Quy kinh: Tâm, Phế, Khớp gối.",
+    "indications": [
+      "Đặc trị đau khớp gối mạn tính, thoái hóa khớp gối nặng, tràn dịch khớp gối",
+      "Đau bả vai, đau tức ngực sườn"
+    ],
+    "needlingMethod": "Dùng kim tam lăng chích nặn máu đen tại bên cùng bên hoặc đối bên với chân đau gối.",
+    "dongQiInstruction": "Trích huyết Tam Kim trị đau đầu gối lâu năm là một trong những tuyệt kỹ kỳ diệu nhất của Đổng Công!",
+    "westernMechanism": "Trích huyết nặn máu tại mạng tĩnh mạch nông cạnh sống (T1-S4) kích thích trực tiếp các hạch giao cảm cạnh sống và rễ thần kinh tủy, giải phóng ứ trệ vi tuần hoàn và phản xạ tạng - lưng.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-225-dt08",
+    "code": "DT08",
+    "name": "Tinh Chi (4 Huyệt)",
+    "chineseName": "精枝",
+    "vietnameseName": "Huyệt Tinh Chi (4 Huyệt)",
+    "zone": "Khu Hậu Bối (Lưng)",
+    "zoneDescription": "Hệ thống huyệt vùng lưng Hậu Bối Bộ Vị (Trích huyết giải độc)",
+    "location": "Vùng lưng trên mặt ngoài bả vai: Từ dưới mỏm gai đốt sống ngực T2 và T3 đo ngang ra hai bên mỗi bên 6 thốn.",
+    "anatomy": "Cơ dưới gai, thần kinh trên vai. Quy kinh: Thận, Tứ chi.",
+    "indications": [
+      "Đau সưng bắp chân, chuột rút bắp chân, căng tức cẳng chân",
+      "Đau khớp vai"
+    ],
+    "needlingMethod": "Dùng kim tam lăng chích nặn máu.",
+    "dongQiInstruction": "Dùng phép Thượng trị Hạ: Chích máu vùng bả vai (Tinh Chi) để trị sưng đau bắp chân.",
+    "westernMechanism": "Trích huyết nặn máu tại mạng tĩnh mạch nông cạnh sống (T1-S4) kích thích trực tiếp các hạch giao cảm cạnh sống và rễ thần kinh tủy, giải phóng ứ trệ vi tuần hoàn và phản xạ tạng - lưng.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-226-dt09",
+    "code": "DT09",
+    "name": "Kim Lâm (6 Huyệt)",
+    "chineseName": "金林",
+    "vietnameseName": "Huyệt Kim Lâm (6 Huyệt)",
+    "zone": "Khu Hậu Bối (Lưng)",
+    "zoneDescription": "Hệ thống huyệt vùng lưng Hậu Bối Bộ Vị (Trích huyết giải độc)",
+    "location": "Vùng lưng giữa: Từ dưới mỏm gai đốt sống ngực T4, T5, T6 đo ngang ra hai bên mỗi bên 6 thốn.",
+    "anatomy": "Cơ lưng rộng và cơ răng trước, thần kinh ngực T4-T6. Quy kinh: Can, Thận.",
+    "indications": [
+      "Đau thần kinh tọa (Tọa cốt thần kinh thống) do huyết ứ",
+      "Đau sườn ngực, đau mỏi đùi và cẳng chân"
+    ],
+    "needlingMethod": "Dùng kim tam lăng chích nặn máu.",
+    "dongQiInstruction": "Giải phóng huyết ứ kinh lạc vùng lưng giữa để trị đau thần kinh tọa.",
+    "westernMechanism": "Trích huyết nặn máu tại mạng tĩnh mạch nông cạnh sống (T1-S4) kích thích trực tiếp các hạch giao cảm cạnh sống và rễ thần kinh tủy, giải phóng ứ trệ vi tuần hoàn và phản xạ tạng - lưng.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-227-dt10",
+    "code": "DT10",
+    "name": "Đỉnh Trụ (16 Huyệt)",
+    "chineseName": "頂柱",
+    "vietnameseName": "Huyệt Đỉnh Trụ (16 Huyệt)",
+    "zone": "Khu Hậu Bối (Lưng)",
+    "zoneDescription": "Hệ thống huyệt vùng lưng Hậu Bối Bộ Vị (Trích huyết giải độc)",
+    "location": "Vùng lưng từ đốt sống ngực T4 đến T12: Gồm hai hàng dọc cách mạch Đốc 1,5 thốn và 3 thốn.",
+    "anatomy": "Nhánh sau thần kinh ngực T4-T12. Quy kinh: Can, Tỳ, Thận.",
+    "indications": [
+      "Bong gân thắt lưng cấp, đau cột sống lưng, đau sườn ngực",
+      "Viêm gan, sỏi mật, đau dạ dày"
+    ],
+    "needlingMethod": "Dùng kim tam lăng chích nặn máu tại các điểm tĩnh mạch ứ.",
+    "dongQiInstruction": "Chuyên trị các chứng đau lưng và bệnh lý Trung tiêu.",
+    "westernMechanism": "Trích huyết nặn máu tại mạng tĩnh mạch nông cạnh sống (T1-S4) kích thích trực tiếp các hạch giao cảm cạnh sống và rễ thần kinh tủy, giải phóng ứ trệ vi tuần hoàn và phản xạ tạng - lưng.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-228-dt11",
+    "code": "DT11",
+    "name": "Hậu Tâm (20 Huyệt)",
+    "chineseName": "後心",
+    "vietnameseName": "Huyệt Hậu Tâm (20 Huyệt)",
+    "zone": "Khu Hậu Bối (Lưng)",
+    "zoneDescription": "Hệ thống huyệt vùng lưng Hậu Bối Bộ Vị (Trích huyết giải độc)",
+    "location": "Vùng lưng từ đốt sống ngực T4 đến T9: Trên mạch Đốc (6 huyệt), cách mạch Đốc 1,5 thốn (4 huyệt mỗi bên) và cách mạch Đốc 3 thốn (3 huyệt mỗi bên).",
+    "anatomy": "Nhánh sau thần kinh ngực T4-T9. Quy kinh: Tâm, Phế, Vị.",
+    "indications": [
+      "Đinh nhọt ác tính mọc sau lưng (Hậu bối ung nhọt), mụn mủ nhiễm trùng",
+      "Suy tim, hẹp van tim, đau dạ dày cấp, cảm sốt nặng"
+    ],
+    "needlingMethod": "Dùng kim tam lăng chích nặn máu đen.",
+    "dongQiInstruction": "Trích huyết Hậu Tâm giải độc huyết phận, tiêu ung nhọt và cấp cứu bệnh tim mạch.",
+    "westernMechanism": "Trích huyết nặn máu tại mạng tĩnh mạch nông cạnh sống (T1-S4) kích thích trực tiếp các hạch giao cảm cạnh sống và rễ thần kinh tủy, giải phóng ứ trệ vi tuần hoàn và phản xạ tạng - lưng.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-229-dt12",
+    "code": "DT12",
+    "name": "Cảm Mạo Tam (2 Huyệt)",
+    "chineseName": "感冒三",
+    "vietnameseName": "Huyệt Cảm Mạo Tam (2 Huyệt)",
+    "zone": "Khu Hậu Bối (Lưng)",
+    "zoneDescription": "Hệ thống huyệt vùng lưng Hậu Bối Bộ Vị (Trích huyết giải độc)",
+    "location": "Ở vùng lưng trên, từ dưới mỏm gai đốt sống ngực T3 (Thần Trụ) đo ngang ra hai bên mỗi bên 3 thốn (tương ứng huyệt Phách Hộ).",
+    "anatomy": "Cơ thang và cơ trám, thần kinh ngực T3. Quy kinh: Phế.",
+    "indications": [
+      "Cảm mạo nặng, sốt cao, ho suyễn, đau đầu, cứng gáy"
+    ],
+    "needlingMethod": "Châm thẳng hoặc xiên sâu 3 - 5 phân, hoặc chích nặn máu kèm giác hơi.",
+    "dongQiInstruction": "Phối hợp Cảm Mạo Nhất & Nhị ở đùi (88.07 - 88.08) để trị cảm cúm nặng.",
+    "westernMechanism": "Trích huyết nặn máu tại mạng tĩnh mạch nông cạnh sống (T1-S4) kích thích trực tiếp các hạch giao cảm cạnh sống và rễ thần kinh tủy, giải phóng ứ trệ vi tuần hoàn và phản xạ tạng - lưng.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-230-dt13",
+    "code": "DT13",
+    "name": "Thủy Trung (2 Huyệt)",
+    "chineseName": "水中",
+    "vietnameseName": "Huyệt Thủy Trung (2 Huyệt)",
+    "zone": "Khu Hậu Bối (Lưng)",
+    "zoneDescription": "Hệ thống huyệt vùng lưng Hậu Bối Bộ Vị (Trích huyết giải độc)",
+    "location": "Vùng thắt lưng, từ dưới mỏm gai đốt sống thắt lưng L1 (Huyệt Huyền Khu) đo ngang ra hai bên mỗi bên 1,5 thốn (tương ứng huyệt Tam Tiêu Du).",
+    "anatomy": "Khối cơ dựng sống, nhánh sau thần kinh thắt lưng L1. Quy kinh: Thận, Tam tiêu.",
+    "indications": [
+      "Viêm thận, sỏi thận, phù thũng, tiểu tiện bất lợi, táo bón",
+      "Đau thắt lưng, khát nước nhiều (Tiêu khát)"
+    ],
+    "needlingMethod": "Châm thẳng sâu 8 phân - 1,2 thốn hoặc chích nặn máu.",
+    "dongQiInstruction": "Thủy Trung (DT13) & Thủy Phủ (DT14) là cặp huyệt trực tiếp bổ Thận khí và thông lợi Tam tiêu tại vùng thắt lưng.",
+    "westernMechanism": "Trích huyết nặn máu tại mạng tĩnh mạch nông cạnh sống (T1-S4) kích thích trực tiếp các hạch giao cảm cạnh sống và rễ thần kinh tủy, giải phóng ứ trệ vi tuần hoàn và phản xạ tạng - lưng.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-231-dt14",
+    "code": "DT14",
+    "name": "Thủy Phủ (2 Huyệt)",
+    "chineseName": "水府",
+    "vietnameseName": "Huyệt Thủy Phủ (2 Huyệt)",
+    "zone": "Khu Hậu Bối (Lưng)",
+    "zoneDescription": "Hệ thống huyệt vùng lưng Hậu Bối Bộ Vị (Trích huyết giải độc)",
+    "location": "Vùng thắt lưng, từ dưới mỏm gai đốt sống thắt lưng L2 (Huyệt Mệnh Môn) đo ngang ra hai bên mỗi bên 1,5 thốn (tương ứng huyệt Thận Du).",
+    "anatomy": "Khối cơ dựng sống, nhánh sau thần kinh thắt lưng L2. Quy kinh: Thận.",
+    "indications": [
+      "Đau cột sống thắt lưng, thoát vị đĩa đệm, đau thần kinh tọa",
+      "Viêm thận, suy thận, liệt dương, di tinh, xuất tinh sớm, vô sinh, kinh nguyệt không đều",
+      "Chóng mặt, ù tai, mờ mắt, đái tháo đường"
+    ],
+    "needlingMethod": "Châm thẳng sâu 1 - 1,5 thốn hoặc chích nặn máu.",
+    "dongQiInstruction": "Châm Đảo mã Thủy Trung - Thủy Phủ bổ Thận hỏa Mệnh môn cực mạnh.",
+    "westernMechanism": "Trích huyết nặn máu tại mạng tĩnh mạch nông cạnh sống (T1-S4) kích thích trực tiếp các hạch giao cảm cạnh sống và rễ thần kinh tủy, giải phóng ứ trệ vi tuần hoàn và phản xạ tạng - lưng.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-232-dt15",
+    "code": "DT15",
+    "name": "Tam Giang (15 Huyệt)",
+    "chineseName": "三江",
+    "vietnameseName": "Huyệt Tam Giang (15 Huyệt)",
+    "zone": "Khu Hậu Bối (Lưng)",
+    "zoneDescription": "Hệ thống huyệt vùng lưng Hậu Bối Bộ Vị (Trích huyết giải độc)",
+    "location": "Vùng thắt lưng - cùng cụt: Từ đốt sống thắt lưng L1 đến L5 trên mạch Đốc và hai hàng ngang cách mạch Đốc 1,5 thốn và 3 thốn.",
+    "anatomy": "Đám rối thần kinh thắt lưng - cùng, tĩnh mạch nông vùng thắt lưng. Quy kinh: Thận, Tử cung, Đại trường.",
+    "indications": [
+      "Bế kinh, thống kinh dữ dội, u xơ tử cung, viêm vùng chậu",
+      "Đau thắt lưng cấp và mạn, đau thần kinh tọa, viêm ruột cấp"
+    ],
+    "needlingMethod": "Dùng kim tam lăng chích nặn máu đen.",
+    "dongQiInstruction": "Trích huyết Tam Giang & Xung Tiêu là pháp bảo trị đau thắt lưng cùng cụt và u xơ tử cung.",
+    "westernMechanism": "Trích huyết nặn máu tại mạng tĩnh mạch nông cạnh sống (T1-S4) kích thích trực tiếp các hạch giao cảm cạnh sống và rễ thần kinh tủy, giải phóng ứ trệ vi tuần hoàn và phản xạ tạng - lưng.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-233-dt16",
+    "code": "DT16",
+    "name": "Song Hà (12 Huyệt)",
+    "chineseName": "雙河",
+    "vietnameseName": "Huyệt Song Hà (12 Huyệt)",
+    "zone": "Khu Hậu Bối (Lưng)",
+    "zoneDescription": "Hệ thống huyệt vùng lưng Hậu Bối Bộ Vị (Trích huyết giải độc)",
+    "location": "Vùng thắt lưng - mông: Hai bên cột sống từ L3 đến S4, cách đường giữa 3 thốn (mỗi bên 6 huyệt).",
+    "anatomy": "Cơ mông lớn, nhánh thần kinh mông trên và dưới. Quy kinh: Thận, Bàng quang.",
+    "indications": [
+      "Đau thần kinh tọa, đau mông lan xuống chân, đau khớp cùng - chậu",
+      "Đau mỏi vai và cánh tay"
+    ],
+    "needlingMethod": "Dùng kim tam lăng chích nặn máu đen.",
+    "dongQiInstruction": "Giải phóng huyết ứ vùng mông và đám rối thần kinh cùng.",
+    "westernMechanism": "Trích huyết nặn máu tại mạng tĩnh mạch nông cạnh sống (T1-S4) kích thích trực tiếp các hạch giao cảm cạnh sống và rễ thần kinh tủy, giải phóng ứ trệ vi tuần hoàn và phản xạ tạng - lưng.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-234-dt17",
+    "code": "DT17",
+    "name": "Xung Tiêu (3 Huyệt)",
+    "chineseName": "沖霄",
+    "vietnameseName": "Huyệt Xung Tiêu (3 Huyệt)",
+    "zone": "Khu Hậu Bối (Lưng)",
+    "zoneDescription": "Hệ thống huyệt vùng lưng Hậu Bối Bộ Vị (Trích huyết giải độc)",
+    "location": "Trên đường giữa vùng xương cùng (mạch Đốc): Dưới đốt sống cùng S2, S3 và S4.",
+    "anatomy": "Đám rối tĩnh mạch cùng, thần kinh cùng. Quy kinh: Tiểu não, Đốc mạch.",
+    "indications": [
+      "Đau đỉnh đầu và đau vùng chẩm (Tiểu não thống), chóng mặt, nặng đầu",
+      "Chấn thương xương cùng cụt, trĩ, sa trực tràng"
+    ],
+    "needlingMethod": "Dùng kim tam lăng chích nặn máu đen tại vùng xương cùng.",
+    "dongQiInstruction": "Theo luật Toàn tức: Xương cùng cụt đối ứng với vùng chẩm và đỉnh đầu; trích huyết Xung Tiêu trị đau vùng chẩm và u não cực nhạy!",
+    "westernMechanism": "Trích huyết nặn máu tại mạng tĩnh mạch nông cạnh sống (T1-S4) kích thích trực tiếp các hạch giao cảm cạnh sống và rễ thần kinh tủy, giải phóng ứ trệ vi tuần hoàn và phản xạ tạng - lưng.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-235-vt01",
+    "code": "VT01",
+    "name": "Hầu Nga Cửu (9 Huyệt)",
+    "chineseName": "妹蛾九",
+    "vietnameseName": "Huyệt Hầu Nga Cửu (9 Huyệt)",
+    "zone": "Khu Tiền Hung (Ngực bụng)",
+    "zoneDescription": "Hệ thống huyệt vùng ngực bụng Tiền Hung Bộ Vị",
+    "location": "Vùng cổ trước quanh sụn giáp (yết hầu): 3 huyệt trên đường giữa (trên sụn giáp, giữa sụn giáp, dưới sụn giáp) và 6 huyệt chia đều hai bên cách đường giữa 1,5 thốn.",
+    "anatomy": "Mạng tĩnh mạch nông vùng cổ trước, nhánh thần kinh ngang cổ. Quy kinh: Phế, Hầu họng.",
+    "indications": [
+      "Viêm amidan cấp có mủ, viêm họng cấp, bạch hầu, sưng đau thanh quản",
+      "Bướu cổ (Tuyến giáp sưng to), ho đờm, khó thở"
+    ],
+    "needlingMethod": "Véo da dùng kim tam lăng chích nhẹ nặn vài giọt máu ở lớp da nông (không châm sâu).",
+    "dongQiInstruction": "Trích huyết Hầu Nga Cửu làm tiêu sưng amidan và giảm đau họng tức thì.",
+    "westernMechanism": "Tác động mạng lưới thần kinh gian sườn và đám rối thần kinh ruột (ENS), giải tỏa co thắt thanh quản, phế quản, cơ hoành và điều hòa nhu động dạ dày - tử cung.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-236-vt02",
+    "code": "VT02",
+    "name": "Thập Nhị Hầu (12 Huyệt)",
+    "chineseName": "十二猴",
+    "vietnameseName": "Huyệt Thập Nhị Hầu (12 Huyệt)",
+    "zone": "Khu Tiền Hung (Ngực bụng)",
+    "zoneDescription": "Hệ thống huyệt vùng ngực bụng Tiền Hung Bộ Vị",
+    "location": "Vùng ngực trên ngay dưới xương đòn: Hai bên ngực mỗi bên 6 huyệt xếp thành 2 hàng ngang dưới bờ dưới xương đòn (cách đường giữa ngực 1,5 thốn; 3 thốn và 4,5 thốn).",
+    "anatomy": "Nhánh thần kinh trên đòn và thần kinh gian sườn 1-2. Quy kinh: Phế, Tâm.",
+    "indications": [
+      "Hen suyễn cấp, viêm phổi, tức ngực khó thở, ho ra máu",
+      "Viêm tuyến vú, đau thần kinh liên sườn trên"
+    ],
+    "needlingMethod": "Dùng kim tam lăng chích nặn máu nông ngoài da (Tuyệt đối không châm sâu vào khoang màng phổi).",
+    "dongQiInstruction": "Giải phóng ứ huyết vùng Phế - Tâm thượng tiêu.",
+    "westernMechanism": "Tác động mạng lưới thần kinh gian sườn và đám rối thần kinh ruột (ENS), giải tỏa co thắt thanh quản, phế quản, cơ hoành và điều hòa nhu động dạ dày - tử cung.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-237-vt03",
+    "code": "VT03",
+    "name": "Kim Ngũ (5 Huyệt)",
+    "chineseName": "金五",
+    "vietnameseName": "Huyệt Kim Ngũ (5 Huyệt)",
+    "zone": "Khu Tiền Hung (Ngực bụng)",
+    "zoneDescription": "Hệ thống huyệt vùng ngực bụng Tiền Hung Bộ Vị",
+    "location": "Trên đường chính giữa xương ức (mạch Nhâm): Từ hõm ức (Thiên Đột) xuống mũi ức chia đều 5 huyệt (tương ứng Thiên Đột, Hoa Cái, Tử Cung, Ngọc Đường, Đản Trung).",
+    "anatomy": "Mạng tĩnh mạch trước xương ức, nhánh trước thần kinh gian sườn. Quy kinh: Tâm, Phế, Can, Vị.",
+    "indications": [
+      "Đau tức ngực, nghẹn thở, nấc cụt, đau thượng vị cấp, tức sườn"
+    ],
+    "needlingMethod": "Dùng kim tam lăng chích nặn máu nông trên da xương ức.",
+    "dongQiInstruction": "Khai thông tông khí ở Đản Trung và giáng nghịch Vị khí.",
+    "westernMechanism": "Tác động mạng lưới thần kinh gian sườn và đám rối thần kinh ruột (ENS), giải tỏa co thắt thanh quản, phế quản, cơ hoành và điều hòa nhu động dạ dày - tử cung.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-238-vt04",
+    "code": "VT04",
+    "name": "Vị Mao Thất (7 Huyệt)",
+    "chineseName": "胃毛七",
+    "vietnameseName": "Huyệt Vị Mao Thất (7 Huyệt)",
+    "zone": "Khu Tiền Hung (Ngực bụng)",
+    "zoneDescription": "Hệ thống huyệt vùng ngực bụng Tiền Hung Bộ Vị",
+    "location": "Vùng mũi ức và thượng vị: 3 huyệt trên mạch Nhâm (Cự Khuyết, Thượng Quản, Trung Quản) và 4 huyệt hai bên cách mạch Nhâm 1,5 thốn.",
+    "anatomy": "Nhánh bì trước thần kinh gian sườn 7-9. Quy kinh: Vị, Tâm.",
+    "indications": [
+      "Viêm loét dạ dày cấp, xuất huyết dạ dày, đau thượng vị dữ dội, nôn mửa, hồi hộp đánh trống ngực"
+    ],
+    "needlingMethod": "Dùng kim tam lăng chích nặn máu nông ngoài da.",
+    "dongQiInstruction": "Trích huyết Vị Mao Thất cắt cơn đau co thắt dạ dày và tâm vị rất nhanh.",
+    "westernMechanism": "Tác động mạng lưới thần kinh gian sườn và đám rối thần kinh ruột (ENS), giải tỏa co thắt thanh quản, phế quản, cơ hoành và điều hòa nhu động dạ dày - tử cung.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  },
+  {
+    "id": "tung-239-vt05",
+    "code": "VT05",
+    "name": "Phủ Sào Nhị Thập Tam (23 Huyệt)",
+    "chineseName": "腑枕二十三",
+    "vietnameseName": "Huyệt Phủ Sào Nhị Thập Tam (23 Huyệt)",
+    "zone": "Khu Tiền Hung (Ngực bụng)",
+    "zoneDescription": "Hệ thống huyệt vùng ngực bụng Tiền Hung Bộ Vị",
+    "location": "Vùng quanh rốn và bụng dưới: Trên mạch Nhâm từ trên rốn 1 thốn xuống bờ trên xương mu và hai hàng ngang cách mạch Nhâm 1 thốn và 2 thốn.",
+    "anatomy": "Nhánh thần kinh gian sườn 10-12 và thần kinh chậu - hạ vị. Quy kinh: Thận, Tử cung, Đại - Tiểu trường.",
+    "indications": [
+      "Viêm ruột, đau bụng quanh rốn, tắc ruột cơ năng",
+      "Viêm tử cung, u xơ tử cung, thống kinh, viêm bàng quang, sán khí"
+    ],
+    "needlingMethod": "Dùng kim tam lăng chích nặn máu nông hoặc hào châm 5 - 8 phân.",
+    "dongQiInstruction": "Sơ thông khí huyết toàn bộ Hạ tiêu (Trường phủ và Bào cung).",
+    "westernMechanism": "Tác động mạng lưới thần kinh gian sườn và đám rối thần kinh ruột (ENS), giải tỏa co thắt thanh quản, phế quản, cơ hoành và điều hòa nhu động dạ dày - tử cung.",
+    "sourceBook": "Sổ Tay Đổng Thị Kỳ Huyệt - Phùng Văn Chiến (292 trang)"
+  }
+];
+
+export const TUNG_FORMULAS: TungFormula[] = [
+  {
+    "id": "tung-form-1",
+    "category": "Cấp Cứu",
+    "diseaseName": "Bài 1: CHÂM CỨU GIẢI SAY RƯỢU",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Tam xoa"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "1. CHÂM CỨU GIẢI SAY RƯỢU Châm huyệt Suất cốc để giải toả thần kinh (theo kinh nghiệm của thầy Lê Văn Sửu Kết hợp châm huyệt Dịch môn (Tam xoa 3 để giải chứng buồn nôn mà không nôn được (kinh nghiệm cá nhân PVC: Sau khi châm bệnh nhân có thể sẽ nôn ra ngay hoặc không nôn nhưng sẽ hết buồn nôn."
+  },
+  {
+    "id": "tung-form-2",
+    "category": "Cấp Cứu",
+    "diseaseName": "Bài 2: TRÚNG PHONG HÔN MÊ BẤT TỈNH NHÂN SỰ",
+    "chineseDisease": "中風昏迷不醒人事",
+    "mainPoints": [
+      "Địa tông",
+      "Vân bạch",
+      "Lý bạch"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "2. TRÚNG PHONG HÔN MÊ BẤT TỈNH NHÂN SỰ (中症風症迷不醒人事 (Nguồn http://www.tungs-acupuncture.com/李白穴/ Huyệt Vân bạch, Lý bạch lại thêm huyệt Địa tông."
+  },
+  {
+    "id": "tung-form-3",
+    "category": "Cấp Cứu",
+    "diseaseName": "Bài 3: TẮC MẠCH MÁU NÃO",
+    "chineseDisease": "腦血管燥阻燥",
+    "mainPoints": [
+      "Kiên trung",
+      "Kiến trung"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [
+      "phối hợp chích máu chỗ lõm sau khoeo chân"
+    ],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "3. TẮC MẠCH MÁU NÃO (não huyết quản trở tắc 腦血管阻塞 (Nguồn http://www.tungs-acupuncture.com/肩中穴、建中穴/ Huyệt Kiên trung, Kiến trung, phối hợp chích máu chỗ lõm sau khoeo chân, thập bát tinh huyệt, lại phối hợp thức ăn làm mềm mạch máu, thuốc Trung y như Đản sâm (丹參 Đỗ trọng (杜仲Sơn tra (山楂.."
+  },
+  {
+    "id": "tung-form-4",
+    "category": "Cấp Cứu",
+    "diseaseName": "Bài 4: CHẢY MÁU CAM",
+    "chineseDisease": "流鼻血",
+    "mainPoints": [
+      "Linh cốt",
+      "Kiên trung",
+      "Kiến trung",
+      "Lục hoàn",
+      "Trấn tĩnh"
+    ],
+    "adjunctPoints": [
+      "Bách hội"
+    ],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "4. CHẢY MÁU CAM (lưu tỵ huyết 流鼻血 epistaxis (Nguồn http://www.tungs-acupuncture.com/肩中穴、建中穴/ Huyệt Bách hội, Trấn tĩnh, Linh cốt, Lục hoàn, Kiến trung, Kiên trung."
+  },
+  {
+    "id": "tung-form-5",
+    "category": "Cảm Mạo & Sốt",
+    "diseaseName": "Bài 5: CẢM MẠO",
+    "chineseDisease": "感冒",
+    "mainPoints": [
+      "Thiên sĩ",
+      "Khúc lăng",
+      "Kiến lực",
+      "Trung lực",
+      "Cảm mạo"
+    ],
+    "adjunctPoints": [
+      "Thủy thông",
+      "Thủy kim"
+    ],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "5. CẢM MẠO (感冒 (Nguồn http://www.tungs-acupuncture.com/曲陵穴、建妹力穴、中妹力穴/ Huyệt Thiên sĩ, Khúc lăng, Kiến lực, Trung lực, Thuỷ kim, Thuỷ thông."
+  },
+  {
+    "id": "tung-form-6",
+    "category": "Cảm Mạo & Sốt",
+    "diseaseName": "Bài 6: CẢM MẠO SỐT CAO",
+    "chineseDisease": "感冒發燒",
+    "mainPoints": [
+      "Linh cốt",
+      "Đại bạch",
+      "Trọng khôi"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [
+      "com/分白穴/ Có thể chích máu tại Thập bát tinh huyệt của Đổng thị"
+    ],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "(Nguồn http://www.tungs-acupuncture.com/分白穴/ Có thể chích máu tại Thập bát tinh huyệt của Đổng thị, lại phối hợp châm các huyệt Trọng khôi, Linh cốt, Đại bạch hiệu quả rõ rệt."
+  },
+  {
+    "id": "tung-form-7",
+    "category": "Cảm Mạo & Sốt",
+    "diseaseName": "Bài 7: CHỮA CẢM MẠO",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Linh cốt",
+      "Đại bạch",
+      "Tam xoa",
+      "Địa sĩ",
+      "Thiên sĩ"
+    ],
+    "adjunctPoints": [
+      "Cảm mạo",
+      "Trấn tĩnh",
+      "Thượng lý",
+      "Thủy thông",
+      "Thủy kim"
+    ],
+    "bloodlettingPoints": [
+      "Tam xoa phối hợp chích huyết vùng cổ sau"
+    ],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "7. CHỮA CẢM MẠO (Nguồn http://www.tungs-acupuncture.com/木二穴/ Các huyệt Linh cốt, Đại bạch, Thuỷ kim, Thuỷ thông, Tam xoa phối hợp chích huyết vùng cổ sau. Có thể thêm các huyệt Thần nhĩ, Trấn tĩnh, Thượng lý, Thủ tam sĩ (Thiên sĩ, Địa sĩ, Nhân sĩyển thuận."
+  },
+  {
+    "id": "tung-form-8",
+    "category": "Cảm Mạo & Sốt",
+    "diseaseName": "Bài 8: CẢM MẠO",
+    "chineseDisease": "感冒",
+    "mainPoints": [
+      "Đại bạch",
+      "Tam xoa",
+      "Thiên sĩ",
+      "Khúc lăng",
+      "Kiến lực"
+    ],
+    "adjunctPoints": [
+      "Trung lực",
+      "Tâm linh",
+      "Cảm mạo",
+      "Thủy thông",
+      "Thủy kim"
+    ],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "8. CẢM MẠO (感冒 (Nguồn http://www.tungs-acupuncture.com/天士穴/ Huyệt Thiên sĩ phối hợp huyệt Khúc lăng, Kiến lực, Trung lực, Tâm linh, Đại bạch, Thuỷ kim, Thuỷ thông, Tam xoa 3, Tam xoa 1."
+  },
+  {
+    "id": "tung-form-9",
+    "category": "Cảm Mạo & Sốt",
+    "diseaseName": "Bài 9: CẢM MẠO THỂ HƯ",
+    "chineseDisease": "感冒體虛",
+    "mainPoints": [
+      "Linh cốt",
+      "Đại bạch",
+      "Tam xoa",
+      "Phân kim",
+      "Hợp kim"
+    ],
+    "adjunctPoints": [
+      "Nội kim",
+      "Thủy thông",
+      "Thủy kim"
+    ],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "(Nguồn http://www.tungs-acupuncture.com/分金穴、合金穴、內金穴/ Huyệt Phân kim, Hợp kim, Nội kim phối huyệt Linh cốt, Đại bạch, Tam xoa, Thuỷ kim, Thuỷ thông."
+  },
+  {
+    "id": "tung-form-10",
+    "category": "Cảm Mạo & Sốt",
+    "diseaseName": "Bài 10: CẢM MẠO ĐAU HỌNG",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Linh cốt",
+      "Cảm mạo"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "10. CẢM MẠO ĐAU HỌNG (Theo nguồn http://www.tungs-acupuncture.com/靈骨穴/ Châm Linh cốt, lưu kim 1 giờ, sau 1 ngày thì hết bệnh."
+  },
+  {
+    "id": "tung-form-11",
+    "category": "Cảm Mạo & Sốt",
+    "diseaseName": "Bài 11: TRỊ CẢM MẠO DẪN TỚI HO",
+    "chineseDisease": "感冒引起之咳嗽",
+    "mainPoints": [
+      "Hỏa phủ hải",
+      "Thiên sĩ",
+      "Cảm mạo"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "11. TRỊ CẢM MẠO DẪN TỚI HO (cảm mạo dẫn khởi chi khái thấu 感冒引起之咳嗽 (Nguồn http://www.tungs-acupuncture.com/分金穴、合金穴、內金穴/ Huyệt Hoả phủ hải, Thiên sĩ."
+  },
+  {
+    "id": "tung-form-12",
+    "category": "Cảm Mạo & Sốt",
+    "diseaseName": "Bài 12: CẢM MẠO CHẢY NƯỚC MŨI",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Linh cốt",
+      "Đại bạch",
+      "Tam xoa",
+      "Huyệt Mộc",
+      "Cảm mạo"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "12. CẢM MẠO CHẢY NƯỚC MŨI (Nguồn http://www.tungs-acupuncture.com/木二穴/ Lấy huyệt Mộc, tốt hơn là phối huyệt Tam xoa (3 huyệt, Linh cốt, Đại bạch, lại thêm huyệt Cảm mạo (2 huyệt, hiệu quả tốt hơn."
+  },
+  {
+    "id": "tung-form-13",
+    "category": "Cảm Mạo & Sốt",
+    "diseaseName": "Bài 13: CẢM MẠO TẮC MŨI",
+    "chineseDisease": "感冒鼻燥塞",
+    "mainPoints": [
+      "Tam xoa",
+      "Phân kim",
+      "Hợp kim",
+      "Nội kim",
+      "Cảm mạo"
+    ],
+    "adjunctPoints": [
+      "Tứ mã",
+      "Trấn tĩnh"
+    ],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "13. CẢM MẠO TẮC MŨI (cảm mạo tỵ tắc 感冒鼻塞 (Nguồn http://www.tungs-acupuncture.com/分金穴、合金穴、內金穴/ Huyệt Phân kim, Hợp kim, Nội kim, Trấn tĩnh, Tam xoa, Tứ mã."
+  },
+  {
+    "id": "tung-form-14",
+    "category": "Cảm Mạo & Sốt",
+    "diseaseName": "Bài 14: CẢM MẠO PHÁT SỐT",
+    "chineseDisease": "感冒發燒",
+    "mainPoints": [
+      "Linh cốt",
+      "Đại bạch",
+      "Trọng tử",
+      "Trọng tiên",
+      "Tam xoa"
+    ],
+    "adjunctPoints": [
+      "Thần nhĩ"
+    ],
+    "bloodlettingPoints": [
+      "phối hợp chích máu Thập bát tinh huyệt"
+    ],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "(Nguồn http://www.tungs-acupuncture.com/三叉一穴/ (1Bệnh nặng: Huyệt Tam xoa, Linh cốt, Đại bạch, Thần nhĩ thượng, trung, hạ, phối hợp chích máu Thập bát tinh huyệt, có thể gia Trọng tử, Trọng tiên. (2 Bệnh nhẹ: Huyệt Tam xoa, Linh cốt, Đại bạch, Trọng tử, Trọng tiên."
+  },
+  {
+    "id": "tung-form-15",
+    "category": "Cảm Mạo & Sốt",
+    "diseaseName": "Bài 15: CẢM LẠNH NẶNG",
+    "chineseDisease": "重感冒",
+    "mainPoints": [
+      "Tam xoa",
+      "Cảm mạo",
+      "Thủy thông",
+      "Thủy kim"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "15. CẢM LẠNH NẶNG (trúng cảm mạo 重感冒 Severe cold (Nguồn http://www.tungs-acupuncture.com/三叉三穴/ Châm huyệt Tam xoa 1, Tam xoa 3, Thuỷ kim, Thuỷ thông, đều lưu kim lâu."
+  },
+  {
+    "id": "tung-form-16",
+    "category": "Cảm Mạo & Sốt",
+    "diseaseName": "Bài 16: TRỊ CẢM NẶNG",
+    "chineseDisease": "重感冒",
+    "mainPoints": [
+      "Linh cốt",
+      "Đại bạch",
+      "Tam xoa",
+      "Nhân sĩ",
+      "Địa sĩ"
+    ],
+    "adjunctPoints": [
+      "Thiên sĩ",
+      "Phân kim",
+      "Hợp kim",
+      "Nội kim",
+      "Cảm mạo"
+    ],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "(Nguồn http://www.tungs-acupuncture.com/分金穴、合金穴、內金穴/ Huyệt Phân kim, Hợp kim, Nội kim phối huyệt Tam xoa, Túc cảm mạo (Cảm mạo 1, Cảm mạo 2, Linh cốt, Đại bạch, Thủ tam sĩ (Thiên sĩ, Địa sĩ, Nhân sĩ Thuỷ kim, Thuỷ thông."
+  },
+  {
+    "id": "tung-form-17",
+    "category": "Cảm Mạo & Sốt",
+    "diseaseName": "Bài 17: KHÓ CHỊU SAU CẢM",
+    "chineseDisease": "後感不適",
+    "mainPoints": [
+      "Thủ giải",
+      "Hỏa phủ hải"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "17. KHÓ CHỊU SAU CẢM (hậu cảm bất thích 後感不適 (Nguồn http://www.tungs-acupuncture.com/火腑海穴/ Có thể dùng ngón tay bóp huyệt Thủ giải, dùng cạnh tay đập huyệt Hoả phủ hải, phần lớn có thể giải nhanh."
+  },
+  {
+    "id": "tung-form-18",
+    "category": "Ngũ Quan (Mắt, Mũi, Tai, Răng)",
+    "diseaseName": "Bài 18: CÁC CHỨNG BỆNH VỀ MẮT",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Thượng bạch",
+      "Châu viên",
+      "Phân bạch"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "18. CÁC CHỨNG BỆNH VỀ MẮT (Nguồn http://www.tungs-acupuncture.com/珠圓穴/ Huyệt Châu viên có thể phối hợp huyệt Thượng bạch, huyệt Phân bạch."
+  },
+  {
+    "id": "tung-form-19",
+    "category": "Ngũ Quan (Mắt, Mũi, Tai, Răng)",
+    "diseaseName": "Bài 19: GIẢM THỊ LỰC",
+    "chineseDisease": "弱視",
+    "mainPoints": [
+      "Tam xoa",
+      "Châu viên",
+      "Thận quan"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "19. GIẢM THỊ LỰC (nhược thị 弱視 amblyopia, TEO THẦN KINH THỊ GIÁC (thị thần kinh nuy súc 視神經萎縮 optic atrophy (Nguồn http://www.tungs-acupuncture.com/三叉一穴/ Huyệt Tam xoa 1, Thận quan, Châu viên (珠圓"
+  },
+  {
+    "id": "tung-form-20",
+    "category": "Ngũ Quan (Mắt, Mũi, Tai, Răng)",
+    "diseaseName": "Bài 20: GIẢM THỊ LỰC",
+    "chineseDisease": "弱視",
+    "mainPoints": [
+      "Thượng bạch",
+      "Tam xoa",
+      "Châu viên",
+      "Thiên hoàng",
+      "Thận quan"
+    ],
+    "adjunctPoints": [
+      "Địa hoàng",
+      "Nhân hoàng",
+      "Hạ tam hoàng",
+      "Thông thận",
+      "Thông vị"
+    ],
+    "bloodlettingPoints": [
+      "Huyệt Ngũ hình châm kim hoặc chích máu hiệu quả tốt"
+    ],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "20. GIẢM THỊ LỰC (nhược thị 弱視 amblyopia, MẮT CẬN THỊ (cận thị nhãn 近視眼 (Nguồn http://www.tungs-acupuncture.com/上白穴/ Huyệt Thượng bạch phối hợp huyệt Hạ tam hoàng (Thiên hoàng, Địa hoàng, Nhân hoàng huyệt Tam xoa, Thượng lý, trên tai lấy huyệt Mục 1, huyệt Mục 2 mai châm (cố định một cây kim nhỏ đặc biệt trong vùng da ở huyệt một thời gian dài. Huyệt Ngũ hình châm kim hoặc chích máu hiệu quả tốt. Lại phối Thận quan, Châu viên, cũng có thể gia Thông thận, Thông vị, Thông bối."
+  },
+  {
+    "id": "tung-form-21",
+    "category": "Ngũ Quan (Mắt, Mũi, Tai, Răng)",
+    "diseaseName": "Bài 21: GIẢM THỊ LỰC",
+    "chineseDisease": "弱視",
+    "mainPoints": [
+      "Châu viên"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "21. GIẢM THỊ LỰC (nhược thị-弱視-amblyopia (Nguồn http://www.tungs-acupuncture.com/珠圓穴/ Huyệt Châu viên phối huyệt Mục 1, Mục 2 (trên tai lại dùng mai châm ở đầu mày (cố định một cây kim nhỏ đặc biệt trong vùng da ở huyệt một thời gian dài."
+  },
+  {
+    "id": "tung-form-22",
+    "category": "Ngũ Quan (Mắt, Mũi, Tai, Răng)",
+    "diseaseName": "Bài 22: CẢI THIỆN MẮT CẬN THỊ",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Thượng bạch",
+      "Tam xoa",
+      "Châu viên",
+      "Thiên hoàng",
+      "Thận quan"
+    ],
+    "adjunctPoints": [
+      "Địa hoàng",
+      "Hạ tam hoàng"
+    ],
+    "bloodlettingPoints": [
+      "Mục 2 (trên taichích máu huyệt Ngũ hình"
+    ],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "22. CẢI THIỆN MẮT CẬN THỊ (Nguồn http://www.tungs-acupuncture.com/珠圓穴/ Huyệt Châu viên, Thượng bạch, Tam xoa 1, Thận quan, Hạ tam hoàng (Thiên hoàng, Địa hoàng, Nhân hoàngmai châm huyệt Mục 1, Mục 2 (trên taichích máu huyệt Ngũ hình."
+  },
+  {
+    "id": "tung-form-23",
+    "category": "Ngũ Quan (Mắt, Mũi, Tai, Răng)",
+    "diseaseName": "Bài 23: CẬN THỊ GIẢ",
+    "chineseDisease": "假性近視",
+    "mainPoints": [
+      "Châu viên",
+      "Thủy tinh"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [
+      "chích máu huyệt Ngũ hình"
+    ],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "23. CẬN THỊ GIẢ (giả tính cận thị-假性近視-pseudomyopia (Nguồn http://www.tungs-acupuncture.com/珠圓穴/ Huyệt Châu viên, chích máu huyệt Ngũ hình, phối hợp mai châm (cố định một cây kim nhỏ đặc biệt trong vùng da ở huyệt một thời gian dàihuyệt Mục 1, Mục 2 (trên tai Ghi chú: Cận thị giả là do cơ mi liên tục bị co và co cứng do mắt làm việc quá mức, độ dày của thủy tinh thể tăng lên, nhìn mờ. Việc sử dụng thuốc, châm cứu và xoa bóp, châm vào tai và thiết bị vật lý trị liệu, hoặc thông qua việc tăng cường cơ mắt của chính bệnh nhân có thể làm giãn cơ, giảm mệt mỏi và phục hồi thị lực trở lại bình thường."
+  },
+  {
+    "id": "tung-form-24",
+    "category": "Ngũ Quan (Mắt, Mũi, Tai, Răng)",
+    "diseaseName": "Bài 24: TEO THẦN KINH THỊ GIÁC",
+    "chineseDisease": "視神經萎縮",
+    "mainPoints": [
+      "Tam xoa",
+      "Chỉ diên",
+      "Châu viên"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "24. TEO THẦN KINH THỊ GIÁC (thị thần kinh nuy súc 視神經萎縮 optic atrophy (Nguồn http://www.tungs-acupuncture.com/止涎五穴/ và http://www.tungs-acupuncture.com/珠圓穴/ 5 huyệt Chỉ diên, huyệt Châu viên, huyệt Tam xoa 1."
+  },
+  {
+    "id": "tung-form-25",
+    "category": "Ngũ Quan (Mắt, Mũi, Tai, Răng)",
+    "diseaseName": "Bài 25: CHỮA QUÁNG GÀ",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Thượng bạch",
+      "Phụ khoa",
+      "Châu viên",
+      "Phân bạch",
+      "Thiên hoàng"
+    ],
+    "adjunctPoints": [
+      "Thận quan",
+      "Địa hoàng",
+      "Nhân hoàng",
+      "Thượng tam hoàng",
+      "Hạ tam hoàng"
+    ],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "25. CHỮA QUÁNG GÀ (dạ manh (Nguồn từ https://pttnews.cc/ 1. Châm các huyệt Thượng tam hoàng (Thiên hoàng, Minh hoàng, Kỳ hoàng Mộc chi, Thận quan, hiệu quả cao. 2. Châm huyệt Hạ tam hoàng (Thiên hoàng, Địa hoàng, Nhân hoàng, phối huyệt Thượng bạch, huyệt Phân bạch, có hiệu quả. 3. Châm huyệt Châu viên, phối huyệt Phụ khoa, hiệu quả cao. 4. Châm huyệt Dạ manh, đặc hiệu."
+  },
+  {
+    "id": "tung-form-26",
+    "category": "Ngũ Quan (Mắt, Mũi, Tai, Răng)",
+    "diseaseName": "Bài 26: VIÊM GIÁC MẠC",
+    "chineseDisease": "角膜炎",
+    "mainPoints": [
+      "Châu viên",
+      "Thủy yêu",
+      "Hoa cốt"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [
+      "Huyệt Châu viên phối hợp chích máu vùng sau tai"
+    ],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "26. VIÊM GIÁC MẠC (角膜炎 keratitis VIÊM KẾT MẠC (結膜炎 conjunctivitis (Nguồn http://www.tungs-acupuncture.com/珠圓穴/ 1. Huyệt Châu viên phối hợp chích máu vùng sau tai, lưng có điểm đỏ, tia máu hoặc điểm sắc xanh tím, hiệu quả thấy rõ. 2. Huyệt Thuỷ yêu, Châu viên, Hoả ngạnh, phối hợp chích máu vùng phản ứng ở lưng. 3. Huyệt Hoả ngạnh xuyên Hoa cốt, có thể phối hợp chích huyết tĩnh mạch xanh sau tai."
+  },
+  {
+    "id": "tung-form-27",
+    "category": "Ngũ Quan (Mắt, Mũi, Tai, Răng)",
+    "diseaseName": "Bài 27: VIÊM GIÁC MẠC",
+    "chineseDisease": "角膜炎",
+    "mainPoints": [
+      "Linh cốt",
+      "Đại gian",
+      "Châu viên"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [
+      "com/珠圓穴/ Trước chích huyết Nhĩ tiêm"
+    ],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "27. VIÊM GIÁC MẠC (角膜炎- keratitis (Nguồn http://www.tungs-acupuncture.com/珠圓穴/ Trước chích huyết Nhĩ tiêm, tĩnh mạch xanh sau tai, lại châm: Châu viên, Đại gian, Linh cốt, Hoả ngạnh hiệu quả đặc biệt tốt."
+  },
+  {
+    "id": "tung-form-28",
+    "category": "Ngũ Quan (Mắt, Mũi, Tai, Răng)",
+    "diseaseName": "Bài 28: TRỊ VIÊM GIÁC MẠC",
+    "chineseDisease": "角膜炎",
+    "mainPoints": [
+      "Châu viên",
+      "Thủy yêu"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [
+      "đồng thời chích máu điểm phản ứng phía sau"
+    ],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "(Nguồn http://www.tungs-acupuncture.com/水腰穴/ Huyệt Thuỷ yêu có thể gia huyệt Châu viên, huyệt Hoả ngạnh, đồng thời chích máu điểm phản ứng phía sau. Cũng có thể chích máu huyệt Thái dương và vùng quanh mắt."
+  },
+  {
+    "id": "tung-form-29",
+    "category": "Ngũ Quan (Mắt, Mũi, Tai, Răng)",
+    "diseaseName": "Bài 29: VIÊM KẾT MẠC",
+    "chineseDisease": "結膜炎",
+    "mainPoints": [
+      "Thượng bạch",
+      "Chỉ diên",
+      "Châu viên",
+      "Thủy yêu",
+      "Thượng lý"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "29. VIÊM KẾT MẠC (結膜炎 conjunctivitis, VIÊM GIÁC MẠC (角膜炎 keratitis, MẮT SƯNG ĐỎ (nhãn tinh hồng thũng 眼睛紅腫 swelling of the eyes (Nguồn http://www.tungs-acupuncture.com/上白穴/ Huyệt Châu viên, 5 huyệt Chỉ diên, huyệt Thuỷ yêu, có thể lấy 2 huyệt phối với huyệt Thượng bạch. Cũng có thể gia huyệt Thượng lý, Tứ phủ 1, trên tai lấy huyệt Mục 1, huyệt Mục 2 mai châm (cố định một cây kim nhỏ đặc biệt trong vùng da ở huyệt một thời gian dài."
+  },
+  {
+    "id": "tung-form-30",
+    "category": "Ngũ Quan (Mắt, Mũi, Tai, Răng)",
+    "diseaseName": "Bài 30: VIÊM MÀNG CỨNG MẮT",
+    "chineseDisease": "鞏膜炎",
+    "mainPoints": [
+      "Châu viên"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [
+      "phối hợp chích máu thái dương"
+    ],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "30. VIÊM MÀNG CỨNG MẮT (củng mạc viêm-鞏膜炎- scleritis (Nguồn http://www.tungs-acupuncture.com/珠圓穴/ Huyệt Châu viên, châm các huyệt quanh mắt, phối hợp chích máu thái dương, sau tai."
+  },
+  {
+    "id": "tung-form-31",
+    "category": "Ngũ Quan (Mắt, Mũi, Tai, Răng)",
+    "diseaseName": "Bài 31: MẮT SƯNG ĐỎ",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Châu viên"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "31. MẮT SƯNG ĐỎ (nhãn hồng thũng (Nguồn http://www.tungs-acupuncture.com/珠圓穴/ Huyệt Châu viên, Hoả ngạnh."
+  },
+  {
+    "id": "tung-form-32",
+    "category": "Ngũ Quan (Mắt, Mũi, Tai, Răng)",
+    "diseaseName": "Bài 32: MẮT SƯNG ĐỎ",
+    "chineseDisease": "眼睛紅腫",
+    "mainPoints": [
+      "Thượng bạch",
+      "Châu viên"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "32. MẮT SƯNG ĐỎ (nhãn tinh hồng thũng 眼睛紅腫 swelling of the eyes (Nguồn http://www.tungs-acupuncture.com/上白穴/ Huyệt Thượng bạch phối huyệt Châu viên, phối huyệt Hoả ngạnh hoặc lấy một huyệt Hoả ngạnh, hiệu quả cũng rất tốt."
+  },
+  {
+    "id": "tung-form-33",
+    "category": "Ngũ Quan (Mắt, Mũi, Tai, Răng)",
+    "diseaseName": "Bài 33: CHẮP, LẸO",
+    "chineseDisease": "麦粒肿",
+    "mainPoints": [
+      "Huyệt Đảm",
+      "Châu viên"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [
+      "com/珠圓穴/ Chích máu Nhĩ tiêm"
+    ],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "33. CHẮP, LẸO (mạch lạp thũng-麦粒肿:stye, hordeolum (Nguồn http://www.tungs-acupuncture.com/珠圓穴/ Chích máu Nhĩ tiêm, mạch đỏ sau tai, hoặc chích máu huyệt Đảm, châm huyệt Châu viên."
+  },
+  {
+    "id": "tung-form-34",
+    "category": "Ngũ Quan (Mắt, Mũi, Tai, Răng)",
+    "diseaseName": "Bài 34: ĐỤC THỦY TINH THỂ",
+    "chineseDisease": "白內障",
+    "mainPoints": [
+      "Châu viên",
+      "Thủy tinh",
+      "Thiên hoàng",
+      "Địa hoàng",
+      "Nhân hoàng"
+    ],
+    "adjunctPoints": [
+      "Thượng tam hoàng",
+      "Hạ tam hoàng",
+      "Quang minh",
+      "Minh hoàng",
+      "Kỳ hoàng"
+    ],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "34. ĐỤC THỦY TINH THỂ (bạch nội chướng-白內障- cataractĐỤC THỦY TINH THỂ XANH (lục bạch chướng: 綠白障, thanh quang nhãn-青光眼-glaucoma (Nguồn http://www.tungs-acupuncture.com/珠圓穴/ Châm lâu dài huyệt Châu viên, huyệt Quang minh, Thượng tam hoàng (Thiên hoàng, Minh hoàng, Kỳ hoàng, Hạ tam hoàng (Thiên hoàng, Địa hoàng, Nhân hoàng"
+  },
+  {
+    "id": "tung-form-35",
+    "category": "Ngũ Quan (Mắt, Mũi, Tai, Răng)",
+    "diseaseName": "Bài 35: BỆNH TIỂU ĐƯỜNG DẪN TỚI XUẤT HUYẾT VÕNG MẠC",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Tam xoa",
+      "Huyệt Mộc",
+      "Châu viên",
+      "Hoa cốt",
+      "Thiên hoàng"
+    ],
+    "adjunctPoints": [
+      "Địa hoàng",
+      "Nhân hoàng",
+      "Thượng tam hoàng",
+      "Hạ tam hoàng",
+      "Minh hoàng"
+    ],
+    "bloodlettingPoints": [
+      "Chích máu huyệt Ngũ hình"
+    ],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "35. BỆNH TIỂU ĐƯỜNG DẪN TỚI XUẤT HUYẾT VÕNG MẠC (Nguồn http://www.tungs-acupuncture.com/珠圓穴/ 1. Huyệt Hoa cốt 4 cầm máu, phối huyệt Châu viên, Tam xoa 1, Tam lý, Thượng lý, huyệt Mộc 3, huyệt Mục 1, Mục 2 (huyệt tai 2. Chích máu huyệt Ngũ hình, cạnh thái dương (trên mặt châm lâu dài huyệt Thượng tam hoàng (Thiên hoàng, Minh hoàng, Kỳ hoàng Hạ tam hoàng (Thiên hoàng, Địa hoàng, Nhân hoàng"
+  },
+  {
+    "id": "tung-form-36",
+    "category": "Ngũ Quan (Mắt, Mũi, Tai, Răng)",
+    "diseaseName": "Bài 36: MẮT MỆT MỎI KHÔ MẮT",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Châu viên"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "36. MẮT MỆT MỎI KHÔ MẮT (nhãn tình bì lao càn sáp (Nguồn http://www.tungs-acupuncture.com/珠圓穴/ Mai châm (cố định một cây kim nhỏ đặc biệt trong vùng da ở huyệt một thời gian dài huyệt Châu viên, trên tai huyệt Mục 1, Mục 2, điểm Nhãn, điểm Can."
+  },
+  {
+    "id": "tung-form-37",
+    "category": "Ngũ Quan (Mắt, Mũi, Tai, Răng)",
+    "diseaseName": "Bài 37: ĐAU NHÃN CẦU",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Châu viên"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "37. ĐAU NHÃN CẦU (nhãn châu thống (Nguồn http://www.tungs-acupuncture.com/珠圓穴/ Huyệt Hoả tất, Châu viên."
+  },
+  {
+    "id": "tung-form-38",
+    "category": "Ngũ Quan (Mắt, Mũi, Tai, Răng)",
+    "diseaseName": "Bài 38: THẬN YẾU HOA MẮT",
+    "chineseDisease": "腎虧之眼花",
+    "mainPoints": [
+      "Uyển thuận",
+      "Tam xoa"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "(Nguồn http://www.tungs-acupuncture.com/腕順一穴/ Huyệt Tam xoa 1, Uyển thuận 1."
+  },
+  {
+    "id": "tung-form-39",
+    "category": "Ngũ Quan (Mắt, Mũi, Tai, Răng)",
+    "diseaseName": "Bài 39: GIÚP BẢO VỆ MẮT",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Linh Cốt",
+      "Đại Bạch"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "Tập mắt (1 Nhìn xa, gần 36 lần. (2 Nhìn sang hai bên phải, trái 36 lần. (3 Nhìn lên trên, xuống dưới 36 lần. (4 Nhìn vòng tròn mỗi chiều 18 lần. (5 Nháy mắt 36 lần. (6 Chà cho ấm tay, sau đó che mắt, chú ý làm ấm mắt bằng sức nóng của lòng bàn tay, nhưng không chạm vào mí mắt. Trong khi che mắt, tĩnh tâm và mắt bạn có thể đảo qua lại. Xoay mười tám lần từ sau ra trước, rồi quay mười tám lần từ trước ra sau."
+  },
+  {
+    "id": "tung-form-40",
+    "category": "Ngũ Quan (Mắt, Mũi, Tai, Răng)",
+    "diseaseName": "Bài 40: VIÊM MŨI",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Đại gian",
+      "Tiểu gian",
+      "Trung gian",
+      "Tứ mã",
+      "Thủy thông"
+    ],
+    "adjunctPoints": [
+      "Thủy kim"
+    ],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "40. VIÊM MŨI (Nguồn http://www.tungs-acupuncture.com/大間穴/ Các huyệt Đại gian, Tiểu gian, Trung gian, Tứ mã, Thuỷ kim, Thuỷ thông và các huyệt trên kinh Thủ thái âm Phế."
+  },
+  {
+    "id": "tung-form-41",
+    "category": "Ngũ Quan (Mắt, Mũi, Tai, Răng)",
+    "diseaseName": "Bài 41: VIÊM MŨI",
+    "chineseDisease": "鼻炎",
+    "mainPoints": [
+      "Linh cốt",
+      "Đại bạch",
+      "Phân kim",
+      "Hợp kim",
+      "Nội kim"
+    ],
+    "adjunctPoints": [
+      "Tứ mã",
+      "Trấn tĩnh"
+    ],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "(Nguồn http://www.tungs-acupuncture.com/分金穴、合金穴、內金穴/ Huyệt Linh cốt, Đại bạch, Phân kim, Hợp kim, Nội kim, Trấn tĩnh, Tứ mã."
+  },
+  {
+    "id": "tung-form-42",
+    "category": "Ngũ Quan (Mắt, Mũi, Tai, Răng)",
+    "diseaseName": "Bài 42: VIÊM MŨI DỊ ỨNG",
+    "chineseDisease": "過敏性鼻炎",
+    "mainPoints": [
+      "Trung lực",
+      "Phân kim",
+      "Hợp kim",
+      "Nội kim",
+      "Thông thận"
+    ],
+    "adjunctPoints": [
+      "Tứ mã",
+      "Trấn tĩnh",
+      "Thượng lý",
+      "Thủy thông",
+      "Thủy kim"
+    ],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "42. VIÊM MŨI DỊ ỨNG (quá mẫn tính tỵ viêm 過敏性鼻炎 allergic rhinitis (Nguồn http://www.tungs-acupuncture.com/分金穴、合金穴、內金穴/ Huyệt Phân kim, Hợp kim, Nội kim phối huyệt Tứ mã, Trung lực, Thông thận, Trấn tĩnh, Thượng lý, Thuỷ kim, Thuỷ thông, Thần nhĩ."
+  },
+  {
+    "id": "tung-form-43",
+    "category": "Ngũ Quan (Mắt, Mũi, Tai, Răng)",
+    "diseaseName": "Bài 43: Ù TAI",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Uyển thuận",
+      "Tam trọng",
+      "Tứ mã"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "43. Ù TAI (NHĨ MINH VIÊM TAI GIỮA (TRUNG NHĨ VIÊM (Nguồn http://www.tungs-acupuncture.com/指駟馬穴/ Tam trọng, Tứ mã, Uyển thuận làm chủ, vùng bệnh lấy huyệt dụng tam châm. (ví dụ: Thính cung, Thính hội, Hoàn cốt"
+  },
+  {
+    "id": "tung-form-44",
+    "category": "Ngũ Quan (Mắt, Mũi, Tai, Răng)",
+    "diseaseName": "Bài 44: THẬN HƯ TAI Ù",
+    "chineseDisease": "腎虛耳鳴",
+    "mainPoints": [
+      "Uyển thuận",
+      "Phân thuỷ",
+      "Tam trọng",
+      "Tứ mã"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "44. THẬN HƯ TAI Ù (Thận hư nhĩ minh 腎虛耳鳴 (Nguồn http://www.tungs-acupuncture.com/分水穴/ Huyệt Phân thuỷ, huyệt Uyển thuận, Tứ mã, Tam trọng."
+  },
+  {
+    "id": "tung-form-45",
+    "category": "Ngũ Quan (Mắt, Mũi, Tai, Răng)",
+    "diseaseName": "Bài 45: TAI Ù",
+    "chineseDisease": "耳鳴",
+    "mainPoints": [
+      "Uyển thuận",
+      "Tam trọng",
+      "Thận quan",
+      "Tứ mã"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "45. TAI Ù (nhĩ minh 耳鳴 (Nguồn http://www.tungs-acupuncture.com/腕順一穴/ Huyệt Uyển thuận, Tứ mã, Tam trọng, Thận quan."
+  },
+  {
+    "id": "tung-form-46",
+    "category": "Ngũ Quan (Mắt, Mũi, Tai, Răng)",
+    "diseaseName": "Bài 46: NẶNG TAI, NGHỄNH NGÃNG",
+    "chineseDisease": "重聽",
+    "mainPoints": [
+      "Uyển thuận",
+      "Hỏa xuyến",
+      "Hỏa lăng",
+      "Hỏa sơn",
+      "Tam trọng"
+    ],
+    "adjunctPoints": [
+      "Tứ mã"
+    ],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "46. NẶNG TAI, NGHỄNH NGÃNG (trùng thính 重聽 hard of hearing; weak of hearing TAI Ù (nhĩ minh 耳鳴 tinnitus (Nguồn http://www.tungs-acupuncture.com/火串穴、火陵穴、火山穴/ Huyệt Hoả xuyến, Hoả lăng, Hoả sơn phối Tứ mã, Tam trọng, Uyển thuận."
+  },
+  {
+    "id": "tung-form-47",
+    "category": "Ngũ Quan (Mắt, Mũi, Tai, Răng)",
+    "diseaseName": "Bài 47: UNG THƯ NÃO",
+    "chineseDisease": "腦癌瘤",
+    "mainPoints": [
+      "Linh cốt",
+      "Đại bạch",
+      "Chính cân",
+      "Chính tông"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [
+      "phối hợp chích máu vùng mắt cá chân trong bên đối"
+    ],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "47. UNG THƯ NÃO (não nham lựu-腦癌瘤- Brain tumor (Nguồn http://www.tungs-acupuncture.com/指三重穴/ Huyệt Chính cân, Chính tông, Chính não, Linh cốt, Đại bạch, phối hợp chích máu vùng mắt cá chân trong bên đối."
+  },
+  {
+    "id": "tung-form-48",
+    "category": "Ngũ Quan (Mắt, Mũi, Tai, Răng)",
+    "diseaseName": "Bài 48: SAY XE, SAY THUYỀN",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Thủ giải",
+      "Trấn tĩnh",
+      "Thần nhĩ"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "48. SAY XE, SAY THUYỀN (vựng xa, vựng thuyền (Nguồn: 董氏奇穴精要整理 Dùng một trong hai phương sau: 1. Châm huyệt Thần nhĩ, huyệt Trấn tĩnh, huyệt Thủ giải. 2. Châm huyệt Hoàn cốt xuyên hướng tới trái tai, đặc hiệu."
+  },
+  {
+    "id": "tung-form-49",
+    "category": "Ngũ Quan (Mắt, Mũi, Tai, Răng)",
+    "diseaseName": "Bài 49: CHÓNG MẶT",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Hỏa tinh",
+      "Thần nhĩ"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "49. CHÓNG MẶT (đầu vựng (Theo nguồn http://www.tungs-acupuncture.com/火星上穴/ Châm huyệt Hoả tinh thượng phối huyệt Thần nhĩ."
+  },
+  {
+    "id": "tung-form-50",
+    "category": "Ngũ Quan (Mắt, Mũi, Tai, Răng)",
+    "diseaseName": "Bài 50: BỆNH TẠNG TÂM CHÓNG MẶT",
+    "chineseDisease": "心臟病之頭暈",
+    "mainPoints": [
+      "Tâm linh",
+      "Thông quan",
+      "Thông thiên"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "(Nguồn http://www.tungs-acupuncture.com/心靈一穴、心靈二穴、心靈三穴/ Châm huyệt Tâm linh, Thông thiên, Thông quan."
+  },
+  {
+    "id": "tung-form-51",
+    "category": "Ngũ Quan (Mắt, Mũi, Tai, Răng)",
+    "diseaseName": "Bài 51: VÁNG ĐẦU HOA MẮT",
+    "chineseDisease": "頭昏眼花",
+    "mainPoints": [
+      "Trường môn",
+      "Thần nhĩ"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "51. VÁNG ĐẦU HOA MẮT (đầu hôn nhãn hoa 頭症眼花 (Nguồn http://www.tungs-acupuncture.com/腸門穴/ Huyệt Trường môn phối huyệt Thần nhĩ, hiệu nghiệm."
+  },
+  {
+    "id": "tung-form-52",
+    "category": "Ngũ Quan (Mắt, Mũi, Tai, Răng)",
+    "diseaseName": "Bài 52: PHƯƠNG HUYỆT CHỮA MẤT NGỦ",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Trấn tĩnh"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "52. PHƯƠNG HUYỆT CHỮA MẤT NGỦ (Minh hoạ bài của thầy Nguyễn Tiên: https://www.facebook.com/groups/dongthikyhuyet/permalink/2751687891627636/?comment_id=2752279814901777 1. Bộ huyệt: Chiếu hải - Liệt khuyết, Thượng ấn đường để châm cùng Phong thị. 2. Cách lấy huyệt: Chiếu hải xuống thêm 1 chút ngay bờ dưới của xương bàn chân. Liệt khuyết vào trong 1 chút gần với mạch quay. Thượng ấn đường là chỗ lõm ngay trên huyệt ấn đường, ai học luân xa thì tương đương vị trí luân xa 6. 3. Cách châm: Dùng phép tĩnh chỉ lưu châm: châm vào, đắc khí, lưu kim 40-120', lúc bệnh nhân còn tỉnh thì mỗi 15' lấy ngón tay lay nhẹ kim, nếu bệnh nhân đã ngủ thì không tác động gì thêm. 4. Giải thích: Phương huyệt này xuất phát từ lý thuyết dương phù thần, âm dưỡng thần. Để điều hoà món này, các bạn có thể tham khảo thêm lí thuyết về bát mạch, trong đó Âm kiểu - Dương kiểu sẽ quyết định chủ yếu về \"thời\" của giấc ngủ, Âm duy- Dương duy sẽ quyết định về \"không\" của giấc ngủ. Nên các bạn để ý trong phương huyệt chuẫn theo phái Tịch Hoằằng (cổ châm phổ biếnmất ngủ thường có huyệt của Nội quan (Âm duy, tam âm hoặc Thái khê (Âm kiểu Bộ Chiếu hải (bát mạch giao hội của Âm kiểu - Liệt khuyết (bát mạch giao hội của Nhâmcó tác dụng yên tĩnh chư âm, âm phận được yên thì nhiếp dương mà định thần (dương được nhiếp thì không kích thích thần nữaCho nên thích hợp cho đa phần chứng mất ngủ hiện nay. Ngoài Âm kiểu và Nhâm ra có thể cân nhắc để sử dụng các huyệt giao hội của 3 mạch còn lại cũng gây hiệu quả bất ngờ. Nhưng thực tế, đời không như là mơ, thỉnh thoảng gặp những ca chữa hoài không lành. Trong đó thường gặp 2 loại, thần yếu và tà mạnh. Thần yếu là loại khá khó chịu, bệnh nhân cũng thể hiện suy nhược huyết kém nhưng ẫn trong đó là các triệu chứng tâm dương hư, dương hư thì thần không được phù trợ mà suy yếu, những bệnh nhân này cần tích cực bổ khí và dùng các vị điểm hoả kích tâm dương lên. Loại tà thực lại có chút phức tạp, phân loại các loại tà đã mệt lại còn thêm cơ chế tụi nó tác động vào tâm thần làm mất ngủ. Còn Thượng ấn đường thì Đạo gia gọi là Linh Đài, Tuệ Nhãn. Trí của thần phát ra ở đó, tác động ở đó thì tác động lên thần. Cái này lại liên quan đến thần của các tạng phụng dưỡng cho tâm, tâm như quân chủ hiến ngũ thần lên cho trời (thần Thai Quang ở não, quá dài dòng không nói hết được. Có một phương huyệt khá nổi tiếng của viện sĩ Thạch Học Mẫn mang tên tiểu tỉnh não khai khiếu là Tam âm, Nội, quan, Ấn đường, dùng để trấn tĩnh, giảm đau, là dựa vào 2 lí thuyết bát mạch và Linh đài này để ra huyệt, cũng tạm coi là ra huyệt có phương pháp."
+  },
+  {
+    "id": "tung-form-53",
+    "category": "Ngũ Quan (Mắt, Mũi, Tai, Răng)",
+    "diseaseName": "Bài 53: TRỊ CHỨNG MẤT NGỦ NGHIÊM TRỌNG",
+    "chineseDisease": "嚴重失眠症",
+    "mainPoints": [
+      "Tâm linh",
+      "Thần kiên",
+      "Chính hội",
+      "Trấn tĩnh"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "53. TRỊ CHỨNG MẤT NGỦ NGHIÊM TRỌNG (nghiêm trùng thất miên chứng 嚴重失眠症症 vigilance (Nguồn http://www.tungs-acupuncture.com/神肩穴/ Huyệt Thần kiên phối huyệt Tâm linh 1, Chính hội, Trấn tĩnh, hiệu quả đặc biệt."
+  },
+  {
+    "id": "tung-form-54",
+    "category": "Ngũ Quan (Mắt, Mũi, Tai, Răng)",
+    "diseaseName": "Bài 54: CHỮA ĐAU ĐẦU CÁC THỂ",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Đại bạch",
+      "Chính cân",
+      "Chính tông",
+      "Tam trọng",
+      "Thiên hoàng"
+    ],
+    "adjunctPoints": [
+      "Thận quan",
+      "Trắc tam lý",
+      "Trắc hạ tam lý"
+    ],
+    "bloodlettingPoints": [
+      "com/watch?v=lbOtmlMryZg Chích máu huyệt Thái dương (Đổng thịkèm các huyệt theo chứng: 1"
+    ],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "54. CHỮA ĐAU ĐẦU CÁC THỂ (Minh hoạ bài của thầy Hoàng Duy Luân tập hợp: https://www.youtube.com/watch?v=lbOtmlMryZg Chích máu huyệt Thái dương (Đổng thịkèm các huyệt theo chứng: 1. Đau toàn đầu: Đại bạch, Tam thoa 3, Trắc tam lý, Trắc hạ tam lý, Thận quan. 2. Đau đầu trước trán: Thiên hoàng, Thận quan. 3. Đau sau đầu: Chính cân, Chính tông. 4. Đau nửa đầu: Hãm cốc, Túc tam trọng, Phong thị cùng bên. Lưu ý: Các huyệt Đổng thị châm sát xương."
+  },
+  {
+    "id": "tung-form-55",
+    "category": "Ngũ Quan (Mắt, Mũi, Tai, Răng)",
+    "diseaseName": "Bài 55: ĐAU ĐẦU",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Linh cốt",
+      "Đại bạch",
+      "Thượng bạch",
+      "Phân bạch"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [
+      "phối hợp chích huyết tại vùng đau"
+    ],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "55. ĐAU ĐẦU (Nguồn http://www.tungs-acupuncture.com/靈骨穴/ Dùng các huyệt Linh cốt, Đại bạch, Thượng bạch thấu Phân bạch, phối hợp chích huyết tại vùng đau."
+  },
+  {
+    "id": "tung-form-56",
+    "category": "Ngũ Quan (Mắt, Mũi, Tai, Răng)",
+    "diseaseName": "Bài 56: ĐAU NỬA ĐẦU DO RỐI LOẠN TINH THẦN",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Chỉ diên"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "56. ĐAU NỬA ĐẦU DO RỐI LOẠN TINH THẦN (tinh thần quan năng chứng dẫn phát chi thiên đầu thống (Nguồn http://www.tungs-acupuncture.com/止涎五穴/ Châm 5 huyệt Chỉ diên, huyệt Chỉ chính não (chính giữa ngón tay cái"
+  },
+  {
+    "id": "tung-form-57",
+    "category": "Ngũ Quan (Mắt, Mũi, Tai, Răng)",
+    "diseaseName": "Bài 57: ĐAU NỬA ĐẦU",
+    "chineseDisease": "偏頭痛",
+    "mainPoints": [
+      "Linh cốt",
+      "Tâm linh",
+      "Tam trọng",
+      "Thiên hoàng",
+      "Thất hổ"
+    ],
+    "adjunctPoints": [
+      "Ngoại tam quan"
+    ],
+    "bloodlettingPoints": [
+      "phối hợp chích máu nơi bệnh"
+    ],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "57. ĐAU NỬA ĐẦU (thiên đầu thống 偏頭痛 (Nguồn http://www.tungs-acupuncture.com/心靈一穴、心靈二穴、心靈三穴/ 1. Châm huyệt Tâm linh, Linh cốt, Tam trọng, Thiên hoàng, Ngoại tam quan, phối hợp chích máu nơi bệnh. 2. Châm huyệt Tâm linh thấu Ngoại quan, Thất hổ, phối hợp chích máu nơi bệnh."
+  },
+  {
+    "id": "tung-form-58",
+    "category": "Ngũ Quan (Mắt, Mũi, Tai, Răng)",
+    "diseaseName": "Bài 58: ĐAU NỬA ĐẦU",
+    "chineseDisease": "偏頭痛",
+    "mainPoints": [
+      "Kiên trung",
+      "Kiến trung",
+      "Hạ cửu lý"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [
+      "phối hợp chích máu nơi bệnh"
+    ],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "58. ĐAU NỬA ĐẦU (thiên đầu thống 偏頭痛 (Nguồn http://www.tungs-acupuncture.com/肩中穴、建中穴/ Huyệt Kiên trung, Kiến trung, Hạ cửu lý, phối hợp chích máu nơi bệnh."
+  },
+  {
+    "id": "tung-form-59",
+    "category": "Ngũ Quan (Mắt, Mũi, Tai, Răng)",
+    "diseaseName": "Bài 59: ĐAU ĐẦU TRƯỚC TRÁN",
+    "chineseDisease": "前額頭痛",
+    "mainPoints": [
+      "Tâm linh",
+      "Tứ hoa"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [
+      "phối hợp chích máu nơi bệnh"
+    ],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "(Nguồn http://www.tungs-acupuncture.com/心靈一穴、心靈二穴、心靈三穴/ Châm huyệt Tâm linh, Tứ hoa thượng huyệt, phối hợp chích máu nơi bệnh."
+  },
+  {
+    "id": "tung-form-60",
+    "category": "Ngũ Quan (Mắt, Mũi, Tai, Răng)",
+    "diseaseName": "Bài 60: ĐỔNG THỊ KỲ HUYỆT ĐIỀU TRỊ ĐAU ĐẦU",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Linh cốt",
+      "Đại bạch",
+      "Trung bạch",
+      "Tam xoa",
+      "Thận quan"
+    ],
+    "adjunctPoints": [
+      "Trắc tam lý",
+      "Trắc hạ tam lý",
+      "Ngũ lĩnh"
+    ],
+    "bloodlettingPoints": [
+      "\u0000 Chích nặn máu huyệt Thái dương (Huyệt Thái dương trong Đổng thị huyệt không phải huyệt Thái dương trong 14 chính kinh"
+    ],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "60. ĐỔNG THỊ KỲ HUYỆT ĐIỀU TRỊ ĐAU ĐẦU (đầu thống (Minh hoạ bài của thầy Đỗ Mười: https://www.facebook.com/groups/dongthikyhuyet/permalink/2762110030585422/ \u0000 Dùng châm huyệt Đại bạch cực kỳ hiệu quả, có thể kết hợp thêm huyệt Trung bạch hoặc huyệt Tam xoa hiệu quả càng tuyệt vời. \u0000 Châm Trắc tam lý, Trắc hạ tam lý, Thận quan lưu kim 45 phút, bệnh nhẹ thì 2-3 lần, nặng thì 4-5 thì khỏi. Điều trị đau đầu mạn tính lâu năm cũng rất hiệu quả. \u0000 Châm Linh cốt ngay lập tức hoãn giải được chứng đau. \u0000 Chích nặn máu huyệt Thái dương (Huyệt Thái dương trong Đổng thị huyệt không phải huyệt Thái dương trong 14 chính kinh, vị trí nằm ở phía lòng bàn tay, chính giữa đốt 1 và 2 ngón út tương ứng với Thái dương nhất huyệt và Thái dương nhị huyệtlà đặc hiệu nhất, đau đầu lâu năm nhẹ thì 1-2 lần, nặng thì 3-4 lần là khỏi hoàn toàn. \u0000 Châm huyệt Ngũ lĩnh phía sau lưng cũng ngay lập tức hết đau đầu (chưa tìm thấy huyệt"
+  },
+  {
+    "id": "tung-form-61",
+    "category": "Ngũ Quan (Mắt, Mũi, Tai, Răng)",
+    "diseaseName": "Bài 61: CHỮA ĐAU RĂNG",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Linh Cốt",
+      "Đại Bạch"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "61. CHỮA ĐAU RĂNG (Bài của thầy Luan Hoang: https://www.facebook.com/groups/dongthikyhuyet/ permalink/2762873317175760/ Châm hoặc ấn day huyệt ở tay đối bên đau, đồng thời hai hàm răng cử động nhai nhẹ vào nhau."
+  },
+  {
+    "id": "tung-form-62",
+    "category": "Ngũ Quan (Mắt, Mũi, Tai, Răng)",
+    "diseaseName": "Bài 62: RĂNG SƯNG ĐAU",
+    "chineseDisease": "牙齒腫痛",
+    "mainPoints": [
+      "Linh cốt",
+      "Nội bạch",
+      "Tứ hoa"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "62. RĂNG SƯNG ĐAU (nha xỉ thũng thống 牙齒腫痛VIÊM LỢI (xỉ ngân viêm 齒齦炎 gingivitis (Nguồn http://www.tungs-acupuncture.com/內白穴/ Huyệt Nội bạch phối hợp huyệt Tam xỉ, Linh cốt, Tứ hoa thượng."
+  },
+  {
+    "id": "tung-form-63",
+    "category": "Ngũ Quan (Mắt, Mũi, Tai, Răng)",
+    "diseaseName": "Bài 63: CHỮA DÂY THẦN KINH V",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Linh cốt",
+      "Đại bạch",
+      "Tam xoa",
+      "Tam trọng",
+      "Bách hội"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [
+      "Chích nặn máu khá tốt"
+    ],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "63. CHỮA DÂY THẦN KINH V (tam thoa 1. (Thầy Hoàng Duy Luân: https://www.facebook.com/groups/dongthikyhuyet/permalink/2779550675508024/?comment_id=2781430288653396 Dùng phương này: Linh cốt, Đại bạch, Tam xoa, Túc tam trọng. 2. (Thầy Vĩnh Minh: https://www.facebook.com/groups/dongthikyhuyet/permalink/2779550675508024/?comment_id=2781698515293240 Châm thêm Tam xoa điểm ở tai, Châu Thiên (Bách hội xuống 3 thốn, sang ngang 3 thốn ở đầu chuyên điều trị dây thần kinh sinh ba. Chích nặn máu khá tốt."
+  },
+  {
+    "id": "tung-form-64",
+    "category": "Đầu Mặt & Thần Kinh",
+    "diseaseName": "Bài 64: ĐAU DÂY THẦN KINH SINH BA",
+    "chineseDisease": "三叉神經痛",
+    "mainPoints": [
+      "Thượng bạch",
+      "Ngoại bạch",
+      "Phân bạch",
+      "Tam trọng",
+      "Ngoại tam quan"
+    ],
+    "adjunctPoints": [
+      "Hạ tuyền",
+      "Trung tuyền",
+      "Thượng tuyền"
+    ],
+    "bloodlettingPoints": [
+      "Hạ tuyền chích huyết vùng bệnh"
+    ],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "(Nguồn http://www.tungs-acupuncture.com/外白穴/ Huyệt Ngoại bạch gia Thượng bạch, Phân bạch, Tam tuyền (Thượng tuyền, Trung tuyền, Hạ tuyền chích huyết vùng bệnh. Cũng có thể trước chích huyết vùng bệnh, sau gia huyệt Tam trọng, Ngoại tam quan, Ngoại bạch lại phối hợp huyệt vị liên quan vùng cơ mặt."
+  },
+  {
+    "id": "tung-form-65",
+    "category": "Đầu Mặt & Thần Kinh",
+    "diseaseName": "Bài 65: VIÊM XOANG MIỆNG VÀ VIÊM DƯỚI LƯỠI",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Linh Cốt",
+      "Đại Bạch"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "65. VIÊM XOANG MIỆNG VÀ VIÊM DƯỚI LƯỠI (Theo nguồn http://www.tungs-acupuncture.com/木炎三穴/ Hạt nhãn khô, cam thảo và băng phiến nghiền bột bôi lên vùng bệnh."
+  },
+  {
+    "id": "tung-form-66",
+    "category": "Đầu Mặt & Thần Kinh",
+    "diseaseName": "Bài 66: TRỊ KHÔ MIỆNG",
+    "chineseDisease": "口乾",
+    "mainPoints": [
+      "Tam thần",
+      "Thông thận",
+      "Thông vị",
+      "Thông bối",
+      "Thủy thông"
+    ],
+    "adjunctPoints": [
+      "Thủy kim"
+    ],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "66. TRỊ KHÔ MIỆNG (khẫu càn 口乾 (Nguồn http://www.tungs-acupuncture.com/三神穴/ Lấy các huyệt Thuỷ kim, Thuỷ thông, Thông thận, Thông vị, Thông bối, Tam thần, chỉ cần châm một lần đã thấy hiệu quả."
+  },
+  {
+    "id": "tung-form-67",
+    "category": "Đầu Mặt & Thần Kinh",
+    "diseaseName": "Bài 67: MIỆNG LƯỠI KHÔ",
+    "chineseDisease": "口乾舌燥燥",
+    "mainPoints": [
+      "Tam thần",
+      "Thủy thông",
+      "Thủy kim"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [
+      "com/三神穴/ Huyệt Tam thần có thể phối hợp chích máu huyệt Thuỷ kim"
+    ],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "67. MIỆNG LƯỠI KHÔ (khẫu càn thiệt táo 口乾舌燥HÀN GIỌNG (âm á 音啞 hoarse voice(Nguồn http://www.tungs-acupuncture.com/三神穴/ Huyệt Tam thần có thể phối hợp chích máu huyệt Thuỷ kim, Thuỷ thông."
+  },
+  {
+    "id": "tung-form-68",
+    "category": "Đầu Mặt & Thần Kinh",
+    "diseaseName": "Bài 68: VIÊM MŨI",
+    "chineseDisease": "鼻炎",
+    "mainPoints": [
+      "Đại gian",
+      "Tiểu gian",
+      "Trung gian",
+      "Nhân sĩ",
+      "Địa sĩ"
+    ],
+    "adjunctPoints": [
+      "Thiên sĩ",
+      "Tứ mã",
+      "Trấn tĩnh",
+      "Thủy thông",
+      "Thủy kim"
+    ],
+    "bloodlettingPoints": [
+      "phối hợp chích huyết"
+    ],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "68. VIÊM MŨI (tỵ viêm 鼻炎 rhinitis (Nguồn http://www.tungs-acupuncture.com/天士穴/ Lấy các huyệt Thiên sĩ, Địa sĩ, Nhân sĩ, Tứ mã, Trấn tĩnh, Thủ tam gian (Đại gian, Tiểu gian, Trung gian Thuỷ kim, Thuỷ thông, phối hợp chích huyết."
+  },
+  {
+    "id": "tung-form-69",
+    "category": "Đầu Mặt & Thần Kinh",
+    "diseaseName": "Bài 69: ĐIỀU TRỊ VIÊM MŨI",
+    "chineseDisease": "鼻炎",
+    "mainPoints": [
+      "Kiến lực",
+      "Trung lực",
+      "Hầu linh",
+      "Phân kim",
+      "Hợp kim"
+    ],
+    "adjunctPoints": [
+      "Tứ mã",
+      "Túc tứ mã",
+      "Trấn tĩnh",
+      "Thủy thông",
+      "Thủy kim"
+    ],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "69. ĐIỀU TRỊ VIÊM MŨI (tỵ viêm 鼻炎 rhinitis, TẮC MŨI (tỵ tắc 鼻塞 nasal obstruction (Nguồn http://www.tungs-acupuncture.com/妹喉靈穴/ Châm cứu Đổng thị phần lớn dùng huyệt Kiến lực, Trung lực, Phân kim, Hợp kim, cũng có thể phối hợp huyệt Trấn tĩnh, Thuỷ kim, Thuỷ thông, Thần nhĩ, túc Tứ mã lại gia cứu ngải huyệt Kim âm, Kim dương, nơi có màu sắc bất thường ở vùng Tâm Phế sau lưng, 7 huyệt Vị mao. Trên vùng huyệt Hầu linh xuất hiện điểm màu lạ đen thui bất thường, đây là huyệt nhất định phải châm, như thế thấy rõ hiệu quả."
+  },
+  {
+    "id": "tung-form-70",
+    "category": "Đầu Mặt & Thần Kinh",
+    "diseaseName": "Bài 70: TRỊ HO",
+    "chineseDisease": "咳嗽",
+    "mainPoints": [
+      "Hỏa phủ hải",
+      "Địa sĩ",
+      "Thiên sĩ"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "70. TRỊ HO (khái thấu 咳嗽 coughO NÓNG LẠNH (lãnh nhiệt khái 冷熱咳 (Nguồn http://www.tungs-acupuncture.com/火腑海穴/ Huyệt Hoả phủ hải phối huyệt thủ Địa sĩ trị ho (khái thấu 咳嗽 coughệu quả tốt. Huyệt Hoả phủ hải phối huyệt Thủ tam sĩ (Thiên sĩ, Địa sĩ, Nhân sĩrị ho nóng lạnh (lãnh nhiệt khái 冷熱咳"
+  },
+  {
+    "id": "tung-form-71",
+    "category": "Đầu Mặt & Thần Kinh",
+    "diseaseName": "Bài 71: TRỊ HO",
+    "chineseDisease": "咳嗽",
+    "mainPoints": [
+      "Linh cốt",
+      "Hỏa phủ hải",
+      "Địa sĩ"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "(Nguồn http://www.tungs-acupuncture.com/地士穴/ Huyệt Địa sĩ phối huyệt Hoả phủ hải, huyệt Linh cốt trị ho hiệu quả tốt."
+  },
+  {
+    "id": "tung-form-72",
+    "category": "Đầu Mặt & Thần Kinh",
+    "diseaseName": "Bài 72: TRỊ HO",
+    "chineseDisease": "咳嗽",
+    "mainPoints": [
+      "Hỏa phủ hải",
+      "Nhân sĩ",
+      "Hầu trung"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "72. TRỊ HO (khái thấu 咳嗽 cough (Nguồn http://www.tungs-acupuncture.com/妹喉中穴/ Huyệt Hầu trung phối huyệt Nhân sĩ, Hoả phủ hải."
+  },
+  {
+    "id": "tung-form-73",
+    "category": "Đầu Mặt & Thần Kinh",
+    "diseaseName": "Bài 73: HO",
+    "chineseDisease": "咳嗽",
+    "mainPoints": [
+      "Hỏa phủ hải",
+      "Khúc lăng",
+      "Kiến lực",
+      "Trung lực"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "73. HO (khái thấu 咳嗽 cough (Nguồn http://www.tungs-acupuncture.com/曲陵穴、建妹力穴、中妹力穴/ Huyệt Khúc lăng, Kiến lực, Trung lực, Hoả phủ hải."
+  },
+  {
+    "id": "tung-form-74",
+    "category": "Đầu Mặt & Thần Kinh",
+    "diseaseName": "Bài 74: CÁC CHỨNG HO",
+    "chineseDisease": "任何咳",
+    "mainPoints": [
+      "Linh cốt",
+      "Trọng tử",
+      "Trọng tiên",
+      "Hỏa phủ hải",
+      "Địa sĩ"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [
+      "chích máu vùng Tâm Phế sau lưng"
+    ],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "(Nguồn http://www.tungs-acupuncture.com/地士穴/ Cần phải châm huyệt Trọng tử, Trọng tiên gia huyệt Địa sĩ, Linh cốt, Hoả phủ hải, có thể cứu huyệt Kim âm, Kim dương, chích máu vùng Tâm Phế sau lưng. Trị các chứng: Ho về đêm (dạ khái 夜咳 ho do lạnh (lãnh khái 冷咳ho do nhiệt (nhiệt khái 熱咳ho do suy nhược (hư khái 虛咳ho gà (bách nhật khái 百百日咳 whooping cough"
+  },
+  {
+    "id": "tung-form-75",
+    "category": "Đầu Mặt & Thần Kinh",
+    "diseaseName": "Bài 75: HO DO SUY NHƯỢC",
+    "chineseDisease": "虛咳",
+    "mainPoints": [
+      "Hỏa phủ hải",
+      "Địa sĩ",
+      "Thủy thông",
+      "Thủy kim"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "(Nguồn http://www.tungs-acupuncture.com/地士穴/ Huyệt Thuỷ kim, Thuỷ thông, Địa sĩ, Hoả phủ hải. Các triệu chứng của ho do suy nhược chủ yếu bao gồm: ho kéo dài, thiếu khí, mệt mỏi, chóng mặt, v.v."
+  },
+  {
+    "id": "tung-form-76",
+    "category": "Đầu Mặt & Thần Kinh",
+    "diseaseName": "Bài 76: HO DO SUY NHƯỢC",
+    "chineseDisease": "虛咳",
+    "mainPoints": [
+      "Phân kim",
+      "Hợp kim",
+      "Nội kim",
+      "Tam thần",
+      "Thủy thông"
+    ],
+    "adjunctPoints": [
+      "Thủy kim",
+      "Tam kim"
+    ],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "(Nguồn http://www.tungs-acupuncture.com/分金穴、合金穴、內金穴/ Huyệt Thủ tam kim (Phân kim, Hợp kim, Nội kim Thuỷ kim, Thuỷ thông, Tam thần."
+  },
+  {
+    "id": "tung-form-77",
+    "category": "Đầu Mặt & Thần Kinh",
+    "diseaseName": "Bài 77: HO GÀ",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Đại gian",
+      "Tiểu gian",
+      "Trung gian",
+      "Nhân sĩ",
+      "Địa sĩ"
+    ],
+    "adjunctPoints": [
+      "Thiên sĩ"
+    ],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "77. HO GÀ (bách nhật khái (Theo nguồn http://www.tungs-acupuncture.com/小間穴/ Dùng các huyệt Đại gian, Tiểu gian, Trung gian, huyệt Tam sĩ (Thiên sĩ, Địa sĩ, Nhân sĩ"
+  },
+  {
+    "id": "tung-form-78",
+    "category": "Đầu Mặt & Thần Kinh",
+    "diseaseName": "Bài 78: HO KHAN",
+    "chineseDisease": "乾咳",
+    "mainPoints": [
+      "Trọng tử",
+      "Trọng tiên",
+      "Địa sĩ",
+      "Thiên sĩ"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": ", DỄ HO (dị khái 易咳) (Nguồn http://www.tungs-acupuncture.com/重子穴/ Trọng tử, Trọng tiên, Thủ tam sĩ (Thiên sĩ, Địa sĩ, Nhân sĩoả phủ hải."
+  },
+  {
+    "id": "tung-form-79",
+    "category": "Đầu Mặt & Thần Kinh",
+    "diseaseName": "Bài 79: HO MÃN TÍNH",
+    "chineseDisease": "久咳",
+    "mainPoints": [
+      "Linh cốt",
+      "Đại bạch",
+      "Tam xoa",
+      "Đại gian",
+      "Tiểu gian"
+    ],
+    "adjunctPoints": [
+      "Hỏa phủ hải",
+      "Nhân sĩ",
+      "Địa sĩ",
+      "Thiên sĩ"
+    ],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "79. HO MÃN TÍNH (cửu khái 久咳 chronic cough (Nguồn http://www.tungs-acupuncture.com/火腑海穴/ Huyệt Hoả phủ hải phối huyệt Linh cốt, Tam xoa, Thủ tam gian (Đại gian, Tiểu gian, Trung giandùng phép châm vệ khí (phương pháp kết hợp cả tâm, khí và châm cứu vùng Phế; hoặc Đại bạch, Thủ tam sĩ (Thiên sĩ, Địa sĩ, Nhân sĩ"
+  },
+  {
+    "id": "tung-form-80",
+    "category": "Đầu Mặt & Thần Kinh",
+    "diseaseName": "Bài 80: TRỊ CẢM MẠO DẪN TỚI HO",
+    "chineseDisease": "感冒引起之咳嗽",
+    "mainPoints": [
+      "Hỏa phủ hải",
+      "Thiên sĩ"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "(Nguồn http://www.tungs-acupuncture.com/分金穴、合金穴、內金穴/ Huyệt Hoả phủ hải, Thiên sĩ."
+  },
+  {
+    "id": "tung-form-81",
+    "category": "Đầu Mặt & Thần Kinh",
+    "diseaseName": "Bài 81: VIÊM AMIDAN",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Linh cốt",
+      "Đại bạch",
+      "Đại gian",
+      "Hầu linh",
+      "Hầu trung"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [
+      "com/大間穴/ Chích máu huyệt Hầu linh"
+    ],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "81. VIÊM AMIDAN (biển đào tuyến viêm (Theo nguồn http://www.tungs-acupuncture.com/大間穴/ Chích máu huyệt Hầu linh, Hầu trung, lại lấy huyệt Đại gian, Linh cốt, Đại bạch."
+  },
+  {
+    "id": "tung-form-82",
+    "category": "Đầu Mặt & Thần Kinh",
+    "diseaseName": "Bài 82: VIÊM AMIDAN",
+    "chineseDisease": "扁桃腺炎",
+    "mainPoints": [
+      "Hầu trung",
+      "Hầu nga"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [
+      "com/妹喉中穴/ Trước chích huyết tại 9 huyệt Hầu nga"
+    ],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "82. VIÊM AMIDAN (biển đào tuyến viêm 扁桃腺炎 tonsillitis (Nguồn http://www.tungs-acupuncture.com/妹喉中穴/ Trước chích huyết tại 9 huyệt Hầu nga, sau châm huyệt Hầu trung, Nội quan."
+  },
+  {
+    "id": "tung-form-83",
+    "category": "Đầu Mặt & Thần Kinh",
+    "diseaseName": "Bài 83: ĐAU HỌNG",
+    "chineseDisease": "咽妹喉炎",
+    "mainPoints": [
+      "Linh Cốt",
+      "Đại Bạch"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [
+      "html Trước chích máu huyệt Thương dương"
+    ],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "83. ĐAU HỌNG (viêm thanh quản: yết hầu viêm 咽喉炎 Laryngopharyngitis (Nguồn https://read01.com/nxeK06n.html Trước chích máu huyệt Thương dương, sau lại châm huyệt Tam xỉ."
+  },
+  {
+    "id": "tung-form-84",
+    "category": "Đầu Mặt & Thần Kinh",
+    "diseaseName": "Bài 84: ĐIỀU TRỊ UNG THƯ THANH QUẢN",
+    "chineseDisease": "妹喉癌",
+    "mainPoints": [
+      "Hầu linh",
+      "Tứ hoa",
+      "Trắc tam lý",
+      "Trắc hạ tam lý",
+      "Ngoại tam quan"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [
+      "chích máu tại vùng Tứ hoa thượng"
+    ],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "84. ĐIỀU TRỊ UNG THƯ THANH QUẢN (hầu nham 喉癌 laryngeal cancerUNG THƯ MŨI (tỵ nham 鼻癌 nose cancer(Nguồn http://www.tungs-acupuncture.com/妹喉靈穴/ Ngoài huyệt Hầu linh nhất định phải phối hợp huyệt Ngoại tam quan, chích máu tại vùng Tứ hoa thượng, Trắc tam lý, Trắc hạ tam lý."
+  },
+  {
+    "id": "tung-form-85",
+    "category": "Đầu Mặt & Thần Kinh",
+    "diseaseName": "Bài 85: CHỮA BỆNH TẬT HẦU, HỌNG",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Linh cốt",
+      "Nhân sĩ",
+      "Địa sĩ",
+      "Thiên sĩ",
+      "Hầu linh"
+    ],
+    "adjunctPoints": [
+      "Tam trọng",
+      "Tứ hoa"
+    ],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "85. CHỮA BỆNH TẬT HẦU, HỌNG (Nguồn http://www.tungs-acupuncture.com/靈骨穴/ Dùng các huyệt Linh cốt, Tam trọng, Thủ tam sĩ (gồm Thiên sĩ, Địa sĩ và Nhân sĩ, Tứ hoa (gồm Tứ hoa thượng, Tứ hoa trung, Tứ hoa phó và Tứ hoa hạHầu trung, Hầu linh."
+  },
+  {
+    "id": "tung-form-86",
+    "category": "Đầu Mặt & Thần Kinh",
+    "diseaseName": "Bài 86: UNG THƯ THANH QUẢN",
+    "chineseDisease": "妹喉癌",
+    "mainPoints": [
+      "Tâm linh",
+      "Hầu trung",
+      "Tam trọng",
+      "Ngoại tam quan"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "86. UNG THƯ THANH QUẢN (hầu nham 喉癌 laryngeal cancer(Nguồn http://www.tungs-acupuncture.com/妹喉中穴/ Ngoài huyệt Hầu trung cần gia huyệt Ngoại tam quan hoặc huyệt Tam trọng, có thể gia huyệt Tâm linh, nhưng cần có huyệt bất định."
+  },
+  {
+    "id": "tung-form-87",
+    "category": "Đầu Mặt & Thần Kinh",
+    "diseaseName": "Bài 87: BỆNH SUYỄN",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Linh cốt",
+      "Đại bạch",
+      "Đại gian",
+      "Tiểu gian",
+      "Trung gian"
+    ],
+    "adjunctPoints": [
+      "Nhân sĩ",
+      "Địa sĩ",
+      "Thiên sĩ",
+      "Trấn tĩnh",
+      "Thượng lý"
+    ],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "87. BỆNH SUYỄN (khí suyễn (Theo nguồn http://www.tungs-acupuncture.com/大間穴/ Huyệt Đại gian có thể phối các huyệt Thiên sĩ, Địa sĩ, Nhân sĩ có hiệu quả. Có thể thêm các huyệt Trấn tĩnh, Thượng lý, Linh cốt, Đại bạch, Thần nhĩ, Thuỷ kim, Thuỷ thông, Tiểu gian, Trung gian. Kết hợp với cứu ngải vùng Tâm Phế sau lưng, vùng Thận thuỷ ở eo lưng, 7 huyệt Vị mao cùng 23 huyệt Phủ sào vùng bụng."
+  },
+  {
+    "id": "tung-form-88",
+    "category": "Đầu Mặt & Thần Kinh",
+    "diseaseName": "Bài 88: VIÊM PHẾ QUẢN MÃN TÍNH",
+    "chineseDisease": "慢性支氣管炎",
+    "mainPoints": [
+      "Linh cốt",
+      "Đại bạch",
+      "Đại gian",
+      "Tiểu gian",
+      "Hỏa phủ hải"
+    ],
+    "adjunctPoints": [
+      "Thiên sĩ"
+    ],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "88. VIÊM PHẾ QUẢN MÃN TÍNH (mạn tính chi khí quản viêm 慢性支氣管炎 chronic bronchitis (Nguồn http://www.tungs-acupuncture.com/天士穴/ Châm Thiên sĩ, phối hợp huyệt Linh cốt, Đại bạch, Hoả phủ hải, có thể gia Thủ tam gian (Đại gian, Tiểu gian, Trung giantrợ giúp."
+  },
+  {
+    "id": "tung-form-89",
+    "category": "Đầu Mặt & Thần Kinh",
+    "diseaseName": "Bài 89: HEN SUYỄN",
+    "chineseDisease": "氣喘",
+    "mainPoints": [
+      "Trọng tử",
+      "Đại gian",
+      "Tiểu gian",
+      "Trung gian",
+      "Nhân sĩ"
+    ],
+    "adjunctPoints": [
+      "Địa sĩ",
+      "Thiên sĩ",
+      "Trấn tĩnh",
+      "Thượng lý",
+      "Thủy thông"
+    ],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "89. HEN SUYỄN (khí suyễn 氣喘 asthma (Nguồn http://www.tungs-acupuncture.com/重子穴/ Trọng tử, Thủ tam sĩ (Thiên sĩ, Địa sĩ, Nhân sĩ Thủ tam gian (Đại gian, Tiểu gian, Trung gian Trấn tĩnh, Thượng lý, Thuỷ kim, Thuỷ thông, cứu ngải vùng Tâm Phế sau lưng, vùng Thận thuỷ ở thắt lưng, 7 huyệt Vị mao, 23 huyệt Phủ sào (cứu mỗi ngày, mỗi huyệt 15 phút"
+  },
+  {
+    "id": "tung-form-90",
+    "category": "Đầu Mặt & Thần Kinh",
+    "diseaseName": "Bài 90: HEN SUYỄN",
+    "chineseDisease": "氣喘",
+    "mainPoints": [
+      "Linh cốt",
+      "Hỏa phủ hải",
+      "Địa sĩ",
+      "Thiên sĩ"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "90. HEN SUYỄN (khí suyễn 氣喘 asthma (Nguồn http://www.tungs-acupuncture.com/火腑海穴/ Huyệt Hoả phủ hải phối huyệt Thủ tam sĩ (Thiên sĩ, Địa sĩ, Nhân sĩvà Linh cốt hiệu nghiệm."
+  },
+  {
+    "id": "tung-form-91",
+    "category": "Đầu Mặt & Thần Kinh",
+    "diseaseName": "Bài 91: HEN SUYỄN",
+    "chineseDisease": "氣喘",
+    "mainPoints": [
+      "Linh cốt",
+      "Đại bạch",
+      "Đại gian",
+      "Tiểu gian",
+      "Trung gian"
+    ],
+    "adjunctPoints": [
+      "Nhân sĩ",
+      "Địa sĩ",
+      "Thiên sĩ",
+      "Trấn tĩnh",
+      "Thượng lý"
+    ],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "91. HEN SUYỄN (khí suyễn 氣喘 asthma (Nguồn http://www.tungs-acupuncture.com/天士穴/ Lấy ba huyệt Thiên sĩ, Địa sĩ, Nhân sĩ phối hợp huyệt Linh cốt, Đại bạch, Trấn tĩnh, Thượng lý, Thuỷ kim, Thuỷ thông, Thần nhĩ, Thủ tam gian (Đại gian, Tiểu gian, Trung gian và cứu trị."
+  },
+  {
+    "id": "tung-form-92",
+    "category": "Đầu Mặt & Thần Kinh",
+    "diseaseName": "Bài 92: HEN SUYỄN",
+    "chineseDisease": "氣喘",
+    "mainPoints": [
+      "Đại gian",
+      "Tiểu gian",
+      "Trắc gian",
+      "Phân kim",
+      "Hợp kim"
+    ],
+    "adjunctPoints": [
+      "Nội kim",
+      "Thủy thông",
+      "Thủy kim",
+      "Thần nhĩ"
+    ],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "92. HEN SUYỄN (khí suyễn 氣喘 asthma (Nguồn http://www.tungs-acupuncture.com/分金穴、合金穴、內金穴/ Huyệt Phân kim, Hợp kim, Nội kim phối huyệt Đại gian, Tiểu gian, Trắc gian, Thuỷ kim, Thuỷ thông, Thần nhĩ."
+  },
+  {
+    "id": "tung-form-93",
+    "category": "Đầu Mặt & Thần Kinh",
+    "diseaseName": "Bài 93: TRỊ CÁC CHỨNG HO, KHÓ THỞ, ĐAU HỌNG VÀ SỐT CAO CỦA CORONAVIRUS",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Linh cốt",
+      "Đại bạch",
+      "Trọng tử",
+      "Trọng tiên",
+      "Đại gian"
+    ],
+    "adjunctPoints": [
+      "Tiểu gian",
+      "Trung gian",
+      "Tam trọng",
+      "Tứ hoa",
+      "Tứ mã"
+    ],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "điều trị các bệnh phổi cấp tính và nghiêm trọng vì nó là một trong 32 huyệt giải độc của hệ thống Đổng thị. Trong y học cổ truyền Trung Quốc (TCM: Traditional Chinese medicineonavirus được cho là độc tố gây dịch, và huyệt Kim doanh là lựa chọn hàng đầu khi cấp cứu. Có thể thêm các huyệt khác như: - Đau ngực và lưng trên: Trọng tử (Zhong Zi 重 子 Trọng Tiên (Zhong Xian 重 仙 - Phát sốt: Linh cốt (Ling Gu 灵 骨 Đại bạch (Da Bai 大白 - Hóa đờm và ngừng ho: Đại gian (Da Jian 大 间 Trung gian (Zhong Jian 中间 Tiểu gian (Xiao Jian 小 间 - Để bình phục: Tam trọng (San Zhong 三重 Tứ hoa thượng (Si Hua Shang 四 花上 và Tứ mã (Si Ma 驷 马"
+  },
+  {
+    "id": "tung-form-94",
+    "category": "Đầu Mặt & Thần Kinh",
+    "diseaseName": "Bài 94: CẢI THIỆN KHẢ NĂNG MIỄN DỊCH",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Nhân sĩ",
+      "Địa sĩ",
+      "Thiên sĩ",
+      "Can linh"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "94. CẢI THIỆN KHẢ NĂĂNG MIỄN DỊCH (Nguồn: https://www.facebook.com/groups/2250192911945840/permalink/2494723827492746/ VỊ TRÍ HUYỆT: Bắt đầu từ ngón tay, kẻ các đường nối dài đến mặt trong cẳng tay. Như trong hình vẽ: vạch đỏ là đường nối tới ngón giữa, vạch vàng là đường nối tới ngón trỏ, vạch xanh là đường nối tới ngón nhẫn. Từ nếp gấp khuỷu tay đến nếp gấp cổ tay chia làm bốn phần bằng nhau: - Tại điểm chia trên đường vàng (3 vòng tròn màu tímlà các huyệt Nhân sĩ, Địa sĩ, Thiên sĩ: có thể điều hoà Phế (các bệnh liên quan đến Phế - Tại điểm chia trên đường xanh (3 tam giác màu tímlà các huyệt Can linh 1, 2, 3: Có thể điều hoà Can (chữa các bệnh liên quan đến Can. - Vạch màu xanh da trời cách nếp gấp khuỷu tay bằng bề rộng 2 ngón tay; chia đường xanh da trời thành 4 phần bằng nhau: tại điểm chia (hình ngôi sao màu tímlà các điểm tốt cho họng. CÁCH LÀM: 1. Sử dụng kim châm cứu trực tiếp, hoặc dùng kim châm tai lưu trong thời gian dài. 2. Có thể dán hạt từ tính, hoặc những thứ tương tự như thế. (Làm theo hướng dẫn của từng công cụ 3. Có thể dán cao dán giảm đau. 4. Bạn có thể ấn day, xoa bóp, hoặc đơn giản là dùng tay xoa cả đường dây này. 5. Cách đơn giản nhất: chỉ cần xoa vào bên trong toàn bộ cẳng tay cho đến khi nó ấm nóng. Những cách này giúp cải thiện khả năng miễn dịch, và phục hồi nhanh hơn. Một người bạn ho và không thể nói trước khi anh ấy lên sân khấu. Được nắn tại các đường vàng và xanh trên tay của anh ấy, anh ấy đã có thể nói bình thường trở lại. Kinh nghiệm cá nhân PVC: cứu các huyệt này trị ho do cảm lạnh cũng rất nhanh."
+  },
+  {
+    "id": "tung-form-95",
+    "category": "Đầu Mặt & Thần Kinh",
+    "diseaseName": "Bài 95: BA HUYỆT NỘI KIM, PHÂN KIM VÀ HỢP KIM TRỊ BỆNH PHẾ",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Trọng tử",
+      "Trọng tiên",
+      "Trung bạch",
+      "Hạ bạch",
+      "Uyển thuận"
+    ],
+    "adjunctPoints": [
+      "Đại gian",
+      "Tiểu gian",
+      "Trung gian",
+      "Huyệt Mộc",
+      "Nhân sĩ"
+    ],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": ": Hợp kim lên 0,5 thốn. - Huyệt Nội kim (内金Phân kim lên 0,5 thốn. Cách châm: Dùng kim 1 thốn châm vuông góc 0,5-0,8 thốn. Không vận động tay trong lúc đang châm cứu. Theo quan điểm hệ thống kinh lạc: cảm lạnh, ho, viêm phế quản, thở khò khè, đau họng có liên quan đến suy giảm chức năng của Phế. Phong hàn hoặc phong nhiệt cản trở dương khí bảo vệ và chế ngự dương khí là nguyên nhân dẫn đến các triệu chứng bên ngoài. Khi các nhân tố gây bệnh cản trở Phế, Phế sẽ mất khả năng khuếch tán và túc giáng. Vị trí của 3 huyệt này tựa như đảo mã tại Xích trạch (LU5, nhưng chức năng mạnh hơn LU5 rất nhiều. Không chỉ điều trị các triệu chứng của Phế, nó còn điều trị các vấn đề liên quan đến Phế, ví như viêm thanh quản, viêm mũi, đau họng, đau ngực, đau lưng trên, đau mặt xương bả vai và đau vai (cùng với kinh Phế, Thiếu thương LU1 và Ngư tế LU2 Ứng dụng và điều chỉnh: - Tại phòng khám, Tam kim thường được dùng với Tam sĩ (Nhân sĩ 33.13 (人士, Địa sĩ 33.14 (地士 và Thiên sĩ 33.15 (天士 chữa ho do phong hàn hoặc phong nhiệt, nếu ta vạch một đường kéo dài từ ngón trỏ lên hết vai sẽ thấy rõ các huyệt trên đường này có tác dụng tương tự, ví dụ: + Ho cấp tính: Huyệt Mộc (11.17, Đại gian (11.01, Trung gian (11.02, Tiểu gian (11.05; + Cảm lạnh, ho, hen suyễn, viêm phổi: Huyệt Trọng tử (22.01, Trọng tiên (22.02, + Cảm lạnh, hen suyễn, viêm mẫũi, đau ngực, ho: Cũng như Tam sĩ (Nhân sĩ 33.13, Địa sĩ 33.14, và Thiên sĩ 33.15 - Huyệt Phân kim được đánh số 44.01 trong tài liệu, nhưng chúng ta đã bỏ qua 2 huyệt (Nội kim và Hợp kimđảo mã huyệt Tam kim với huyệt Trọng tử, Trọng tiên và huyệt Tam sĩ là hiệu quả nhất để trị ho giống như SIÊU ĐẠI ĐẢO MÃ trên kinh Phế. + Với chứng viêm mẫũi: Thêm các huyệt Tứ mã, huyệt Tứ hoa, huyệt Mộc. + Với chứng đau lưng: Thêm các huyệt Trung bạch, huyệt Hạ bạch và huyệt Uyển thuận."
+  },
+  {
+    "id": "tung-form-96",
+    "category": "Đầu Mặt & Thần Kinh",
+    "diseaseName": "Bài 96: TRỪ HOÀNG ĐÀM",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Đại gian",
+      "Tiểu gian",
+      "Trung gian"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "96. TRỪ HOÀNG ĐÀM (Nguồn http://www.tungs-acupuncture.com/小間穴/ Dùng các huyệt Đại gian, Tiểu gian, Trung gian."
+  },
+  {
+    "id": "tung-form-97",
+    "category": "Hô Hấp & Hầu Họng",
+    "diseaseName": "Bài 97: ĐỜM VÀNG KHÓ KHẠC RA",
+    "chineseDisease": "黃痰粘稠不易喀出",
+    "mainPoints": [
+      "Trọng tử",
+      "Trọng tiên",
+      "Đại gian",
+      "Tiểu gian",
+      "Trung gian"
+    ],
+    "adjunctPoints": [
+      "Thủy thông",
+      "Thủy kim"
+    ],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "97. ĐỜM VÀNG KHÓ KHẠC RA (Hoàng đàm niêm trù bất dị khách xuất 黃痰粘稠不易喀出 (Nguồn http://www.tungs-acupuncture.com/重子穴/ Trọng tử, Trọng tiên, Thuỷ kim, Thuỷ thông, Thủ tam gian (Đại gian, Tiểu gian, Trung gian."
+  },
+  {
+    "id": "tung-form-98",
+    "category": "Hô Hấp & Hầu Họng",
+    "diseaseName": "Bài 98: CHỮA PHẾ NHAM",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Linh cốt",
+      "Đại bạch",
+      "Tâm thường"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "98. CHỮA PHẾ NHAM (ung thư, PHẾ KHÍ THŨNG, PHẾ TÍCH THUỶ (Nguồn http://www.tungs-acupuncture.com/靈骨穴/ Huyệt Linh Cốt phối hợp huyệt Đại bạch, huyệt Tâm thường 1, 2, 3, rất hiệu quả."
+  },
+  {
+    "id": "tung-form-99",
+    "category": "Hô Hấp & Hầu Họng",
+    "diseaseName": "Bài 99: CHỮA UNG THƯ PHỔI",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Đại bạch",
+      "Địa sĩ",
+      "Thiên sĩ",
+      "Tứ mã"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "99. CHỮA UNG THƯ PHỔI (phế nham (Nguồn http://www.tungs-acupuncture.com/靈骨穴/ Huyệt Thủ tam sĩ (gồm Thiên sĩ, Địa sĩ và Nhân sĩLinh cốt, Đại bạch, Tam trùng, Tứ mã, bất định huyệt."
+  },
+  {
+    "id": "tung-form-100",
+    "category": "Hô Hấp & Hầu Họng",
+    "diseaseName": "Bài 100: UNG THƯ PHỔI",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Linh cốt",
+      "Đại bạch",
+      "Hỏa tinh",
+      "Tam trọng",
+      "Tứ mã"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "100. UNG THƯ PHỔI (phế nham (Nguồn http://www.tungs-acupuncture.com/火星上穴/ Huyệt Hoả tinh thượng phối huyệt Linh cốt, Đại bạch, Tam trọng, lại phối bất định huyệt; hoặc phối huyệt Linh cốt, Đại bạch, Tứ mã, gia bất định huyệt."
+  },
+  {
+    "id": "tung-form-101",
+    "category": "Hô Hấp & Hầu Họng",
+    "diseaseName": "Bài 101: CHỮA SƯNG PHỔI",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Linh cốt",
+      "Đại bạch",
+      "Tâm thường",
+      "Tứ mã"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "101. CHỮA SƯNG PHỔI (phế viêm (Nguồn http://www.tungs-acupuncture.com/靈骨穴/ Châm các huyệt Linh cốt, Đại bạch, Tâm thường, Tứ mã."
+  },
+  {
+    "id": "tung-form-102",
+    "category": "Hô Hấp & Hầu Họng",
+    "diseaseName": "Bài 102: CHỮA PHẾ KHÍ THŨNG",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Linh cốt",
+      "Đại bạch",
+      "Tứ hoa"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [
+      "com/靈骨穴/ Trước hết chích huyết huyệt Tứ hoa (gồm Tứ hoa thượng"
+    ],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "102. CHỮA PHẾ KHÍ THŨNG (Nguồn http://www.tungs-acupuncture.com/靈骨穴/ Trước hết chích huyết huyệt Tứ hoa (gồm Tứ hoa thượng, Tứ hoa trung, Tứ hoa phó và Tứ hoa hạ, sau châm Linh cốt, Đại bạch."
+  },
+  {
+    "id": "tung-form-103",
+    "category": "Hô Hấp & Hầu Họng",
+    "diseaseName": "Bài 103: TRỊ PHẾ KHÍ THŨNG",
+    "chineseDisease": "肺氣腫",
+    "mainPoints": [
+      "Linh cốt",
+      "Đại bạch",
+      "Tam thần"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "103. TRỊ PHẾ KHÍ THŨNG(肺氣腫 emphysema: phế nang bị tổn thương gây khó thở (Nguồn http://www.tungs-acupuncture.com/三神穴/ Huyệt Tam thần phối huyệt Linh cốt, Đại bạch."
+  },
+  {
+    "id": "tung-form-104",
+    "category": "Hô Hấp & Hầu Họng",
+    "diseaseName": "Bài 104: BỆNH TIM",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Linh cốt",
+      "Đại bạch",
+      "Hỏa tinh",
+      "Tâm linh",
+      "Địa tông"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "104. BỆNH TIM (Tâm tạng tật bệnh (Theo nguồn http://www.tungs-acupuncture.com/火星下穴/ Huyệt Hoả tinh thượng, Hoả tinh hạ có thể phối huyệt Địa tông, huyệt Linh cốt, huyệt Đại bạch, huyệt Tâm linh 1, 2, 3 trị bệnh tim, hiệu quả rõ rệt."
+  },
+  {
+    "id": "tung-form-105",
+    "category": "Hô Hấp & Hầu Họng",
+    "diseaseName": "Bài 105: BỆNH TIM",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Tỳ thũng",
+      "Tâm linh"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "105. BỆNH TIM (Tâm tật (Theo nguồn http://www.tungs-acupuncture.com/脾腫二穴/ Huyệt Tỳ thũng phối hợp châm huyệt Tâm linh 1, 2, 3 có thể trị bệnh tim."
+  },
+  {
+    "id": "tung-form-106",
+    "category": "Hô Hấp & Hầu Họng",
+    "diseaseName": "Bài 106: BỆNH TIM",
+    "chineseDisease": "心臟病",
+    "mainPoints": [
+      "Tâm môn",
+      "Tâm linh"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "106. BỆNH TIM (tâm tạng bệnh 心臟病 heart disease (Nguồn http://www.tungs-acupuncture.com/心門穴/ Huyệt Tâm môn phối huyệt Tâm linh châm thời gian dài."
+  },
+  {
+    "id": "tung-form-107",
+    "category": "Hô Hấp & Hầu Họng",
+    "diseaseName": "Bài 107: TRỊ BỆNH LIỆT TIM",
+    "chineseDisease": "心臟麻痺",
+    "mainPoints": [
+      "Chỉ thận",
+      "Tâm linh"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "107. TRỊ BỆNH LIỆT TIM (tâm tạng ma tý - 心臟麻痺: \"heart palsy\" (Nguồn http://www.tungs-acupuncture.com/指腎穴/ Huyệt Chỉ thận phối huyệt Thủ tâm linh đặc hiệu."
+  },
+  {
+    "id": "tung-form-108",
+    "category": "Hô Hấp & Hầu Họng",
+    "diseaseName": "Bài 108: SUY TIM",
+    "chineseDisease": "心臟無妹力",
+    "mainPoints": [
+      "Linh cốt",
+      "Đại bạch",
+      "Nhân sĩ",
+      "Địa sĩ",
+      "Thiên sĩ"
+    ],
+    "adjunctPoints": [
+      "Tâm linh",
+      "Địa tông"
+    ],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "108. SUY TIM (Tâm tạng vô lực 心臟無力 (Nguồn http://www.tungs-acupuncture.com/天士穴/ Châm huyệt Thiên sĩ, Địa sĩ, Nhân sĩ phối huyệt Linh cốt, Đại bạch, Tâm linh, Địa tông."
+  },
+  {
+    "id": "tung-form-109",
+    "category": "Hô Hấp & Hầu Họng",
+    "diseaseName": "Bài 109: TRỊ CHỨNG MẠCH VÀNH",
+    "chineseDisease": "冠心症",
+    "mainPoints": [
+      "Tâm môn",
+      "Tâm linh",
+      "Địa tông",
+      "Thông quan",
+      "Thông thiên"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "109. TRỊ CHỨNG MẠCH VÀNH (quan tâm chứng 冠心症症 coronary syndrome(Nguồn http://www.tungs-acupuncture.com/心靈一穴、心靈二穴、心靈三穴/ Huyệt Tâm linh phối huyệt Địa tông, Thông quan, Thông thiên, Tâm môn hiệu quả rõ rệt."
+  },
+  {
+    "id": "tung-form-110",
+    "category": "Hô Hấp & Hầu Họng",
+    "diseaseName": "Bài 110: TRỊ BỆNH TIM TO",
+    "chineseDisease": "心臟擴大",
+    "mainPoints": [
+      "Chỉ thận",
+      "Địa tông"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "110. TRỊ BỆNH TIM TO (tâm tạng khuếch đại -心臟擴大: cardiomegaly, TRÀN DỊCH MÀNG TIM (tâm tạng tích thuỷ - 心臟積水: pericardial effusion (Nguồn http://www.tungs-acupuncture.com/指腎穴/ Huyệt Chỉ thận phối huyệt Địa tông thần hiệu."
+  },
+  {
+    "id": "tung-form-111",
+    "category": "Hô Hấp & Hầu Họng",
+    "diseaseName": "Bài 111: NHỒI MÁU CƠ TIM",
+    "chineseDisease": "心肌梗燥",
+    "mainPoints": [
+      "Tâm linh",
+      "Tứ hoa"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [
+      "Chích máu khe đốt sống 3 đến 5"
+    ],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "111. NHỒI MÁU CƠ TIM (tâm cơ ngạnh tắc 心肌梗塞 acute myocardial infarction, AMI (Nguồn http://www.tungs-acupuncture.com/心靈一穴、心靈二穴、心靈三穴/ 1. Chích máu khe đốt sống 3 đến 5. 2. Châm huyệt Tâm linh phối huyệt Tứ hoa, dùng phép điểm thích (点刺: là một trong những kỹ thuật đâm kim, đó là tốc độ châm. Phương pháp này là để véo da bằng tay trái, tay phải cầm kim, bằng ngón tay cái, ngón tay trỏ và ngón giữa gần đầu kim; nhanh chóng đâm vào tĩnh mạch nông dưới da, rồi rút kim ngay lập tức, sau đó nặn ra vài giọt máu"
+  },
+  {
+    "id": "tung-form-112",
+    "category": "Hô Hấp & Hầu Họng",
+    "diseaseName": "Bài 112: NHỒI MÁU CƠ TIM",
+    "chineseDisease": "心肌梗燥",
+    "mainPoints": [
+      "Tâm môn"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [
+      "com/心門穴/ Huyệt Tâm môn phối chích máu khe đốt sống 4-5"
+    ],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "112. NHỒI MÁU CƠ TIM (tâm cơ ngạnh tắc 心肌梗塞 myocardial infarction, MI (Nguồn http://www.tungs-acupuncture.com/心門穴/ Huyệt Tâm môn phối chích máu khe đốt sống 4-5."
+  },
+  {
+    "id": "tung-form-113",
+    "category": "Hô Hấp & Hầu Họng",
+    "diseaseName": "Bài 113: CHỮA LOẠN NHỊP TIM",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Đại gian",
+      "Thần nhĩ"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "113. CHỮA LOẠN NHỊP TIM (Tâm bệnh hành bất chỉnh (Nguồn http://www.tungs-acupuncture.com/大間穴/ Dùng các huyệt Đại gian, Thần nhĩ (còn gọi là huyệt Phục mạch"
+  },
+  {
+    "id": "tung-form-114",
+    "category": "Hô Hấp & Hầu Họng",
+    "diseaseName": "Bài 114: RỐI LOẠN NHỊP TIM",
+    "chineseDisease": "心律不整",
+    "mainPoints": [
+      "Tâm linh",
+      "Địa tông",
+      "Tứ hoa",
+      "Thông quan",
+      "Thông sơn"
+    ],
+    "adjunctPoints": [
+      "Thần nhĩ"
+    ],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "114. RỐI LOẠN NHỊP TIM (tâm luật bất chỉnh 心律不整 irregular pulse, cardiac arrhythmias (Nguồn http://www.tungs-acupuncture.com/心靈一穴、心靈二穴、心靈三穴/ 1. Châm huyệt Tâm linh, Thần nhĩ thời gian dài. 2. Mai châm huyệt Tâm linh phối Tứ hoa (cố định một cây kim nhỏ đặc biệt trong vùng da ở huyệt một thời gian dài 3. Châm huyệt Thông quan, Thông sơn, Địa tông."
+  },
+  {
+    "id": "tung-form-115",
+    "category": "Hô Hấp & Hầu Họng",
+    "diseaseName": "Bài 115: NHỊP TIM NHANH",
+    "chineseDisease": "心跳過速",
+    "mainPoints": [
+      "Nhân sĩ",
+      "Địa sĩ",
+      "Thiên sĩ",
+      "Trấn tĩnh",
+      "Thần nhĩ"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "115. NHỊP TIM NHANH (Tâm khiêu quá tốc 心跳過速 tachycardia (Nguồn http://www.tungs-acupuncture.com/天士穴/ Châm Thiên sĩ, Địa sĩ, Nhân sĩ, Trấn tĩnh phối huyệt Thần nhĩ."
+  },
+  {
+    "id": "tung-form-116",
+    "category": "Hô Hấp & Hầu Họng",
+    "diseaseName": "Bài 116: ĐÁNH TRỐNG NGỰC",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Đại gian",
+      "Tâm linh",
+      "Tứ hoa"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [
+      "phối hợp chích máu huyệt Tứ hoa"
+    ],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "116. ĐÁNH TRỐNG NGỰC (Tâm quý (Nguồn http://www.tungs-acupuncture.com/大間穴/ Dùng các huyệt Đại gian, Tâm linh, phối hợp chích máu huyệt Tứ hoa."
+  },
+  {
+    "id": "tung-form-117",
+    "category": "Hô Hấp & Hầu Họng",
+    "diseaseName": "Bài 117: ĐIỀU TRỊ ĐÁNH TRỐNG NGỰC",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Linh cốt",
+      "Đại bạch",
+      "Đại gian",
+      "Tiểu gian",
+      "Trung gian"
+    ],
+    "adjunctPoints": [
+      "Nhân sĩ",
+      "Địa sĩ",
+      "Thiên sĩ",
+      "Tâm linh",
+      "Trấn tĩnh"
+    ],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "117. ĐIỀU TRỊ ĐÁNH TRỐNG NGỰC (Tâm quý (Nguồn http://www.tungs-acupuncture.com/中間穴/ Huyệt Tâm linh, Trấn tĩnh cùng huyệt Thượng tinh đảo mã, huyệt Thủ tam sĩ (Thiên sĩ, Địa sĩ và Nhân sĩ, Linh cốt, Đại bạch, Thuỷ kim, Thuỷ thông, Thủ tam gian (gồm Đại gian, Tiểu gian, Trung gian huyệt Thần nhĩ trên tai."
+  },
+  {
+    "id": "tung-form-118",
+    "category": "Tim Mạch & Huyết Áp",
+    "diseaseName": "Bài 118: BỆNH ĐÁNH TRỐNG NGỰC",
+    "chineseDisease": "心悸",
+    "mainPoints": [
+      "Tâm môn",
+      "Địa tông"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "118. BỆNH ĐÁNH TRỐNG NGỰC (心攣悸 tâm quý palpitations (Nguồn http://www.tungs-acupuncture.com/心門穴/ Huyệt Tâm môn phối huyệt Địa tông."
+  },
+  {
+    "id": "tung-form-119",
+    "category": "Tim Mạch & Huyết Áp",
+    "diseaseName": "Bài 119: TỨC NGỰC",
+    "chineseDisease": "胸悶",
+    "mainPoints": [
+      "Linh cốt",
+      "Hỏa xuyến",
+      "Hỏa lăng",
+      "Hỏa sơn",
+      "Tâm linh"
+    ],
+    "adjunctPoints": [
+      "Tứ hoa",
+      "Tứ mã"
+    ],
+    "bloodlettingPoints": [
+      "Tứ hoa phối hợp chích máu nơi bệnh"
+    ],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "119. TỨC NGỰC (hung muộn 胸攣悶 chest distress, ĐAU NGỰC (hung thống 胸痛 (Nguồn http://www.tungs-acupuncture.com/心靈一穴、心靈二穴、心靈三穴/ 1. Châm huyệt Tâm linh, Linh cốt, Tứ hoa phối hợp chích máu nơi bệnh. 2. Châm huyệt Tâm linh, Hoả xuyến, Hoả lăng, Hoả sơn, Tứ mã, Tứ hoa."
+  },
+  {
+    "id": "tung-form-120",
+    "category": "Tim Mạch & Huyết Áp",
+    "diseaseName": "Bài 120: TRỊ LIỆU CHOLESTEROL QUÁ CAO",
+    "chineseDisease": "治療膽固醇過高",
+    "mainPoints": [
+      "Kiên trung",
+      "Kiến trung"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "120. TRỊ LIỆU CHOLESTEROL QUÁ CAO (đảm cố thuần quá cao 治療膽固醇過高 (Nguồn http://www.tungs-acupuncture.com/肩中穴、建中穴/ Huyệt Kiên trung phối huyệt Kiến trung, có tác dụng lọc máu, dùng trị cholesterol quá cao, hiệu quả rất tốt."
+  },
+  {
+    "id": "tung-form-121",
+    "category": "Tim Mạch & Huyết Áp",
+    "diseaseName": "Bài 121: TRỊ CHỨNG CHÁN ĂN",
+    "chineseDisease": "胃口不開",
+    "mainPoints": [
+      "Khai tỳ",
+      "Tứ hoa"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": ", ĂĂN KHÔNG NGON MIỆNG (thực dục bất chấn食慾不振 (Nguồn http://www.tungs-acupuncture.com/開脾穴/ Huyệt Khai tỳ phối hợp huyệt Tứ hoa thượng."
+  },
+  {
+    "id": "tung-form-122",
+    "category": "Tim Mạch & Huyết Áp",
+    "diseaseName": "Bài 122: SƯNG LÁ LÁCH",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Tỳ thũng",
+      "Tam trọng"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "122. SƯNG LÁ LÁCH (Tỳ thũng (Theo nguồn http://www.tungs-acupuncture.com/脾腫一穴/ 1. Tỳ thũng 1, Tam trọng. 2. Tỳ thũng 1, Thổ linh, Thổ xương. 3. Tỳ thũng 1, Thổ xương, Tam trọng."
+  },
+  {
+    "id": "tung-form-123",
+    "category": "Tim Mạch & Huyết Áp",
+    "diseaseName": "Bài 123: ĐIỀU TRỊ SƯNG LÁ LÁCH",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Tỳ thũng",
+      "Tam trọng"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "123. ĐIỀU TRỊ SƯNG LÁ LÁCH (Tỳ thũng đại (Theo nguồn http://www.tungs-acupuncture.com/脾腫二穴/ Huyệt Tỳ thũng có thể phối huyệt Tam trọng 1, 2, 3 hiệu quả rõ rệt."
+  },
+  {
+    "id": "tung-form-124",
+    "category": "Tim Mạch & Huyết Áp",
+    "diseaseName": "Bài 124: ĐIỀU TRỊ BỆNH LÁ LÁCH",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Tỳ thũng"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "124. ĐIỀU TRỊ BỆNH LÁ LÁCH (Tỳ tạng đích tật bệnh (Theo nguồn http://www.tungs-acupuncture.com/脾腫二穴/ Ngoài việc châm huyệt Tỳ thũng còn có huyệt Tam tinh, huyệt Tam nhãn, huyệt Kiện tỳ, huyệt Thổ hưng; các huyệt này có thể chọn 2-3 huyệt phối thành tổ hợp với nhau."
+  },
+  {
+    "id": "tung-form-125",
+    "category": "Tim Mạch & Huyết Áp",
+    "diseaseName": "Bài 125: ĐIỀU TRỊ BỆNH GAN",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Tỳ thũng",
+      "Thiên hoàng",
+      "Thượng tam hoàng",
+      "Minh hoàng",
+      "Kỳ hoàng"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "125. ĐIỀU TRỊ BỆNH GAN (Nguồn http://www.tungs-acupuncture.com/脾腫一穴/ Huyệt Tỳ thũng 1 phối huyệt Thượng tam hoàng (Thiên hoàng, Minh hoàng và Kỳ hoàng"
+  },
+  {
+    "id": "tung-form-126",
+    "category": "Tim Mạch & Huyết Áp",
+    "diseaseName": "Bài 126: ĐIỀU TRỊ BỆNH GAN",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Tỳ thũng",
+      "Thiên hoàng",
+      "Thượng tam hoàng",
+      "Minh hoàng",
+      "Kỳ hoàng"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "126. ĐIỀU TRỊ BỆNH GAN (can tật (Theo nguồn http://www.tungs-acupuncture.com/脾腫二穴/ Huyệt Tỳ thũng 2 phối huyệt Thượng tam hoàng (thiên hoàng, minh hoàng, kỳ hoàng."
+  },
+  {
+    "id": "tung-form-127",
+    "category": "Tim Mạch & Huyết Áp",
+    "diseaseName": "Bài 127: BỆNH GAN",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Huyệt Mộc",
+      "Mộc viêm",
+      "Thiên hoàng",
+      "Thượng tam hoàng",
+      "Minh hoàng"
+    ],
+    "adjunctPoints": [
+      "Kỳ hoàng"
+    ],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "(Theo nguồn http://www.tungs-acupuncture.com/木炎一穴/ Nói chung, huyệt Mộc viêm gia huyệt Thượng tam hoàng (Thiên hoàng, Minh hoàng, Kỳ hoàng"
+  },
+  {
+    "id": "tung-form-128",
+    "category": "Tim Mạch & Huyết Áp",
+    "diseaseName": "Bài 128: VIÊM GAN",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Huyệt Mộc",
+      "Tỳ thũng",
+      "Mộc viêm",
+      "Thiên hoàng",
+      "Thượng tam hoàng"
+    ],
+    "adjunctPoints": [
+      "Minh hoàng",
+      "Kỳ hoàng"
+    ],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "128. VIÊM GAN (Nguồn http://www.tungs-acupuncture.com/脾腫一穴/ Huyệt Tỳ thũng 1 phối huyệt Mộc viêm, Can điểm, Thượng tam hoàng (Thiên hoàng, Minh hoàng và Kỳ hoàng Can điểm, can viêm điểm ở tai."
+  },
+  {
+    "id": "tung-form-129",
+    "category": "Tim Mạch & Huyết Áp",
+    "diseaseName": "Bài 129: VIÊM GAN B",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Huyệt Mộc",
+      "Mộc viêm",
+      "Can linh"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "129. VIÊM GAN B (Nguồn http://www.tungs-acupuncture.com/木炎二穴/ Nếu vùng huyệt Can linh có nổi đường gân xanh, hầu hết là có viêm gan B, có thể dùng huyệt Mộc viêm phối huyệt Can linh."
+  },
+  {
+    "id": "tung-form-130",
+    "category": "Tiêu Hóa & Gan Mật & Bài Tiết",
+    "diseaseName": "Bài 130: VIÊM GAN B",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Huyệt Mộc",
+      "Mộc viêm",
+      "Can linh",
+      "Thiên hoàng",
+      "Thượng tam hoàng"
+    ],
+    "adjunctPoints": [
+      "Minh hoàng",
+      "Kỳ hoàng"
+    ],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "130. VIÊM GAN B (Theo nguồn http://www.tungs-acupuncture.com/木炎三穴/ Theo kinh nghiệm huyệt Mộc viêm phối hợp nhĩ châm khu Can gia huyệt Can linh, Thượng tam hoàng (Thiên hoàng, Minh hoàng, Kỳ hoàng huyệt trị liệu viêm gan B. Trong 132 trường hợp, có 78 trường hợp khỏi bệnh, 18 trường hợp tác dụng không đáng kể."
+  },
+  {
+    "id": "tung-form-131",
+    "category": "Tiêu Hóa & Gan Mật & Bài Tiết",
+    "diseaseName": "Bài 131: TRỊ VIÊM GAN B",
+    "chineseDisease": "蓋型肝炎",
+    "mainPoints": [
+      "Mộc viêm",
+      "Can môn",
+      "Can linh",
+      "Thiên hoàng",
+      "Thượng tam hoàng"
+    ],
+    "adjunctPoints": [
+      "Minh hoàng",
+      "Kỳ hoàng"
+    ],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "(Nguồn http://www.tungs-acupuncture.com/肝門穴/ Huyệt Can môn, Can linh, Mộc viêm, phối điểm Can, điểm Can viêm trên tai và Thượng tam hoàng (Thiên hoàng, Minh hoàng, Kỳ hoàng"
+  },
+  {
+    "id": "tung-form-132",
+    "category": "Tiêu Hóa & Gan Mật & Bài Tiết",
+    "diseaseName": "Bài 132: TRỊ LIỆU VIÊM GAN KIÊM VIÊM RUỘT",
+    "chineseDisease": "肝炎兼腸炎",
+    "mainPoints": [
+      "Trường môn",
+      "Can môn"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "132. TRỊ LIỆU VIÊM GAN KIÊM VIÊM RUỘT (can viêm kiêm trường viêm 肝炎兼腸炎 (Nguồn http://www.tungs-acupuncture.com/肝門穴/ Huyệt Can môn phối hợp huyệt Trường môn hiệu quả tốt nhất."
+  },
+  {
+    "id": "tung-form-133",
+    "category": "Tiêu Hóa & Gan Mật & Bài Tiết",
+    "diseaseName": "Bài 133: TRỊ XƠ GAN",
+    "chineseDisease": "肝硬化",
+    "mainPoints": [
+      "Trường môn",
+      "Can môn",
+      "Thiên hoàng",
+      "Thượng tam hoàng",
+      "Minh hoàng"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "(Nguồn http://www.tungs-acupuncture.com/肝門穴/ Huyệt Can môn phối hợp huyệt Trường môn, Thượng tam hoàng (Thiên hoàng, Minh hoàng, Kỳ hoàngm trọng."
+  },
+  {
+    "id": "tung-form-134",
+    "category": "Tiêu Hóa & Gan Mật & Bài Tiết",
+    "diseaseName": "Bài 134: XƠ GAN",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Tỳ thũng",
+      "Trường môn",
+      "Can môn",
+      "Thượng khúc",
+      "Tam trọng"
+    ],
+    "adjunctPoints": [
+      "Thiên hoàng",
+      "Thượng tam hoàng",
+      "Minh hoàng",
+      "Kỳ hoàng"
+    ],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "134. XƠ GAN (Can ngạnh hoá (Theo nguồn http://www.tungs-acupuncture.com/脾腫一穴/ Trước hết không được uống rượu. 1. Châm huyệt Tỳ thũng 1 phối huyệt Thượng khúc, Thượng tam hoàng (Thiên hoàng, Minh hoàng và Kỳ hoàng Can môn, Trường môn. 2. Huyệt Tỳ thũng 1 phối huyệt Thượng tam hoàng, Trường môn, Tam trọng."
+  },
+  {
+    "id": "tung-form-135",
+    "category": "Tiêu Hóa & Gan Mật & Bài Tiết",
+    "diseaseName": "Bài 135: VIÊM GAN TRUYỀN NHIỄM, XƠ GAN",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Huyệt Mộc",
+      "Mộc viêm",
+      "Thiên hoàng",
+      "Thượng tam hoàng",
+      "Minh hoàng"
+    ],
+    "adjunctPoints": [
+      "Kỳ hoàng",
+      "Thủy thông",
+      "Thủy kim"
+    ],
+    "bloodlettingPoints": [
+      "với chích huyết trị bệnh viêm gan truyền nhiễm"
+    ],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "135. VIÊM GAN TRUYỀN NHIỄM, XƠ GAN (Theo nguồn http://www.tungs-acupuncture.com/木炎三穴/ Huyệt Mộc viêm phối huyệt Thượng tam hoàng (Thiên hoàng, Minh hoàng, Kỳ hoàng, Thuỷ kim, Thuỷ thông, Can viêm điểm, với chích huyết trị bệnh viêm gan truyền nhiễm, có 291 trường hợp điều trị liên tục trong vòng hai tháng, CCF và HAA âm tính; sử dụng để điều trị 11 trường hợp xơ gan và 9 trường hợp đã được chữa khỏi. Còn lại phối hợp với dược liệu để trị."
+  },
+  {
+    "id": "tung-form-136",
+    "category": "Tiêu Hóa & Gan Mật & Bài Tiết",
+    "diseaseName": "Bài 136: TRỊ XƠ GAN",
+    "chineseDisease": "肝硬化",
+    "mainPoints": [
+      "Trường môn",
+      "Can môn",
+      "Thượng khúc",
+      "Thiên hoàng",
+      "Thượng tam hoàng"
+    ],
+    "adjunctPoints": [
+      "Minh hoàng",
+      "Kỳ hoàng"
+    ],
+    "bloodlettingPoints": [
+      "com/上曲穴/ Chích máu huyệt Thượng khúc"
+    ],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "(Nguồn http://www.tungs-acupuncture.com/上曲穴/ Chích máu huyệt Thượng khúc, phối hợp huyệt Thượng tam hoàng (Thiên hoàng, Minh hoàng, Kỳ hoàng, huyệt Can môn, huyệt Trường môn."
+  },
+  {
+    "id": "tung-form-137",
+    "category": "Tiêu Hóa & Gan Mật & Bài Tiết",
+    "diseaseName": "Bài 137: UNG THƯ GAN",
+    "chineseDisease": "肝癌瘤",
+    "mainPoints": [
+      "Thiên hoàng",
+      "Thượng tam hoàng",
+      "Minh hoàng"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "137. UNG THƯ GAN (Can nham lựu 肝癌瘤 liver Tumor, liver cancer (Nguồn http://www.tungs-acupuncture.com/指三重穴/ Huyệt Thượng tam hoàng (Thiên hoàng, Minh hoàng, Kỳ hoàngm trọng."
+  },
+  {
+    "id": "tung-form-138",
+    "category": "Tiêu Hóa & Gan Mật & Bài Tiết",
+    "diseaseName": "Bài 138: VIÊM TÚI MẬT",
+    "chineseDisease": "膽囊炎",
+    "mainPoints": [
+      "Trường môn",
+      "Can môn",
+      "Thiên hoàng",
+      "Thượng tam hoàng",
+      "Minh hoàng"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "138. VIÊM TÚI MẬT (đĂm nang viêm 膽囊炎 (Nguồn http://www.tungs-acupuncture.com/腸門穴/ Huyệt Trường môn phối huyệt Can môn, Thượng tam hoàng (Thiên hoàng, Minh hoàng, Kỳ hoànghiệu nghiệm, phối hợp phép châm huyệt bất định."
+  },
+  {
+    "id": "tung-form-139",
+    "category": "Tiêu Hóa & Gan Mật & Bài Tiết",
+    "diseaseName": "Bài 139: ĐAU THẮT DẠ DÀY",
+    "chineseDisease": "胃絞痛",
+    "mainPoints": [
+      "Thổ thuỷ",
+      "Môn kim",
+      "Tứ hoa"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "139. ĐAU THẮT DẠ DÀY (vị giảo thống 胃絞痛 (Nguồn http://www.tungs-acupuncture.com/土水穴/ Chủ yếu là do nguyên nhân tinh thần; tức giận, hồi hộp và căng thẳng quá mức có thể gây ra co thắt dạ dày: Huyệt Thổ thuỷ phối huyệt Tứ hoa thượng, huyệt Môn kim."
+  },
+  {
+    "id": "tung-form-140",
+    "category": "Tiêu Hóa & Gan Mật & Bài Tiết",
+    "diseaseName": "Bài 140: DẠ DÀY ĐẦY HƠI",
+    "chineseDisease": "胃脹",
+    "mainPoints": [
+      "Tứ hoa"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": ", ĐAU DẠ DÀY (vị thống 胃痛) (Nguồn https://read01.com/nxeK06n.html Huyệt Tam xỉ có thể phối huyệt Tứ hoa."
+  },
+  {
+    "id": "tung-form-141",
+    "category": "Tiêu Hóa & Gan Mật & Bài Tiết",
+    "diseaseName": "Bài 141: TRỊ VỊ TOAN",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Thổ thuỷ",
+      "Thủy thông",
+      "Thủy kim"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "141. TRỊ VỊ TOAN (A XÍT DẠ DÀYÁ NHIỀU LÀM LOÉT DẠ DÀY, LOÉT DẠ DÀY, TÁ TRÀNG (Nguồn http://www.tungs-acupuncture.com/土水穴/ 1. Trị vị toan (a xít dạ dày quá nhiều làm loét dạ dày (vị toan quá đa cập vị hội dương 胃酸過多及胃潰瘍 Huyệt Thổ thuỷ, Thuỷ kim, Thuỷ thông. 2. Loét dạ dày tá tràng (Vị cập thập nhị chỉ trường hội dương 胃及十二指腸潰瘍 Huyệt Thổ thuỷ, Thuỷ kim, Thuỷ thông, lại gia điểm dạ dày trên tai."
+  },
+  {
+    "id": "tung-form-142",
+    "category": "Tiêu Hóa & Gan Mật & Bài Tiết",
+    "diseaseName": "Bài 142: ĐAU VÙNG THƯỢNG VỊ",
+    "chineseDisease": "胃脘痛",
+    "mainPoints": [
+      "Ngoại gian",
+      "Tâm linh",
+      "Tứ hoa"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "142. ĐAU VÙNG THƯỢNG VỊ (胃脘痛 vị quản thống (Nguồn http://www.tungs-acupuncture.com/心靈一穴、心靈二穴、心靈三穴/ Châm huyệt Tâm linh 1, Ngoại gian, Tứ hoa."
+  },
+  {
+    "id": "tung-form-143",
+    "category": "Tiêu Hóa & Gan Mật & Bài Tiết",
+    "diseaseName": "Bài 143: UNG THƯ ĐƯỜNG TIÊU HÓA",
+    "chineseDisease": "腸胃癌瘤",
+    "mainPoints": [
+      "Tam trọng",
+      "Tứ hoa",
+      "Ngoại tam quan"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "(Nguồn http://www.tungs-acupuncture.com/指三重穴/ Huyệt Tứ hoa thượng, trung, hạ, Ngoại tam quan hoặc Tam trọng."
+  },
+  {
+    "id": "tung-form-144",
+    "category": "Tiêu Hóa & Gan Mật & Bài Tiết",
+    "diseaseName": "Bài 144: TRỊ VIÊM RUỘT THỪA",
+    "chineseDisease": "盲腸炎",
+    "mainPoints": [
+      "Tứ hoa",
+      "Phủ trường"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [
+      "có thể chích máu tại huyệt Phủ sào"
+    ],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "144. TRỊ VIÊM RUỘT THỪA (manh trường viêm 盲腸炎 appendicitis (Nguồn http://www.tungs-acupuncture.com/上高穴、下高穴/ Ngoài huyệt Thượng cao, Hạ cao, Tứ hoa trung, Phủ trường, điểm Lan vĩ trên tai, có thể chích máu tại huyệt Phủ sào."
+  },
+  {
+    "id": "tung-form-145",
+    "category": "Tiêu Hóa & Gan Mật & Bài Tiết",
+    "diseaseName": "Bài 145: VIÊM RUỘT",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Linh cốt",
+      "Đại gian",
+      "Trắc gian",
+      "Trường môn",
+      "Can môn"
+    ],
+    "adjunctPoints": [
+      "Môn kim",
+      "Tứ hoa",
+      "Phủ trường"
+    ],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "145. VIÊM RUỘT (Nguồn http://www.tungs-acupuncture.com/大間穴/ 1. Dùng các huyệt Tứ hoa hạ, Trường môn, Can môn, Phủ trường. 2. Dùng các huyệt Tứ hoa thượng, Trường môn, Can môn, Môn kim, Linh cốt. 3. Dùng các huyệt Đại gian, Trắc gian, Trường môn, Phủ trường, cứu cách gừng hoặc cách muối lỗ rốn."
+  },
+  {
+    "id": "tung-form-146",
+    "category": "Tiêu Hóa & Gan Mật & Bài Tiết",
+    "diseaseName": "Bài 146: VIÊM RUỘT",
+    "chineseDisease": "腸炎",
+    "mainPoints": [
+      "Linh cốt",
+      "Trường môn",
+      "Can môn",
+      "Môn kim",
+      "Tứ hoa"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "(Nguồn http://www.tungs-acupuncture.com/腸門穴/ Huyệt Trường môn phối huyệt Can môn, Tứ hoa thượng, Môn kim, Linh cốt hiệu nghiệm."
+  },
+  {
+    "id": "tung-form-147",
+    "category": "Tiêu Hóa & Gan Mật & Bài Tiết",
+    "diseaseName": "Bài 147: VIÊM RUỘT CẤP, MÃN TÍNH",
+    "chineseDisease": "急慢性腸炎",
+    "mainPoints": [
+      "Trường môn",
+      "Tứ hoa",
+      "Phủ trường"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "147. VIÊM RUỘT CẤP, MÃN TÍNH (cấp mạn tính trường viêm 急慢性腸炎 (Nguồn http://www.tungs-acupuncture.com/腸門穴/ Huyệt Trường môn phối huyệt Phủ trường, Tứ hoa hạ đặc biệt hiệu quả."
+  },
+  {
+    "id": "tung-form-148",
+    "category": "Tiêu Hóa & Gan Mật & Bài Tiết",
+    "diseaseName": "Bài 148: SÁN KHÍ",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Đại gian",
+      "Tiểu gian",
+      "Trung gian",
+      "Trắc gian"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "148. SÁN KHÍ (Nguồn http://www.tungs-acupuncture.com/大間穴/ Dùng các huyệt Đại gian, Tiểu gian, Trung gian, Trắc gian và chỗ nổi khác thường (có điểm hoặc đường màu đen, có thể cấy chỉ"
+  },
+  {
+    "id": "tung-form-149",
+    "category": "Tiêu Hóa & Gan Mật & Bài Tiết",
+    "diseaseName": "Bài 149: ĐẦY HƠI",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Tỳ thũng",
+      "Tứ hoa"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "149. ĐẦY HƠI (vị trường trướng khí (Nguồn http://www.tungs-acupuncture.com/脾腫一穴/ Huyệt Tỳ thũng 1 phối huyệt Tứ hoa, huyệt Hoả cúc, có hiệu quả."
+  },
+  {
+    "id": "tung-form-150",
+    "category": "Tiêu Hóa & Gan Mật & Bài Tiết",
+    "diseaseName": "Bài 150: ĐẦY HƠI",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Linh cốt",
+      "Đại bạch",
+      "Thổ thuỷ",
+      "Tỳ thũng",
+      "Tâm linh"
+    ],
+    "adjunctPoints": [
+      "Môn kim",
+      "Tứ hoa"
+    ],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "150. ĐẦY HƠI (vị trướng khí (Theo nguồn http://www.tungs-acupuncture.com/脾腫一穴/ 1. Huyệt Tỳ thũng 1, huyệt Tiêu tích (Nằằm ở trung tâm của mũi, ngửa lên châm ngang, huyệt Tâm linh 1, huyệt Thổ linh, huyệt Thổ thuỷ 1, 2, 3. 2. Huyệt Tỳ thũng 1, huyệt Tứ hoa. 3. Huyệt Tỳ thũng 1, Tứ hoa, Môn kim, Linh cốt, Đại bạch."
+  },
+  {
+    "id": "tung-form-151",
+    "category": "Tiêu Hóa & Gan Mật & Bài Tiết",
+    "diseaseName": "Bài 151: ĐẦY HƠI",
+    "chineseDisease": "小腹氣脹",
+    "mainPoints": [
+      "Linh cốt",
+      "Kỳ môn",
+      "Kỳ giác",
+      "Kỳ chính",
+      "Tứ hoa"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "(Nguồn http://www.tungs-acupuncture.com/其門穴、其角穴、其正穴/ Huyệt Kỳ môn, Kỳ giác, Kỳ chính phối huyệt Tứ hoa thượng, huyệt Linh cốt, huyệt Tiêu tích, huyệt Hoả cúc, hiệu nghiệm."
+  },
+  {
+    "id": "tung-form-152",
+    "category": "Tiêu Hóa & Gan Mật & Bài Tiết",
+    "diseaseName": "Bài 152: CHƯỚNG BỤNG, BỤNG BÁNG",
+    "chineseDisease": "腹脹",
+    "mainPoints": [
+      "Linh cốt",
+      "Đại bạch",
+      "Thổ thuỷ"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "(Nguồn http://www.tungs-acupuncture.com/土水穴/ Huyệt Thổ thuỷ phối huyệt Linh cốt, Đại bạch, hiệu nghiệm."
+  },
+  {
+    "id": "tung-form-153",
+    "category": "Tiêu Hóa & Gan Mật & Bài Tiết",
+    "diseaseName": "Bài 153: CHỮA BỆNH ĐẦY BỤNG",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Đại gian",
+      "Môn kim",
+      "Tứ hoa",
+      "Phủ trường"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "153. CHỮA BỆNH ĐẦY BỤNG (phúc trướng khí (Nguồn http://www.tungs-acupuncture.com/大間穴/ 1. Dùng các huyệt Đại gian, Phủ trường, Tứ hoa hạ, Môn kim. 2. Dùng huyệt Tiêu tích (có thể gia huyệt Tam kỳ"
+  },
+  {
+    "id": "tung-form-154",
+    "category": "Tiêu Hóa & Gan Mật & Bài Tiết",
+    "diseaseName": "Bài 154: ĐI NGOÀI RA MÁU, TIÊU CHẢY",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Hoàn sào",
+      "Tam trọng"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [
+      "chích huyết vùng Tỳ Vị ở lưng dưới"
+    ],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "154. ĐI NGOÀI RA MÁU, TIÊU CHẢY (lạp huyết, lạp đỗ tử (Theo nguồn http://www.tungs-acupuncture.com/枕還枕巢穴/ Huyệt Hoàn sào phối huyệt Tam trọng, lưu kim bất định huyệt, chích huyết vùng Tỳ Vị ở lưng dưới."
+  },
+  {
+    "id": "tung-form-155",
+    "category": "Tiêu Hóa & Gan Mật & Bài Tiết",
+    "diseaseName": "Bài 155: TÁO BÓN",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Kỳ môn",
+      "Kỳ giác",
+      "Kỳ chính",
+      "Hoa cốt",
+      "Phủ trường"
+    ],
+    "adjunctPoints": [
+      "Thông thiên",
+      "Tứ mã"
+    ],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "155. TÁO BÓN (Nguồn http://www.tungs-acupuncture.com/其門穴、其角穴、其正穴/ Huyệt Kỳ môn, Kỳ giác, Kỳ chính phối huyệt Hoa cốt 4 hoặc phối các huyệt Phủ trường, Tứ mã, Thông thiên."
+  },
+  {
+    "id": "tung-form-156",
+    "category": "Tiêu Hóa & Gan Mật & Bài Tiết",
+    "diseaseName": "Bài 156: TRĨ DÒ",
+    "chineseDisease": "痔瘡",
+    "mainPoints": [
+      "Tam xoa",
+      "Kỳ môn",
+      "Kỳ giác",
+      "Kỳ chính"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [
+      "phối hợp chích máu nơi bệnh"
+    ],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "156. TRĨ DÒ (Trĩ sang 痔瘡 (Nguồn http://www.tungs-acupuncture.com/其門穴、其角穴、其正穴/ Thủ tam kỳ (Kỳ môn, Kỳ giác, Kỳ chính Tam xoa 1, phối hợp chích máu nơi bệnh."
+  },
+  {
+    "id": "tung-form-157",
+    "category": "Tiêu Hóa & Gan Mật & Bài Tiết",
+    "diseaseName": "Bài 157: UNG THƯ BÀNG QUANG",
+    "chineseDisease": "膀胱癌瘤",
+    "mainPoints": [
+      "Tam trọng",
+      "Ngoại tam quan",
+      "Thông thận",
+      "Thông vị",
+      "Thông bối"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "157. UNG THƯ BÀNG QUANG (bàng quang nham lựu-膀胱癌瘤-neoplasm of bladder, bladder cancer(Nguồn http://www.tungs-acupuncture.com/指三重穴/ Huyệt Thông thận, Thông vị, Thông bối, Tam trọng hoặc Ngoại tam quan, phối huyệt bất định."
+  },
+  {
+    "id": "tung-form-158",
+    "category": "Tiêu Hóa & Gan Mật & Bài Tiết",
+    "diseaseName": "Bài 158: TRỊ BỆNH TIỂU ĐƯỜNG",
+    "chineseDisease": "糖尿病",
+    "mainPoints": [
+      "Phân chi thượng",
+      "Thiên hoàng",
+      "Địa hoàng",
+      "Nhân hoàng",
+      "Hạ tam hoàng"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "(Nguồn http://www.tungs-acupuncture.com/分枝上穴/ Huyệt Phân chi thượng thêm huyệt Hạ tam hoàng (Thiên hoàng, Địa hoàng, Nhân hoàng trị thời gian dài."
+  },
+  {
+    "id": "tung-form-159",
+    "category": "Tiêu Hóa & Gan Mật & Bài Tiết",
+    "diseaseName": "Bài 159: TRỊ BỆNH TIỂU ĐƯỜNG",
+    "chineseDisease": "糖尿病",
+    "mainPoints": [
+      "Thiên tông",
+      "Tứ hoa",
+      "Thiên hoàng",
+      "Địa hoàng",
+      "Nhân hoàng"
+    ],
+    "adjunctPoints": [
+      "Thượng tam hoàng",
+      "Hạ tam hoàng",
+      "Thông thiên",
+      "Thông vị",
+      "Minh hoàng"
+    ],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "(Nguồn http://www.tungs-acupuncture.com/天宗穴/ Huyệt Thiên tông có thể phối huyệt Thượng tam hoàng (Thiên hoàng, Minh hoàng, Kỳ hoàng huyệt Hạ tam hoàng (Thiên hoàng, Địa hoàng, Nhân hoàng huyệt Tứ hoa (thượng, trung, hạhuyệt Thông thiên, huyệt Thông vị, huyệt Thuỷ kim, huyệt Thuỷ thông; có thể thêm cứu ngải vùng Can mộc, vùng Tỳ Vị, vùng Thận thuỷ sau lưng; cần trị liệu lâu dài."
+  },
+  {
+    "id": "tung-form-160",
+    "category": "Tiêu Hóa & Gan Mật & Bài Tiết",
+    "diseaseName": "Bài 160: TIỂU TIỆN KHÓ",
+    "chineseDisease": "小便不利",
+    "mainPoints": [
+      "Vân bạch",
+      "Lý bạch",
+      "Thiên hoàng",
+      "Địa hoàng",
+      "Nhân hoàng"
+    ],
+    "adjunctPoints": [
+      "Hạ tam hoàng"
+    ],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "(Nguồn http://www.tungs-acupuncture.com/雲白穴/ Huyệt Vân bạch, Lý bạch, Hạ tam hoàng (Thiên hoàng, Địa hoàng, Nhân hoàng."
+  },
+  {
+    "id": "tung-form-161",
+    "category": "Tiêu Hóa & Gan Mật & Bài Tiết",
+    "diseaseName": "Bài 161: VIÊM NIỆU ĐẠO",
+    "chineseDisease": "尿道炎",
+    "mainPoints": [
+      "Ngoại gian",
+      "Vân bạch",
+      "Lý bạch"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "161. VIÊM NIỆU ĐẠO (Niệu đạo viêm 尿道炎 urethritis (Nguồn http://www.tungs-acupuncture.com/雲白穴/ Huyệt Vân bạch gia huyệt Lý bạch, Ngoại gian."
+  },
+  {
+    "id": "tung-form-162",
+    "category": "Tiêu Hóa & Gan Mật & Bài Tiết",
+    "diseaseName": "Bài 162: TRỊ ĐAU CỔ",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Thiên kiên",
+      "Tam trọng",
+      "Thận quan",
+      "Trắc tam lý",
+      "Thất hổ"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "162. TRỊ ĐAU CỔ (cảnh hạng thốngỨNG GÁY (lạc chẫm (Nguồn http://www.tungs-acupuncture.com/偏肩穴/ Huyệt Thiên kiên gia Thất chẫm vê kim, phối hợp động khí liệu pháp trị đau cổ (cảnh hạng thống cứng gáy (lạc chẫmhữu hiệu; hoặc châm các huyệt Trắc tam lý, Tam trọng, Thận quan, Thất hổ."
+  },
+  {
+    "id": "tung-form-163",
+    "category": "Tiêu Hóa & Gan Mật & Bài Tiết",
+    "diseaseName": "Bài 163: TRỊ ĐAU CỔ",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Uyển thuận",
+      "Thiên kiên",
+      "Thủy hải",
+      "Thận quan",
+      "Nhân hoàng"
+    ],
+    "adjunctPoints": [
+      "Trắc tam lý",
+      "Trắc hạ tam lý",
+      "Thất hổ"
+    ],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "163. TRỊ ĐAU CỔ (cảnh hạng thống (Theo nguồn http://www.tungs-acupuncture.com/失枕枕穴/ Châm một trong các bộ sau, phối hợp với liệu pháp động khí của Đổng thị: 1. Huyệt Thất chẫm phối hợp huyệt Nhân hoàng, huyệt Thiên kiên. 2. Huyệt Thất chẫm phối hợp huyệt Thuỷ hải, Thận quan. 3. Huyệt Thất chẫm phối hợp huyệt Trắc tam lý, Trắc hạ tam lý. 4. Huyệt Thất chẫm, Thiên kiên, Thượng sĩ, Thận quan bên đối, huyệt Thất hổ phối Uyển thuận cùng bên."
+  },
+  {
+    "id": "tung-form-164",
+    "category": "Tiêu Hóa & Gan Mật & Bài Tiết",
+    "diseaseName": "Bài 164: ĐAU CỔ CẤP",
+    "chineseDisease": "項緊痛",
+    "mainPoints": [
+      "Thủy hải",
+      "Thận quan"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "164. ĐAU CỔ CẤP (hạng khẫn thống 項緊痛 (Nguồn http://www.tungs-acupuncture.com/水海穴/ Huyệt Thuỷ hải phối huyệt Thận quan kết quả tốt."
+  },
+  {
+    "id": "tung-form-165",
+    "category": "Tiêu Hóa & Gan Mật & Bài Tiết",
+    "diseaseName": "Bài 165: TRỊ THOÁI HOÁ ĐỐT SỐNG CỔ",
+    "chineseDisease": "頸部骨刺",
+    "mainPoints": [
+      "Trung bạch",
+      "Thủy nguyên"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "165. TRỊ THOÁI HOÁ ĐỐT SỐNG CỔ (cảnh bộ cốt thích 頸部骨刺 cervical osteophyte(spur (Nguồn http://www.tungs-acupuncture.com/水源穴/ Huyệt Thuỷ nguyên phối huyệt Trung bạch."
+  },
+  {
+    "id": "tung-form-166",
+    "category": "Tiêu Hóa & Gan Mật & Bài Tiết",
+    "diseaseName": "Bài 166: ĐAU ĐỐT SỐNG CỔ",
+    "chineseDisease": "頸椎骨剌",
+    "mainPoints": [
+      "Phế tâm",
+      "Tam hà",
+      "Chính tích"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [
+      "huyệt Tam hà phối hợp huyệt Chính tích và chích máu vùng bệnh"
+    ],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "(Nguồn http://www.tungs-acupuncture.com/正脊一穴、正脊二穴、正脊三穴/ Huyệt Thủ Phế tâm, huyệt Tam hà phối hợp huyệt Chính tích và chích máu vùng bệnh."
+  },
+  {
+    "id": "tung-form-167",
+    "category": "Tiêu Hóa & Gan Mật & Bài Tiết",
+    "diseaseName": "Bài 167: CỔ CỨNG QUAY 2 BÊN ĐAU",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Thượng bạch",
+      "Uyển thuận",
+      "Mộc hỏa",
+      "Huyệt Mộc",
+      "Phân bạch"
+    ],
+    "adjunctPoints": [
+      "Tam trọng"
+    ],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "167. CỔ CỨNG QUAY 2 BÊN ĐAU (cảnh cường tả hữu trắc loan hội thống (Nguồn http://www.tungs-acupuncture.com/木火四穴/ Bốn huyệt Mộc hỏa phối huyệt Uyển thuận hạ, Tam trọng, Thượng bạch, Phân bạch."
+  },
+  {
+    "id": "tung-form-168",
+    "category": "Tiêu Hóa & Gan Mật & Bài Tiết",
+    "diseaseName": "Bài 168: ĐẦU CỔ CÚI THẤP GÂY ĐAU NGỰC",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Mộc hỏa",
+      "Huyệt Mộc",
+      "Tâm linh"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "168. ĐẦU CỔ CÚI THẤP GÂY ĐAU NGỰC (đầu cảnh hướng hạ đê dẫn khởi hung thống (Nguồn http://www.tungs-acupuncture.com/木火四穴/ Bốn huyệt Mộc hỏa phối huyệt Tâm linh 1, 2, 3."
+  },
+  {
+    "id": "tung-form-169",
+    "category": "Tiêu Hóa & Gan Mật & Bài Tiết",
+    "diseaseName": "Bài 169: ĐẦU CỔ NGỬA VỀ SAU ĐAU",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Mộc hỏa",
+      "Nhị giác minh",
+      "Huyệt Mộc",
+      "Chính cân",
+      "Chính tông"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "169. ĐẦU CỔ NGỬA VỀ SAU ĐAU (đầu cảnh hướng hậu ngưỡng hội thống (Nguồn http://www.tungs-acupuncture.com/木火四穴/ Bốn huyệt Mộc hỏa phối huyệt Chính cân, Chính tông, Nhị giác minh."
+  },
+  {
+    "id": "tung-form-170",
+    "category": "Cơ Xương Khớp & Liệt",
+    "diseaseName": "Bài 170: ĐẦU CỔ QUAY 2 BÊN ĐAU",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Uyển thuận",
+      "Mộc hỏa",
+      "Huyệt Mộc"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "170. ĐẦU CỔ QUAY 2 BÊN ĐAU (đầu cảnh tả hữu chuyển hội thống (Nguồn http://www.tungs-acupuncture.com/木火四穴/ Bốn huyệt Mộc hỏa phối huyệt Uyển thuận hạ, Kiên ngưng (Điều khẫu."
+  },
+  {
+    "id": "tung-form-171",
+    "category": "Cơ Xương Khớp & Liệt",
+    "diseaseName": "Bài 171: CỨNG GÁY",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Linh cốt",
+      "Thiên kiên",
+      "Chính cân",
+      "Chính tông",
+      "Chính sĩ"
+    ],
+    "adjunctPoints": [
+      "Tam trọng",
+      "Thận quan",
+      "Thất hổ"
+    ],
+    "bloodlettingPoints": [
+      "chích máu khu thái dương sau gối (tất hậu thái dương khu 3"
+    ],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "171. CỨNG GÁY (lạc chẫm (Theo nguồn http://www.tungs-acupuncture.com/失枕枕穴/ 1. Huyệt Thất chẫm, Thiên kiên, Kiên ngưng (Điều khẫuThận quan, phối hợp với đạo dẫn hành khí. 2. Huyệt Thất chẫm, Chính cân, Chính tông, Chính sĩ, Linh cốt, chích máu khu thái dương sau gối (tất hậu thái dương khu 3. Huyệt Thất chẫm có thể phối hợp huyệt Thiên kiên, huyệt Thận quan, trị cứng gáy (lạc chẫm hiệu quả nhanh. Cũng có thể thêm huyệt Kiên ngưng (Điều khẫu Tam trọng, Thất hổ, phối hợp chích máu tại chỗ."
+  },
+  {
+    "id": "tung-form-172",
+    "category": "Cơ Xương Khớp & Liệt",
+    "diseaseName": "Bài 172: CHỮA CỨNG CỔ",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Thượng bạch",
+      "Trung bạch",
+      "Hoa cốt",
+      "Chính cân",
+      "Chính tông"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [
+      "chích máu huyệt Ủy trung là tốt nhất"
+    ],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "172. CHỮA CỨNG CỔ (stiffness of the neck (Bài của thầy Nguyễn Xuân Hưng - https://www.facebook.com/groups/dongthikyhuyet/permalink/2733117643484661/ 1. Châm huyệt Chính cân và Chính tông có thể ngay lập tức giúp xoay cổ tự do. 2. Châm huyệt Hoa cốt 1 cũng có tác dụng điều trị. 3. Châm huyệt Thượng bạch và huyệt Trung bạch hiệu quả trong việc điều trị . Chỉ cần sử dụng một trong ba nhóm trên để điều trị. Huyệt tốt nhất để điều trị cứng cổ là huyệt Chính cân và Chính tông. Trong trường hợp nặng, chích máu huyệt Ủy trung là tốt nhất. Huyệt Hoa cốt 1 cũng được sử dụng để điều trị .Vì nó nằm ở lòng bàn chân nên châm huyệt này rất đau, có thể chọn Chính cân và Chính tông để thay thế. Nên ưu tiên chọn huyệt Chính cân và Chính tông trước. Tuy nhiên, để thuận tiện cho việc điều trị thì Hậu khê và Thúc cốt có thể được chọn thay thế . Thừa Tương có thể đóng vai trò là huyệt dẫn cho một trong hai nhóm trên. Lý do của việc lựa chọn hai huyệt trên là chúng liên hệ với kinh Bàng quang và do đó chúng có hiệu quả đối với chứng cứng cổ. Trong các huyệt của 14 kinh, huyệt hiệu quả nhất là huyệt Thừa Tương. Lựa chọn huyệt này dựa trên nguyên tắc: lấy cốt trị cốt, lấy cân trị cân, lấy nhục trị nhục, lấy mạch trị mạch, lấy bì trị bì, dương dẫn âm, âm dẫn dương. Sử dụng huyệt Hậu Khê và Thúc Cốt của các kinh Thái dương tay và chân cũng rất tốt cho chứng cứng cổ. Cả hai huyệt này đều là Du huyệt , Du huyệt chủ trị phong thấp, đau khớp. (Tỉnh huyệt chủ trị dưới tâm đầy; Huỳnh (vinh huyệt chủ trị sốt; Du huyệt chủ trị phong thấp, đau khớp; Kinh huyệt chủ trị suyễn, ho; Hợp huyệt chủ trị khí nghịch, tiết tả. Nó cũng liên quan đến hành mộc của ngũ hành. Do đó chúng cũng rất hiệu quả trong điều trị bệnh ở cân. Tuy nhiên, chúng khác nhau trong ứng dụng lâm sàng. Như đã nêu trong Chương 26 của Linh khu: \" không thể cúi ngửa được, châm kinh túc Thái Dương , dùng huyệt Thúc cốt, nếu không thể ngó ngoái lại phía sau thì châm kinh thủ Thái dương, dùng huyệt Hậu khê.\""
+  },
+  {
+    "id": "tung-form-173",
+    "category": "Cơ Xương Khớp & Liệt",
+    "diseaseName": "Bài 173: CỨNG CỔ, ĐAU VAI HẠN CHẾ VẬN ĐỘNG, TỨ CHI TÊ DẠI LẠNH BUỐT",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Hỏa xuyến",
+      "Hỏa lăng",
+      "Hỏa sơn",
+      "Tứ chi"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "173. CỨNG CỔ, ĐAU VAI HẠN CHẾ VẬN ĐỘNG, TỨ CHI TÊ DẠI LẠNH BUỐT (Nguồn: https://www.facebook.com/mastertungpoints/posts/1094173730781215 Huyệt Tam kiên, huyệt Thủ tam hoả (Hoả xuyến, Hoả lăng, Hoả sơn Huyệt Tam kiên (San Jian 三肩穴Kết nối Phế, trị đau bó cứng vai, vùng xương đòn, giới hạn vận động kéo dài. Huyệt Thủ tam hoả (Shou San Huo: Hoả xuyến 火串, Hoả lăng 火陵, Hoả sơn 火山Kết nối mạch Đốc, làm ấm cột sống, giải phóng bế tắc, đặc biệt có tác dụng với đốt sống cổ và ngực."
+  },
+  {
+    "id": "tung-form-174",
+    "category": "Cơ Xương Khớp & Liệt",
+    "diseaseName": "Bài 174: TRỊ ĐAU GIỮA HAI VAI",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Tâm tất",
+      "Thiên kiên",
+      "Nhân hoàng"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "174. TRỊ ĐAU GIỮA HAI VAI (kiên giáp thốngĐAU CỔ (cảnh hạng thống (Nguồn http://www.tungs-acupuncture.com/心膝穴/ Huyệt Tâm tất có thể phối huyệt Thiên kiên, huyệt Nhân hoàng."
+  },
+  {
+    "id": "tung-form-175",
+    "category": "Cơ Xương Khớp & Liệt",
+    "diseaseName": "Bài 175: ĐAU HUYỆT CAO HOANG",
+    "chineseDisease": "膏肓穴痛",
+    "mainPoints": [
+      "Trọng tử",
+      "Trọng tiên",
+      "Thủy thông",
+      "Thủy kim"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [
+      "Thuỷ thông và chích máu tại chỗ"
+    ],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "(Nguồn http://www.tungs-acupuncture.com/重仙穴/ Huyệt Trọng tử phối huyệt Trọng tiên, gia Thuỷ kim, Thuỷ thông và chích máu tại chỗ."
+  },
+  {
+    "id": "tung-form-176",
+    "category": "Cơ Xương Khớp & Liệt",
+    "diseaseName": "Bài 176: TRỊ ĐAU BẢ VAI",
+    "chineseDisease": "肩胛骨痛",
+    "mainPoints": [
+      "Trọng tử",
+      "Trọng tiên"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [
+      "sau lại chích máu"
+    ],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "176. TRỊ ĐAU BẢ VAI (kiên giáp cốt thống 肩胛骨痛 sore of shoulder blades (Nguồn http://www.tungs-acupuncture.com/重子穴/ Cùng châm Trọng tử, Trọng tiên, đồng thời phối hợp động khí liệu pháp để giảm mức độ bệnh, sau lại chích máu."
+  },
+  {
+    "id": "tung-form-177",
+    "category": "Cơ Xương Khớp & Liệt",
+    "diseaseName": "Bài 177: TRƯỚC, SAU, MẶT NGOÀI KHỚP VAI BỆNH",
+    "chineseDisease": "前",
+    "mainPoints": [
+      "Trọng tử",
+      "Trọng tiên",
+      "Kiên trung",
+      "Trắc tam lý",
+      "Trắc hạ tam lý"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "177. TRƯỚC, SAU, MẶT NGOÀI KHỚP VAI BỆNH (前,後,外側肩關節 (Shoulder joint (Nguồn http://www.tungs-acupuncture.com/重仙穴/ Trọng tử, Trọng tiên, Kiên trung bên đối hoặc Trắc tam lý, Trắc hạ tam lý."
+  },
+  {
+    "id": "tung-form-178",
+    "category": "Cơ Xương Khớp & Liệt",
+    "diseaseName": "Bài 178: CHỮA SƯỜN NGỰC SƯNG ĐAU",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Thất hổ"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [
+      "phối hợp chích huyết chỗ bệnh"
+    ],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "178. CHỮA SƯỜN NGỰC SƯNG ĐAU (hung lặc thống thũng trướng (Nguồn http://www.tungs-acupuncture.com/木二穴/ Dùng các huyệt Thất hổ, Mộc huyệt, phối hợp chích huyết chỗ bệnh."
+  },
+  {
+    "id": "tung-form-179",
+    "category": "Cơ Xương Khớp & Liệt",
+    "diseaseName": "Bài 179: TRỊ LƯNG NGỰC ĐAU",
+    "chineseDisease": "胸背痛",
+    "mainPoints": [
+      "Trọng tử",
+      "Trọng tiên",
+      "Nhân sĩ",
+      "Địa sĩ",
+      "Thiên sĩ"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "179. TRỊ LƯNG NGỰC ĐAU (hung bối thống 胸背痛 (Nguồn http://www.tungs-acupuncture.com/地士穴/ Huyệt Nhân sĩ, Địa sĩ, Thiên sĩ có thể chọn châm sâu. Trị lưng nhức nhối (bối đông 背疼 Cần phải châm huyệt Trọng tử, Trọng tiên, Thượng sĩ."
+  },
+  {
+    "id": "tung-form-180",
+    "category": "Cơ Xương Khớp & Liệt",
+    "diseaseName": "Bài 180: ĐAU NGỰC",
+    "chineseDisease": "胸痛",
+    "mainPoints": [
+      "Linh cốt",
+      "Đại bạch",
+      "Trọng tử",
+      "Trọng tiên",
+      "Hỏa xuyến"
+    ],
+    "adjunctPoints": [
+      "Hỏa lăng",
+      "Hỏa sơn",
+      "Tâm linh",
+      "Tứ hoa",
+      "Tứ mã"
+    ],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "180. ĐAU NGỰC (hung thống 胸痛 chest pain TỨC NGỰC (hung muộn 胸攣悶 chest distress (Nguồn http://www.tungs-acupuncture.com/火串穴、火陵穴、火山穴/ Huyệt Hoả xuyến, Hoả lăng, Hoả sơn phối các huyệt Tứ hoa, Tứ mã, Tâm linh, Trọng tử, Trọng tiên, Linh cốt, Đại bạch."
+  },
+  {
+    "id": "tung-form-181",
+    "category": "Cơ Xương Khớp & Liệt",
+    "diseaseName": "Bài 181: HAI BÊN HÔNG SƯỜN ĐAU",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Huyệt Mộc",
+      "Tam trọng"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [
+      "phối hợp chích máu nơi bệnh"
+    ],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "181. HAI BÊN HÔNG SƯỜN ĐAU (lưỡng hiếp lặc thống (Nguồn http://www.tungs-acupuncture.com/木二穴/ Các huyệt Mộc 1, Mộc 2, Mộc 3 và Tam trọng; phối hợp chích máu nơi bệnh."
+  },
+  {
+    "id": "tung-form-182",
+    "category": "Cơ Xương Khớp & Liệt",
+    "diseaseName": "Bài 182: ĐAU HAI BÊN SƯỜN",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Huyệt Mộc",
+      "Mộc viêm"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "182. ĐAU HAI BÊN SƯỜN (lưỡng hiếp thống (Nguồn http://www.tungs-acupuncture.com/木炎一穴/ Huyệt Mộc, huyệt Mộc viêm."
+  },
+  {
+    "id": "tung-form-183",
+    "category": "Cơ Xương Khớp & Liệt",
+    "diseaseName": "Bài 183: ĐIỀU TRỊ THOÁT VỊ ĐĨA ĐỆM LƯNG",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Đại bạch",
+      "Trung bạch",
+      "Hạ bạch",
+      "Uyển thuận"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": ", Đại bạch (大白 Uyển thuận 1, 2 (腕顺 Trung Bạch (中白), Hạ Bạch (下 白"
+  },
+  {
+    "id": "tung-form-184",
+    "category": "Cơ Xương Khớp & Liệt",
+    "diseaseName": "Bài 184: TRỊ ĐAU CỘT SỐNG",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Phục nguyên",
+      "Ngũ hổ",
+      "Chính tích"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "184. TRỊ ĐAU CỘT SỐNG (trị tích truỳ cốt thống (Theo nguồn http://www.tungs-acupuncture.com/復原二穴/ Huyệt Phục nguyên 1, huyệt Phục nguyên 2, Phục nguyên 3 có thể dùng đảo mã tam châm, lại phối huyệt Chính tích 1, 2, 3, huyệt Ngũ hổ trị đau cột sống."
+  },
+  {
+    "id": "tung-form-185",
+    "category": "Cơ Xương Khớp & Liệt",
+    "diseaseName": "Bài 185: ĐAU CỘT SỐNG",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Uyển thuận",
+      "Cốt quan",
+      "Mộc quan",
+      "Phục nguyên",
+      "Chính tích"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "185. ĐAU CỘT SỐNG (tích truỳ cốt thống (Theo nguồn http://www.tungs-acupuncture.com/復原三穴/ Huyệt Phục nguyên có thể phối huyệt Cốt quan, Mộc quan, Uyển thuận, huyệt Chính tích 1, 2, 3, chữa đau cột sống hữu hiệu."
+  },
+  {
+    "id": "tung-form-186",
+    "category": "Cơ Xương Khớp & Liệt",
+    "diseaseName": "Bài 186: ĐAU MỎI DO XƯƠNG CỘT SỐNG LỆCH",
+    "chineseDisease": "脊椎骨不正及酸痛",
+    "mainPoints": [
+      "Cốt quan",
+      "Mộc quan",
+      "Chính tích"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "(Nguồn http://www.tungs-acupuncture.com/骨關穴/ Các huyệt Cốt quan, Mộc quan phối hợp huyệt Chính tích 1, 2, 3"
+  },
+  {
+    "id": "tung-form-187",
+    "category": "Cơ Xương Khớp & Liệt",
+    "diseaseName": "Bài 187: ĐAU LƯNG",
+    "chineseDisease": "背痛",
+    "mainPoints": [
+      "Trọng tử",
+      "Trọng tiên"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": ", ĐAU NGỰC (hung thống 胸痛 (Nguồn http://www.tungs-acupuncture.com/重仙穴/ Huyệt Trọng tử phối huyệt Trọng tiên, huyệt Thượng sĩ."
+  },
+  {
+    "id": "tung-form-188",
+    "category": "Cơ Xương Khớp & Liệt",
+    "diseaseName": "Bài 188: TRỊ ĐAU THẮT LƯNG",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Uyển thuận",
+      "Nhị giác minh",
+      "Phục nguyên",
+      "Phân thuỷ",
+      "Tam hà"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "188. TRỊ ĐAU THẮT LƯNG (yêu thống (Theo nguồn http://www.tungs-acupuncture.com/復原一穴/ Huyệt Phục nguyên phối huyệt Tam hà, Phân thuỷ, Nhị giác minh, Đảm huyệt, Uyển thuận."
+  },
+  {
+    "id": "tung-form-189",
+    "category": "Cơ Xương Khớp & Liệt",
+    "diseaseName": "Bài 189: BONG GÂN THẮT LƯNG CẤP",
+    "chineseDisease": "腰部嚴重扭傷",
+    "mainPoints": [
+      "Uyển thuận",
+      "Nhị giác minh",
+      "Phân thuỷ",
+      "Tam hà"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [
+      "phối hợp chích máu nơi bệnh"
+    ],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "(Nguồn http://www.tungs-acupuncture.com/分水穴/ Huyệt Phân thuỷ, Tam hà, Nhị giác minh, Uyển thuận, phối hợp chích máu nơi bệnh."
+  },
+  {
+    "id": "tung-form-190",
+    "category": "Cơ Xương Khớp & Liệt",
+    "diseaseName": "Bài 190: ĐAU THẮT LƯNG",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Uyển thuận",
+      "Phục nguyên",
+      "Thủy nguyên"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "190. ĐAU THẮT LƯNG (yêu thống (Theo nguồn http://www.tungs-acupuncture.com/復原二穴/ Huyệt Phục nguyên gia huyệt Thuỷ nguyên cùng huyệt Uyển thuận, có thể trị yêu thống."
+  },
+  {
+    "id": "tung-form-191",
+    "category": "Cơ Xương Khớp & Liệt",
+    "diseaseName": "Bài 191: ĐAU THẮT LƯNG",
+    "chineseDisease": "腰痛",
+    "mainPoints": [
+      "Nhị giác minh",
+      "Phân thuỷ",
+      "Tam hà",
+      "Thông thận",
+      "Thông vị"
+    ],
+    "adjunctPoints": [
+      "Thông bối"
+    ],
+    "bloodlettingPoints": [
+      "phối hợp chích máu nơi bệnh"
+    ],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "191. ĐAU THẮT LƯNG (yêu thống 腰痛 (Nguồn http://www.tungs-acupuncture.com/分水穴/ Huyệt Phân thuỷ, Nhị giác minh, Tam hà; Thận yếu gây đau: gia huyệt Thông thận, Thông vị, Thông bối, phối hợp chích máu nơi bệnh."
+  },
+  {
+    "id": "tung-form-192",
+    "category": "Cơ Xương Khớp & Liệt",
+    "diseaseName": "Bài 192: THẮT LƯNG ĐAU NHỨC",
+    "chineseDisease": "腰背酸痛",
+    "mainPoints": [
+      "Uyển thuận",
+      "Thủy hải"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "(Nguồn http://www.tungs-acupuncture.com/水海穴/ Huyệt Thuỷ hải phối huyệt Uyển thuận 1 , Uyển thuận 2."
+  },
+  {
+    "id": "tung-form-193",
+    "category": "Cơ Xương Khớp & Liệt",
+    "diseaseName": "Bài 193: TRỊ ĐAU THẮT LƯNG",
+    "chineseDisease": "腰痛",
+    "mainPoints": [
+      "Linh cốt",
+      "Uyển thuận",
+      "Thủy yêu"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": ", ĐAU THẦN KINH TOẠ (toạ cốt thần kinh thống 坐骨神經痛) (Nguồn http://www.tungs-acupuncture.com/水腰穴/ Huyệt Thuỷ yêu gia huyệt Linh cốt, huyệt Uyển thuận, dùng châm xuyên huyệt."
+  },
+  {
+    "id": "tung-form-194",
+    "category": "Cơ Xương Khớp & Liệt",
+    "diseaseName": "Bài 194: ĐAU THẮT LƯNG",
+    "chineseDisease": "腰痛",
+    "mainPoints": [
+      "Uyển thuận",
+      "Nội bạch"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [
+      "chích máu vùng bệnh và phối hợp liệu pháp động khí"
+    ],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": ", ĐAU THẦN KINH TOẠ (toạ cốt thần kinh thống 坐骨神經痛 sciatica (Nguồn http://www.tungs-acupuncture.com/內白穴/ Huyệt Nội bạch phối hợp huyệt Uyển thuận, chích máu vùng bệnh và phối hợp liệu pháp động khí."
+  },
+  {
+    "id": "tung-form-195",
+    "category": "Cơ Xương Khớp & Liệt",
+    "diseaseName": "Bài 195: EO LƯNG CONG VỀ SAU ĐAU",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Mộc hỏa",
+      "Huyệt Mộc",
+      "Phân thuỷ",
+      "Tam hà",
+      "Chính cân"
+    ],
+    "adjunctPoints": [
+      "Chính tông",
+      "Chính sĩ"
+    ],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "195. EO LƯNG CONG VỀ SAU ĐAU (yêu hậu ngưỡng hội thống (Nguồn http://www.tungs-acupuncture.com/木火四穴/ 1. Bốn huyệt Mộc hỏa phối huyệt Phân thuỷ, Tam hà. 2. Bốn huyệt Mộc hỏa phối huyệt Chính cân, Chính tông, Chính sĩ, An tích."
+  },
+  {
+    "id": "tung-form-196",
+    "category": "Cơ Xương Khớp & Liệt",
+    "diseaseName": "Bài 196: EO LƯNG CÚI, NGỬA ĐAU",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Uyển thuận",
+      "Mộc hỏa",
+      "Huyệt Mộc",
+      "Chính cân",
+      "Chính sĩ"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "196. EO LƯNG CÚI, NGỬA ĐAU (yêu tiền hậu ngưỡng thống (Nguồn http://www.tungs-acupuncture.com/木火四穴/ Bốn huyệt Mộc hỏa phối huyệt Chính cân, Chính sĩ, An tích, Hoả ngạnh, Hoả chủ, Uyển thuận 1."
+  },
+  {
+    "id": "tung-form-197",
+    "category": "Cơ Xương Khớp & Liệt",
+    "diseaseName": "Bài 197: EO LƯNG QUAY NGHIÊNG ĐAU",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Mộc hỏa",
+      "Huyệt Mộc",
+      "Thủy yêu"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "197. EO LƯNG QUAY NGHIÊNG ĐAU (yêu trắc chuyển hội thống (Nguồn http://www.tungs-acupuncture.com/木火四穴/ Bốn huyệt Mộc hỏa phối huyệt Thuỷ yêu."
+  },
+  {
+    "id": "tung-form-198",
+    "category": "Cơ Xương Khớp & Liệt",
+    "diseaseName": "Bài 198: EO LƯNG CÚI ĐAU",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Mộc hỏa",
+      "Nhị giác minh",
+      "Huyệt Đảm",
+      "Huyệt Mộc"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "198. EO LƯNG CÚI ĐAU (yêu tiền phủ hội thống (Nguồn http://www.tungs-acupuncture.com/木火四穴/ Bốn huyệt Mộc hỏa phối huyệt Nhị giác minh, huyệt Đảm."
+  },
+  {
+    "id": "tung-form-199",
+    "category": "Cơ Xương Khớp & Liệt",
+    "diseaseName": "Bài 199: TRỊ ĐAU THẮT LƯNG",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Uyển thuận",
+      "Nhị giác minh",
+      "Huyệt Đảm",
+      "Phân thuỷ",
+      "Tam hà"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "199. TRỊ ĐAU THẮT LƯNG (YÊU THỐNG (Nguồn http://www.tungs-acupuncture.com/膽穴/ Huyệt Nhị giác minh, huyệt Đảm có thể phối huyệt Uyển thuận 1, huyệt Tam hà, huyệt Phân thuỷ."
+  },
+  {
+    "id": "tung-form-200",
+    "category": "Cơ Xương Khớp & Liệt",
+    "diseaseName": "Bài 200: THẮT LƯNG ĐAU DO THẬN HƯ",
+    "chineseDisease": "腎虛腰酸",
+    "mainPoints": [
+      "Tam hà",
+      "Thiên hoàng",
+      "Địa hoàng",
+      "Nhân hoàng",
+      "Hạ tam hoàng"
+    ],
+    "adjunctPoints": [
+      "Thủy thông",
+      "Thủy kim"
+    ],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "200. THẮT LƯNG ĐAU DO THẬN HƯ (Thận hư yêu toan 腎虛腰酸 (Nguồn http://www.tungs-acupuncture.com/三河穴/ Huyệt Tam hà, Hạ tam hoàng (Thiên hoàng, Địa hoàng, Nhân hoàng, Thuỷ kim, Thuỷ thông."
+  },
+  {
+    "id": "tung-form-201",
+    "category": "Cơ Xương Khớp & Liệt",
+    "diseaseName": "Bài 201: ĐAU LƯNG",
+    "chineseDisease": "背痛",
+    "mainPoints": [
+      "Linh cốt",
+      "Đại bạch",
+      "Thượng bạch",
+      "Uyển thuận",
+      "Phân bạch"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": ", ĐAU THẮT LƯNG (yêu thống 腰痛), ĐAU THẦN KINH TOẠ (toạ cốt thần kinh thống 坐骨神經痛 sciatica (Nguồn http://www.tungs-acupuncture.com/分白穴/ Ngoài 2 huyệt Thượng bạch, Phân bạch, có thể thêm các huyệt Linh cốt, Đại bạch, Uyển thuận, phối hợp phép đạo dẫn hành khí (vận động vùng bị tổn thương, hiệu quả trị bệnh rất tốt."
+  },
+  {
+    "id": "tung-form-202",
+    "category": "Cơ Xương Khớp & Liệt",
+    "diseaseName": "Bài 202: TRỊ GOUT, ĐAU THẮT LƯNG",
+    "chineseDisease": "腰痛",
+    "mainPoints": [
+      "Linh cốt",
+      "Hạ bạch",
+      "Cốt quan",
+      "Mộc quan",
+      "Huyệt Mộc"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": ", ĐAU THẦN KINH TOẠ (toạ cốt thần kinh thống 坐骨神經痛 sciatica, GAI XƯƠNG, (cốt thích 骨刺, còn gọi là cốt vưu 骨疣 u xương. (Nguồn http://www.tungs-acupuncture.com/木關穴/ Huyệt Mộc quan phối huyệt Cốt quan, Linh cốt, Hạ bạch."
+  },
+  {
+    "id": "tung-form-203",
+    "category": "Cơ Xương Khớp & Liệt",
+    "diseaseName": "Bài 203: ĐAU THẦN KINH HÔNG TO",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Uyển thuận",
+      "Phục nguyên",
+      "Tam hà",
+      "Chính cân",
+      "Chính tông"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "203. ĐAU THẦN KINH HÔNG TO (toạ cốt thần kinh thống (Theo nguồn http://www.tungs-acupuncture.com/復原二穴/ Huyệt Phục nguyên phối huyệt Tam hà gia các huyệt Uyển thuận, Đảm huyệt, Chính tông, Chính cân, Hoả ngạnh, trị đau thần kinh hông to hữu hiệu."
+  },
+  {
+    "id": "tung-form-204",
+    "category": "Cơ Xương Khớp & Liệt",
+    "diseaseName": "Bài 204: ĐAU THẦN KINH TOẠ",
+    "chineseDisease": "坐骨神經痛",
+    "mainPoints": [
+      "Uyển thuận",
+      "Tam hà"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "204. ĐAU THẦN KINH TOẠ (toạ cốt thần kinh thống 坐骨神經痛 sciatica (Nguồn http://www.tungs-acupuncture.com/腕順一穴/ Huyệt Tam hà, Uyển thuận, Hoả ngạnh, phối hợp phép đạo dẫn hành khí (vận động vùng bị tổn thương"
+  },
+  {
+    "id": "tung-form-205",
+    "category": "Cơ Xương Khớp & Liệt",
+    "diseaseName": "Bài 205: ĐAU THẦN KINH TOẠ",
+    "chineseDisease": "坐骨神經痛",
+    "mainPoints": [
+      "Tam hà",
+      "Thủ ngũ kim",
+      "Thủ thiên kim"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "205. ĐAU THẦN KINH TOẠ (toạ cốt thần kinh thống 坐骨神經痛 sciatica (Nguồn http://www.tungs-acupuncture.com/手五金穴、手千金穴/ Huyệt Thủ ngũ kim, Thủ thiên kim phối huyệt Tam hà."
+  },
+  {
+    "id": "tung-form-206",
+    "category": "Cơ Xương Khớp & Liệt",
+    "diseaseName": "Bài 206: TRỊ ĐAU THẦN KINH TOẠ",
+    "chineseDisease": "坐骨神經痛",
+    "mainPoints": [
+      "Linh cốt",
+      "Đại bạch",
+      "Trung bạch",
+      "Hạ bạch",
+      "Kiên trung"
+    ],
+    "adjunctPoints": [
+      "Kiến trung"
+    ],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "206. TRỊ ĐAU THẦN KINH TOẠ (toạ cốt thần kinh thống 坐骨神經痛 sciatica (Nguồn http://www.tungs-acupuncture.com/肩中穴、建中穴/ Huyệt Kiên trung, Kiến trung phối huyệt Trung bạch, Hạ bạch, Linh cốt, Đại bạch."
+  },
+  {
+    "id": "tung-form-207",
+    "category": "Cơ Xương Khớp & Liệt",
+    "diseaseName": "Bài 207: TRỊ ĐAU THẦN KINH TOẠ",
+    "chineseDisease": "坐骨神經痛",
+    "mainPoints": [
+      "Tam hà",
+      "Hạ khúc",
+      "Thượng khúc"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "207. TRỊ ĐAU THẦN KINH TOẠ (toạ cốt thần kinh thống 坐骨神經痛 (Nguồn http://www.tungs-acupuncture.com/上曲穴/ Huyệt Thượng khúc, huyệt Hạ khúc, huyệt Tam hà hiệu quả tốt."
+  },
+  {
+    "id": "tung-form-208",
+    "category": "Cơ Xương Khớp & Liệt",
+    "diseaseName": "Bài 208: ĐAU THẦN KINH TOẠ",
+    "chineseDisease": "坐骨神經痛",
+    "mainPoints": [
+      "Linh cốt",
+      "Đại bạch",
+      "Trung bạch",
+      "Hạ khúc",
+      "Thượng khúc"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [
+      "lúc nghiêm trọng có thể chích máu huyệt vị tương quan tại lưng có thể nâng cao hiệu quả trị bệnh"
+    ],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "208. ĐAU THẦN KINH TOẠ (toạ cốt thần kinh thống 坐骨神經痛 (Nguồn http://www.tungs-acupuncture.com/下曲穴/ (Do Can và cơ năng của Can bệnh gây nên: Huyệt Thượng khúc, Hạ khúc phối Linh cốt, Đại bạch, Trung bạch, lúc nghiêm trọng có thể chích máu huyệt vị tương quan tại lưng có thể nâng cao hiệu quả trị bệnh."
+  },
+  {
+    "id": "tung-form-209",
+    "category": "Cơ Xương Khớp & Liệt",
+    "diseaseName": "Bài 209: ĐAU XƯƠNG CỤT",
+    "chineseDisease": "尾骶骨痛",
+    "mainPoints": [
+      "Uyển thuận",
+      "Tâm môn"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "(Nguồn http://www.tungs-acupuncture.com/心門穴/ Huyệt Tâm môn phối huyệt Uyển thuận thượng (cách đầu xương 5 phân: Uyển thuận 1 hiệu nghiệm."
+  },
+  {
+    "id": "tung-form-210",
+    "category": "Cơ Xương Khớp & Liệt",
+    "diseaseName": "Bài 210: TRỊ TÊ BẠI NỬA NGƯỜI",
+    "chineseDisease": "半身麻痺",
+    "mainPoints": [
+      "Cốt quan",
+      "Mộc quan",
+      "Huyệt Mộc",
+      "Địa tông",
+      "Kiên phong"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": ", LIỆT (nuy chứng 痿症症) (Nguồn http://www.tungs-acupuncture.com/肩峰穴/ Huyệt Kiên phong có thể gia huyệt Địa tông, huyệt Mộc quan, huyệt Cốt quan."
+  },
+  {
+    "id": "tung-form-211",
+    "category": "Cơ Xương Khớp & Liệt",
+    "diseaseName": "Bài 211: LIỆT NỬA NGƯỜI",
+    "chineseDisease": "半身不遂",
+    "mainPoints": [
+      "Trọng tử",
+      "Trọng tiên",
+      "Kiên trung",
+      "Kiến trung",
+      "Tam trọng"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "(Nguồn http://www.tungs-acupuncture.com/肩中穴、建中穴/ Huyệt Kiên trung, Kiến trung, Trọng tử, Trọng tiên, Tam trọng."
+  },
+  {
+    "id": "tung-form-212",
+    "category": "Cơ Xương Khớp & Liệt",
+    "diseaseName": "Bài 212: CHỮA LIỆT NỬA NGƯỜI",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Linh cốt",
+      "Đại bạch",
+      "Thiên hoàng",
+      "Thượng tam hoàng",
+      "Thông quan"
+    ],
+    "adjunctPoints": [
+      "Thông sơn",
+      "Thông thận",
+      "Thông bối",
+      "Minh hoàng",
+      "Kỳ hoàng"
+    ],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "212. CHỮA LIỆT NỬA NGƯỜI (bán thân bất toại (Nguồn http://www.tungs-acupuncture.com/靈骨穴/ Huyệt Linh Cốt phối hợp huyệt Đại Bạch, Thượng Tam Hoàng (gồm: Thiên hoàng, Minh hoàng, Kỳ hoàng, Thông Thận, Thông Quan, Thông Bối, Thông sơn, Chính Hội."
+  },
+  {
+    "id": "tung-form-213",
+    "category": "Cơ Xương Khớp & Liệt",
+    "diseaseName": "Bài 213: TRỊ CHỨNG LIỆT",
+    "chineseDisease": "痿症",
+    "mainPoints": [
+      "Kiên trung",
+      "Vân bạch",
+      "Thượng khúc"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "(Nguồn http://www.tungs-acupuncture.com/上曲穴/ Huyệt Thượng khúc phối huyệt Kiên trung, huyệt Vân bạch."
+  },
+  {
+    "id": "tung-form-214",
+    "category": "Cơ Xương Khớp & Liệt",
+    "diseaseName": "Bài 214: TRỊ DI CHỨNG TRÚNG PHONG",
+    "chineseDisease": "中風後遺症",
+    "mainPoints": [
+      "Linh cốt",
+      "Thần kiên",
+      "Thiên hoàng",
+      "Thượng tam hoàng",
+      "Thông thiên"
+    ],
+    "adjunctPoints": [
+      "Minh hoàng",
+      "Kỳ hoàng",
+      "Chính hội"
+    ],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "214. TRỊ DI CHỨNG TRÚNG PHONG (trúng phong hậu di chứng 中症風後遺症症 (Nguồn http://www.tungs-acupuncture.com/神肩穴/ Huyệt Thần kiên phối huyệt Chính hội, Thượng tam hoàng (Thiên hoàng, Minh hoàng, Kỳ hoàng Thông thiên, Linh cốt, hiệu quả đặc biệt. Di chứng trúng phong đau chỗ cánh tay không vận động được, năm ngón tay không thể co duỗi: châm huyệt Thần kiên 5 lần liên tục 2 bên phải trái sẽ có thể vận động như thường, xứng đáng là một trong 72 tuyệt châm của thầy Đổng."
+  },
+  {
+    "id": "tung-form-215",
+    "category": "Cơ Xương Khớp & Liệt",
+    "diseaseName": "Bài 215: NGÓN TAY CO RÚT KHÔNG DUỖI",
+    "chineseDisease": "手指拘攣不伸",
+    "mainPoints": [
+      "Trọng tử",
+      "Trọng tiên"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "215. NGÓN TAY CO RÚT KHÔNG DUỖI (thủ chỉ câu luyến bất thân 手指拘攣攣不伸 (Nguồn http://www.tungs-acupuncture.com/重仙穴/ Huyệt Trọng tử phối huyệt Trọng tiên."
+  },
+  {
+    "id": "tung-form-216",
+    "category": "Cơ Xương Khớp & Liệt",
+    "diseaseName": "Bài 216: NGÓN TAY TÊ LIỆT",
+    "chineseDisease": "手指麻痺",
+    "mainPoints": [
+      "Thủ ngũ kim",
+      "Thủ thiên kim",
+      "Thiên hoàng",
+      "Tứ chi",
+      "Thượng tam hoàng"
+    ],
+    "adjunctPoints": [
+      "Minh hoàng",
+      "Kỳ hoàng"
+    ],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "(Nguồn http://www.tungs-acupuncture.com/手五金穴、手千金穴/ Huyệt Thủ ngũ kim, Thủ thiên kim, Bát quan, Tứ chi (trên mắt cá chân trong 5 thốn, Thượng tam hoàng (Thiên hoàng, Minh hoàng, Kỳ hoàng"
+  },
+  {
+    "id": "tung-form-217",
+    "category": "Cơ Xương Khớp & Liệt",
+    "diseaseName": "Bài 217: TAY KHÔNG NÂNG ĐƯỢC VẬT NẶNG",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Huyệt Đảm",
+      "Tứ hoa"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "217. TAY KHÔNG NÂNG ĐƯỢC VẬT NẶNG (THỦ ĐỀ BẤT KHỞI TRÙNG VẬT (Nguồn http://www.tungs-acupuncture.com/膽穴/ Châm huyệt Đảm phối với châm các huyệt Tứ hoa thượng, Tứ hoa trung, Tứ hoa hạ bên đối."
+  },
+  {
+    "id": "tung-form-218",
+    "category": "Cơ Xương Khớp & Liệt",
+    "diseaseName": "Bài 218: VIÊM BAO HOẠT DỊCH",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Ngũ hổ",
+      "Thận quan",
+      "Tứ chi"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "218. VIÊM BAO HOẠT DỊCH (Nguồn: https://freewechat.com/ Châm bên lành các huyệt Ngũ hổ, Thận quan (có tài liệu ghi từ huyệt Âm lăng tuyền xuống 2,5 thốn Tứ chi."
+  },
+  {
+    "id": "tung-form-219",
+    "category": "Cơ Xương Khớp & Liệt",
+    "diseaseName": "Bài 219: TRỊ CĂNG CƠ HÁNG HAI BÊN",
+    "chineseDisease": "治對側腹股溝拉傷",
+    "mainPoints": [
+      "Hạ khúc",
+      "Thượng khúc"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "219. TRỊ CĂĂNG CƠ HÁNG HAI BÊN (Trị đối trắc phúc cổ câu lạp thương 治對側腹股溝拉傷 (Nguồn http://www.tungs-acupuncture.com/下曲穴/ Châm đảo mã huyệt Thượng khúc, Hạ khúc."
+  },
+  {
+    "id": "tung-form-220",
+    "category": "Cơ Xương Khớp & Liệt",
+    "diseaseName": "Bài 220: ĐAU BÊN TRONG CHÂN, BẮP ĐÙI",
+    "chineseDisease": "腿內側痛",
+    "mainPoints": [
+      "Trường môn",
+      "Can môn",
+      "Tâm môn"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "220. ĐAU BÊN TRONG CHÂN, BẮP ĐÙI (thối nội trắc thống 腿內側痛 (Nguồn http://www.tungs-acupuncture.com/肝門穴/ Huyệt Tâm môn, Can môn, Trường môn ba huyệt thành đảo mã."
+  },
+  {
+    "id": "tung-form-221",
+    "category": "Cơ Xương Khớp & Liệt",
+    "diseaseName": "Bài 221: BỆNH HÁNG",
+    "chineseDisease": "腹股溝病",
+    "mainPoints": [
+      "Tâm môn",
+      "Hạ khúc",
+      "Thượng khúc"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "221. BỆNH HÁNG (phúc cổ câu bệnh 腹股溝病 (Nguồn http://www.tungs-acupuncture.com/心門穴/ Lấy huyệt Tâm môn bên đối phối huyệt Thượng khúc, Hạ khúc hiệu nghiệm."
+  },
+  {
+    "id": "tung-form-222",
+    "category": "Cơ Xương Khớp & Liệt",
+    "diseaseName": "Bài 222: BỆNH TẬT ĐẦU GỐI",
+    "chineseDisease": "膝蓋蓋疾病",
+    "mainPoints": [
+      "Kiên trung",
+      "Kiến trung"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "222. BỆNH TẬT ĐẦU GỐI (tất cái tật bệnh 膝蓋疾病 (Nguồn http://www.tungs-acupuncture.com/肩中穴、建中穴/ Huyệt Kiên trung phối huyệt Kiến trung, đặc trị bệnh tật đầu gối. Nên phối hợp phép động khí hai bên."
+  },
+  {
+    "id": "tung-form-223",
+    "category": "Cơ Xương Khớp & Liệt",
+    "diseaseName": "Bài 223: VIÊM KHỚP XƯƠNG ĐẦU GỐI",
+    "chineseDisease": "膝蓋蓋關節炎",
+    "mainPoints": [
+      "Thổ thuỷ",
+      "Kiên trung",
+      "Kiến trung",
+      "Thiên hoàng",
+      "Địa hoàng"
+    ],
+    "adjunctPoints": [
+      "Nhân hoàng",
+      "Hạ tam hoàng"
+    ],
+    "bloodlettingPoints": [
+      "phối hợp chích máu nơi bệnh"
+    ],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "(Nguồn http://www.tungs-acupuncture.com/肩中穴、建中穴/ Huyệt Kiến trung, Kiên trung, Hạ tam hoàng (Thiên hoàng, Địa hoàng, Nhân hoàng, 5 huyệt Thổ thuỷ, phối hợp chích máu nơi bệnh."
+  },
+  {
+    "id": "tung-form-224",
+    "category": "Cơ Xương Khớp & Liệt",
+    "diseaseName": "Bài 224: ĐẦU GỐI ĐAU HOẶC THOÁI HOÁ",
+    "chineseDisease": "膝蓋蓋痛或退化",
+    "mainPoints": [
+      "Thổ thuỷ",
+      "Kiên trung",
+      "Kiến trung"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [
+      "phối hợp chích máu huyệt Ngũ kim sau lưng"
+    ],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "224. ĐẦU GỐI ĐAU HOẶC THOÁI HOÁ (tất cái thống hoặc thoái hoá 膝蓋痛或退化 (Nguồn http://www.tungs-acupuncture.com/肩中穴、建中穴/ 5 huyệt Thổ thuỷ, Kiên trung, Kiến trung, phối hợp chích máu huyệt Ngũ kim sau lưng."
+  },
+  {
+    "id": "tung-form-225",
+    "category": "Cơ Xương Khớp & Liệt",
+    "diseaseName": "Bài 225: CHỮA ĐAU ĐẦU GỐI",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Linh cốt",
+      "Đại bạch",
+      "Kiên trung"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "225. CHỮA ĐAU ĐẦU GỐI (Nguồn: http://www.360doc.cn/article/30659628_630799601.html Trên lâm sàng thường dụng huyệt Linh cốt, Đại bạch với Kiên trung trị liệu đau đầu gối, châm kim vào dừng đau, không có ca nào là không có hiệu quả. Thực tế, châm huyệt Nội quan bên đối hiệu quả rất tốt, sau khi cắm kim phải kết hợp vận động khớp. Phương ở trên, căn cứ yêu cầu lâm sàng, có thể dùng một phương, hoặc có thể kết hợp sử dụng. Nói chung phép tắc của tác giả Đổng Cảnh Xương tác động rất lớn. Không được rời xa phép động khí châm, lấy kinh giao với hình ảnh ba chiều (đồng ứnghiệu quả rất lớn. Trong châm cứu Đổng Cảnh Xương, chỉ dùng châm 3 huyệt, Nội quan hoặc Kiên trung trợ giúp, hiệu quả điều trị là rất rõ ràng."
+  },
+  {
+    "id": "tung-form-226",
+    "category": "Cơ Xương Khớp & Liệt",
+    "diseaseName": "Bài 226: ĐAU ĐẦU GỐI",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Thổ thuỷ",
+      "Kiên trung",
+      "Kiến trung",
+      "Vân bạch",
+      "Lý bạch"
+    ],
+    "adjunctPoints": [
+      "Hạ khúc",
+      "Thượng khúc"
+    ],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "226. ĐAU ĐẦU GỐI (Nguồn http://www.tungs-acupuncture.com/李白穴/ 1. Đau trên đầu gối (thượng tất cái thống 上膝蓋蓋痛 Huyệt Vân bạch, Lý bạch, Kiên trung, Kiến trung, Thượng khúc, Hạ khúc. 2. Đau dưới đầu gối (Hạ tất cái thống 下膝蓋蓋痛uyệt Lý bạch, Thổ thuỷ."
+  },
+  {
+    "id": "tung-form-227",
+    "category": "Cơ Xương Khớp & Liệt",
+    "diseaseName": "Bài 227: TRỊ MỘT SỐ CHỨNG ĐẦU GỐI, BẮP CHÂN",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Thổ thuỷ",
+      "Tâm tất",
+      "Kiên trung",
+      "Kiến trung"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [
+      "Trị thoái hóa đầu gối (tất cái thoái hoá bị thương đầu gối (tất thâu thương Lấy chích máu làm chủ"
+    ],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "227. TRỊ MỘT SỐ CHỨNG ĐẦU GỐI, BẮP CHÂN (Nguồn http://www.tungs-acupuncture.com/心膝穴/ 1. Trị đau đầu gối (tất cái thống bắp chân sung đau (tiểu thối trướng thống: Huyệt Tâm tất có thể phối huyệt Kiên trung, hiệu quả tốt hơn. 2. Trị thoái hóa đầu gối (tất cái thoái hoá bị thương đầu gối (tất thâu thương Lấy chích máu làm chủ, châm huyệt Tâm tất, Kiến trung, Kiên trung, Thổ thuỷ. 3. Trị dây chằng chéo trước bị thương (tiền thập tự nhận đới lạp thương: Châm huyệt Tâm tất, Kiến trung, Kiên trung, Thổ thuỷ."
+  },
+  {
+    "id": "tung-form-228",
+    "category": "Cơ Xương Khớp & Liệt",
+    "diseaseName": "Bài 228: CHUỘT RÚT CHÂN",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Thủ giải",
+      "Huyệt Mộc",
+      "Mộc viêm"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "228. CHUỘT RÚT CHÂN (cước trừu cân (Theo nguồn http://www.tungs-acupuncture.com/木炎一穴/ Huyệt Thủ giải, huyệt Mộc viêm."
+  },
+  {
+    "id": "tung-form-229",
+    "category": "Cơ Xương Khớp & Liệt",
+    "diseaseName": "Bài 229: CHẤN THƯƠNG KHỚP CỔ CHÂN",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Linh Cốt",
+      "Đại Bạch"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "229. CHẤN THƯƠNG KHỚP CỔ CHÂN Một hôm gặp đồng nghiệp tập thể thao bị chấn thương khớp cổ chân đã hai tuần; hai cổ chân sưng vù, đi lết từng bước đau đớn. Châm kim huyệt Khoả linh đối với bên chân đau hơn, vê kim bảo vận động nhẹ nhàng cổ chân; khoảng 2 phút bệnh nhân nói hình như đỡ vướng, day gạt hạch thần kinh vùng ngón chân áp út (xem hìnhmỗi chân khoảng 2-3 phút, bệnh nhân đứng dậy đi bình thường, không còn vướng đau. Lưu kim, thỉnh thoảng vê, tổng thời gian từ lúc bắt đầu châm đến khi rút kim khoảng 15 phút. Bệnh nhân nói đã hết đau, mấy hôm sau không thấy đau lại."
+  },
+  {
+    "id": "tung-form-230",
+    "category": "Cơ Xương Khớp & Liệt",
+    "diseaseName": "Bài 230: CHẤN THƯƠNG SUNG ĐAU MẮT CÁ CHÂN",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Trung bạch",
+      "Phân bạch",
+      "Tam trọng"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "230. CHẤN THƯƠNG SUNG ĐAU MẮT CÁ CHÂN (khoả thương thũng thống (Theo nguồn http://www.tungs-acupuncture.com/踝靈穴/ Huyệt Khoả linh, Phân bạch, Trung bạch, Tam trọng."
+  },
+  {
+    "id": "tung-form-231",
+    "category": "Cơ Xương Khớp & Liệt",
+    "diseaseName": "Bài 231: TRỊ VIÊM MẮT CÁ NGOÀI VÀ KHỚP MẮT CÁ CHÂN",
+    "chineseDisease": "外踝",
+    "mainPoints": [
+      "Kiên trung",
+      "Kiến trung",
+      "Vân bạch",
+      "Lý bạch"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "231. TRỊ VIÊM MẮT CÁ NGOÀI VÀ KHỚP MẮT CÁ CHÂN (ngoại khoả 外踝, khoả quan tiết viêm 踝關節炎 (Nguồn http://www.tungs-acupuncture.com/雲白穴/ Dùng các huyệt Vân bạch, Lý bạch, Kiên trung, Kiến trung."
+  },
+  {
+    "id": "tung-form-232",
+    "category": "Cơ Xương Khớp & Liệt",
+    "diseaseName": "Bài 232: TRỊ TRẸO, BONG GÂN CHÂN",
+    "chineseDisease": "腳扭傷",
+    "mainPoints": [
+      "Vân bạch",
+      "Lý bạch"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "232. TRỊ TRẸO, BONG GÂN CHÂN (cước nữu thương 腳扭傷 (Nguồn http://www.tungs-acupuncture.com/雲白穴/ Huyệt Vân bạch gia huyệt Lý bạch và Khoả linh."
+  },
+  {
+    "id": "tung-form-233",
+    "category": "Cơ Xương Khớp & Liệt",
+    "diseaseName": "Bài 233: TRỊ SƯNG ĐAU XƯƠNG TOÀN THÂN",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Phục nguyên",
+      "Ngũ hổ",
+      "Thiên hoàng",
+      "Thượng tam hoàng",
+      "Minh hoàng"
+    ],
+    "adjunctPoints": [
+      "Kỳ hoàng"
+    ],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "233. TRỊ SƯNG ĐAU XƯƠNG TOÀN THÂN (toàn thân cốt thũng (Theo nguồn http://www.tungs-acupuncture.com/復原一穴/ Huyệt Phục nguyên 1 phối huyệt Phục nguyên 2, Phục nguyên 3, Ngũ hổ, Thượng tam hoàng (Thiên hoàng, Minh hoàng, Kỳ hoàng"
+  },
+  {
+    "id": "tung-form-234",
+    "category": "Cơ Xương Khớp & Liệt",
+    "diseaseName": "Bài 234: TRỊ VIÊM KHỚP TOÀN THÂN",
+    "chineseDisease": "全身性關節炎",
+    "mainPoints": [
+      "Kiên trung",
+      "Kiến trung",
+      "Thiên hoàng",
+      "Thận quan",
+      "Thượng tam hoàng"
+    ],
+    "adjunctPoints": [
+      "Thông quan",
+      "Thông thiên",
+      "Minh hoàng",
+      "Kỳ hoàng"
+    ],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "(Nguồn http://www.tungs-acupuncture.com/肩中穴、建中穴/ Huyệt Kiên trung, huyệt Kiến trung phối huyệt Thông thiên, huyệt Thông quan, huyệt Thận quan, huyệt Thượng tam hoàng (Thiên hoàng, Minh hoàng, Kỳ hoàng"
+  },
+  {
+    "id": "tung-form-235",
+    "category": "Cơ Xương Khớp & Liệt",
+    "diseaseName": "Bài 235: TRỊ BỆNH PHONG THẤP CHẠY",
+    "chineseDisease": "遊走性風濕病",
+    "mainPoints": [
+      "Kiên trung",
+      "Kiến trung",
+      "Thiên hoàng",
+      "Thận quan",
+      "Thượng tam hoàng"
+    ],
+    "adjunctPoints": [
+      "Thông quan",
+      "Thông thiên",
+      "Minh hoàng"
+    ],
+    "bloodlettingPoints": [
+      "Kỳ hoàngcùng chích máu nơi bệnh"
+    ],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "235. TRỊ BỆNH PHONG THẤP CHẠY (du tẫu tính phong thấp bệnh 遊走性症風濕病 (Nguồn http://www.tungs-acupuncture.com/肩中穴、建中穴/ Huyệt Kiên trung, huyệt Kiến trung phối huyệt Thông thiên, huyệt Thông quan, huyệt Thận quan, Thượng tam hoàng (Thiên hoàng, Minh hoàng, Kỳ hoàngcùng chích máu nơi bệnh."
+  },
+  {
+    "id": "tung-form-236",
+    "category": "Cơ Xương Khớp & Liệt",
+    "diseaseName": "Bài 236: ĐAU KHỚP DO PHONG THẤP",
+    "chineseDisease": "風濕關節痛",
+    "mainPoints": [
+      "Thổ thuỷ",
+      "Kiên trung",
+      "Kiến trung"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [
+      "phối hợp chích máu nơi bệnh"
+    ],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "(Nguồn http://www.tungs-acupuncture.com/肩中穴、建中穴/ Huyệt Kiên trung, Kiến trung, Thổ thuỷ, phối hợp chích máu nơi bệnh."
+  },
+  {
+    "id": "tung-form-237",
+    "category": "Cơ Xương Khớp & Liệt",
+    "diseaseName": "Bài 237: TRỊ VIÊM KHỚP DO AXIT URIC",
+    "chineseDisease": "尿酸性關節炎",
+    "mainPoints": [
+      "Thủ giải",
+      "Cốt quan",
+      "Mộc quan",
+      "Kiên trung",
+      "Kiến trung"
+    ],
+    "adjunctPoints": [
+      "Thận quan",
+      "Thông quan",
+      "Thông thiên"
+    ],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "237. TRỊ VIÊM KHỚP DO AXIT URIC (niệu toan tính quan tiết viêm 尿酸性關節炎 (Nguồn http://www.tungs-acupuncture.com/肩中穴、建中穴/ Huyệt Kiên trung, huyệt Kiến trung phối huyệt Thông thiên, huyệt Thông quan, huyệt Thận quan, Cốt quan, Mộc quan, Thủ giải."
+  },
+  {
+    "id": "tung-form-238",
+    "category": "Cơ Xương Khớp & Liệt",
+    "diseaseName": "Bài 238: TRỊ SƯNG XƯƠNG",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Thổ thuỷ",
+      "Phục nguyên",
+      "Ngũ hổ",
+      "Tam trọng"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "238. TRỊ SƯNG XƯƠNG (trị liệu cốt thũng (Theo nguồn http://www.tungs-acupuncture.com/復原三穴/ Huyệt Phục nguyên có thể phối huyệt Ngũ hổ, Thổ thuỷ trị liệu cốt thũng. Ung thư xương (cốt nhamó thể gia huyệt Tam trọng, bất định huyệt có thể trị."
+  },
+  {
+    "id": "tung-form-239",
+    "category": "Cơ Xương Khớp & Liệt",
+    "diseaseName": "Bài 239: UNG THƯ XƯƠNG",
+    "chineseDisease": "骨癌瘤",
+    "mainPoints": [
+      "Phục nguyên",
+      "Ngũ hổ",
+      "Tam trọng",
+      "Ngoại tam quan"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "239. UNG THƯ XƯƠNG (cốt nham lựu-骨癌瘤-bone tumor osteoma (Nguồn http://www.tungs-acupuncture.com/指三重穴/ Huyệt Ngũ hổ, Phục nguyên, Tam trọng hoặc Ngoại tam quan."
+  },
+  {
+    "id": "tung-form-240",
+    "category": "Cơ Xương Khớp & Liệt",
+    "diseaseName": "Bài 240: GAI XƯƠNG",
+    "chineseDisease": "骨刺",
+    "mainPoints": [
+      "Linh cốt",
+      "Hạ bạch",
+      "Uyển thuận",
+      "Cốt quan",
+      "Nhị giác minh"
+    ],
+    "adjunctPoints": [
+      "Phân thuỷ",
+      "Tam hà",
+      "Chính tích",
+      "Chính cân",
+      "Chính tông"
+    ],
+    "bloodlettingPoints": [
+      "com/三河穴/ Trước chích huyết vùng bệnh"
+    ],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "240. GAI XƯƠNG (cốt thích 骨刺, còn gọi là cốt vưu 骨疣 u xương (Nguồn http://www.tungs-acupuncture.com/三河穴/ Trước chích huyết vùng bệnh, lại châm các huyệt Tam hà, Phân thuỷ, Uyển thuận, Nhị giác minh, Chính tích, Chính cân, Chính tông, Tam trọng, Linh cốt, Hạ bạch, Cốt quan."
+  },
+  {
+    "id": "tung-form-241",
+    "category": "Bệnh Ngoài Da",
+    "diseaseName": "Bài 241: GAI XƯƠNG",
+    "chineseDisease": "骨刺",
+    "mainPoints": [
+      "Chính tích"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [
+      "chích huyết tại vùng bệnh hiệu quả tốt hơn"
+    ],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "(Nguồn http://www.tungs-acupuncture.com/正脊一穴、正脊二穴、正脊三穴/ Ngoài 3 huyệt Chính tích, chích huyết tại vùng bệnh hiệu quả tốt hơn."
+  },
+  {
+    "id": "tung-form-242",
+    "category": "Bệnh Ngoài Da",
+    "diseaseName": "Bài 242: ĐAU CƠ",
+    "chineseDisease": "筋骨痛",
+    "mainPoints": [
+      "Can linh",
+      "Thiên hoàng",
+      "Địa hoàng",
+      "Nhân hoàng",
+      "Hạ tam hoàng"
+    ],
+    "adjunctPoints": [
+      "Thông quan",
+      "Thông sơn",
+      "Thông thiên",
+      "Minh hoàng",
+      "Kỳ hoàng"
+    ],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "242. ĐAU CƠ (cân cốt thống 筋骨痛 (Nguồn http://www.tungs-acupuncture.com/肝靈穴/ Huyệt Can linh gia huyệt Tam thông (ba huyệt Thông quan, Thông sơn, Thông thiên hợp thành Tam thông huyệt Thượng tam hoang (Thiên hoàng, Minh hoàng, Kỳ hoàng, Hạ tam hoàng (Thiên hoàng, Địa hoàng, Nhân hoàng."
+  },
+  {
+    "id": "tung-form-243",
+    "category": "Bệnh Ngoài Da",
+    "diseaseName": "Bài 243: BỆNH NGOÀI DA",
+    "chineseDisease": "皮膚病",
+    "mainPoints": [
+      "Tứ hoa",
+      "Tứ mã"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [
+      "com/分枝上穴/ Chích máu Đại truỳ"
+    ],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "243. BỆNH NGOÀI DA (bì phu bệnh 皮膚病 (Nguồn http://www.tungs-acupuncture.com/分枝上穴/ Chích máu Đại truỳ, Phân chi, châm huyệt Hợp cốc, Khúc trì, Huyết hải, Tam âm giao, Tứ mã, Tứ hoa thượng, huyệt Bì phu trên tai."
+  },
+  {
+    "id": "tung-form-244",
+    "category": "Bệnh Ngoài Da",
+    "diseaseName": "Bài 244: ECZEMA",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Thủ giải",
+      "Thủ ngũ kim",
+      "Thủ thiên kim",
+      "Tứ hoa",
+      "Tứ mã"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "244. ECZEMA (Nguồn: https://www.facebook.com/mastertungpoints/photos/a.419515371580391/1303354656529787/?type=3&theater Huyệt Tứ mã, Tứ hoa, Thủ giải, Thủ ngũ kim, Thủ thiên kim."
+  },
+  {
+    "id": "tung-form-245",
+    "category": "Bệnh Ngoài Da",
+    "diseaseName": "Bài 245: TRỊ LIỆU BỆNH THẤP CHẨN",
+    "chineseDisease": "濕疹",
+    "mainPoints": [
+      "Phân chi thượng",
+      "Tứ mã"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "245. TRỊ LIỆU BỆNH THẤP CHẨN (濕疹 eczemahoặc DA ẨM NGỨA MÃN (thấp dương 濕癢 dampness itching (Nguồn http://www.tungs-acupuncture.com/分枝上穴/ Huyệt Phân chi thượng làm chủ lấy phụ thêm huyệt Tứ mã."
+  },
+  {
+    "id": "tung-form-246",
+    "category": "Bệnh Ngoài Da",
+    "diseaseName": "Bài 246: PHÁT BAN NHIỆT, RÔM SẢY",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Thủ giải",
+      "Thủ ngũ kim",
+      "Thủ thiên kim",
+      "Tam trọng",
+      "Tứ mã"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "246. PHÁT BAN NHIỆT, RÔM SẢY (Nguồn: 董氏針灸林正泰 và https://card.weibo.com/article/m/show/id/2309404133754384820394 Huyệt Thủ giải, Thủ ngũ kim, Thủ thiên kim, Tứ mã, Tam trọng. Ngày đầu tiên chỉ châm 2 huyệt Tam trọng, Tứ mã; châm huyệt Thủ ngũ kim, Thủ thiên kim, Thủ giải bên tay phải; đỡ được 50%. Cách một ngày, buổi sáng châm bên đối 2 huyệt Tam trọng, Tứ mã và Thủ giải; châm huyệt Thủ ngũ kim, Thủ thiên kim bên tay phải; đỡ được 50%, chỉ còn lại vài chấm đỏ."
+  },
+  {
+    "id": "tung-form-247",
+    "category": "Bệnh Ngoài Da",
+    "diseaseName": "Bài 247: TRỊ MÀY ĐAY",
+    "chineseDisease": "蕁麻疹",
+    "mainPoints": [
+      "Linh cốt",
+      "Thổ thuỷ",
+      "Tam xoa",
+      "Nội bạch",
+      "Hỏa phủ hải"
+    ],
+    "adjunctPoints": [
+      "Thiên hoàng",
+      "Địa hoàng",
+      "Nhân hoàng",
+      "Thượng tam hoàng",
+      "Hạ tam hoàng"
+    ],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "247. TRỊ MÀY ĐAY (tầm ma chẫn 蕁麻疹 urticaria (Nguồn http://www.tungs-acupuncture.com/內白穴/ Huyệt Nội bạch phối huyệt Bì phu trên tai (huyệt Đổng thị cùng huyệt Tứ mã, Linh cốt, Hoả phủ hải, Thổ thuỷ, Tam xoa, lại phối hợp huyệt Thượng tam hoàng (Thiên hoàng, Minh hoàng, Kỳ hoàng Hạ tam hoàng (Thiên hoàng, Địa hoàng, Nhân hoàng, có thể đồng thời cải thiện sức khoẻ."
+  },
+  {
+    "id": "tung-form-248",
+    "category": "Bệnh Ngoài Da",
+    "diseaseName": "Bài 248: NHỌT ĐỘC, LOÉT LÂU NĂM",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Linh cốt",
+      "Chế ô",
+      "Tam trọng",
+      "Tứ mã"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "248. NHỌT ĐỘC, LOÉT LÂU NĂĂM (CỬU NIÊN ÁC SANG (Nguồn http://www.tungs-acupuncture.com/制污穴/ Huyệt Chế ô, huyệt Tứ mã, huyệt Tam trọng, huyệt Linh cốt."
+  },
+  {
+    "id": "tung-form-249",
+    "category": "Bệnh Ngoài Da",
+    "diseaseName": "Bài 249: NHỌT",
+    "chineseDisease": "癰",
+    "mainPoints": [
+      "Chế ô",
+      "Tam trọng"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [
+      "phối hợp chích máu vùng bệnh"
+    ],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "(Nguồn http://www.tungs-acupuncture.com/制污穴/ Huyệt Chế ô, huyệt Tam trọng, phối hợp chích máu vùng bệnh."
+  },
+  {
+    "id": "tung-form-250",
+    "category": "Bệnh Ngoài Da",
+    "diseaseName": "Bài 250: ĐIỀU TRỊ MỤN SƯNG ĐỎ, TRỨNG CÁ LỚN",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Linh cốt",
+      "Chỉ tứ mã",
+      "Tam trọng",
+      "Thiên hoàng",
+      "Địa hoàng"
+    ],
+    "adjunctPoints": [
+      "Nhân hoàng",
+      "Thượng tam hoàng",
+      "Hạ tam hoàng",
+      "Minh hoàng",
+      "Tứ mã"
+    ],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "250. ĐIỀU TRỊ MỤN SƯNG ĐỎ, TRỨNG CÁ LỚN (TRỊ LIỆU HỒNG THŨNG ĐẠI KHOẢ THANH XUÂN ĐẬU (Nguồn http://www.tungs-acupuncture.com/指駟馬穴/ Huyệt Chỉ tứ mã phối huyệt Tam trọng, Linh cốt, Hạ tam hoàng (Thiên hoàng, Địa hoàng, Nhân hoàng, Thượng tam hoàng (Thiên hoàng, Minh hoàng, Kỳ hoàngTúc tứ mã."
+  },
+  {
+    "id": "tung-form-251",
+    "category": "Sản Phụ Khoa & Nam Khoa",
+    "diseaseName": "Bài 251: TRỊ MỤN TRỨNG CÁ SƯNG TẤY",
+    "chineseDisease": "紅腫性青春痘",
+    "mainPoints": [
+      "Phân chi thượng",
+      "Phân chi hạ",
+      "Phân chi trung",
+      "Tam trọng",
+      "Tứ mã"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "251. TRỊ MỤN TRỨNG CÁ SƯNG TẤY (hồng thũng tính thanh xuân đậu 紅腫性青春痘 (Nguồn http://www.tungs-acupuncture.com/分枝上穴/ Huyệt Phân chi thượng, huyệt Phân chi trung, huyệt Phân chi hạ phối huyệt Tứ mã, huyệt Tam trọng."
+  },
+  {
+    "id": "tung-form-252",
+    "category": "Sản Phụ Khoa & Nam Khoa",
+    "diseaseName": "Bài 252: TRỊ MỤN TRỨNG CÁ",
+    "chineseDisease": "青春痘",
+    "mainPoints": [
+      "Phân chi thượng",
+      "Tam trọng",
+      "Tứ hoa",
+      "Tứ mã"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "(Nguồn http://www.tungs-acupuncture.com/分枝上穴/ Huyệt Phân chi thượng, Tam trọng, Tứ mã, Tứ hoa, Hợp cốc, Khúc trì, Tam âm giao, trên tai lấy điểm Nội phân bí (nội tiết, điểm Phế, Bì chất hạ."
+  },
+  {
+    "id": "tung-form-253",
+    "category": "Sản Phụ Khoa & Nam Khoa",
+    "diseaseName": "Bài 253: ĐIỀU TRỊ ĐỐM ĐEN, NÁM",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Linh cốt",
+      "Đại bạch",
+      "Chỉ tứ mã",
+      "Phụ khoa",
+      "Thiên hoàng"
+    ],
+    "adjunctPoints": [
+      "Địa hoàng",
+      "Nhân hoàng",
+      "Thượng tam hoàng",
+      "Hạ tam hoàng",
+      "Thông quan"
+    ],
+    "bloodlettingPoints": [
+      "Huyệt Chỉ tứ mã gia huyệt Phụ khoa hoặc chích máu vùng bệnh"
+    ],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "253. ĐIỀU TRỊ ĐỐM ĐEN, NÁM (HẮC BAN (Nguồn http://www.tungs-acupuncture.com/指駟馬穴/ 1. Huyệt Chỉ tứ mã, Túc tứ mã phối Thông quan, Thông sơn, Linh cốt, Thượng tam hoàng (Thiên hoàng, Minh hoàng, Kỳ hoàng, Hạ tam hoàng (Thiên hoàng, Địa hoàng, Nhân hoàng, hiệu quả tốt. 2. Huyệt Chỉ tứ mã gia huyệt Phụ khoa hoặc chích máu vùng bệnh. Châm Linh cốt, Đại bạch, cấy chỉ huyệt Bì phu (trên tai 3. Huyệt Chỉ tứ mã, Tam sĩ (thiên địa nhân, trên mặt dụng tam châm."
+  },
+  {
+    "id": "tung-form-254",
+    "category": "Sản Phụ Khoa & Nam Khoa",
+    "diseaseName": "Bài 254: BỆNH HOA LIỄU",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Thủ giải",
+      "Cốt quan",
+      "Mộc quan",
+      "Huyệt Mộc",
+      "Chế ô"
+    ],
+    "adjunctPoints": [
+      "Phân chi thượng",
+      "Phân chi hạ"
+    ],
+    "bloodlettingPoints": [
+      "com/制污穴/ Chích máu huyệt Phân chi thượng và Phân chi hạ"
+    ],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "254. BỆNH HOA LIỄU (Nguồn http://www.tungs-acupuncture.com/制污穴/ Chích máu huyệt Phân chi thượng và Phân chi hạ; huyệt Cốt quan, huyệt Mộc quan, huyệt Thủ giải, huyệt Chế ô."
+  },
+  {
+    "id": "tung-form-255",
+    "category": "Sản Phụ Khoa & Nam Khoa",
+    "diseaseName": "Bài 255: VIÊM QUẦNG",
+    "chineseDisease": "丹毒",
+    "mainPoints": [
+      "Tâm môn"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [
+      "com/心門穴/ Chích máu vùng bệnh"
+    ],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "255. VIÊM QUẦNG (đan độc 丹毒 erysipelas (Nguồn http://www.tungs-acupuncture.com/心門穴/ Chích máu vùng bệnh, huyệt Tâm môn phối huyệt Phân chi. Tham khảo: Viêm quầng (đan độc 丹毒 erysipelaslà một bệnh nhiễm trùng liên quan đến các mạch bạch huyết của lớp thượng bì. Tác nhân gây bệnh chính là liên cầu tan máu beta nhóm A. Các yếu tố dễ mắc phải là vết thương hoặc vết nứt giữa lỗ mũi, thịt thính giác bên ngoài, dái tai, hậu môn, dương vật và ngón chân. Bất kỳ tình trạng viêm nào trên da, đặc biệt là tình trạng viêm với các vết nứt hoặc loét, đều tạo đường cho vi khuẫn gây bệnh xâm nhập. Các vết trầy xước hoặc trầy xước nhẹ, chấn thương bên ngoài đầu, thắt dây rốn không sạch sẽ, tiêm chủng và loét bắp chân mãn tính đều có thể gây ra bệnh này. Vi khuẫn gây bệnh có thể lẫn quẫn trong các mạch bạch huyết và gây tái phát."
+  },
+  {
+    "id": "tung-form-256",
+    "category": "Sản Phụ Khoa & Nam Khoa",
+    "diseaseName": "Bài 256: MẸ KHÔNG ĐỦ SỮA CHO CON BÚ",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Thổ thuỷ",
+      "Tứ hoa"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "256. MẸ KHÔNG ĐỦ SỮA CHO CON BÚ (Nguồn: https://www.sohu.com/a/199336257_661713 Phần lớn do cơ thể sau sinh không đủ máu hoặc do tâm trạng không thoải mái trong thời kỳ hậu sản dẫn đến tắc nghẽn tuyến vú khiến trẻ không đủ sữa. Huyệt Thổ thuỷ , Thổ vị , Tứ hoa châm cả 2 bên."
+  },
+  {
+    "id": "tung-form-257",
+    "category": "Sản Phụ Khoa & Nam Khoa",
+    "diseaseName": "Bài 257: VIÊM TUYẾN SỮA",
+    "chineseDisease": "乳腺炎",
+    "mainPoints": [
+      "Kiên trung",
+      "Kiến trung",
+      "Tam trọng",
+      "Tứ mã"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [
+      "phối hợp chích máu vùng Tâm Phế sau lưng"
+    ],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "257. VIÊM TUYẾN SỮA (nhũ tuyến viêm 乳腺炎 (Nguồn http://www.tungs-acupuncture.com/肩中穴、建中穴/ Huyệt Kiên trung, Kiến trung, Phân chi, Tam trọng, Tứ mã, Song long, phối hợp chích máu vùng Tâm Phế sau lưng."
+  },
+  {
+    "id": "tung-form-258",
+    "category": "Sản Phụ Khoa & Nam Khoa",
+    "diseaseName": "Bài 258: TRỊ U TUYẾN VÚ",
+    "chineseDisease": "乳腺瘤",
+    "mainPoints": [
+      "Kiến trung",
+      "Phân chi thượng",
+      "Phân chi hạ",
+      "Phân chi trung"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "258. TRỊ U TUYẾN VÚ (Nhũ Tuyến Lựu 乳腺瘤 (Nguồn http://www.tungs-acupuncture.com/分枝下穴/ Huyệt Phân chi thượng, huyệt Phân chi trung, huyệt Phân chi hạ với huyệt Song long, thêm huyệt Kiến trung."
+  },
+  {
+    "id": "tung-form-259",
+    "category": "Sản Phụ Khoa & Nam Khoa",
+    "diseaseName": "Bài 259: KHỐI U VÚ",
+    "chineseDisease": "乳房腫瘤",
+    "mainPoints": [
+      "Tam trọng",
+      "Tứ hoa"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "259. KHỐI U VÚ (nhũ phòng thũng lựu 乳房腫瘤 (Nguồn http://www.tungs-acupuncture.com/指三重穴/ Huyệt Song long, Tứ hoa, Tam trọng."
+  },
+  {
+    "id": "tung-form-260",
+    "category": "Sản Phụ Khoa & Nam Khoa",
+    "diseaseName": "Bài 260: UNG THƯ VÚ",
+    "chineseDisease": "乳癌",
+    "mainPoints": [
+      "Kiên phong",
+      "Tam trọng",
+      "Tứ hoa",
+      "Trắc tam lý",
+      "Ngoại tam quan"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [
+      "lại chích máu vùng huyệt Tứ hoa"
+    ],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "(Nguồn http://www.tungs-acupuncture.com/肩峰穴/ Ngoài huyệt Kiên phong phối huyệt Song long, nhất thiết phải gia huyệt chuyên trị u bướu Ngoại tam quan hoặc Tam trọng, lại chích máu vùng huyệt Tứ hoa, Trắc tam lý hoặc chích máu vùng Tâm Phế sau lưng, thêm mai châm (cố định một cây kim nhỏ đặc biệt trong vùng da ở huyệt một thời gian dàihuyệt bất định."
+  },
+  {
+    "id": "tung-form-261",
+    "category": "Sản Phụ Khoa & Nam Khoa",
+    "diseaseName": "Bài 261: BỆNH VÚ, NÂNG NGỰC",
+    "chineseDisease": "乳房疾患",
+    "mainPoints": [
+      "Kiên phong",
+      "Tứ hoa"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "261. BỆNH VÚ, NÂNG NGỰC (nhũ phòng tật hoạn, kiện hung 乳房疾患、健胸 (Nguồn http://www.tungs-acupuncture.com/肩峰穴/ Huyệt Kiên phong, Song long, Tứ hoa, trên tai điểm Nhũ tuyến, Thận, Bì chất hạ, Nội phân bí (nội tiết và xoa bóp vú."
+  },
+  {
+    "id": "tung-form-262",
+    "category": "Sản Phụ Khoa & Nam Khoa",
+    "diseaseName": "Bài 262: CHỮA ĐAU BỤNG KINH",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Linh cốt",
+      "Uyển thuận",
+      "Môn kim",
+      "Tứ hoa"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "262. CHỮA ĐAU BỤNG KINH (kinh thống (Nguồn http://www.tungs-acupuncture.com/靈骨穴/ 1. Huyệt Uyển thuận thấu huyệt Linh cốt hiệu quả tốt (huyệt Linh cốt có tác dụng giục kinh. 2. Huyệt Linh Cốt phối hợp huyệt Môn kim, huyệt Tứ hoa thượng, hiệu quả đặc biệt."
+  },
+  {
+    "id": "tung-form-263",
+    "category": "Sản Phụ Khoa & Nam Khoa",
+    "diseaseName": "Bài 263: ĐAU BỤNG KINH",
+    "chineseDisease": "經痛",
+    "mainPoints": [
+      "Linh cốt",
+      "Phụ khoa",
+      "Môn kim",
+      "Tứ hoa",
+      "Thiên hoàng"
+    ],
+    "adjunctPoints": [
+      "Thượng tam hoàng",
+      "Minh hoàng"
+    ],
+    "bloodlettingPoints": [
+      "Chích máu 23 huyệt Phủ sào đặc hiệu"
+    ],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "(Nguồn: http://www.tungs-acupuncture.com/婦科五穴/ 1. Huyệt Phụ khoa, Linh cốt, Tứ hoa thượng, Thượng tam hoàng (Thiên hoàng, Minh hoàng, Kỳ hoàngôn kim, 7 huyệt Vị mao, 23 huyệt Phủ sào. 2. Huyệt Tứ hoa thượng, Phụ khoa, Môn kim. 3. Chích máu 23 huyệt Phủ sào đặc hiệu."
+  },
+  {
+    "id": "tung-form-264",
+    "category": "Sản Phụ Khoa & Nam Khoa",
+    "diseaseName": "Bài 264: ĐAU BỤNG KINH",
+    "chineseDisease": "經痛",
+    "mainPoints": [
+      "Linh cốt",
+      "Trường môn",
+      "Môn kim",
+      "Tứ hoa"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "(Nguồn http://www.tungs-acupuncture.com/腸門穴/ Huyệt Trường môn phối huyệt Tứ hoa, Môn kim, Linh cốt hiệu nghiệm."
+  },
+  {
+    "id": "tung-form-265",
+    "category": "Sản Phụ Khoa & Nam Khoa",
+    "diseaseName": "Bài 265: HÀNH KINH ĐAU LƯNG MỎI EO",
+    "chineseDisease": "經期腰酸背痛",
+    "mainPoints": [
+      "Linh cốt",
+      "Hạ bạch",
+      "Uyển thuận",
+      "Phân bạch",
+      "Tam hà"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "(Nguồn http://www.tungs-acupuncture.com/三河穴/ Huyệt Tam hà, huyệt Uyển thuận thấu Linh cốt, Hạ bạch, Phân bạch."
+  },
+  {
+    "id": "tung-form-266",
+    "category": "Sản Phụ Khoa & Nam Khoa",
+    "diseaseName": "Bài 266: KINH NGUYỆT KHÔNG ĐỀU",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Hoàn sào",
+      "Phụ khoa",
+      "Thiên hoàng",
+      "Địa hoàng",
+      "Nhân hoàng"
+    ],
+    "adjunctPoints": [
+      "Thượng tam hoàng",
+      "Hạ tam hoàng",
+      "Minh hoàng",
+      "Kỳ hoàng"
+    ],
+    "bloodlettingPoints": [
+      "chích máu ở vùng mông"
+    ],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "266. KINH NGUYỆT KHÔNG ĐỀU (nguyệt kinh bất điều (Nguồn http://www.tungs-acupuncture.com/枕還枕穴/ Huyệt Hoàn sào phối huyệt Thượng tam hoàng (Thiên hoàng, Minh hoàng, Kỳ hoàng, Hạ tam hoàng (Thiên hoàng, Địa hoàng, Nhân hoàng, huyệt Phụ khoa, chích máu ở vùng mông, xương cùng, cứu ngải 23 huyệt Phủ sào."
+  },
+  {
+    "id": "tung-form-267",
+    "category": "Sản Phụ Khoa & Nam Khoa",
+    "diseaseName": "Bài 267: ÂM ĐẠO VIÊM, NGỨA",
+    "chineseDisease": "陰道炎",
+    "mainPoints": [
+      "Phụ khoa",
+      "Vân bạch",
+      "Lý bạch",
+      "Hải báo"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "(Nguồn http://www.tungs-acupuncture.com/雲白穴/ Phối các huyệt Vân bạch, Phụ khoa, Lý bạch, Hải báo"
+  },
+  {
+    "id": "tung-form-268",
+    "category": "Sản Phụ Khoa & Nam Khoa",
+    "diseaseName": "Bài 268: KINH NGUYỆT KHÔNG ĐỀU",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Linh cốt",
+      "Uyển thuận",
+      "Phụ khoa",
+      "Thượng tam hoàng"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "268. KINH NGUYỆT KHÔNG ĐỀU (nguyệt kinh bất điều (Nguồn: http://www.tungs-acupuncture.com/婦科五穴/ 1. Châm lâu dài huyệt Phụ khoa, Linh cốt, Thượng tam hoàng, phối hợp cứu ngải 23 huyệt Phủ sào. 2. Huyệt Uyển thuận, Linh cốt, Phụ khoa."
+  },
+  {
+    "id": "tung-form-269",
+    "category": "Sản Phụ Khoa & Nam Khoa",
+    "diseaseName": "Bài 269: CÁC CHỨNG TỬ CUNG, BUỒNG TRỨNG VIÊM, U, UNG THƯ",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Linh cốt",
+      "Phụ khoa",
+      "Kỳ môn",
+      "Kỳ giác",
+      "Kỳ chính"
+    ],
+    "adjunctPoints": [
+      "Môn kim",
+      "Tam trọng",
+      "Thiên hoàng",
+      "Thượng tam hoàng",
+      "Minh hoàng"
+    ],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "269. CÁC CHỨNG TỬ CUNG, BUỒNG TRỨNG VIÊM, U, UNG THƯ (Nguồn http://www.tungs-acupuncture.com/其門穴、其角穴、其正穴/ Đều lấy Thủ tam kỳ (Kỳ môn, Kỳ giác, Kỳ chính, huyệt Tam trọng, Môn kim, Phụ khoa phối hợp sử dụng, lại gia Linh cốt, Thượng tam hoàng (Thiên hoàng, Minh hoàng, Kỳ hoàngNgoại tam quan, mai châm (cố định một cây kim nhỏ đặc biệt trong vùng da ở huyệt một thời gian dàihuyệt bất định."
+  },
+  {
+    "id": "tung-form-270",
+    "category": "Sản Phụ Khoa & Nam Khoa",
+    "diseaseName": "Bài 270: KHỐI U TỬ CUNG",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Hoàn sào",
+      "Phụ khoa",
+      "Tam trọng",
+      "Thiên hoàng",
+      "Thượng tam hoàng"
+    ],
+    "adjunctPoints": [
+      "Minh hoàng",
+      "Kỳ hoàng"
+    ],
+    "bloodlettingPoints": [
+      "chích máu ở vùng mông"
+    ],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "270. KHỐI U TỬ CUNG (tử cung lựu UNG THƯ TỬ CUNG (tử cung nham (Nguồn http://www.tungs-acupuncture.com/枕還枕穴/ Huyệt Hoàn sào phối huyệt Tam trọng, gia huyệt Phụ khoa, Thượng tam hoàng (Thiên hoàng, Minh hoàng, Kỳ hoàng châm huyệt bất định, chích máu ở vùng mông, xương cùng."
+  },
+  {
+    "id": "tung-form-271",
+    "category": "Sản Phụ Khoa & Nam Khoa",
+    "diseaseName": "Bài 271: VIÊM TỬ CUNG, KHỐI U, UNG THƯ",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Hoàn sào",
+      "Phụ khoa",
+      "Môn kim",
+      "Tam trọng"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "271. VIÊM TỬ CUNG, KHỐI U, UNG THƯ (tử cung viêm, lựu, nham (Nguồn http://www.tungs-acupuncture.com/枕還枕穴/ Huyệt Hoàn sào phối huyệt Phụ khoa, Tam kỳ, Tam trọng, Môn kim, phối châm bất định huyệt."
+  },
+  {
+    "id": "tung-form-272",
+    "category": "Sản Phụ Khoa & Nam Khoa",
+    "diseaseName": "Bài 272: U, UNG THƯ TỬ CUNG",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Phụ khoa",
+      "Tam trọng"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [
+      "phối chích máu 23 huyệt Phủ sào hoặc Nội khoả hạ (dưới mắt cá trong của chân"
+    ],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "272. U, UNG THƯ TỬ CUNG (tử cung cơ lựu nham (Nguồn: http://www.tungs-acupuncture.com/婦科五穴/ Huyệt Phụ khoa, Tam trọng, huyệt bất định, phối chích máu 23 huyệt Phủ sào hoặc Nội khoả hạ (dưới mắt cá trong của chân"
+  },
+  {
+    "id": "tung-form-273",
+    "category": "Sản Phụ Khoa & Nam Khoa",
+    "diseaseName": "Bài 273: U, VIÊM, SƯNG TỬ CUNG",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Linh cốt",
+      "Phụ khoa",
+      "Tam trọng"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [
+      "phối hợp chích máu vùng huyệt Thuỷ tinh (dưới mắt cá trong 2 thốn"
+    ],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "273. U, VIÊM, SƯNG TỬ CUNG (tử cung lựu, viêm, trướng đẳng (Nguồn: http://www.tungs-acupuncture.com/婦科五穴/ Huyệt Linh cốt, Phụ khoa, Phụ linh, Tam trọng, phối hợp chích máu vùng huyệt Thuỷ tinh (dưới mắt cá trong 2 thốn"
+  },
+  {
+    "id": "tung-form-274",
+    "category": "Sản Phụ Khoa & Nam Khoa",
+    "diseaseName": "Bài 274: UNG THƯ TỬ CUNG",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Tam trọng",
+      "Thiên hoàng",
+      "Thượng tam hoàng",
+      "Minh hoàng"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "274. UNG THƯ TỬ CUNG (tử cung nham (Nguồn: http://www.tungs-acupuncture.com/婦科五穴/ Huyệt Thượng tam hoàng (Thiên hoàng, Minh hoàng, Kỳ hoàngPhụ khoa, Tam trọng, huyệt bất định."
+  },
+  {
+    "id": "tung-form-275",
+    "category": "Sản Phụ Khoa & Nam Khoa",
+    "diseaseName": "Bài 275: XÍCH BẠCH ĐỚI HẠ",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Hoàn sào",
+      "Phụ khoa",
+      "Thiên tông",
+      "Vân bạch",
+      "Lý bạch"
+    ],
+    "adjunctPoints": [
+      "Thiên hoàng",
+      "Địa hoàng",
+      "Nhân hoàng",
+      "Thượng tam hoàng",
+      "Hạ tam hoàng"
+    ],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "275. XÍCH BẠCH ĐỚI HẠ (Nguồn http://www.tungs-acupuncture.com/枕還枕穴/ Huyệt Hoàn sào phối huyệt Phụ khoa, Thượng tam hoàng (Thiên hoàng, Minh hoàng, Kỳ hoàng Hạ tam hoàng (Thiên hoàng, Địa hoàng, Nhân hoàng Thiên tông, Vân bạch, Lý bạch. Thường ăn trứng chiên chín tầng (cửu tầng tháp: trứng chiên với rau húng quếthêm dầu mè. Bệnh nghiêm trọng nên sử dụng thuốc tây cho kịp thời."
+  },
+  {
+    "id": "tung-form-276",
+    "category": "Bệnh Trẻ Em & Nhi Khoa",
+    "diseaseName": "Bài 276: TRỊ XÍCH BẠCH ĐỚI HẠ",
+    "chineseDisease": "赤白帶下",
+    "mainPoints": [
+      "Linh Cốt",
+      "Đại Bạch"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": ", một tuần có thể khỏi."
+  },
+  {
+    "id": "tung-form-277",
+    "category": "Bệnh Trẻ Em & Nhi Khoa",
+    "diseaseName": "Bài 277: VÔ SINH",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Phụ khoa",
+      "Thiên hoàng",
+      "Địa hoàng",
+      "Thượng tam hoàng",
+      "Minh hoàng"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [
+      "Chứng thực: chích máu vùng túc Dương minh"
+    ],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "277. VÔ SINH (bất nhâm chứng (Nguồn http://www.tungs-acupuncture.com/婦科五穴/ 1. Chứng thực: chích máu vùng túc Dương minh, vùng xương cùng. 2. Chứng hư: Huyệt Phụ Khoa, huyệt Thượng tam hoàng (Thiên hoàng, Minh hoàng, Kỳ hoàngHạ tam hoàng (Thiên hoàng, Địa hoàng, Nhân hoàngkết hợp cứu ngải 23 huyệt Phụ Sào."
+  },
+  {
+    "id": "tung-form-278",
+    "category": "Bệnh Trẻ Em & Nhi Khoa",
+    "diseaseName": "Bài 278: TRÚNG GIÓ SAU SINH",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Uyển thuận",
+      "Phụ khoa",
+      "Thiên hoàng",
+      "Địa hoàng",
+      "Nhân hoàng"
+    ],
+    "adjunctPoints": [
+      "Thượng tam hoàng",
+      "Hạ tam hoàng",
+      "Minh hoàng",
+      "Kỳ hoàng"
+    ],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "278. TRÚNG GIÓ SAU SINH (sản hậu phong chứng (Nguồn: http://www.tungs-acupuncture.com/婦科五穴/ Sản hậu phong chứng (nguyệt nội phong chứng - bệnh phong trong tháng, từ khi sinh đến khi con tròn thángCác khớp đau nhức, tê, lạnh, ớn lạnh nặng nề và mệt mỏi. Tay chân lạnh, dễ bị cảm lạnh, đau đầu, chóng mặt, sợ lạnh. Sợ gió, nước mắt, mí mắt cảm thấy nặng nề, mệt mỏi, buồn ngủ. Kinh nguyệt không đều, vón cục, đen và trắng. Bụng dưới sẽ có cảm giác đầy hơi và đau nhẹ... Huyệt Phụ Khoa, huyệt Uyển Thuận hạ (huyệt Uyển Thuận 2: cách Hậu khê 5 phânhuyệt Thượng tam hoàng (Thiên hoàng, Minh hoàng, Kỳ hoàng Hạ tam hoàng (Thiên hoàng, Địa hoàng, Nhân hoàng huyệt Thuỷ tương."
+  },
+  {
+    "id": "tung-form-279",
+    "category": "Bệnh Trẻ Em & Nhi Khoa",
+    "diseaseName": "Bài 279: CHỮA NAM KHOA",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Linh cốt",
+      "Thiên hoàng",
+      "Địa hoàng",
+      "Nhân hoàng",
+      "Hạ tam hoàng"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "279. CHỮA NAM KHOA (Nguồn http://www.tungs-acupuncture.com/靈骨穴/ Châm huyệt Linh cốt, huyệt Hạ Tam hoàng (gồm Thiên hoàng, Địa hoàng và Nhân hoàng kết hợp cứu ngải huyệt Nhân hoàng."
+  },
+  {
+    "id": "tung-form-280",
+    "category": "Bệnh Trẻ Em & Nhi Khoa",
+    "diseaseName": "Bài 280: CHỮA BỆNH CAM TÍCH",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Đại gian"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "280. CHỮA BỆNH CAM TÍCH (Theo nguồn http://www.tungs-acupuncture.com/大間穴/ Dùng kim tam lăng khêu tại huyệt Đại gian cho chảy nước vàng."
+  },
+  {
+    "id": "tung-form-281",
+    "category": "Bệnh Trẻ Em & Nhi Khoa",
+    "diseaseName": "Bài 281: TRẺ BẠI LIỆT",
+    "chineseDisease": "小兒麻痺",
+    "mainPoints": [
+      "Kiên trung",
+      "Kiến trung",
+      "Vân bạch",
+      "Lý bạch",
+      "Hạ khúc"
+    ],
+    "adjunctPoints": [
+      "Thượng khúc",
+      "Thần kiên"
+    ],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "281. TRẺ BẠI LIỆT (tiểu nhi ma tý 小兒麻痺 - bệnh viêm tuỷ xám: tích tuỷ hôi chất viêm 脊髓灰质炎 Poliomyelitis: (Nguồn http://www.tungs-acupuncture.com/肩中穴、建中穴/ 1. Huyệt Kiên trung, Lý bạch, Thượng khúc. 2. Huyệt Thần kiên, Vân bạch (雲白 có tài liệu ghi là Tuyết bạch 雪白 - Advanced Tung Style Acupuncture: obstetrics & gynecology, Hạ khúc, Kiến trung. 3. Huyệt Kiến trung, Lý bạch, Hạ khúc."
+  },
+  {
+    "id": "tung-form-282",
+    "category": "Bệnh Trẻ Em & Nhi Khoa",
+    "diseaseName": "Bài 282: TRỊ TRẺ BẠI LIỆT",
+    "chineseDisease": "小兒麻痺",
+    "mainPoints": [
+      "Kiên trung",
+      "Kiến trung",
+      "Vân bạch",
+      "Lý bạch",
+      "Hạ khúc"
+    ],
+    "adjunctPoints": [
+      "Thượng khúc"
+    ],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "282. TRỊ TRẺ BẠI LIỆT (tiểu nhi ma tý 小兒麻痺 - bệnh viêm tuỷ xám: tích tuỷ hôi chất viêm 脊髓灰质炎 Poliomyelitis (Nguồn http://www.tungs-acupuncture.com/李白穴/ 6 huyệt chủ yếu Vân bạch, Lý bạch, Thượng khúc, Hạ khúc, Kiên trung, Kiến trung; có thể phân Kiên trung, Vân bạch, Thượng khúc một nhóm, Kiến trung, Lý bạch, Hạ khúc một nhóm, phân 2 nhóm lần lượt châm, không chỉ trị trẻ bại liệt đồng thời lại cũng có thể trị bất kỳ chứng hai chân vô lực."
+  },
+  {
+    "id": "tung-form-283",
+    "category": "Dưỡng Sinh & Bồi Bổ",
+    "diseaseName": "Bài 283: DƯỠNG SINH",
+    "chineseDisease": "調養",
+    "mainPoints": [
+      "Trọng tử",
+      "Thông thận",
+      "Thông vị",
+      "Thông bối",
+      "Thủy thông"
+    ],
+    "adjunctPoints": [
+      "Thủy kim"
+    ],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "283. DƯỠNG SINH (Điều dưỡng 調養 Take good care of oneself (Nguồn http://www.tungs-acupuncture.com/重子穴/ Trọng tử, Thuỷ kim, Thuỷ thông, Thông thận, Thông vị, Thông bối (mỗi lần châm không quá 30 phút"
+  },
+  {
+    "id": "tung-form-284",
+    "category": "Dưỡng Sinh & Bồi Bổ",
+    "diseaseName": "Bài 284: MỆT MỎI QUÁ ĐỘ, KIỆT SỨC",
+    "chineseDisease": "疲勞過度",
+    "mainPoints": [
+      "Hỏa phủ hải",
+      "Thủy thông",
+      "Thủy kim",
+      "Thần nhĩ"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "284. MỆT MỎI QUÁ ĐỘ, KIỆT SỨC (bì lao quá độ 疲勞過度 burnout, excessive fatigue (Nguồn http://www.tungs-acupuncture.com/火腑海穴/ Huyệt Hoả phủ hải, Thuỷ kim, Thuỷ thông, Thần nhĩ."
+  },
+  {
+    "id": "tung-form-285",
+    "category": "Bài Thuốc & Chứng Khác",
+    "diseaseName": "Bài 285: BƯỚU GIÁP, SƯNG TUYẾN GIÁP TRẠNG",
+    "chineseDisease": "甲狀腺腫",
+    "mainPoints": [
+      "Tâm linh",
+      "Hầu linh",
+      "Hầu nga"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [
+      "phối hợp chích máu 9 huyệt Hầu nga"
+    ],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": ", ĐAU DẠ DÀY (vị thống 胃痛) (Nguồn http://www.tungs-acupuncture.com/心靈一穴、心靈二穴、心靈三穴/ Châm huyệt Tâm linh, Hầu linh, phối hợp chích máu 9 huyệt Hầu nga."
+  },
+  {
+    "id": "tung-form-286",
+    "category": "Bài Thuốc & Chứng Khác",
+    "diseaseName": "Bài 286: ĐIỀU TRỊ TUYẾN GIÁP TRẠNG SƯNG TO",
+    "chineseDisease": "甲狀腺腫大",
+    "mainPoints": [
+      "Tâm linh",
+      "Hầu linh",
+      "Tam trọng",
+      "Tứ mã"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "(Nguồn http://www.tungs-acupuncture.com/妹喉靈穴/ Huyệt Hầu linh phối huyệt Tam trọng, Tứ mã, Tâm linh 1."
+  },
+  {
+    "id": "tung-form-287",
+    "category": "Bài Thuốc & Chứng Khác",
+    "diseaseName": "Bài 287: CHỮA BỆNH TRÀNG NHẠC",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Linh cốt",
+      "Kiên trung",
+      "Kiến trung"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "287. CHỮA BỆNH TRÀNG NHẠC (lỗi/loa/loã lịch (Nguồn http://www.tungs-acupuncture.com/靈骨穴/ Dùng các huyệt Linh cốt, Kiên trung, Kiến trung."
+  },
+  {
+    "id": "tung-form-288",
+    "category": "Bài Thuốc & Chứng Khác",
+    "diseaseName": "Bài 288: TRỊ TRÀNG NHẠC",
+    "chineseDisease": "瘰癧",
+    "mainPoints": [
+      "Kiên trung",
+      "Kiến trung",
+      "Tam trọng"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "288. TRỊ TRÀNG NHẠC (loã lịch 瘰癧 (Nguồn http://www.tungs-acupuncture.com/肩中穴、建中穴/ Huyệt Kiên trung, Kiến trung phối huyệt Tam trọng, mai châm (cố định một cây kim nhỏ đặc biệt trong vùng da ở huyệt một thời gian dàihuyệt Thũng lựu trên tai, đặc trị tràng nhạc."
+  },
+  {
+    "id": "tung-form-289",
+    "category": "Bài Thuốc & Chứng Khác",
+    "diseaseName": "Bài 289: LOẠN TIẾT MỒ HÔI",
+    "chineseDisease": "多汗症",
+    "mainPoints": [
+      "Tâm linh",
+      "Lý bạch",
+      "Kiên phong",
+      "Tứ mã",
+      "Túc tứ mã"
+    ],
+    "adjunctPoints": [
+      "Trấn tĩnh",
+      "Thủy thông",
+      "Thủy kim"
+    ],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "289. LOẠN TIẾT MỒ HÔI (đa hãn chứng 多汗症症 (Nguồn http://www.tungs-acupuncture.com/李白穴/ Huyệt Kiên phong, Lý bạch, Túc tứ mã. Huyệt Tâm linh, Trấn tĩnh hoặc Song long, Thuỷ kim, Thuỷ thông."
+  },
+  {
+    "id": "tung-form-290",
+    "category": "Bài Thuốc & Chứng Khác",
+    "diseaseName": "Bài 290: CHỮA MÙI CƠ THỂ",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Linh cốt",
+      "Đại bạch",
+      "Thiên tông",
+      "Vân bạch",
+      "Lý bạch"
+    ],
+    "adjunctPoints": [
+      "Hạ tam hoàng",
+      "Tứ mã"
+    ],
+    "bloodlettingPoints": [
+      "Đại bạch + Tứ mã + Hạ tam hoàng chích máu"
+    ],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "290. CHỮA MÙI CƠ THỂ (Nguồn: http://tmbos.com/index/article/view/id/13782.html Dùng các huyệt: Vân bạch, Lý bạch + Thiên tông + Linh cốt, Đại bạch + Tứ mã + Hạ tam hoàng chích máu."
+  },
+  {
+    "id": "tung-form-291",
+    "category": "Bài Thuốc & Chứng Khác",
+    "diseaseName": "Bài 291: TRỊ HÔI NÁCH",
+    "chineseDisease": "宮狐宮",
+    "mainPoints": [
+      "Thiên tông",
+      "Phân chi thượng",
+      "Phân chi hạ"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "(Nguồn http://www.tungs-acupuncture.com/天宗穴/ Huyệt Thiên tông có thể phối huyệt Phân chi thượng, huyệt Phân chi hạ."
+  },
+  {
+    "id": "tung-form-292",
+    "category": "Bài Thuốc & Chứng Khác",
+    "diseaseName": "Bài 292: HÔI NÁCH",
+    "chineseDisease": "宮狐宮",
+    "mainPoints": [
+      "Thiên tông",
+      "Vân bạch",
+      "Lý bạch",
+      "Phân chi thượng",
+      "Phân chi hạ"
+    ],
+    "adjunctPoints": [
+      "Tứ mã",
+      "Túc tứ mã"
+    ],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "292. HÔI NÁCH (hồ xú 狐臭 (Nguồn http://www.tungs-acupuncture.com/李白穴/ Huyệt Vân bạch, Lý bạch, Phân chi thượng, Phân chi hạ. Huyệt Vân bạch, Lý bạch, Thiên tông, Phân chi thượng, Phân chi hạ, Túc tứ mã."
+  },
+  {
+    "id": "tung-form-293",
+    "category": "Bài Thuốc & Chứng Khác",
+    "diseaseName": "Bài 293: CHỮA NGHIẾN RĂNG",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Tứ hoa"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "293. CHỮA NGHIẾN RĂNG (Kinh nghiệm của thầy Hoàng Duy Luân: https://www.youtube.com/watch?v=d6bG0-GKOtg Châm huyệt Tứ hoa hạ."
+  },
+  {
+    "id": "tung-form-294",
+    "category": "Bài Thuốc & Chứng Khác",
+    "diseaseName": "Bài 294: CHÂM CỨU THẨM MỸ",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Linh cốt",
+      "Thiên hoàng",
+      "Địa hoàng",
+      "Thượng tam hoàng",
+      "Hạ tam hoàng"
+    ],
+    "adjunctPoints": [
+      "Minh hoàng",
+      "Kỳ hoàng"
+    ],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "294. CHÂM CỨU THẨM MỸ (Bài của thầy Nguyễn Xuân Hưng: https://www.facebook.com/groups/dongthikyhuyet/permalink/2778205455642546/ Bộ huyệt gồm: Thượng Tam Hoàng (gồm: Thiên hoàng, Minh hoàng, Kỳ hoàng, Hạ Tam hoàng (gồm Thiên hoàng, Địa hoàng và Nhân hoàngTứ Mã và Linh Cốt. Phương pháp châm cứu này cung cấp dinh dưỡng cho các tế bào mặt và giúp tăng sinh collagen - thành phần chính của các mô liên kết trên da. Kích thích các cơ giúp sự tuần hoàn máu tốt hơn, giúp các tế bào thắt chặt lại và trở nên săn chắc. Kết quả làn da sẽ trở nên săn chắc, mịn màng và thư giãn."
+  },
+  {
+    "id": "tung-form-295",
+    "category": "Bài Thuốc & Chứng Khác",
+    "diseaseName": "Bài 295: HUYỆT THỦ NGŨ KIM, THỦ THIÊN KIM LÀ HUYỆT TRỌNG YẾU GIẢI ĐỘC",
+    "chineseDisease": "",
+    "mainPoints": [
+      "Thủ ngũ kim",
+      "Thủ thiên kim",
+      "Tứ hoa"
+    ],
+    "adjunctPoints": [],
+    "bloodlettingPoints": [],
+    "dongQiMethod": "Châm bên đối diện (Tả bệnh hữu châm, Thượng bệnh hạ châm), vừa vê kim vừa vận động vùng đau (Động Khí Châm Pháp) hoặc châm Đảo Mã Tam Châm để dẫn khí thông kinh lạc.",
+    "clinicalNotes": "295. HUYỆT THỦ NGŨ KIM, THỦ THIÊN KIM LÀ HUYỆT TRỌNG YẾU GIẢI ĐỘC (Nguồn http://www.tungs-acupuncture.com/手五金穴、手千金穴/ Huyệt Thủ ngũ kim, Thủ thiên kim phối hợp huyệt Phân chi, ngoài ra xuất huyết vùng Thái dương sau đầu gối (tất hậu thái dương khu 膝後太陽區: vùng trong khoảng nếp ngang khoeo chân lên 3 thốn và xuống 1 thốn vùng Dương minh (陽明區: vùng huyệt Tứ hoa có các điểm phản ứng gân xanhở cẳng chân hiệu quả càng tốt hơn. Ngộ độc thuốc (dược vật trúng độc 藥物中毒ngộ độc thức ăn (thực vật trúng độc 食物中毒ung nhọt độc (sang dương độc 瘡瘍毒"
+  }
+];
+
+export const WHO_EXTRA_POINTS: WhoExtraPoint[] = [
+  {
+    "id": "ex-hn-1",
+    "code": "EX-HN1",
+    "name": "Tứ Thần Thông",
+    "region": "Vùng Đầu – Mặt – Cổ",
+    "location": "Gồm 4 huyệt nằm cách huyệt Bách Hội (GV20) về phía trước, phía sau, bên phải và bên trái mỗi hướng 1 thốn.",
+    "actions": "Bình Can tức phong, bình thần thông khiếu, minh mục tỉnh não.",
+    "indications": [
+      "Tại chỗ: Đau nhức đỉnh đầu, nặng đầu",
+      "Toàn thân: Trúng phong (Đột quỵ), mất ngủ kinh niên, hay quên, choáng váng tiền đình, động kinh, ù tai, điếc tai"
+    ],
+    "needling": "Châm xiên dưới da đầu sâu 0,3 – 0,5 thốn (mũi kim hướng vào Bách Hội hoặc hướng ra ngoài). Không cứu."
+  },
+  {
+    "id": "ex-hn-2",
+    "code": "EX-HN2",
+    "name": "Đương Dương",
+    "region": "Vùng Đầu – Mặt – Cổ",
+    "location": "Từ thẳng tâm đồng tử (con ngươi mắt) đo thẳng lên vùng trán, cách chân tóc trước 1 thốn.",
+    "actions": "Bình Can tức phong, bình thần thông khiếu, thanh nhiệt minh mục.",
+    "indications": [
+      "Tại chỗ: Đau nửa đầu, nhức đầu vùng trán, chóng mặt",
+      "Toàn thân: Đau mắt đỏ, sưng mắt, viêm mũi, ngạt mũi"
+    ],
+    "needling": "Châm xiên dưới da sâu 0,5 – 0,8 thốn. Không cứu."
+  },
+  {
+    "id": "ex-hn-3",
+    "code": "EX-HN3",
+    "name": "Ấn Đường",
+    "region": "Vùng Đầu – Mặt – Cổ",
+    "location": "Nằm chính giữa điểm nối đầu trong hai cung lông mày, thẳng sống mũi đi lên.",
+    "actions": "Tức phong trấn kinh, bình thần định chí, tuyên thông tỵ khiếu.",
+    "indications": [
+      "Đau đầu vùng trán, mất ngủ, căng thẳng lo âu",
+      "Viêm xoang trán, viêm mũi dị ứng, chảy máu cam",
+      "Hạ sốt, trẻ em kinh phong co giật, quáng gà"
+    ],
+    "needling": "Véo da châm xiên từ trên xuống dưới sâu 0,2 – 0,3 thốn; hoặc chích nặn máu. Cứu 5 – 10 phút."
+  },
+  {
+    "id": "ex-hn-4",
+    "code": "EX-HN4",
+    "name": "Ngư Yêu",
+    "region": "Vùng Đầu – Mặt – Cổ",
+    "location": "Chính giữa cung lông mày, khi nhìn thẳng huyệt nằm ngay phía trên đồng tử.",
+    "actions": "Bình Can tức phong, thư cân hoạt lạc, sáng mắt.",
+    "indications": [
+      "Đau mắt đỏ, sụp mi mắt, co giật mí mắt, mộng thịt, đục thủy tinh thể",
+      "Liệt dây thần kinh mặt (Liệt VII ngoại biên), đau thần kinh trên ổ mắt",
+      "Ứng dụng trong châm tê phẫu thuật vùng mắt"
+    ],
+    "needling": "Châm xiên ngang dưới da dọc theo cung lông mày sâu 0,2 – 0,3 thốn. Không cứu."
+  },
+  {
+    "id": "ex-hn-5",
+    "code": "EX-HN5",
+    "name": "Thái Dương",
+    "region": "Vùng Đầu – Mặt – Cổ",
+    "location": "Lấy ở chỗ lõm nhất của xương thái dương, nằm trên đường nối đuôi lông mày và đuôi mắt đo ngang ra sau khoảng 1 thốn.",
+    "actions": "Sơ phong giải biểu, thanh nhiệt minh mục, chỉ thống.",
+    "indications": [
+      "Đau nửa đầu (Migraine), đau đầu vùng thái dương và trán, cảm mạo sốt cao",
+      "Đau mắt đỏ cấp, giảm thị lực, teo gai thị, đau dây thần kinh tam thoa, liệt mặt"
+    ],
+    "needling": "Châm thẳng hoặc xiên sâu 0,3 – 0,5 thốn; hoặc dùng kim tam lăng chích nặn máu."
+  },
+  {
+    "id": "ex-hn-6",
+    "code": "EX-HN6",
+    "name": "Nhĩ Tiêm",
+    "region": "Vùng Đầu – Mặt – Cổ",
+    "location": "Gấp vành tai ra phía trước, huyệt nằm ngay ở đỉnh cao nhất của chỗ gấp vành tai.",
+    "actions": "Thanh nhiệt giải độc, tức phong, tiêu thũng minh mục.",
+    "indications": [
+      "Đau mắt đỏ cấp, chắp mắt, lẹo mắt, viêm giác mạc",
+      "Sốt cao, viêm amidan cấp, tăng huyết áp cấp, đau nửa đầu"
+    ],
+    "needling": "Châm thẳng sâu 0,1 – 0,3 thốn, hoặc sát trùng chích nặn máu bằng kim tam lăng (3 – 5 giọt)."
+  },
+  {
+    "id": "ex-hn-7",
+    "code": "EX-HN7",
+    "name": "Cầu Hậu",
+    "region": "Vùng Đầu – Mặt – Cổ",
+    "location": "Nằm ở điểm nối 1/4 ngoài và 3/4 trong của bờ dưới ổ mắt.",
+    "actions": "Thanh nhiệt minh mục, thông lạc thị thần kinh.",
+    "indications": [
+      "Tất cả các bệnh lý chuyên sâu về mắt: Viêm dây thần kinh thị giác, teo gai thị, cận thị nặng, glôcôm (thiên đầu thống), đục thủy tinh thể, lác mắt"
+    ],
+    "needling": "Bảo bệnh nhân nhìn lên trên, cố định nhãn cầu, châm từ từ vuông góc sâu 0,5 – 1,2 thốn dọc theo bờ dưới ổ mắt về phía đỉnh hố mắt mà không đẩy, nhấc hoặc xoay kim."
+  },
+  {
+    "id": "ex-hn-8",
+    "code": "EX-HN8",
+    "name": "Thượng Nghinh Hương (Tỵ Thông)",
+    "region": "Vùng Đầu – Mặt – Cổ",
+    "location": "Nằm ở điểm cao nhất của rãnh mũi – má (nơi tiếp giáp giữa xương mũi và sụn mũi bên).",
+    "actions": "Tuyên Phế khí, thanh nhiệt, thông tỵ khiếu.",
+    "indications": [
+      "Viêm mũi dị ứng, viêm xoang hàm, viêm xoang sàng, polyp mũi, ngạt mũi do giãn mạch",
+      "Mất khứu giác, chảy nước mắt sống"
+    ],
+    "needling": "Châm ngang kim dưới da, mũi kim hướng lên trên và vào phía trong sâu 0,5 – 0,8 thốn."
+  },
+  {
+    "id": "ex-hn-9",
+    "code": "EX-HN9",
+    "name": "Nội Nghinh Hương",
+    "region": "Vùng Đầu – Mặt – Cổ",
+    "location": "Lấy ở trên lớp niêm mạc bên trong lỗ mũi, phía trên sụn cánh mũi (đối diện với huyệt Nghinh Hương ở ngoài da).",
+    "actions": "Tuyên Phế thông khiếu, thanh nhiệt tỉnh thần.",
+    "indications": [
+      "Viêm xoang, ngạt mũi mạn tính, mất khứu giác, đau mắt đỏ",
+      "Trúng thử (say nắng), choáng váng, châm tê phẫu thuật xoang"
+    ],
+    "needling": "Chích nặn máu nhẹ trên niêm mạc mũi hoặc châm nông 0,1 – 0,2 thốn."
+  },
+  {
+    "id": "ex-hn-10",
+    "code": "EX-HN10",
+    "name": "Tụ Tuyền",
+    "region": "Vùng Đầu – Mặt – Cổ",
+    "location": "Ở chính giữa mặt trên lưỡi (dọc theo đường giữa lưỡi, tại điểm giữa từ đầu lưỡi đến gốc lưỡi).",
+    "actions": "Thanh tâm tả hỏa, thư cân lưỡi, chỉ khái định suyễn.",
+    "indications": [
+      "Tại chỗ: Cứng lưỡi, rụt lưỡi, liệt lưỡi nói ngọng sau đột quỵ, loét lưỡi",
+      "Toàn thân: Ho mạn tính, hen suyễn, tiêu khát (Đái tháo đường)"
+    ],
+    "needling": "Châm vuông góc sâu 0,1 – 0,2 thốn hoặc dùng kim tam lăng chích nặn máu."
+  },
+  {
+    "id": "ex-hn-11",
+    "code": "EX-HN11",
+    "name": "Hải Tuyền",
+    "region": "Vùng Đầu – Mặt – Cổ",
+    "location": "Cong lưỡi lên, huyệt nằm ngay điểm chính giữa của dây hãm lưỡi (phanh lưỡi) dưới lưỡi.",
+    "actions": "Thanh nhiệt sinh tân, giáng nghịch chỉ ẩu.",
+    "indications": [
+      "Sưng đau lưỡi, cứng lưỡi, liệt mặt",
+      "Tiêu khát (Đái tháo đường), nôn mửa, nấc cụt, chướng bụng, tiêu chảy cấp"
+    ],
+    "needling": "Dùng kim tam lăng chích nặn máu nhanh."
+  },
+  {
+    "id": "ex-hn-12-13",
+    "code": "EX-HN12 & EX-HN13",
+    "name": "Kim Tân & Ngọc Dịch",
+    "region": "Vùng Đầu – Mặt – Cổ",
+    "location": "Cong đầu lưỡi lên chạm vòm họng: Kim Tân nằm trên tĩnh mạch dưới lưỡi bên trái hãm lưỡi; Ngọc Dịch nằm trên tĩnh mạch dưới lưỡi bên phải hãm lưỡi.",
+    "actions": "Thanh tả Tâm Vị hỏa, sinh tân chỉ khát, khai âm thông khiếu.",
+    "indications": [
+      "Tại chỗ: Lở miệng, viêm lưỡi, cứng lưỡi mất tiếng đột ngột sau trúng phong",
+      "Toàn thân: Viêm họng cấp, sưng amidan, tiêu khát, nôn mửa"
+    ],
+    "needling": "Dùng kim tam lăng chích nặn máu tĩnh mạch dưới lưỡi. Không cứu."
+  },
+  {
+    "id": "ex-hn-14",
+    "code": "EX-HN14",
+    "name": "Ế Minh",
+    "region": "Vùng Đầu – Mặt – Cổ",
+    "location": "Ở vùng sau tai, từ huyệt Ế Phong (TE17) đo ngang ra phía sau 1 thốn (dưới mỏm chũm).",
+    "actions": "Bình Can tức phong, an thần định chí, thông nhĩ minh mục.",
+    "indications": [
+      "Mất ngủ kinh niên, hội chứng tiền đình, chóng mặt, đau đầu",
+      "Giảm thị lực, cận thị, quáng gà, đục thủy tinh thể, ù tai, điếc tai, viêm tuyến mang tai (quai bị)"
+    ],
+    "needling": "Châm đứng kim sâu 0,5 – 1 thốn. Cứu 5 – 7 phút."
+  },
+  {
+    "id": "ex-hn-15",
+    "code": "EX-HN15",
+    "name": "Bách Lao",
+    "region": "Vùng Đầu – Mặt – Cổ",
+    "location": "Ở vùng gáy, từ huyệt Đại Chùy (GV14 - dưới mỏm gai C7) đo thẳng lên 2 thốn rồi đo ngang sang hai bên mỗi bên 1 thốn.",
+    "actions": "Bổ hư nhược, hóa đàm tán kết, thông kinh lạc cổ gáy.",
+    "indications": [
+      "Tại chỗ: Đau cứng cổ gáy, thoái hóa đốt sống cổ, lao hạch cổ (tràng nhạc)",
+      "Toàn thân: Ho lao, đổ mồ hôi trộm (đạo hãn), suy nhược cơ thể, hen suyễn"
+    ],
+    "needling": "Châm thẳng hoặc xiên sâu 0,3 – 0,5 thốn; đặc biệt hiệu quả khi cứu ngải 10 – 20 phút."
+  },
+  {
+    "id": "ex-hn-16",
+    "code": "EX-HN16",
+    "name": "An Miên",
+    "region": "Vùng Đầu – Mặt – Cổ",
+    "location": "Nằm ở điểm chính giữa trên đường nối từ huyệt Ế Phong (TE17) đến huyệt Phong Trì (GB20) phía sau dái tai.",
+    "actions": "Trấn tĩnh an thần, bình Can tức phong.",
+    "indications": [
+      "Đặc trị mất ngủ, ngủ hay mơ, tâm thần phân liệt, rối loạn lo âu",
+      "Chóng mặt tiền đình, đau nửa đầu, ù tai, đánh trống ngực, cao huyết áp"
+    ],
+    "needling": "Châm đứng kim sâu 0,5 – 0,8 thốn."
+  },
+  {
+    "id": "ex-hn-17",
+    "code": "EX-HN17",
+    "name": "Khiên Chính",
+    "region": "Vùng Đầu – Mặt – Cổ",
+    "location": "Trên má, từ dái tai (bình tai) đo ra phía trước 0,5 thốn, ngay chỗ lõm cơ cắn khi nhai.",
+    "actions": "Khu phong thông lạc, chính khẩu nhãn.",
+    "indications": [
+      "Liệt dây thần kinh mặt (Liệt VII ngoại biên gây méo miệng, mắt nhắm không kín)",
+      "Loét miệng, viêm tuyến mang tai, đau răng hàm dưới"
+    ],
+    "needling": "Châm xiên hướng ra phía trước (về phía Địa Thương/Nghinh Hương) sâu 0,5 – 1 thốn."
+  },
+  {
+    "id": "ex-hn-18",
+    "code": "EX-HN18",
+    "name": "Thượng Liêm Tuyền & Bàng Liêm Tuyền",
+    "region": "Vùng Đầu – Mặt – Cổ",
+    "location": "Thượng Liêm Tuyền nằm chính giữa dưới cằm (từ bờ dưới hàm dưới đo xuống 1 thốn, chỗ lõm giữa xương móng và bờ hàm dưới). Bàng Liêm Tuyền nằm hai bên cách Thượng Liêm Tuyền 0,5 thốn.",
+    "actions": "Thanh âm lợi hầu, thông khiếu hoạt lạc gốc lưỡi.",
+    "indications": [
+      "Câm, nói ngọng, nói khó, chảy nước dãi sau đột quỵ",
+      "Lưỡi sưng to, viêm vòm miệng, viêm họng cấp và mạn, viêm thanh quản cấp"
+    ],
+    "needling": "Châm chếch kim hướng về phía gốc lưỡi sâu 0,8 – 1,5 thốn."
+  },
+  {
+    "id": "ex-b-1",
+    "code": "EX-B1",
+    "name": "Định Suyễn",
+    "region": "Vùng Lưng",
+    "location": "Ở vùng gáy lưng trên, từ huyệt Đại Chùy (dưới mỏm gai đốt sống cổ C7) đo ngang sang hai bên mỗi bên 0,5 thốn.",
+    "actions": "Giáng Phế khí, chỉ khái bình suyễn, thông lạc cổ vai.",
+    "indications": [
+      "Toàn thân: Hen phế quản, khó thở, ho đờm nhiều, mề đay mẩn ngứa",
+      "Tại chỗ: Đau nhức vùng cổ vai gáy, đau cứng gáy, tê cánh tay"
+    ],
+    "needling": "Châm thẳng hoặc xiên nhẹ vào phía cột sống sâu 0,3 – 0,5 thốn. Cứu 5 – 10 phút."
+  },
+  {
+    "id": "ex-b-2",
+    "code": "EX-B2",
+    "name": "Hoa Đà Giáp Tích (17 Đôi Huyệt)",
+    "region": "Vùng Lưng",
+    "location": "Gồm 17 đôi huyệt (34 huyệt) nằm hai bên cột sống lưng và thắt lưng, từ dưới mỏm gai đốt sống ngực D1 (T1) đến đốt sống thắt lưng L5 đo ngang ra mỗi bên 0,5 thốn (ngoài ra còn có 7 đôi Giáp Tích cổ C1-C7).",
+    "actions": "Điều hòa Âm Dương Ngũ tạng Lục phủ theo tiết đoạn thần kinh, hành khí thông kinh lạc cột sống.",
+    "indications": [
+      "Tại chỗ: Đau cứng dọc cột sống, thoát vị đĩa đệm, thoái hóa cột sống, đau thần kinh liên sườn, Zona thần kinh",
+      "Toàn thân: D1–D4 trị bệnh Phổi và Chi trên; D4–D7 trị bệnh Tim; D7–D10 trị bệnh Gan Mật; D10–D12 trị bệnh Dạ dày – Tỳ; L1–L2 trị bệnh Thận; L3–L5 trị bệnh Đại tiểu trường, Tử cung và Chi dưới"
+    ],
+    "needling": "Châm thẳng hoặc hơi chếch về phía cột sống sâu 0,3 – 1 thốn tùy vùng. Cứu 10 – 15 phút."
+  },
+  {
+    "id": "ex-b-3",
+    "code": "EX-B3",
+    "name": "Vị Quản Hạ Du (Tụy Du)",
+    "region": "Vùng Lưng",
+    "location": "Ở vùng lưng, từ dưới mỏm gai đốt sống ngực thứ 8 (D8) đo ngang sang hai bên mỗi bên 1,5 thốn.",
+    "actions": "Dưỡng âm thanh nhiệt, sinh tân chỉ khát, hòa vị chỉ thống.",
+    "indications": [
+      "Đái tháo đường (Tiêu khát), viêm tụy mạn",
+      "Đau dạ dày, nôn mửa, đau bụng, đau tức vùng ngực và hạ sườn, khô họng"
+    ],
+    "needling": "Châm chếch xuống dưới hoặc vào trong sâu 0,5 – 0,7 thốn. Cứu 10 – 15 phút."
+  },
+  {
+    "id": "ex-b-4",
+    "code": "EX-B4",
+    "name": "Bĩ Căn",
+    "region": "Vùng Lưng",
+    "location": "Ở vùng thắt lưng trên, từ dưới mỏm gai đốt sống thắt lưng thứ 1 (L1) đo ngang sang hai bên mỗi bên 3,5 thốn.",
+    "actions": "Nhuyễn kiên tán kết (làm mềm khối u cục), kiện Tỳ sơ Can.",
+    "indications": [
+      "Toàn thân: Chứng gan to, lách to (Bĩ khối), xơ gan, viêm gan mạn, thoát vị",
+      "Tại chỗ: Đau lưng và đau co cứng cơ thắt lưng"
+    ],
+    "needling": "Châm thẳng hoặc xiên sâu 0,3 – 0,8 thốn. Cứu 10 – 20 phút."
+  },
+  {
+    "id": "ex-b-5",
+    "code": "EX-B5",
+    "name": "Hạ Chí Thất",
+    "region": "Vùng Lưng",
+    "location": "Ở vùng thắt lưng, nằm tại chỗ lõm ngay phía dưới mỏm gai đốt sống thắt lưng thứ 3 (L3) trên đường chính giữa sau.",
+    "actions": "Bổ Thận tráng dương, kiện yêu điều trường.",
+    "indications": [
+      "Tại chỗ: Đau cột sống thắt lưng, mỏi gối",
+      "Toàn thân: Đau bụng, tiêu chảy, viêm ruột, viêm bàng quang, tiểu khó, liệt dương"
+    ],
+    "needling": "Châm vuông góc sâu 0,5 – 1 thốn. Cứu 5 – 10 phút."
+  },
+  {
+    "id": "ex-b-6",
+    "code": "EX-B6",
+    "name": "Yêu Nghi",
+    "region": "Vùng Lưng",
+    "location": "Ở vùng thắt lưng, từ dưới mỏm gai đốt sống thắt lưng thứ 4 (L4 - huyệt Yêu Dương Quan) đo ngang ra hai bên mỗi bên 3 thốn.",
+    "actions": "Hoạt huyết thông lạc, điều lý Xung Nhâm, kiện yêu.",
+    "indications": [
+      "Tại chỗ: Đau thắt lưng cấp và mạn, chấn thương phần mềm thắt lưng",
+      "Toàn thân: Kinh nguyệt không đều, băng huyết, rong kinh"
+    ],
+    "needling": "Châm vuông góc sâu 1 – 1,2 thốn. Cứu 15 – 20 phút."
+  },
+  {
+    "id": "ex-b-7",
+    "code": "EX-B7",
+    "name": "Thập Thất Chùy Hạ",
+    "region": "Vùng Lưng",
+    "location": "Ở đường chính giữa thắt lưng, nằm tại chỗ lõm ngay phía dưới mỏm gai đốt sống thắt lưng thứ 5 (L5).",
+    "actions": "Bổ Thận ích khí, thông kinh lạc chi dưới, điều kinh.",
+    "indications": [
+      "Tại chỗ: Đau cột sống thắt lưng – cùng, đau thần kinh tọa, yếu liệt hai chi dưới",
+      "Toàn thân: Kinh nguyệt không đều, thống kinh (đau bụng kinh), di tinh, đái dầm"
+    ],
+    "needling": "Châm chếch lên trên hoặc thẳng sâu 0,8 – 1,2 thốn. Cứu 10 – 20 phút."
+  },
+  {
+    "id": "ex-b-8",
+    "code": "EX-B8",
+    "name": "Yêu Kỳ",
+    "region": "Vùng Lưng",
+    "location": "Ở trên đường dọc giữa vùng xương cùng, từ đỉnh xương cụt đo thẳng lên trên 2 thốn (trong hõm giữa các mỏm gai xương cùng).",
+    "actions": "Tức phong trấn kinh, thông tiện an thần.",
+    "indications": [
+      "Đặc trị bệnh động kinh (Điên giản)",
+      "Đau đầu, mất ngủ, táo bón, đau vùng xương cùng cụt"
+    ],
+    "needling": "Châm luồn kim dưới da hướng thẳng lên trên sâu 1,0 – 2,0 thốn. Có thể cứu ngải."
+  },
+  {
+    "id": "ex-b-9",
+    "code": "EX-B9",
+    "name": "Khí Suyễn",
+    "region": "Vùng Lưng",
+    "location": "Ở vùng lưng giữa, từ dưới mỏm gai đốt sống ngực thứ 7 (D7 - huyệt Chí Dương) đo ngang sang hai bên mỗi bên 2 thốn.",
+    "actions": "Tuyên Phế bình suyễn, lý khí khoan hung.",
+    "indications": [
+      "Toàn thân: Hen suyễn, khó thở, viêm phế quản mạn",
+      "Tại chỗ: Đau tức vùng ngực lưng"
+    ],
+    "needling": "Cứu ngải 10 – 15 phút (hoặc châm xiên nông 0,3 – 0,5 thốn)."
+  },
+  {
+    "id": "ex-ca-1",
+    "code": "EX-CA1",
+    "name": "Tử Cung",
+    "region": "Vùng Bụng",
+    "location": "Nằm ở vùng bụng dưới, từ huyệt Trung Cực (CV3 - dưới rốn 4 thốn) đo ngang sang hai bên mỗi bên 3 thốn.",
+    "actions": "Điều kinh chủng tử (giúp thụ thai), thăng đề khí cơ hạ tiêu.",
+    "indications": [
+      "Toàn thân: Vô sinh hiếm muộn nữ (phụ nữ lâu không có thai), kinh nguyệt không đều, thống kinh, sa tử cung, viêm vùng chậu",
+      "Tại chỗ: Đau bụng dưới, thoát vị bẹn"
+    ],
+    "needling": "Châm thẳng hoặc chếch sâu 1 – 1,5 thốn. Cứu 10 – 30 phút."
+  },
+  {
+    "id": "ex-ca-2",
+    "code": "EX-CA2",
+    "name": "Kinh Trung",
+    "region": "Vùng Bụng",
+    "location": "Nằm ở vùng bụng dưới, từ huyệt Khí Hải (CV6 - dưới rốn 1,5 thốn) đo ngang sang hai bên mỗi bên 3 thốn.",
+    "actions": "Điều lý khí huyết bào cung, thông tiện.",
+    "indications": [
+      "Rối loạn kinh nguyệt, thống kinh, bạch đới",
+      "Táo bón, bí tiểu, đau bụng dưới"
+    ],
+    "needling": "Châm thẳng hoặc chếch sâu 1 – 1,5 thốn. Cứu 10 – 30 phút."
+  },
+  {
+    "id": "ex-ca-3",
+    "code": "EX-CA3",
+    "name": "Khí Môn",
+    "region": "Vùng Bụng",
+    "location": "Nằm ở vùng bụng dưới, từ huyệt Quan Nguyên (CV4 - dưới rốn 3 thốn) đo ngang sang hai bên mỗi bên 3 thốn.",
+    "actions": "Bổ nguyên khí, ôn bào cung, chỉ huyết.",
+    "indications": [
+      "Rối loạn kinh nguyệt, băng huyết, thống kinh, vô sinh nữ, liệt dương nam giới",
+      "Đau quặn bụng dưới, sán khí"
+    ],
+    "needling": "Châm thẳng sâu 1 – 1,5 thốn. Cứu 10 – 30 phút."
+  },
+  {
+    "id": "ex-ca-4",
+    "code": "EX-CA4",
+    "name": "Đề Thác",
+    "region": "Vùng Bụng",
+    "location": "Nằm ở vùng bụng dưới, từ huyệt Quan Nguyên (CV4 - dưới rốn 3 thốn) đo ngang sang hai bên mỗi bên 4 thốn.",
+    "actions": "Thăng dương ích khí, cố thác bào cung, hoạt huyết hóa ứ.",
+    "indications": [
+      "Sa tử cung, sa dạ dày, sa trực tràng, thoát vị bẹn",
+      "Thống kinh, u xơ tử cung, khối trưng hà tích tụ ở bụng dưới do huyết ứ"
+    ],
+    "needling": "Châm thẳng hoặc chếch hướng về phía xương mu sâu 1 – 1,5 thốn. Cứu 10 – 30 phút."
+  },
+  {
+    "id": "ex-ue-1",
+    "code": "EX-UE1",
+    "name": "Trửu Tiêm",
+    "region": "Vùng Chi Trên",
+    "location": "Khi gấp khuỷu tay 90 độ, huyệt nằm ngay trên đỉnh cao nhất của mỏm khuỷu xương trụ.",
+    "actions": "Hóa đàm tiêu thũng, thông kinh hoạt lạc.",
+    "indications": [
+      "Toàn thân: Lao hạch cổ (Tràng nhạc), đinh nhọt ung thũng",
+      "Tại chỗ: Đau sưng khớp khuỷu tay, viêm mỏm khuỷu"
+    ],
+    "needling": "Không châm, dùng mồi ngải cứu trực tiếp hoặc cứu điếu ngải 10 – 20 phút."
+  },
+  {
+    "id": "ex-ue-2",
+    "code": "EX-UE2",
+    "name": "Nhị Bạch (2 Huyệt)",
+    "region": "Vùng Chi Trên",
+    "location": "Ở mặt trước cẳng tay, từ giữa nếp gấp cổ tay (Đại Lăng) đo thẳng lên trên 4 thốn: Một huyệt nằm giữa hai gân cơ gan tay lớn và gan tay bé, huyệt kia nằm phía ngoài gân cơ gan tay lớn (phía xương quay).",
+    "actions": "Thăng đề trung khí, lương huyết tiêu trĩ.",
+    "indications": [
+      "Toàn thân: Đặc trị bệnh trĩ nội, trĩ ngoại, đại tiện ra máu, sa trực tràng",
+      "Tại chỗ: Đau mặt trước cẳng tay, đau thần kinh liên sườn"
+    ],
+    "needling": "Châm thẳng hoặc hơi chếch sâu 0,5 – 0,8 thốn. Cứu 10 – 15 phút."
+  },
+  {
+    "id": "ex-ue-3",
+    "code": "EX-UE3",
+    "name": "Trung Tuyền",
+    "region": "Vùng Chi Trên",
+    "location": "Ở mặt lưng (mu) cổ tay, nằm tại chỗ lõm giữa huyệt Dương Khê (LI5) và Dương Trì (TE4), trong khe giữa gân cơ duỗi chung các ngón và cơ duỗi riêng ngón trỏ.",
+    "actions": "Khoan hung lý khí, hòa vị chỉ thống.",
+    "indications": [
+      "Toàn thân: Đau tức vùng tim, tức ngực khó thở, đau dạ dày cấp dữ dội, nấc cụt",
+      "Tại chỗ: Sưng đau khớp cổ tay"
+    ],
+    "needling": "Châm thẳng hoặc chếch sâu 0,3 – 0,6 thốn. Cứu 10 – 15 phút."
+  },
+  {
+    "id": "ex-ue-4",
+    "code": "EX-UE4",
+    "name": "Trung Khôi",
+    "region": "Vùng Chi Trên",
+    "location": "Ở mặt lưng ngón tay giữa, chính giữa nếp khớp liên đốt gần (giữa đốt 1 và đốt 2 ngón tay giữa).",
+    "actions": "Hòa vị giáng nghịch, tiêu thực lợi cách.",
+    "indications": [
+      "Toàn thân: Nôn mửa, nghẹn, nấc cụt sau khi ăn, ợ chua, chảy máu cam",
+      "Tại chỗ: Đau khớp ngón tay giữa"
+    ],
+    "needling": "Không châm sâu, cứu bằng mồi ngải hoặc điếu ngải 10 – 15 phút."
+  },
+  {
+    "id": "ex-ue-5",
+    "code": "EX-UE5",
+    "name": "Đại Cốt Không",
+    "region": "Vùng Chi Trên",
+    "location": "Ở mặt lưng ngón tay cái, chính giữa nếp khớp liên đốt ngón tay cái (giữa đốt 1 và đốt 2).",
+    "actions": "Minh mục thoái ế, chỉ huyết chỉ tả.",
+    "indications": [
+      "Toàn thân: Đau mắt lâu ngày, mộng thịt, chảy nước mắt khi ra gió, chảy máu cam, nôn tiêu chảy",
+      "Tại chỗ: Đau khớp ngón tay cái"
+    ],
+    "needling": "Cứu ngải 10 – 15 phút."
+  },
+  {
+    "id": "ex-ue-6",
+    "code": "EX-UE6",
+    "name": "Tiểu Cốt Không",
+    "region": "Vùng Chi Trên",
+    "location": "Ở mặt lưng ngón tay út, chính giữa nếp khớp liên đốt gần (giữa đốt 1 và đốt 2 ngón tay út).",
+    "actions": "Thanh nhiệt minh mục, tiêu thũng chỉ thống.",
+    "indications": [
+      "Toàn thân: Đau mắt đỏ, mờ mắt, điếc tai, viêm họng",
+      "Tại chỗ: Đau sưng các khớp ngón tay và bàn tay"
+    ],
+    "needling": "Cứu ngải 10 – 15 phút."
+  },
+  {
+    "id": "ex-ue-7",
+    "code": "EX-UE7",
+    "name": "Yêu Thống Điểm (2 Huyệt)",
+    "region": "Vùng Chi Trên",
+    "location": "Trên mu bàn tay, gồm 2 huyệt nằm phía trước chỗ tiếp giáp đầu gần của xương bàn tay 2 – 3 và xương bàn tay 4 – 5 (nằm giữa nếp cổ tay sau và khớp bàn – ngón tay).",
+    "actions": "Hoạt huyết thông lạc, hóa ứ chỉ thống vùng thắt lưng.",
+    "indications": [
+      "Đặc trị đau thắt lưng cấp tính (bong gân, trật đả thắt lưng không cúi xoay được)",
+      "Đau đầu, ù tai"
+    ],
+    "needling": "Châm thẳng hoặc hơi hướng vào trung tâm bàn tay sâu 0,5 – 0,8 thốn, vừa vê kim vừa bảo bệnh nhân vận động thắt lưng."
+  },
+  {
+    "id": "ex-ue-8",
+    "code": "EX-UE8",
+    "name": "Ngoại Lao Cung (Lạc Chẩm)",
+    "region": "Vùng Chi Trên",
+    "location": "Trên mu bàn tay, nằm giữa xương bàn tay thứ 2 và thứ 3, cách khớp bàn – ngón tay đo lên 0,5 thốn (đối diện với huyệt Lao Cung ở lòng bàn tay).",
+    "actions": "Thư cân hoạt lạc cổ gáy, ôn trung kiện tỳ.",
+    "indications": [
+      "Đau cứng cổ gáy cấp tính (Lạc chẩm vẹo cổ sau khi ngủ dậy), đau vai gáy, nhức đầu",
+      "Tê bàn tay, ngón tay sưng đỏ",
+      "Tiêu chảy, phân sống khó tiêu, co giật ở trẻ em"
+    ],
+    "needling": "Châm thẳng hoặc xiên sâu 0,5 – 0,8 thốn. Cứu 3 – 5 phút."
+  },
+  {
+    "id": "ex-ue-9",
+    "code": "EX-UE9",
+    "name": "Bát Tà (8 Huyệt)",
+    "region": "Vùng Chi Trên",
+    "location": "Khi nắm hờ bàn tay, mỗi bàn tay có 4 huyệt nằm trên đường tiếp giáp da gan – mu tay ngay tại kẽ giữa 5 ngón tay (hai bàn tay là 8 huyệt).",
+    "actions": "Khu phong thông lạc, thanh nhiệt giải độc, tiêu thũng chỉ thống.",
+    "indications": [
+      "Tại chỗ: Tê buốt, sưng đỏ bàn tay và các ngón tay, liệt ngón tay sau đột quỵ, viêm khớp dạng thấp bàn tay",
+      "Toàn thân: Đau đầu, đau răng, đau cổ gáy, rắn cắn bàn tay"
+    ],
+    "needling": "Châm xiên hướng về phía lòng bàn tay sâu 0,3 – 0,8 thốn, hoặc chích nặn máu. Cứu 5 – 10 phút."
+  },
+  {
+    "id": "ex-ue-10",
+    "code": "EX-UE10",
+    "name": "Tứ Phùng (8 Huyệt)",
+    "region": "Vùng Chi Trên",
+    "location": "Ở mặt lòng các ngón tay: Mỗi bàn tay có 4 huyệt nằm chính giữa nếp gấp khớp liên đốt gần (giữa đốt 1 và đốt 2) của 4 ngón tay: trỏ, giữa, áp út và út.",
+    "actions": "Kiện Tỳ tiêu tích, thanh nhiệt trừ đờm.",
+    "indications": [
+      "Toàn thân: Đặc trị chứng cam tích ở trẻ em (biếng ăn, suy dinh dưỡng, bụng ỏng đít beo, tiêu chảy phân sống), ho gà (bách nhật khái), giun đũa",
+      "Tại chỗ: Đau co cứng các ngón tay"
+    ],
+    "needling": "Dùng kim tam lăng chích nhẹ vào chính giữa nếp khớp rồi nặn ra một ít dịch vàng trong hoặc giọt máu. Không cứu."
+  },
+  {
+    "id": "ex-ue-11",
+    "code": "EX-UE11",
+    "name": "Thập Tuyên (10 Huyệt)",
+    "region": "Vùng Chi Trên",
+    "location": "Nằm ở chính giữa đỉnh đầu của cả 10 ngón tay, cách bờ tự do của móng tay 0,1 thốn.",
+    "actions": "Thanh nhiệt khai khiếu, hồi dương cứu nghịch, tức phong trấn kinh.",
+    "indications": [
+      "Cấp cứu hôn mê, trúng phong (đột quỵ thể闭 chứng), trúng thử (say nắng), sốt cao co giật, động kinh, ngộ độc",
+      "Viêm họng cấp, sưng amidan, tê đầu ngón tay"
+    ],
+    "needling": "Châm thẳng nông 0,1 – 0,2 thốn hoặc dùng kim tam lăng chích nặn máu. Không cứu."
+  },
+  {
+    "id": "ex-ue-12",
+    "code": "EX-UE12",
+    "name": "Lạc Chẩm (Thượng Ngoại Lao Cung)",
+    "region": "Vùng Chi Trên",
+    "location": "Trên mu bàn tay, từ kẽ ngón tay 2 – 3 đo thẳng lên 1,5 thốn.",
+    "actions": "Thông kinh hoạt lạc vùng cổ vai và bàn tay.",
+    "indications": [
+      "Đau cứng cổ gáy cấp, đau vai cánh tay, đau nhức bàn ngón tay, đau dạ dày"
+    ],
+    "needling": "Châm thẳng hoặc xiên sâu 0,5 – 0,8 thốn."
+  },
+  {
+    "id": "ex-ue-13",
+    "code": "EX-UE13",
+    "name": "Ngũ Hổ (Kỳ Huyệt Mu Tay)",
+    "region": "Vùng Chi Trên",
+    "location": "Mỗi bên gồm 2 huyệt: Nắm bàn tay lại, huyệt nằm ở chính giữa đỉnh khớp bàn – ngón tay của ngón trỏ (xương bàn 2) và ngón áp út (xương bàn 4) về phía mu tay.",
+    "actions": "Thư cân giải kinh, thông lạc chỉ thống.",
+    "indications": [
+      "Đau co quắp các ngón tay không duỗi ra được, viêm khớp bàn – ngón tay"
+    ],
+    "needling": "Cứu bằng mồi ngải trên gừng hoặc điếu ngải 5 – 10 phút."
+  },
+  {
+    "id": "ex-ue-14",
+    "code": "EX-UE14",
+    "name": "Kiên Nội Lăng (Kiên Tiền)",
+    "region": "Vùng Chi Trên",
+    "location": "Ở mặt trước khớp vai, nằm tại điểm chính giữa của đường nối từ đầu trên nếp nách trước đến huyệt Kiên Ngung (LI15).",
+    "actions": "Hoạt huyết thông lạc, khu phong trừ hàn thấp khớp vai.",
+    "indications": [
+      "Viêm quanh khớp vai (Đông kiên), đau cứng khớp vai không giơ hoặc dạng cánh tay lên được",
+      "Liệt chi trên sau đột quỵ, tê bì cánh tay"
+    ],
+    "needling": "Châm thẳng sâu 0,8 – 1,2 thốn. Cứu 10 – 15 phút."
+  },
+  {
+    "id": "ex-le-1",
+    "code": "EX-LE1",
+    "name": "Khoan Cốt (2 Huyệt)",
+    "region": "Vùng Chi Dưới",
+    "location": "Ở mặt trước đùi trên khớp gối, từ huyệt Lương Khâu (ST34) đo ngang sang bên ngoài và bên trong mỗi bên 1,5 thốn (gồm 2 huyệt).",
+    "actions": "Khu phong trừ thấp, thông lợi khớp gối.",
+    "indications": [
+      "Đau sưng khớp gối, thoái hóa khớp gối, yếu liệt hai chi dưới"
+    ],
+    "needling": "Châm vuông góc sâu 0,5 – 1,2 thốn. Cứu 10 – 15 phút."
+  },
+  {
+    "id": "ex-le-2",
+    "code": "EX-LE2",
+    "name": "Hạc Đỉnh",
+    "region": "Vùng Chi Dưới",
+    "location": "Lấy ở chỗ lõm chính giữa bờ trên xương bánh chè khi hơi co gối.",
+    "actions": "Thông lợi khớp gối, kiện cân cốt.",
+    "indications": [
+      "Đau sưng khớp gối, tràn dịch khớp gối, thoái hóa khớp gối",
+      "Yếu liệt chi dưới, cước khí"
+    ],
+    "needling": "Châm thẳng hoặc xiên luồn dưới gân cơ tứ đầu đùi sâu 0,5 – 0,8 thốn. Cứu 10 – 15 phút."
+  },
+  {
+    "id": "ex-le-3",
+    "code": "EX-LE3",
+    "name": "Bách Trùng Oa",
+    "region": "Vùng Chi Dưới",
+    "location": "Ở mặt trước trong đùi, nằm ngay phía trên huyệt Huyết Hải (SP10) 1 thốn (cách góc trên-trong xương bánh chè lên 3 thốn).",
+    "actions": "Thanh nhiệt lương huyết, khu phong chỉ ngứa, trừ thấp sát trùng.",
+    "indications": [
+      "Bệnh ngoài da dị ứng: Mề đay (Phong chẩn), chàm (Eczema), Rubella, ngứa toàn thân",
+      "Bệnh giun sán, ký sinh trùng đường tiêu hóa"
+    ],
+    "needling": "Châm thẳng sâu 1,0 – 1,5 thốn. Cứu 10 – 15 phút."
+  },
+  {
+    "id": "ex-le-4-5",
+    "code": "EX-LE4 & EX-LE5",
+    "name": "Nội Tất Nhãn & Ngoại Tất Nhãn (Tất Nhãn)",
+    "region": "Vùng Chi Dưới",
+    "location": "Khi gấp gối 90 độ: Nội Tất Nhãn (EX-LE4) nằm ở hõm góc dưới – trong xương bánh chè (bờ trong dây chằng bánh chè); Ngoại Tất Nhãn (EX-LE5 / Độc Tỵ) nằm ở hõm góc dưới – ngoài xương bánh chè.",
+    "actions": "Hoạt huyết thông lạc, lợi khớp gối, khu phong thấp.",
+    "indications": [
+      "Đặc trị mọi chứng viêm khớp gối, thoái hóa khớp gối, tràn dịch khớp gối, chấn thương dây chằng khớp gối",
+      "Tê nặng cẳng chân"
+    ],
+    "needling": "Châm xiên 45 độ hướng vào trung tâm khớp gối (dưới dây chằng bánh chè) sâu 0,5 – 1 thốn, hoặc châm thấu từ Nội Tất Nhãn sang Ngoại Tất Nhãn. Cứu 10 – 15 phút."
+  },
+  {
+    "id": "ex-le-6",
+    "code": "EX-LE6",
+    "name": "Đởm Nang Huyệt",
+    "region": "Vùng Chi Dưới",
+    "location": "Ở mặt ngoài cẳng chân, nằm dưới huyệt Dương Lăng Tuyền (GB34) khoảng 1 – 2 thốn (tại điểm ấn đau chói nhất trên đường kinh Đởm).",
+    "actions": "Thanh lợi Đởm nhiệt, sơ Can lý khí, chỉ thống.",
+    "indications": [
+      "Đặc trị viêm túi mật cấp và mạn tính, sỏi mật, giun chui ống mật, cơn đau quặn mật",
+      "Vàng da, đau tức hạ sườn phải, liệt chi dưới"
+    ],
+    "needling": "Châm thẳng sâu 1,0 – 1,5 thốn."
+  },
+  {
+    "id": "ex-le-7",
+    "code": "EX-LE7",
+    "name": "Lan Vĩ Huyệt",
+    "region": "Vùng Chi Dưới",
+    "location": "Ở mặt trước ngoài cẳng chân, nằm dưới huyệt Túc Tam Lý (ST36) khoảng 2 thốn (giữa Túc Tam Lý và Thượng Cự Hư, tại điểm ấn đau nhất).",
+    "actions": "Thanh nhiệt hóa ứ đại trường, thông phủ chỉ thống.",
+    "indications": [
+      "Đặc trị viêm ruột thừa cấp và mạn tính (chẩn đoán và hỗ trợ điều trị), đau hố chậu phải",
+      "Rối loạn tiêu hóa, khó tiêu, yếu liệt chi dưới"
+    ],
+    "needling": "Châm thẳng sâu 1,0 – 1,5 thốn."
+  },
+  {
+    "id": "ex-le-8",
+    "code": "EX-LE8",
+    "name": "Nội Khỏa Tiêm",
+    "region": "Vùng Chi Dưới",
+    "location": "Lấy ở ngay đỉnh cao nhất của mắt cá chân trong (mỏm đầu dưới xương chày).",
+    "actions": "Thanh nhiệt giải độc, thư cân hoạt lạc.",
+    "indications": [
+      "Tại chỗ: Đau nhức mắt cá chân trong, chuột rút cơ mặt trong bàn chân và bắp chân",
+      "Toàn thân: Đau răng hàm dưới, viêm amidan"
+    ],
+    "needling": "Chích nặn máu bằng kim tam lăng hoặc cứu ngải 5 – 10 phút."
+  },
+  {
+    "id": "ex-le-9",
+    "code": "EX-LE9",
+    "name": "Ngoại Khỏa Tiêm",
+    "region": "Vùng Chi Dưới",
+    "location": "Lấy ở ngay đỉnh cao nhất của mắt cá chân ngoài (mỏm đầu dưới xương mác).",
+    "actions": "Thông kinh hoạt lạc, thanh nhiệt lợi thấp.",
+    "indications": [
+      "Tại chỗ: Bong gân mắt cá chân ngoài, chuột rút mặt ngoài cẳng chân, cước khí",
+      "Toàn thân: Đau răng, viêm họng, sốt rét"
+    ],
+    "needling": "Chích nặn máu hoặc cứu ngải 5 – 10 phút."
+  },
+  {
+    "id": "ex-le-10",
+    "code": "EX-LE10",
+    "name": "Bát Phong (8 Huyệt)",
+    "region": "Vùng Chi Dưới",
+    "location": "Trên mu bàn chân, mỗi bàn chân có 4 huyệt nằm ngay tại đầu nếp kẽ giữa 5 ngón chân trên đường tiếp giáp da gan – mu chân (hai bàn chân là 8 huyệt).",
+    "actions": "Khu phong thông lạc, thanh nhiệt tiêu thũng.",
+    "indications": [
+      "Tại chỗ: Đau sưng đỏ mu bàn chân và các ngón chân, tê bì bàn chân, bệnh Gout, cước khí",
+      "Toàn thân: Đau đầu, đau răng, kinh nguyệt không đều, rắn cắn bàn chân"
+    ],
+    "needling": "Châm xiên hướng về phía cổ chân sâu 0,3 – 0,5 thốn, hoặc chích nặn máu. Cứu 5 – 10 phút."
+  },
+  {
+    "id": "ex-le-11",
+    "code": "EX-LE11",
+    "name": "Độc Âm",
+    "region": "Vùng Chi Dưới",
+    "location": "Ở mặt dưới (gan) ngón chân thứ 2, chính giữa nếp gấp khớp liên đốt ngón chân xa (giữa đốt 2 và đốt 3).",
+    "actions": "Hoạt huyết điều kinh, thúc đẻ hạ nhau thai, lý khí chỉ thống.",
+    "indications": [
+      "Đẻ khó, sót nhau thai, kinh nguyệt không đều, thống kinh",
+      "Đau thắt ngực, đau bụng nôn mửa, thoát vị bẹn (Sán khí)"
+    ],
+    "needling": "Châm thẳng sâu 0,1 – 0,2 thốn hoặc cứu ngải 10 phút. Phụ nữ đang mang thai cấm châm cứu."
+  },
+  {
+    "id": "ex-le-12",
+    "code": "EX-LE12",
+    "name": "Khí Đoan (10 Huyệt)",
+    "region": "Vùng Chi Dưới",
+    "location": "Nằm ở chính giữa đỉnh đầu của cả 10 ngón chân, cách bờ móng chân 0,1 thốn.",
+    "actions": "Khai khiếu tỉnh thần, thông lạc tiêu thũng.",
+    "indications": [
+      "Cấp cứu trúng phong hôn mê, trúng thử",
+      "Tê buốt đầu ngón chân, sưng đỏ mu bàn chân, cước khí"
+    ],
+    "needling": "Châm thẳng nông 0,1 – 0,2 thốn hoặc chích nặn máu."
+  },
+  {
+    "id": "ex-le-13",
+    "code": "EX-LE13",
+    "name": "Lý Nội Đình",
+    "region": "Vùng Chi Dưới",
+    "location": "Ở lòng bàn chân, tại chỗ lõm phía trước khớp bàn – ngón chân giữa ngón chân thứ 2 và thứ 3 (đối diện với huyệt Nội Đình ST44 trên mu chân).",
+    "actions": "Trấn kinh an thần, hòa vị tiêu thực.",
+    "indications": [
+      "Động kinh, co giật ở trẻ em",
+      "Đau dạ dày cấp, co thắt tâm vị, khó tiêu, đau tê ngón chân"
+    ],
+    "needling": "Châm thẳng sâu 0,3 – 0,5 thốn. Cứu 5 – 10 phút."
+  },
+  {
+    "id": "ex-ashi",
+    "code": "Á Thị Huyệt",
+    "name": "Á Thị Huyệt (Thống Điểm / Thiên Ứng Huyệt)",
+    "region": "Toàn Thân (Điểm Phản Ứng Đau)",
+    "location": "Không có vị trí cố định trên kinh mạch: Là các điểm ấn đau chói nhất, co cứng cơ hoặc có nốt phản ứng dưới da khi thăm khám vùng bệnh ('Lấy điểm đau làm huyệt' - Dĩ thống vi du).",
+    "actions": "Sơ thông khí huyết ứ trệ trực tiếp tại ổ bệnh, giải phóng điểm kích hoạt cơ (Trigger Point), tiêu viêm chỉ thống.",
+    "indications": [
+      "Mọi chứng đau cơ xương khớp cấp và mạn tính: Đau vai gáy, đau lưng, đau thần kinh tọa, viêm gân, bong gân"
+    ],
+    "needling": "Châm thẳng, châm xiên, châm vây (Dương thích / Tề thích) hoặc ôn châm / cứu ngải tùy vị trí giải phẫu."
+  }
+];
+
+export const CLASSICAL_ACUPUNCTURE_PROTOCOLS: ClassicalProtocol[] = [
+  {
+    "id": "ntt-1",
+    "title": "Phác Đồ Điều Trị Đau Đầu & Thiên Đầu Thống (Migraine)",
+    "source": "Châm Cứu Chữa Bệnh - GS. Nguyễn Tài Thu & Cẩm Nang Thực Hành Châm Cứu - Lưu Viêm",
+    "category": "Thần Kinh & Đầu Mặt",
+    "syndrome": "Đau đầu theo vùng kinh lạc (Thái dương, Dương minh, Thiếu dương, Quyết âm) hoặc Can dương thượng亢 / Đàm trọc / Huyết hư.",
+    "mainPoints": [
+      "Bách Hội (GV20)",
+      "Thái Dương (EX-HN5)",
+      "Phong Trì (GB20)",
+      "Hợp Cốc (LI4)",
+      "Thái Xung (LR3)"
+    ],
+    "customPointsByType": [
+      "Đau vùng trán (Kinh Dương minh): Châm Ấn Đường thấu Toàn Trúc, Đầu Duy, Hợp Cốc, Nội Đình.",
+      "Đau nửa đầu bên (Kinh Thiếu dương): Châm Thái Dương thấu Suất Cốc (Mãng châm), Phong Trì, Ngoại Quan, Túc Lâm Khấp.",
+      "Đau vùng sau gáy (Kinh Thái dương): Châm Phong Trì, Thiên Trụ, Hậu Khê, Côn Lôn.",
+      "Đau đỉnh đầu (Kinh Quyết âm Can): Châm Bách Hội, Tứ Thần Thông, Thái Xung, Nội Quan."
+    ],
+    "mangChamTechnique": "Mãng châm Nguyễn Tài Thu: Dùng kim dài châm Thái Dương xuyên Suất Cốc (1,5 - 2 thốn), Ấn Đường xuyên Tỵ Thông, Phong Trì hướng sang mắt đối diện."
+  },
+  {
+    "id": "ntt-2",
+    "title": "Phác Đồ Điều Trị Mất Ngủ (Thất Miên) & Suy Nhược Thần Kinh",
+    "source": "Châm Cứu Chữa Bệnh - GS. Nguyễn Tài Thu",
+    "category": "Thần Kinh & Tâm Thần",
+    "syndrome": "Tâm Tỳ lưỡng hư, Âm hư hỏa vượng, Tâm Đởm khí hư hoặc Can uất hóa hỏa.",
+    "mainPoints": [
+      "Thần Môn (HT7)",
+      "Nội Quan (PC6)",
+      "Tam Âm Giao (SP6)",
+      "An Miên (EX-HN16)",
+      "Bách Hội (GV20)",
+      "Tứ Thần Thông (EX-HN1)"
+    ],
+    "customPointsByType": [
+      "Tâm Tỳ lưỡng hư (ngủ hay mê, ăn kém, mệt mỏi): Bổ Tâm Du, Tỳ Du, Túc Tam Lý, Tam Âm Giao, Thần Môn.",
+      "Thận âm hư hỏa vượng (bứt rứt, ngũ tâm phiền nhiệt): Bổ Thái Khê, Thận Du, Tam Âm Giao; Tả Thái Xung, Thần Môn.",
+      "Vị bất hòa tắc ngọa bất an (đầy bụng mất ngủ): Châm Trung Quản, Túc Tam Lý, Nội Quan, Công Tôn."
+    ],
+    "mangChamTechnique": "Châm Nội Quan thấu Ngoại Quan (châm bổ nhẹ nhàng), Bách Hội xuyên Tứ Thần Thông, cứu ấm Dũng Tuyền (KI1) trước khi đi ngủ."
+  },
+  {
+    "id": "ntt-3",
+    "title": "Phác Đồ Liệt Dây Thần Kinh VII Ngoại Biên (Khẩu Nhãn Oa Tà)",
+    "source": "Châm Cứu Chữa Bệnh - GS. Nguyễn Tài Thu & Lưu Viêm",
+    "category": "Thần Kinh & Đầu Mặt",
+    "syndrome": "Phong hàn hoặc Phong nhiệt phạm kinh Dương minh và Thiếu dương ở vùng mặt gây liệt cơ mặt một bên.",
+    "mainPoints": [
+      "Ế Phong (TE17)",
+      "Dương Bạch (GB14)",
+      "Toàn Trúc (BL2)",
+      "Tứ Bạch (ST2)",
+      "Địa Thương (ST4)",
+      "Giáp Xa (ST6)",
+      "Hợp Cốc (LI4 - đối bên)"
+    ],
+    "customPointsByType": [
+      "Do Phong hàn (sau nhiễm lạnh, gió lùa): Kết hợp Ôn châm hoặc Cứu ngải tại Ế Phong, Giáp Xa, Địa Thương; châm Phong Trì, Hợp Cốc.",
+      "Do Phong nhiệt (sau viêm tai, Zona): Tả Ế Phong, Khúc Trì, Hợp Cốc, Nội Đình.",
+      "Mắt nhắm không kín: Châm Dương Bạch thấu Ngư Yêu, Toàn Trúc thấu Tình Minh.",
+      "Miệng méo không huýt sáo được: Châm Địa Thương thấu Giáp Xa, Nhân Trung, Khiên Chính."
+    ],
+    "mangChamTechnique": "Xuyên huyệt đặc hiệu Nguyễn Tài Thu: Địa Thương xuyên Giáp Xa, Dương Bạch xuyên Ngư Yêu, Tứ Bạch xuyên Nghinh Hương."
+  },
+  {
+    "id": "ntt-4",
+    "title": "Phác Đồ Di Chứng Tai Biến Mạch Máu Não (Bán Thân Bất Toại)",
+    "source": "Châm Cứu Chữa Bệnh - GS. Nguyễn Tài Thu & Lưu Viêm",
+    "category": "Cơ Xương Khớp & Phục Hồi Chức Năng",
+    "syndrome": "Trúng phong kinh lạc hoặc Trúng phong tạng phủ giai đoạn di chứng (Khí hư huyết ứ, Can Thận âm hư).",
+    "mainPoints": [
+      "Bách Hội (GV20)",
+      "Kiên Ngung (LI15)",
+      "Khúc Trì (LI11)",
+      "Ngoại Quan (TE5)",
+      "Hợp Cốc (LI4)",
+      "Hoàn Khiêu (GB30)",
+      "Dương Lăng Tuyền (GB34)",
+      "Túc Tam Lý (ST36)",
+      "Huyền Chung (GB39)"
+    ],
+    "customPointsByType": [
+      "Liệt chi trên: Kiên Ngung thấu Cựốt, Khúc Trì thấu Thiếu Hải, Ngoại Quan thấu Nội Quan, Hợp Cốc thấu Hậu Khê, Bát Tà.",
+      "Liệt chi dưới: Hoàn Khiêu, Phong Thị, Dương Lăng Tuyền thấu Âm Lăng Tuyền, Huyền Chung thấu Tam Âm Giao, Thái Xung.",
+      "Rối loạn ngôn ngữ (Á khẩu, nói ngọng): Thượng Liêm Tuyền, Bàng Liêm Tuyền, Á Môn, Thông Lý (HT5), Chiếu Hải (KI6)."
+    ],
+    "mangChamTechnique": "Mãng châm xuyên huyệt giúp kích hoạt đồng thời kinh Âm và kinh Dương đối lập (Khúc Trì thấu Thiếu Hải, Dương Lăng Tuyền thấu Âm Lăng Tuyền) chống co cứng cơ."
+  },
+  {
+    "id": "ntt-5",
+    "title": "Phác Đồ Đau Dây Thần Kinh Tọa (Tọa Cốt Phong)",
+    "source": "Châm Cứu Chữa Bệnh - GS. Nguyễn Tài Thu & Lưu Viêm",
+    "category": "Cơ Xương Khớp & Cột Sống",
+    "syndrome": "Đau dọc theo đường đi của kinh Túc Thái dương Bàng Quang (mặt sau đùi - bắp chân) hoặc kinh Túc Thiếu dương Đởm (mặt ngoài đùi - cẳng chân).",
+    "mainPoints": [
+      "Giáp Tích L4-S1 (EX-B2)",
+      "Thận Du (BL23)",
+      "Đại Trường Du (BL25)",
+      "Hoàn Khiêu (GB30)",
+      "Ủy Trung (BL40)",
+      "Dương Lăng Tuyền (GB34)",
+      "Côn Lôn (BL60)"
+    ],
+    "customPointsByType": [
+      "Thể kinh Bàng Quang (đau mặt sau đùi xuống gót): Châm Thận Du, Trật Biên, Thừa Phù, Ân Môn, Ủy Trung, Thừa Sơn, Côn Lôn.",
+      "Thể kinh Đởm (đau mặt ngoài đùi xuống mắt cá ngoài): Châm Hoàn Khiêu, Phong Thị, Dương Lăng Tuyền, Huyền Chung, Khâu Khư.",
+      "Thể Hàn thấp hoặc Thận hư: Ôn châm hoặc cứu ngải Thận Du, Mệnh Môn, Quan Nguyên Du, Hoàn Khiêu."
+    ],
+    "mangChamTechnique": "Châm Hoàn Khiêu sâu 2,5 - 3,5 thốn sao cho cảm giác đắc khí chạy dọc như luồng điện xuống tận bàn chân."
+  },
+  {
+    "id": "ntt-6",
+    "title": "Phác Đồ Hội Chứng Cổ Vai Gáy & Viêm Quanh Khớp Vai",
+    "source": "Châm Cứu Chữa Bệnh - GS. Nguyễn Tài Thu",
+    "category": "Cơ Xương Khớp & Cột Sống",
+    "syndrome": "Phong hàn thấp tý阻 kinh lạc vùng cổ gáy và khớp vai (Kiên tý / Đông kiên).",
+    "mainPoints": [
+      "Phong Trì (GB20)",
+      "Giáp Tích Cổ C4-C7",
+      "Kiên Tỉnh (GB21)",
+      "Kiên Ngung (LI15)",
+      "Kiên Liêu (TE14)",
+      "Kiên Trinh (SI9)",
+      "Thiên Tông (SI11)",
+      "Lạc Chẩm (EX-UE8)"
+    ],
+    "customPointsByType": [
+      "Đau mặt trước vai (Kinh Thái âm): Châm Kiên Nội Lăng, Vân Môn, Xích Trạch, Liệt Khuyết.",
+      "Đau mặt ngoài vai (Kinh Dương minh): Châm Kiên Ngung, Tý Nhu, Khúc Trì, Hợp Cốc, Điều Khẩu thấu Thừa Sơn.",
+      "Đau mặt sau vai và bả vai (Kinh Thái dương): Châm Kiên Trinh, Nhu Du, Thiên Tông, Hậu Khê."
+    ],
+    "mangChamTechnique": "Châm Điều Khẩu (ST38) thấu Thừa Sơn (BL57) bên đối diện vừa vê kim vừa bảo bệnh nhân nâng cao khớp vai."
+  },
+  {
+    "id": "ntt-7",
+    "title": "Phác Đồ Hen Phế Quản (Khí Suyễn) & Viêm Phế Quản Mạn",
+    "source": "Châm Cứu Chữa Bệnh - GS. Nguyễn Tài Thu & Lưu Viêm",
+    "category": "Hô Hấp",
+    "syndrome": "Đàm ẩm phục Phế (Thực suyễn) hoặc Phế Tỳ Thận khí hư (Hư suyễn).",
+    "mainPoints": [
+      "Định Suyễn (EX-B1)",
+      "Phế Du (BL13)",
+      "Thiên Đột (CV22)",
+      "Đản Trung (CV17)",
+      "Liệt Khuyết (LU7)",
+      "Phong Long (ST40)",
+      "Túc Tam Lý (ST36)"
+    ],
+    "customPointsByType": [
+      "Cơn hen cấp tính: Tả Định Suyễn, Thiên Đột, Đản Trung, Xích Trạch, Phong Long.",
+      "Giai đoạn ngoài cơn (Phòng tái phát): Cứu ngải Phế Du, Cao Hoang (BL43), Tỳ Du, Thận Du, Quan Nguyên, Túc Tam Lý."
+    ],
+    "mangChamTechnique": "Châm Đản Trung luồn dưới da hướng xuống Cự Khuyết, kết hợp cứu ấm Định Suyễn và Phế Du."
+  },
+  {
+    "id": "ntt-8",
+    "title": "Phác Đồ Đau Dạ Dày (Vị Quản Thống) & Hội Chứng Đại Tràng",
+    "source": "Châm Cứu Chữa Bệnh - GS. Nguyễn Tài Thu & Lưu Viêm",
+    "category": "Tiêu Hóa",
+    "syndrome": "Can khí phạm Vị, Tỳ Vị hư hàn hoặc Thực tích huyết ứ.",
+    "mainPoints": [
+      "Trung Quản (CV12)",
+      "Nội Quan (PC6)",
+      "Túc Tam Lý (ST36)",
+      "Thiên Khu (ST25)",
+      "Công Tôn (SP4)",
+      "Thái Xung (LR3)"
+    ],
+    "customPointsByType": [
+      "Can khí phạm Vị (đau thượng vị lan ra sườn, ợ hơi, đau tăng khi căng thẳng): Tả Thái Xung, Kỳ Môn, Nội Quan; Bình bổ bình tả Trung Quản, Túc Tam Lý.",
+      "Tỳ Vị hư hàn (đau âm ỉ, chườm ấm đỡ đau, phân lỏng): Cứu ngải Trung Quản, Thần Khuyết (rốn), Khí Hải, Tỳ Du, Vị Du, Túc Tam Lý.",
+      "Cơn đau co thắt dạ dày cấp: Châm Lương Khâu (ST34 - khích huyệt kinh Vị), Nội Quan, Công Tôn."
+    ],
+    "mangChamTechnique": "Phối hợp Bát Mạch Giao Hội Huyệt kinh điển: Nội Quan (PC6) + Công Tôn (SP4) chuyên trị mọi bệnh lý vùng Tim - Ngực - Dạ dày."
+  }
+];
+
+export const TUNG_APPENDICES: TungAppendix[] = [
+  {
+    "id": "app-1",
+    "title": "1. Luật Toàn Tức Phản Chiếu Trong Châm Cứu Đổng Thị (Nhất Thủ Thần Châm)",
+    "summary": "Nguyên lý lấy một bộ phận cục bộ (ngón tay, bàn tay, cẳng tay, bắp chân, tai, mặt) làm hình chiếu thu nhỏ của toàn bộ cơ thể người.",
+    "content": [
+      "Quy luật Ngũ Hành & Lục Khí Tương Ứng: Mỗi đốt xương trên ngón tay, bàn tay, cẳng tay hoặc cẳng chân đều là một 'vũ trụ thu nhỏ' chứa đủ Đầu - Cổ - Ngực Phổi - Tim Gan - Dạ dày - Thận - Khung chậu.",
+      "Ví dụ tại Xương bàn tay ngón trỏ (Khu 22): Đầu gần xương bàn tay (nơi giao với xương bàn ngón cái) là huyệt Linh Cốt tương ứng với vùng Hạ tiêu (xương cùng cụt, tử cung, bàng quang, đùi chân); Đầu xa xương bàn tay (gần khớp bàn - ngón) là huyệt Đại Bạch tương ứng với Thượng tiêu (đầu mặt, phổi, tim). Nếu đảo ngược chiều toàn tức, Linh Cốt lại tương ứng với Đỉnh đầu và Đại Bạch tương ứng với Cổ vai.",
+      "Nguyên lý Đồng Khí Tương Cầu (Dĩ Cốt Trị Cốt, Dĩ Cân Trị Cân, Dĩ Mạch Trị Mạch): Châm sát màng xương (như Linh Cốt, Cốt Quan, Mộc Quan, Thận Quan) để trị bệnh xương khớp và gai cột sống; châm vào gân (như Chính Cân, Chính Tông trên gân Achilles) để trị bệnh co cứng gân cơ cổ gáy và cột sống; chích máu tĩnh mạch (như Ủy Trung, Tứ Hoa Trung, Tam Trọng) để trị bệnh mạch máu và huyết ứ."
+    ]
+  },
+  {
+    "id": "app-2",
+    "title": "2. Luật Toàn Tức Trong Chẩn Đoán (Vọng Chẩn & Xúc Chẩn Đổng Thị)",
+    "summary": "Phương pháp quan sát sắc thái lòng bàn tay, tĩnh mạch xanh tím dưới cẳng chân và tìm điểm phản ứng đau trước khi hạ kim.",
+    "content": [
+      "Vọng chẩn lòng bàn tay & ngón tay: Quan sát vùng Ngư tế và các đốt ngón tay. Nếu đốt thứ nhất ngón trỏ (vùng Đại Gian, Tiểu Gian) nổi gân xanh tức là Phế khí hư hoặc Đại trường hàn thấp; nếu vùng huyệt Phụ Khoa nổi gân xanh tím là tử cung hàn ứ hoặc thống kinh.",
+      "Chẩn đoán Tĩnh mạch vùng cẳng chân & lưng (Thanh cân chẩn): Phía trước ngoài cẳng chân (vùng Tứ Hoa Thượng, Trung, Ngoại) tương ứng với Tâm - Phế - Vị; mặt ngoài cẳng chân (vùng Tam Trọng, Ngoại Tam Quan) tương ứng với Tuyến giáp, Gan lách và Khối u; mặt trong cẳng chân (Hạ Tam Hoàng) tương ứng với Thận - Tiết niệu - Sinh dục. Hễ thấy tĩnh mạch xanh đen nổi ngoằn ngoèo ở vùng nào thì tạng phủ tương ứng chắc chắn có huyết ứ lâu ngày -> Dùng kim tam lăng chích nặn hết máu đen thì bệnh thuyên giảm ngay.",
+      "Nguyên tắc bất di bất dịch: 'Châm huyệt bên lành (đối diện), Trích huyết bên bệnh (hoặc nơi có gân xanh tím nổi rõ nhất)'."
+    ]
+  },
+  {
+    "id": "app-3",
+    "title": "3. Chuyên Khảo: Huyệt Linh Cốt & Đại Bạch Trị Bách Bệnh (Thầy Lý Quốc Chính)",
+    "summary": "Bài giảng kinh điển trích từ trang 290–292 Sổ Tay Đổng Thị Kỳ Huyệt giải mã mật mã toàn tức của cặp huyệt Linh Cốt (22.05) – Đại Bạch (22.04).",
+    "content": [
+      "Vị thế tối thượng: Châm cứu của thầy Đổng đặc biệt coi trọng hai huyệt Linh Cốt và Đại Bạch, nhấn mạnh hai huyệt này có thể trị bách bệnh — thậm chí gặp ca bệnh phức tạp chưa rõ nguyên nhân cũng có thể châm Linh Cốt - Đại Bạch trước để điều khí hoạt huyết.",
+      "Giải mã về Kinh Lạc & Tạng Phủ: Linh Cốt và Đại Bạch nằm trên đường kinh Thủ Dương minh Đại trường và tiếp thông trực tiếp với kinh Thủ Thái âm Phế ở lòng bàn tay (huyệt Trọng Tử - Trọng Tiên). Phế chủ khí, quản hô hấp, triều bách mạch; Đại trường và Phế biểu lý với nhau, lại thông với Vị (Dương minh đa khí đa huyết). Do đó châm Linh Cốt - Đại Bạch là đại bổ Phế khí, thông điều thủy đạo, đẩy khí huyết chạy khắp 12 kinh mạch.",
+      "Giải mã Toàn Tức 3 Chiều: (1) Nếu coi xương bàn ngón trỏ là cột sống từ đầu đến xương cùng: Đại Bạch ứng với đầu cổ và ngực phổi, Linh Cốt ứng với thắt lưng, ụ ngồi và khung chậu (trị thần kinh tọa, đau lưng, bệnh tử cung, tiểu tiện). (2) Nếu nắm bàn tay lại coi cả nắm đấm là cái đầu: Linh Cốt và Đại Bạch nằm ở hai bên thái dương và má -> đặc trị đau nửa đầu, liệt dây thần kinh mặt (dây VII), đau dây thần kinh tam thoa (dây V), ù tai và đau mắt."
+    ]
+  }
+];
