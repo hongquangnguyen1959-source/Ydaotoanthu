@@ -13,6 +13,7 @@ import {
   ArrowUpRight
 } from 'lucide-react';
 import { searchGlobalMedicalIndex, GlobalSearchItem } from '../utils/scientificMedicalEngine';
+import { PWAInstallButton } from './PWAInstallButton';
 
 export type ActiveTab =
   | 'symptom'
@@ -82,9 +83,12 @@ export const Navbar: React.FC<NavbarProps> = ({
         <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-3 sm:py-4">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 sm:gap-4 items-center">
             {/* Brand Title & Clear Description */}
-            <div className="lg:col-span-5 space-y-1">
-              <div className="inline-block px-2.5 py-0.5 rounded-md bg-emerald-600 text-white text-xs font-bold">
-                Hệ Thống Y Học Đông - Tây Y Kết Hợp
+            <div className="lg:col-span-5 space-y-1.5">
+              <div className="flex flex-wrap items-center justify-between sm:justify-start gap-2">
+                <div className="inline-block px-2.5 py-0.5 rounded-md bg-emerald-600 text-white text-xs font-bold">
+                  Hệ Thống Y Học Đông - Tây Y Kết Hợp
+                </div>
+                <PWAInstallButton />
               </div>
               <h1 className="text-xl sm:text-2xl font-extrabold tracking-tight text-white">
                 Y Đạo Toàn Thư · Chẩn Trị & Dược Điển
