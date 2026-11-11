@@ -43,6 +43,7 @@ function renderFormattedDoctorMessage(rawContent: string) {
 
         // Main Consultation Header
         if (
+          trimmed.startsWith('TRẢ LỜI TRỰC TIẾP') ||
           trimmed.startsWith('BÁC SĨ HỘI CHẨN') ||
           trimmed.startsWith('HỘI CHẨN') ||
           trimmed.startsWith('PHÂN TÍCH KHOA HỌC')
@@ -218,7 +219,7 @@ export const ClinicalChatModule: React.FC<ClinicalChatModuleProps> = ({
 
   const handleSend = async (textToSend?: string) => {
     const question = (textToSend || input).trim();
-    if (!question) return;
+    if (!question || loading) return;
 
     const nowTime = new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
     const userMsg: ChatMessage = {
@@ -228,23 +229,13 @@ export const ClinicalChatModule: React.FC<ClinicalChatModuleProps> = ({
       timestamp: nowTime,
     };
 
-    // Instant <15ms doctor response from the verified 65-Book Scientific Medical Engine
-    const instantReply = cleanMedicalText(generatePreciseScientificAnswer(question));
     const botMsgId = `bot-${Date.now() + 1}`;
-    const instantBotMsg: ChatMessage = {
-      id: botMsgId,
-      sender: 'bot',
-      content: instantReply,
-      timestamp: nowTime,
-      questionAsked: question,
-    };
-
-    setMessages((prev) => [...prev, userMsg, instantBotMsg]);
+    setMessages((prev) => [...prev, userMsg]);
     if (!textToSend) setInput('');
+    setLoading(true);
 
-    // Background check with server AI if available (non-blocking for user)
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 12000);
+    const timeoutId = setTimeout(() => controller.abort(), 14000);
 
     try {
       const historyToSend = [...messages.filter((m) => m.id !== 'welcome'), userMsg].map((m) => ({
@@ -266,13 +257,19 @@ export const ClinicalChatModule: React.FC<ClinicalChatModuleProps> = ({
       clearTimeout(timeoutId);
       if (res.ok) {
         const data = await res.json();
-        if (data.reply && data.source === 'gemini') {
-          const cleanedServerReply = cleanMedicalText(data.reply);
-          if (cleanedServerReply.length > 80) {
-            setMessages((prev) =>
-              prev.map((m) => (m.id === botMsgId ? { ...m, content: cleanedServerReply } : m))
-            );
-          }
+        const cleanedServerReply = cleanMedicalText(data?.reply || '');
+        if (cleanedServerReply.length > 60) {
+          setMessages((prev) => [
+            ...prev,
+            {
+              id: botMsgId,
+              sender: 'bot',
+              content: cleanedServerReply,
+              timestamp: nowTime,
+              questionAsked: question,
+            },
+          ]);
+          return;
         }
       }
     } catch {
@@ -280,6 +277,19 @@ export const ClinicalChatModule: React.FC<ClinicalChatModuleProps> = ({
     } finally {
       setLoading(false);
     }
+
+    // Offline or static deployment (e.g. Vercel static SPA) fallback using verified 65-Book Scientific Medical Engine
+    const verifiedReply = cleanMedicalText(generatePreciseScientificAnswer(question));
+    setMessages((prev) => [
+      ...prev,
+      {
+        id: botMsgId,
+        sender: 'bot',
+        content: verifiedReply,
+        timestamp: nowTime,
+        questionAsked: question,
+      },
+    ]);
   };
 
   useEffect(() => {

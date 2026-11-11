@@ -132,33 +132,40 @@ export function retrieveMedicalKnowledge(query: string, bookFilter?: string): Ma
     .map(x => x.item);
 
   // 2. Score Tung Formulas (295 clinical protocols)
+  const isEyeQueryNotInsomnia =
+    (rawLower.includes('mắt') || rawLower.includes('cận thị') || rawLower.includes('lồi mắt') || rawLower.includes('mắt bị lồi') || norm.includes('mat bi loi') || norm.includes('mat loi') || norm.includes('dien thoai')) &&
+    !rawLower.includes('mất ngủ') &&
+    !norm.includes('mat ngu') &&
+    !norm.includes('kho ngu');
+
   const scoredTungFormulas = TUNG_FORMULAS.map(fm => {
     let score = 0;
     const disNorm = normalizeVi(fm.diseaseName);
-    const catNorm = normalizeVi(fm.category);
     const notesNorm = normalizeVi(fm.clinicalNotes);
     const ptsNorm = normalizeVi(fm.mainPoints.join(' '));
 
-    if (disNorm.length >= 4 && norm.includes(disNorm)) score += 55;
+    if (isEyeQueryNotInsomnia && disNorm.includes('mat ngu')) {
+      return { item: fm, score: 0 };
+    }
+
+    if (disNorm.length >= 5 && norm.includes(disNorm)) score += 60;
     for (const bg of bigrams) {
-      if (bg.length >= 5) {
-        if (disNorm.includes(bg)) score += 22;
+      if (bg.length >= 6) {
+        if (disNorm.includes(bg)) score += 28;
         if (notesNorm.includes(bg)) score += 10;
         if (ptsNorm.includes(bg)) score += 8;
       }
     }
     for (const tk of tokens) {
-      if (tk.length >= 3) {
+      if (tk.length >= 5) {
         if (disNorm.includes(tk)) score += 8;
-        if (catNorm.includes(tk)) score += 4;
-        if (notesNorm.includes(tk)) score += 3;
       }
     }
     return { item: fm, score };
   })
-    .filter(x => x.score >= 10)
+    .filter(x => x.score >= 28)
     .sort((a, b) => b.score - a.score)
-    .slice(0, 5)
+    .slice(0, 4)
     .map(x => x.item);
 
   // 3. Score WHO Extra Points (58 extra points + Á Thị Huyệt)
@@ -204,20 +211,14 @@ export function retrieveMedicalKnowledge(query: string, bookFilter?: string): Ma
     const ptsNorm = normalizeVi(cp.mainPoints.join(' ') + ' ' + cp.customPointsByType.join(' '));
 
     for (const bg of bigrams) {
-      if (bg.length >= 5) {
-        if (titleNorm.includes(bg)) score += 25;
+      if (bg.length >= 6) {
+        if (titleNorm.includes(bg)) score += 28;
         if (synNorm.includes(bg) || ptsNorm.includes(bg)) score += 12;
-      }
-    }
-    for (const tk of tokens) {
-      if (tk.length >= 3) {
-        if (titleNorm.includes(tk)) score += 8;
-        if (synNorm.includes(tk) || ptsNorm.includes(tk)) score += 4;
       }
     }
     return { item: cp, score };
   })
-    .filter(x => x.score >= 10)
+    .filter(x => x.score >= 25)
     .sort((a, b) => b.score - a.score)
     .slice(0, 3)
     .map(x => x.item);
@@ -517,6 +518,7 @@ export function buildScientificRagContext(query: string, bookFilter?: string): s
 }
 
 const DISEASE_QUERY_KEYWORDS = [
+  'mat bi loi', 'loi mat', 'mat loi', 'can thi', 'vien thi', 'loan thi', 'moi mat', 'kho mat', 'mo mat', 'nhin mo', 'dau mat', 'nhuc mat', 'xem dien thoai', 'anh sang xanh', 'duc thuy tinh', 'tang nhan ap', 'glocom', 'thoai hoa diem vang', 'viem ket mac', 'sup mi',
   'gout', 'thong phong', 'uric', 'podagra', 'tophi',
   'tieu duong', 'dai thao duong', 'duong huyet', 'hba1c', 'tieu khat',
   'huyet ap', 'tang huyet ap', 'tai bien', 'dot quy', 'liet nua nguoi', 'nhoi mau nao', 'xuat huyet nao',
@@ -533,22 +535,41 @@ const DISEASE_QUERY_KEYWORDS = [
   'dau rang', 'nha chu', 'day v', 'liet mat', 'day vii',
   'tuyen giap', 'cuong giap', 'suy giap', 'basedow', 'buou co', 'nhan tuyen giap',
   'mo mau', 'cholesterol', 'triglyceride', 'mach vanh', 'suy tim', 'dau that nguc', 'tim dap nhanh',
-  'sot xuat huyet', 'cam cum', 'sot sieu vi'
+  'sot xuat huyet', 'cam cum', 'sot sieu vi', 'u tai', 'diec tai', 'viem tai'
 ];
 
 function isClinicalDiseaseQuery(norm: string): boolean {
   // If user is explicitly asking only for a point code (e.g., 22.05, 77.18, EX-HN5) or "huyet X nam o dau"
   if (/\b\d{2}\.\d{2}\b/.test(norm)) return false;
-  if ((norm.startsWith('huyet ') || norm.includes('vi tri huyet') || norm.includes('cach cham huyet')) && !norm.includes('benh')) {
+  if ((norm.startsWith('huyet ') || norm.includes('vi tri huyet') || norm.includes('cach cham huyet')) && !norm.includes('benh') && !norm.includes('chua')) {
     return false;
   }
-  if (norm.includes('giai doan') || norm.includes('nguyen nhan') || norm.includes('la benh gi') || norm.includes('benh gi') || norm.includes('cach chua') || norm.includes('phac do dieu tri')) {
+  if (
+    norm.includes('giai doan') ||
+    norm.includes('nguyen nhan') ||
+    norm.includes('la benh gi') ||
+    norm.includes('benh gi') ||
+    norm.includes('cach chua') ||
+    norm.includes('chua duoc') ||
+    norm.includes('co chua') ||
+    norm.includes('co khoi') ||
+    norm.includes('chua khoi') ||
+    norm.includes('dieu tri') ||
+    norm.includes('phac do') ||
+    norm.includes('trieu chung') ||
+    norm.includes('dau hieu') ||
+    norm.includes('lam sao')
+  ) {
     return true;
   }
   return DISEASE_QUERY_KEYWORDS.some(kw => norm.includes(kw));
 }
 
 function formatDoctorDiseaseConsultation(spec: ClinicalSpec, query: string, bookFilter?: string): string {
+  const directAnswerBlock = spec.directAnswer
+    ? `TRẢ LỜI TRỰC TIẾP CÂU HỎI CỦA BẠN: "${query.trim()}"\n${spec.directAnswer}\n\n---\n\n`
+    : `TRẢ LỜI TRỰC TIẾP CÂU HỎI CỦA BẠN: "${query.trim()}"\n• Chẩn đoán & Kết luận chuyên môn: ${spec.summary}\n• Tiên lượng & Hướng xử trí: Bệnh lý này hoàn toàn có thể kiểm soát, cải thiện triệu chứng và ngăn ngừa biến chứng hiệu quả khi phối hợp đúng phác đồ Tây y (kiểm soát cơ chế sinh lý bệnh), Đông y (biện chứng điều hòa Tạng phủ - Khí huyết) và Châm cứu - Dưỡng sinh dưới đây.\n\n---\n\n`;
+
   const stagesSection =
     spec.clinicalStages && spec.clinicalStages.length > 0
       ? `\n#### 2. CÁC GIAI ĐOẠN TIẾN TRIỂN CỦA BỆNH (PHÂN ĐỘ LÂM SÀNG CHUẨN Y KHOA)\n` +
@@ -564,7 +585,7 @@ function formatDoctorDiseaseConsultation(spec: ClinicalSpec, query: string, book
       ? `\n- **Nguyên nhân & Yếu tố nguy cơ cốt lõi:**\n` + spec.causesAndRiskFactors.map(c => `  - ${c}`).join('\n')
       : '';
 
-  return `HỘI CHẨN CHUYÊN KHOA: ${spec.westernDisease.toUpperCase()} (ICD-10: ${spec.icd10})
+  return `${directAnswerBlock}HỘI CHẨN CHUYÊN KHOA: ${spec.westernDisease.toUpperCase()} (ICD-10: ${spec.icd10})
 
 1. ĐỊNH NGHĨA BỆNH LÝ, NGUYÊN NHÂN & CƠ CHẾ BỆNH SINH
 • Định nghĩa & Bản chất bệnh lý: ${spec.clinicalDefinition || spec.summary}${causesList}
@@ -619,6 +640,7 @@ ${spec.classicPoints.map(cp => `  - **${cp.name}** (*${cp.location}*): ${cp.howT
 export function cleanMedicalText(raw: string): string {
   if (!raw) return '';
   return raw
+    .replace(/https?:\/\/\S+/gi, '')
     .split('\n')
     .map(line => {
       let l = line;
@@ -829,6 +851,7 @@ export function generatePreciseScientificAnswer(query: string, bookFilter?: stri
 }
 
 interface ClinicalSpec {
+  directAnswer?: string;
   summary: string;
   clinicalDefinition?: string;
   causesAndRiskFactors?: string[];
@@ -894,6 +917,143 @@ function matchClinicalDomain(norm: string, rawText: string): ClinicalSpec {
           }
         ]
       : null;
+
+  // 0. Nhãn khoa / Mắt bị lồi do xem điện thoại ban đêm / Cận thị trục tiến triển / Hội chứng thị giác màn hình (CVS) / Mỏi mắt, khô mắt, mờ mắt
+  if (
+    norm.includes('mat bi loi') ||
+    norm.includes('loi mat') ||
+    norm.includes('mat loi') ||
+    norm.includes('can thi') ||
+    norm.includes('moi mat') ||
+    norm.includes('kho mat') ||
+    norm.includes('nhuc mat') ||
+    norm.includes('mo mat') ||
+    norm.includes('nhin mo') ||
+    (norm.includes('dien thoai') && norm.includes('mat')) ||
+    (norm.includes('ban dem') && norm.includes('mat'))
+  ) {
+    return {
+      directAnswer:
+        `• CÓ CHỮA ĐƯỢC KHÔNG? — CÓ THỂ CẢI THIỆN RÕ RỆT VÀ CHẶN ĐỨNG TIẾN TRIỂN, nhưng mức độ hồi phục phụ thuộc vào nguyên nhân gây lồi mắt của bạn thuộc 1 trong 2 cơ chế sau:\n` +
+        `  1. Do Co quắp điều tiết, Phù nề cơ vận nhãn & Cận thị giả do xem điện thoại ban đêm (Chiếm >75% người trẻ thức khuya dùng điện thoại): Khi nhìn gần màn hình phát ánh sáng xanh trong bóng tối, đồng tử giãn rộng đón bức xạ năng lượng cao (400–450nm), cơ thể mi (Ciliary muscle) và 6 cơ vận nhãn co thắt liên tục gây ứ trệ tuần hoàn tĩnh mạch hốc mắt, đẩy nhãn cầu nhô nhẹ ra trước kèm sưng hốc mắt, mỏi nhức, khô rát. Tình trạng này HOÀN TOÀN CÓ THỂ HỒI PHỤC sau 4–8 tuần nếu ngưng xem điện thoại trong tối, nhỏ thuốc giãn điều tiết/tái tạo cơ thể mi (Cyanocobalamin 0.02% + Sodium Hyaluronate), kết hợp Châm cứu - Bấm huyệt quanh hốc mắt (Tinh Minh, Toản Trúc, Tứ Bạch, Thái Dương, Đổng Thị Châu Viên & Thượng Tam Hoàng) để giải phóng co cơ và rút dịch ứ hốc mắt.\n` +
+        `  2. Do Cận thị trục tiến triển (Axial Myopia — Trục trước-sau nhãn cầu dài > 24mm): Nếu bạn bị cận thị nặng tăng độ nhanh do nhìn gần ban đêm nhiều năm, trục nhãn cầu đã giãn dài về mặt giải phẫu (bình thường 23.5–24mm; cứ tăng 1mm trục nhãn cầu tương ứng ~2.75 Diop cận thị làm mắt nhô ra trước). Phần trục xương/củng mạc đã dài ra không thể tự ngắn lại bằng thuốc uống, nhưng CÓ THỂ CHẶN ĐỨNG 100% không cho lồi thêm và GIẢM ĐỘ LỒI THẨM MỸ RÕ RỆT bằng cách: đeo kính gọng tròng phẳng chiết suất cao (High-Index 1.67/1.74) hoặc kính áp tròng chỉnh hình giác mạc ban đêm (Ortho-K), phẫu thuật khúc xạ (SMILE/LASIK/Phakic ICL) và tập vận nhãn săn chắc cơ thẳng hốc mắt.\n` +
+        `  3. Lưu ý chẩn đoán phân biệt quan trọng: Nếu mắt lồi nhanh kèm tim đập nhanh, sụt cân, tay run, đổ mồ hôi nhiều hoặc cổ to, bạn cần xét nghiệm máu FT4, TSH, TRAb để loại trừ Lồi mắt do Cường giáp Basedow (Graves' Ophthalmopathy).`,
+      summary: `Hội chứng Thị giác màn hình (Computer/Smartphone Vision Syndrome) & Cận thị trục tiến triển gây lồi mắt cơ năng/cấu trúc do thức khuya xem điện thoại ban đêm; Đông y biện chứng thuộc chứng Can Thận Âm Hư kiêm Can Huyết Hư Hỏa Vượng ("Can khai khiếu ra mắt, Cửu thị thương huyết").`,
+      clinicalDefinition:
+        'Tình trạng mắt bị lồi, nhức mỏi và nhìn mờ sau thời gian dài xem điện thoại ban đêm là hệ quả cộng hưởng giữa Hội chứng thị giác màn hình (Digital Eye Strain / CVS) và Cận thị trục tiến triển (Axial Myopia). Trong Y Học Cổ Truyền, sách Hoàng Đế Nội Kinh (Tố Vấn) chỉ rõ: "Can khai khiếu ra mắt, Can tàng huyết, mục đắc huyết nhi năng thị" (Mắt nhờ huyết của Can nuôi dưỡng mới nhìn rõ) và "Cửu thị thương huyết" (Nhìn chằm chằm quá lâu làm hao tổn Can huyết, âm hư hỏa vượng đẩy khí hỏa nghịch lên hốc mắt làm nhãn cầu căng tức, lồi nhẹ và khô涩).',
+      causesAndRiskFactors: [
+        'Xem điện thoại trong phòng tối: Đồng tử giãn tối đa để thu sáng khiến lượng ánh sáng xanh tím (415–455nm) đi thẳng vào hoàng điểm gấp 3–4 lần ban ngày, gây độc quang hóa tế bào biểu mô sắc tố võng mạc (RPE).',
+        'Co quắp cơ thể mi (Accommodative Spasm) & Tăng áp lực nội nhãn tạm thời: Nhìn gần ở khoảng cách <30cm kéo dài làm cơ thể mi co cứng, thủy dịch lưu thông kém và trục trước-sau nhãn cầu bị kéo giãn dài ra (Axial elongation).',
+        'Giảm tần số chớp mắt từ 16–18 lần/phút xuống chỉ còn 4–6 lần/phút khi nhìn màn hình, làm vỡ màng phim nước mắt (Tear film breakup), gây viêm khô kết-giác mạc và sưng nề mô mỡ quanh hốc mắt.',
+        'Đông Y: Thức khuya sau 23h00–03h00 sáng (giờ Đởm và Can làm việc) làm Can âm và Thận tinh không được phục hồi, dẫn đến Can Thận Âm Hư, Hư hỏa bốc lên vùng "Mục hệ" (hệ thống thần kinh - cơ hốc mắt).'
+      ],
+      clinicalStages: [
+        '**Giai đoạn 1 — Co quắp điều tiết & Mỏi mắt kỹ thuật số (Cận thị giả - Pseudomyopia):** Nhức mỏi hốc mắt, nhìn xa mờ sau khi xem điện thoại nhưng nghỉ ngơi thì rõ lại, cảm giác mắt căng tức như muốn lồi ra trước. **Giai đoạn này hồi phục 100%** nếu điều trị đúng.',
+        '**Giai đoạn 2 — Biến đổi màng phim nước mắt & Xung huyết cơ vận nhãn:** Mắt khô rát, cộm xốn, đỏ mắt, quầng thâm, mi mắt sưng nề và nhãn cầu bắt đầu nhô nhẹ do ứ huyết tĩnh mạch hốc mắt.',
+        '**Giai đoạn 3 — Cận thị trục thực thể tiến triển (Axial Myopia > -3.0D đến -6.0D):** Trục trước-sau nhãn cầu dài từ 25.0mm – 26.5mm (bình thường 23.5–24.0mm), củng mạc mỏng dần, mắt nhìn thấy lồi rõ khi tháo kính.',
+        '**Giai đoạn 4 — Cận thị thoái hóa nặng (Pathologic Myopia > -6.0D, trục > 26.5mm):** Nhãn cầu lồi rõ, giãn lồi cực sau (Posterior staphyloma), nguy cơ thoái hóa võng mạc chu biên, hiện tượng ruồi bay (vẩn đục dịch kính) hoặc bong võng mạc.'
+      ],
+      westernDisease: 'Cận thị trục tiến triển & Hội chứng thị giác màn hình gây lồi mắt (Axial Myopia & Digital Eye Strain / Exophthalmos)',
+      icd10: 'H52.1 / H53.1 / H05.2',
+      pathophysiology:
+        'Theo Guyton & Hall (Textbook of Medical Physiology - The Eye: Optics of Vision): Khi mắt điều tiết nhìn gần liên tục trong điều kiện thiếu sáng, hệ thần kinh phó giao cảm (dây III) kích thích cơ thể mi co thắt kéo dài làm dây chằng Zinn chùng xuống. Đồng thời, sự mất nét chu biên trên võng mạc (Peripheral hyperopic defocus) kích hoạt tín hiệu sinh hóa từ võng mạc đến củng mạc, làm tái cấu trúc sợi Collagen củng mạc, khiến trục nhãn cầu giãn dài theo chiều trước-sau (Axial elongation) và đẩy giác mạc nhô ra trước hốc mắt.',
+      differentialDiagnoses: [
+        'Lồi mắt do bệnh lý tuyến giáp Basedow (Graves Ophthalmopathy - cần xét nghiệm TSH, FT4, TRAb nếu mắt lồi kèm tim nhanh, sụt cân)',
+        'Cận thị giả do co quắp điều tiết (Accommodative spasm)',
+        'Tăng nhãn áp góc mở / Tổn thương choán chỗ hốc mắt (nếu chỉ lồi 1 bên mắt)'
+      ],
+      investigations: [
+        'Đo khúc xạ tự động có và không liệt điều tiết (Phân biệt cận thị giả do co quắp cơ thể mi và cận thị thật)',
+        'Siêu âm mắt A-scan / IOLMaster đo chiều dài trục nhãn cầu (Axial Length - bình thường 23.5–24.0mm) và độ lồi nhãn cầu (Thước đo Hertel)',
+        'Đo nhãn áp (Tonometry) và Soi đáy mắt kiểm tra võng mạc - gai thị',
+        'Xét nghiệm máu TSH, FT4, TRAb (Nếu nghi ngờ lồi mắt liên quan tuyến giáp Basedow)'
+      ],
+      urgency: 'Cần ngưng ngay thói quen xem điện thoại trong bóng tối và khám chuyên khoa Mắt để đo trục nhãn cầu',
+      easternSyndrome: 'Can Thận Âm Hư kiêm Can Huyết Hư Hỏa Vượng (Mục Hệ Thất Dưỡng)',
+      batCuong: 'Lý - Hư trung hiệp Thực (Can Thận Âm Huyết Hư ở gốc, Hư hỏa & Khí huyết ứ trệ tại Mục hệ ở ngọn) - Nhiệt',
+      khiHuyet: 'Can huyết hao tổn, Thận tinh suy giảm, Kinh khí vùng hốc mắt (Túc Thái Dương Bàng Quang, Túc Dương Minh Vị, Túc Thiếu Dương Đởm) ứ trệ',
+      thietChanAnalysis: 'Chất lưỡi đỏ ít tân dịch, đầu và rìa lưỡi hơi đỏ, rêu lưỡi mỏng ít; Mạch Huyền Tế hoặc Tế Sác',
+      easternExplanation:
+        'Theo Đông y, đồng tử thuộc Thận (Thủy luân), lòng đen thuộc Can (Phong luân), hai khóe mắt thuộc Tâm (Huyết luân), mi mắt thuộc Tỳ (Nhục luân), lòng trắng thuộc Phế (Khí luân). Thức khuya xem điện thoại làm hao tổn Can huyết và Thận âm (Thủy không hàm Mộc), khiến Can dương và Hư hỏa bốc lên hốc mắt làm cơ hốc mắt căng cứng, nhãn cầu nhô tức, khô rát và nhìn mờ.',
+      tangPhu: 'Can, Thận, Tỳ (Mục hệ - Ngũ luân)',
+      phapTri: 'Tư Bổ Can Thận, Dưỡng Huyết Minh Mục, Thanh Can Tiềm Dương, Thông Kinh Hoạt Lạc Vùng Hốc Mắt',
+      formulaName: 'Kỷ Cúc Địa Hoàng Hoàn Gia Giảm (Gia Thảo Quyết Minh, Mật Mông Hoa, Đan Sâm)',
+      herbs: [
+        { name: 'Kỷ tử (Lycium barbarum) & Cúc hoa (Chrysanthemum)', amount: 'Kỷ tử 16g, Cúc hoa 12g', grams: 28, role: 'Quân', purpose: 'Bổ Can Thận âm huyết, thanh Can minh mục, cung cấp Zeaxanthin tự nhiên bảo vệ hoàng điểm và giảm căng tức hốc mắt' },
+        { name: 'Thục địa (Rehmannia glutinosa) & Sơn thù du (Cornus officinalis)', amount: 'Thục địa 16g, Sơn thù 12g', grams: 28, role: 'Thần', purpose: 'Tư bổ Thận tinh, điền tinh sinh tủy, nuôi dưỡng dịch kính và võng mạc' },
+        { name: 'Thảo quyết minh (Sao vàng) & Mật mông hoa', amount: 'Mỗi vị 12g', grams: 24, role: 'Tá', purpose: 'Thanh Can hỏa, tán phong nhiệt ở mắt, giảm xung huyết và giảm cảm giác căng lồi nhãn cầu' },
+        { name: 'Đan sâm (Salvia miltiorrhiza) & Phục linh (Poria cocos)', amount: 'Đan sâm 12g, Phục linh 10g', grams: 22, role: 'Sứ', purpose: 'Hoạt huyết thông mạch vi tuần hoàn đáy mắt, rút dịch phù nề mô quanh hốc mắt và kiện Tỳ' }
+      ],
+      howToUse: 'Sắc 1 thang/ngày với 1.000ml nước còn 350ml, chia 2 lần uống ấm sau bữa ăn. Có thể hãm trà Kỷ tử (15 hạt) + Cúc hoa vàng (5 bông) + Thảo quyết minh sao (10g) uống hàng ngày.',
+      tungPoints: [
+        { name: 'Châu Viên (11.12) & Nhị Giác Minh (11.17)', code: '11.12 / 11.17', howToPress: 'Nằm ở ngón cái và ngón giữa. Day bấm hoặc châm nông 0.1–0.2 thốn giúp đặc trị các bệnh về mắt, giảm áp lực hốc mắt, chữa cận thị, mỏi mắt và lồi nhức mắt.' },
+        { name: 'Thượng Tam Hoàng (Thiên Hoàng, Minh Hoàng, Kỳ Hoàng)', code: '88.12 - 88.14', howToPress: 'Tổ hợp 3 huyệt đại bổ Can - Thận tại mặt trong đùi. Châm thẳng 1.5–2.0 thốn giúp bổ Can huyết, sáng mắt, trị mắt lồi, khô mắt và mờ mắt do thức khuya.' },
+        { name: 'Quang Minh (Đổng Thị) & Mục Nhất - Mục Nhị', code: '77.28 / 66.08 - 66.09', howToPress: 'Day bấm kết hợp Động khí châm pháp: Trong lúc bấm huyệt, nhắm mở mắt chậm rãi và đảo nhãn cầu theo chiều kim đồng hồ 9 vòng rồi ngược lại 9 vòng.' }
+      ],
+      classicPoints: [
+        { name: 'Tinh Minh (BL-1) & Toản Trúc (BL-2)', location: 'Hõm khóe mắt trong (Tinh Minh) và chỗ lõm đầu trong cung lông mày (Toản Trúc)', howToPress: 'Dùng ngón cái và ngón trỏ véo nhẹ và day ấn 2 phút mỗi tối giúp giải phóng cơ thẳng trong, giảm co quắp điều tiết và rút sưng lồi hốc mắt.' },
+        { name: 'Ngư Yêu (EX-HN4) & Tứ Bạch (ST-2)', location: 'Chính giữa cung lông mày (Ngư Yêu) và dưới chính giữa mi dưới 1 thốn trong hố dưới ổ mắt (Tứ Bạch)', howToPress: 'Day nhẹ theo vòng tròn quanh hốc mắt 30 vòng giúp tăng tuần hoàn máu động mạch mắt, làm săn cơ vòng mi và giảm lồi mắt cơ năng.' },
+        { name: 'Thái Dương (EX-HN5), Phong Trì (GB-20) & Quang Minh (GB-37)', location: 'Hõm thái dương, hõm dưới chẩm sau gáy và mặt ngoài cẳng chân trên mắt cá ngoài 5 thốn', howToPress: 'Day ấn Phong Trì và Quang Minh (huyệt Lạc của kinh Đởm đặc trị bệnh mắt) mỗi bên 2 phút giúp thông mạch máu não - thị giác.' }
+      ],
+      doEat: [
+        'Thực phẩm giàu Lutein, Zeaxanthin & Astaxanthin: Cá hồi, lòng đỏ trứng gà, cải bó xôi (rau chân vịt), bông cải xanh, kỷ tử, việt quất',
+        'Thực phẩm giàu Vitamin A & Beta-Carotene: Cà rốt, bí đỏ, gấc, khoai lang nghệ, đu đủ chín',
+        'Trà dưỡng mắt hàng ngày: Trà Kỷ tử + Cúc hoa chi + Hạt muồng (Thảo quyết minh sao thơm)'
+      ],
+      dontEat: [
+        'Không uống cà phê đậm, nước tăng lực hoặc trà đặc sau 18h00 gây mất ngủ và tăng áp lực nội nhãn',
+        'Hạn chế đồ ăn quá mặn vào buổi tối (gây giữ nước và sưng húp mí mắt/hốc mắt sáng hôm sau)',
+        'Kiêng rượu bia, thuốc lá và đồ cay nóng chiên rán làm hao tổn tân dịch gây khô mắt nặng'
+      ],
+      homeCare:
+        '1. TUYỆT ĐỐI NGƯNG xem điện thoại trong phòng tắt đèn tối (luôn bật đèn phòng ấm và bật chế độ Night Shift/Lọc ánh sáng xanh, giữ khoảng cách màn hình >= 35–40cm, không nằm nghiêng xem điện thoại).\n' +
+        '2. Áp dụng Quy tắc 20-20-20: Cứ 20 phút nhìn màn hình, nhìn xa 20 feet (6 mét) trong 20 giây để cơ thể mi giãn hoàn toàn.\n' +
+        '3. Chườm ấm mắt (40–42°C) 10 phút mỗi tối trước khi ngủ kết hợp bài tập đảo nhãn cầu 4 hướng (Lên - Xuống - Trái - Phải, giữ mỗi hướng 3 giây) và massage 6 huyệt quanh hốc mắt (Tinh Minh -> Toản Trúc -> Ngư Yêu -> Ty Trúc Không -> Thái Dương -> Tứ Bạch) giúp cơ vận nhãn săn chắc và giảm độ lồi rõ rệt sau 4–6 tuần.',
+      protocolName: 'Phác đồ Nhãn khoa Giải phóng Co quắp điều tiết, Bảo vệ Võng mạc & Kiểm soát Cận thị trục (AAO & Bộ Y Tế)',
+      sourceGuidelines: ['American Academy of Ophthalmology (AAO)', 'Phác đồ Nhãn khoa Bộ Y Tế Việt Nam', 'Dược thư Quốc gia Việt Nam'],
+      drugs: [
+        {
+          name: 'Sancoba 0.02% (Vitamin B12 nhỏ mắt)',
+          activeIngredient: 'Cyanocobalamin 0.02%',
+          group: 'Thuốc phục hồi điều tiết cơ thể mi & thần kinh thị giác',
+          dosage: 'Nhỏ 1–2 giọt/mắt x 3–5 lần/ngày',
+          usage: 'Nhỏ trực tiếp vào mắt khi mỏi mắt hoặc sau khi làm việc với màn hình',
+          mechanism: 'Tăng cường hô hấp tế bào và tổng hợp ATP tại cơ thể mi (Ciliary muscle), giải phóng tình trạng co quắp điều tiết (Accommodative spasm) gây nhức và lồi tức nhãn cầu',
+          caution: 'Thuốc có màu đỏ hồng tự nhiên của Vitamin B12; không dùng chung lọ nhỏ mắt với người khác'
+        },
+        {
+          name: 'Nước mắt nhân tạo Sodium Hyaluronate (Sanlein 0.1% / Hylo-Comod)',
+          activeIngredient: 'Sodium Hyaluronate 0.1% - 0.3%',
+          group: 'Thuốc bôi trơn & Tái tạo biểu mô giác mạc (Ưu tiên loại không chất bảo quản)',
+          dosage: 'Nhỏ 1 giọt/mắt x 4–6 lần/ngày',
+          usage: 'Nhỏ trước và sau khi sử dụng điện thoại/máy tính',
+          mechanism: 'Liên kết phân tử nước tạo màng phim sinh học bảo vệ biểu mô giác mạc, giảm viêm khô mắt do giảm tần số chớp mắt khi nhìn màn hình ban đêm',
+          caution: 'Nên chọn tép đơn liều hoặc lọ không chứa Benzalkonium Chloride (BAK) nếu dùng lâu dài'
+        },
+        {
+          name: 'Viên uống Bảo vệ Hoàng điểm Lutein + Zeaxanthin + Astaxanthin (Ocuvite Lutein / Wit)',
+          activeIngredient: 'Lutein 10mg + Zeaxanthin 2mg + Astaxanthin + Vitamin C, E, Kẽm',
+          group: 'Dưỡng chất chống oxy hóa võng mạc & Lọc ánh sáng xanh nội sinh',
+          dosage: 'Uống 1 viên/ngày',
+          usage: 'Uống ngay sau bữa ăn sáng (vì Lutein/Zeaxanthin tan trong dầu)',
+          mechanism: 'Tăng mật độ sắc tố hoàng điểm (MPOD), hấp thụ trực tiếp tia sáng xanh năng lượng cao (400–450nm) từ màn hình điện thoại và ngăn ngừa thoái hóa võng mạc - củng mạc',
+          caution: 'Sử dụng đều đặn đợt 2–3 tháng kết hợp thay đổi thói quen dùng điện thoại ban đêm'
+        }
+      ],
+      emergencySigns: [
+        'Thấy chớp sáng bất thường như tia chớp (Photopsia), mưa bồ hóng/ruồi bay tăng đột ngột hoặc có màn đen che trước mắt (Dấu hiệu bong võng mạc cấp - cần khám cấp cứu Nhãn khoa ngay)',
+        'Đau nhức mắt dữ dội lan lên nửa đầu kèm nhìn thấy quầng xanh đỏ quanh bóng đèn và buồn nôn (Cơn tăng nhãn áp cấp - Glaucoma)',
+        'Mắt lồi nhanh ở 1 bên hoặc 2 bên kèm nhìn đôi (song thị), không nhắm kín được mi mắt khi ngủ hoặc kèm tim đập nhanh, sụt cân (Lồi mắt Basedow ác tính)'
+      ],
+      referencedBooks: [
+        'Guyton & Hall Textbook of Medical Physiology (The Eye: Optics of Vision)',
+        'Sổ Tay Đổng Thị Kỳ Huyệt — Huyệt Nhị Giác Minh, Châu Viên & Thượng Tam Hoàng',
+        'Châm Cứu Chữa Bệnh — GS. Nguyễn Tài Thu',
+        'The Practice of Chinese Medicine — Giovanni Maciocia',
+        'Dược thư Quốc gia Việt Nam & Phác đồ Nhãn khoa Bộ Y Tế'
+      ]
+    };
+  }
 
   // 1. Đái tháo đường / Tiểu đường / Đường huyết cao
   if (norm.includes('tieu duong') || norm.includes('dai thao duong') || norm.includes('duong huyet') || norm.includes('hba1c') || norm.includes('khat nuoc tieu nhieu') || norm.includes('tieu khat')) {

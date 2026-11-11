@@ -28,9 +28,10 @@ import {
   ExternalLink
 } from 'lucide-react';
 import { AcupointVisualDiagram } from './AcupointVisualDiagram';
+import { Human3DMeridianViewer } from './Human3DMeridianViewer';
 
 export const AcupunctureAtlasModule: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'catalog' | 'formulas' | 'who_extra' | 'classical' | 'principles'>('catalog');
+  const [activeTab, setActiveTab] = useState<'meridians3d' | 'catalog' | 'formulas' | 'who_extra' | 'classical' | 'principles'>('meridians3d');
   const [selectedPoint, setSelectedPoint] = useState<TungPoint | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [filterZone, setFilterZone] = useState('all');
@@ -310,6 +311,18 @@ export const AcupunctureAtlasModule: React.FC = () => {
       {/* Main Tab Navigation (Wraps cleanly inside phone screen) */}
       <div className="flex flex-wrap gap-2">
         <button
+          onClick={() => setActiveTab('meridians3d')}
+          className={`flex items-center gap-2 px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
+            activeTab === 'meridians3d'
+              ? 'bg-gradient-to-r from-cyan-800 to-emerald-800 text-white shadow-sm ring-2 ring-cyan-500'
+              : 'bg-white text-slate-800 border border-slate-200 hover:bg-slate-100'
+          }`}
+        >
+          <Sparkles className="w-4 h-4 shrink-0 text-amber-400" />
+          <span>Mô Hình 3D Kinh Lạc & Huyệt Đạo (14 Kinh)</span>
+        </button>
+
+        <button
           onClick={() => setActiveTab('catalog')}
           className={`flex items-center gap-2 px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
             activeTab === 'catalog'
@@ -369,6 +382,13 @@ export const AcupunctureAtlasModule: React.FC = () => {
           <span>5. Đọc Sách PDF Gốc</span>
         </button>
       </div>
+
+      {/* TAB 3D: HUMAN 3D MERIDIAN & ACUPOINTS VIEWER */}
+      {activeTab === 'meridians3d' && (
+        <div className="space-y-4">
+          <Human3DMeridianViewer />
+        </div>
+      )}
 
       {/* TAB 1: POINTS CATALOG */}
       {activeTab === 'catalog' && (
