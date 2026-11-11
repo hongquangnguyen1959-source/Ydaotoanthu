@@ -1075,8 +1075,48 @@ export const Human3DMeridianViewer: React.FC = () => {
             obj.visible = true;
           } else {
             toCam.subVectors(camera.position, anchorPos).normalize();
-            // Hide side/neck acupoints that turn away from the camera so they don't bleed through the cheek/jaw
-            obj.visible = toCam.dot(outwardNormal) > 0.16;
+            // 1. Surface normal facing check: hide points that face away from camera
+            const normalFacing = toCam.dot(outwardNormal) > 0.16;
+            if (!normalFacing) {
+              obj.visible = false;
+              continue;
+            }
+
+            // 2. Anatomical volume occlusion check:
+            // When viewing from above the head or at steep vertical angles, points on the lower body
+            // (chest, abdomen, back, legs) must NOT show through the head or torso volume!
+            // Crucial: Points on the head/face (Y >= 1.58) must NEVER be self-occluded when zooming in!
+            let occludedByBody = false;
+
+            if (anchorPos.y < 1.58 && camera.position.y > anchorPos.y + 0.15) {
+              const dy = anchorPos.y - camera.position.y;
+
+              // Check intersection with Head volume if camera is above head (Y > 1.75) and point is below head (Y < 1.62)
+              if (camera.position.y > 1.75 && anchorPos.y < 1.62) {
+                const tHead = (1.72 - camera.position.y) / dy;
+                if (tHead > 0.02 && tHead < 0.98) {
+                  const xHead = camera.position.x + (anchorPos.x - camera.position.x) * tHead;
+                  const zHead = camera.position.z + (anchorPos.z - camera.position.z) * tHead;
+                  if (Math.hypot(xHead, zHead - 0.045) < 0.10) {
+                    occludedByBody = true;
+                  }
+                }
+              }
+
+              // Check intersection with Torso volume if point is below torso (e.g. legs / feet)
+              if (!occludedByBody && camera.position.y > 1.45 && anchorPos.y < 1.15) {
+                const tTorso = (1.35 - camera.position.y) / dy;
+                if (tTorso > 0.02 && tTorso < 0.98) {
+                  const xTorso = camera.position.x + (anchorPos.x - camera.position.x) * tTorso;
+                  const zTorso = camera.position.z + (anchorPos.z - camera.position.z) * tTorso;
+                  if (Math.hypot(xTorso, zTorso - 0.045) < 0.16) {
+                    occludedByBody = true;
+                  }
+                }
+              }
+            }
+
+            obj.visible = !occludedByBody;
           }
 
           if (!obj.visible) continue;
