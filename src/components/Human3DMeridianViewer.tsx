@@ -503,36 +503,36 @@ function createPointCodeSprite(
 
   if (!texture || widthRatio === undefined) {
     const canvas = document.createElement('canvas');
-    canvas.width = 320;
-    canvas.height = 76;
+    canvas.width = 512;
+    canvas.height = 128;
     const ctx = canvas.getContext('2d')!;
 
-    ctx.clearRect(0, 0, 320, 76);
+    ctx.clearRect(0, 0, 512, 128);
     const fontSize = isHighlighted
       ? text.length > 13
-        ? 30
-        : 34
+        ? 52
+        : 60
       : text.length > 13
-        ? 26
-        : 30;
+        ? 46
+        : 54;
     ctx.font = `${isHighlighted ? 900 : 800} ${fontSize}px Inter, system-ui, -apple-system, sans-serif`;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
 
     // Measure exact rendered pixel width (including stroke halo) for 100% accurate anti-overlap boxes
-    const measuredPx = ctx.measureText(text).width + 18;
-    widthRatio = Math.min(0.98, Math.max(0.26, measuredPx / 320));
+    const measuredPx = ctx.measureText(text).width + 24;
+    widthRatio = Math.min(0.98, Math.max(0.26, measuredPx / 512));
     SPRITE_WIDTH_RATIO_CACHE.set(cacheKey, widthRatio);
 
     // Pure floating text with crisp halo stroke (NO dark box/pill around the text!)
     ctx.lineJoin = 'round';
     ctx.miterLimit = 2;
-    ctx.lineWidth = 6.5;
-    ctx.strokeStyle = 'rgba(15, 12, 10, 0.92)';
-    ctx.strokeText(text, 160, 38);
+    ctx.lineWidth = 11;
+    ctx.strokeStyle = 'rgba(15, 12, 10, 0.94)';
+    ctx.strokeText(text, 256, 64);
 
     ctx.fillStyle = isHighlighted ? '#fde047' : '#ffffff';
-    ctx.fillText(text, 160, 38);
+    ctx.fillText(text, 256, 64);
 
     texture = new THREE.CanvasTexture(canvas);
     texture.colorSpace = THREE.SRGBColorSpace;
@@ -549,8 +549,8 @@ function createPointCodeSprite(
     depthWrite: false,
   });
   const sprite = new THREE.Sprite(material);
-  const baseW = 0.080;
-  const baseH = 0.0195;
+  const baseW = 0.160;
+  const baseH = 0.039;
   sprite.scale.set(baseW, baseH, 1);
   sprite.renderOrder = 10;
   sprite.userData.textWidthRatio = widthRatio;
@@ -1106,14 +1106,14 @@ export const Human3DMeridianViewer: React.FC = () => {
               });
             }
           } else if (obj instanceof THREE.Sprite) {
-            // Larger readable labels at full-screen view (1.0x -> 0.080m) & auto-balanced smaller size when zooming in
+            // Larger readable labels at full-screen view (2x scale for maximum readability) & auto-balanced smaller size when zooming in
             const labelScale = Math.pow(
               THREE.MathUtils.clamp(dist / 2.1, 0.14, 1.12),
               0.88
             );
             const isSel = Boolean(obj.userData?.isSelected);
-            const wWorld = (isSel ? 0.092 : 0.080) * labelScale;
-            const hWorld = (isSel ? 0.0225 : 0.0195) * labelScale;
+            const wWorld = (isSel ? 0.184 : 0.160) * labelScale;
+            const hWorld = (isSel ? 0.045 : 0.039) * labelScale;
             obj.scale.set(wWorld, hWorld, 1);
 
             // Project the acupoint's exact pin anchor into 2D Screen NDC [-1..1]
