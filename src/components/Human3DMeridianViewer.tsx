@@ -3,6 +3,7 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { MERIDIANS_3D_DATA, Acupoint3D } from '../data/meridians3dData';
+import { COMPLETE_ACUPOINT_CLINICAL_DB } from '../data/acupoints';
 import { buildCompleteAnatomicalSkeleton3D } from '../utils/humanSkeleton3DBuilder';
 import {
   Search,
@@ -156,48 +157,299 @@ interface PlottedPoint3D {
 }
 
 /**
- * Generate a high-definition 1024x1024 dermal pore & micro-skin bump map
- * so the 3D body surface has crisp micro-texture under directional studio light
+ * Generate a crisp, fine-grained 1024x1024 epidermal micro-texture bump map
+ * and matching micro-roughness map (Langer lines + rhomboid skin micro-furrows + follicular pores).
  */
 function createHighDefSkinBumpTexture(): THREE.CanvasTexture {
+  const size = 1024;
   const canvas = document.createElement('canvas');
-  canvas.width = 512;
-  canvas.height = 512;
+  canvas.width = size;
+  canvas.height = size;
   const ctx = canvas.getContext('2d')!;
 
-  ctx.fillStyle = '#808080';
-  ctx.fillRect(0, 0, 512, 512);
+  const img = ctx.createImageData(size, size);
+  const data = img.data;
+  const twoPi = Math.PI * 2;
 
-  // Deterministic pseudo-random dermal pore & fine skin grain
-  let seed = 1337;
-  const rand = () => {
-    seed = (seed * 16807) % 2147483647;
-    return (seed - 1) / 2147483646;
-  };
+  for (let y = 0; y < size; y++) {
+    const ny = (y / size) * twoPi;
+    for (let x = 0; x < size; x++) {
+      const nx = (x / size) * twoPi;
+      // Primary & secondary rhomboid epidermal sulcus network (cristae cutis & sulci cutis)
+      const furrow1 =
+        Math.sin(nx * 46 + ny * 38) * Math.cos(nx * 38 - ny * 46);
+      const furrow2 =
+        Math.sin(nx * 96 - ny * 82) * Math.cos(nx * 82 + ny * 96) * 0.55;
+      // Fine follicular pore pits
+      const poreGrid =
+        Math.sin(nx * 148 + Math.cos(ny * 32) * 1.8) *
+        Math.sin(ny * 148 - Math.sin(nx * 32) * 1.8);
+      const poreIndent = poreGrid > 0.72 ? -(poreGrid - 0.72) * 48 : 0;
 
-  for (let i = 0; i < 14000; i++) {
-    const x = rand() * 512;
-    const y = rand() * 512;
-    const r = 0.6 + rand() * 1.4;
-    const bright = rand() > 0.45 ? 155 : 102;
-    ctx.fillStyle = `rgb(${bright},${bright},${bright})`;
-    ctx.beginPath();
-    ctx.arc(x, y, r, 0, Math.PI * 2);
-    ctx.fill();
+      const hash = Math.sin(x * 12.9898 + y * 78.233) * 43758.5453;
+      const grain = hash - Math.floor(hash) - 0.5;
+
+      const val = Math.max(
+        0,
+        Math.min(
+          255,
+          Math.round(128 + furrow1 * 11 + furrow2 * 8 + poreIndent + grain * 14)
+        )
+      );
+      const idx = (y * size + x) * 4;
+      data[idx] = val;
+      data[idx + 1] = val;
+      data[idx + 2] = val;
+      data[idx + 3] = 255;
+    }
   }
+  ctx.putImageData(img, 0, 0);
 
   const tex = new THREE.CanvasTexture(canvas);
   tex.wrapS = THREE.RepeatWrapping;
   tex.wrapT = THREE.RepeatWrapping;
-  tex.repeat.set(14, 14);
+  tex.repeat.set(18, 18);
+  tex.needsUpdate = true;
   return tex;
 }
 
 /**
- * Compute Discrete Mean Curvature (Cavity / Ridge Map) + Anatomical Muscle Sculpting +
- * High-Definition Vertex Colors on the 13,380-vertex MakeHuman 3D mesh:
- * - Enhances muscular definition (pectorals, clavicles, 6-pack abs, linea alba, deltoids, biceps, quads, calves, spine groove)
- * - Computes exact triangle-neighbor cavity occlusion so eyelids, nostrils, lips, ears, fingers, toes, and muscle grooves are razor-sharp
+ * Generates a high-resolution 512x512 photorealistic human eye texture
+ * with an anti-aliased pupil, radial iris stroma fibers, iris crypts, collarette ring,
+ * dark limbal ring, upper eyelid cast shadow, medial lacrimal caruncle warmth, and dual studio catchlights.
+ */
+function createPhotorealisticEyeTexture(): THREE.CanvasTexture {
+  const size = 512;
+  const canvas = document.createElement('canvas');
+  canvas.width = size;
+  canvas.height = size;
+  const ctx = canvas.getContext('2d')!;
+  const img = ctx.createImageData(size, size);
+  const data = img.data;
+
+  // Normalized radius in UV space where R_ball = 0.0126 maps to 0.50
+  // Iris radius = 0.0056m -> rNorm = 0.0056 / 0.0126 = 0.444
+  // Pupil radius = 0.00195m -> rNorm = 0.00195 / 0.0126 = 0.155
+  const rPupil = 0.152;
+  const rCollarette = 0.265;
+  const rIris = 0.442;
+
+  for (let py = 0; py < size; py++) {
+    // dy > 0 is upper eye, dy < 0 is lower eye
+    const dy = (0.5 - py / size) * 2.0;
+    for (let px = 0; px < size; px++) {
+      const dx = (px / size - 0.5) * 2.0;
+      const r = Math.hypot(dx, dy);
+      const angle = Math.atan2(dy, dx);
+
+      let R = 247;
+      let G = 244;
+      let B = 240;
+
+      if (r < rIris + 0.018) {
+        if (r < rPupil) {
+          // Deep velvet-black pupil with subtle sphincter transition
+          const edgeT = Math.max(0, (r - (rPupil - 0.018)) / 0.018);
+          R = Math.round(8 + edgeT * 28);
+          G = Math.round(9 + edgeT * 18);
+          B = Math.round(13 + edgeT * 12);
+        } else {
+          // Multi-layered human brown-amber iris with radial stroma fibers & crypts
+          const tIris = Math.min(1, (r - rPupil) / (rIris - rPupil));
+          const fiber1 = Math.sin(angle * 64 + Math.cos(r * 28) * 1.4);
+          const fiber2 = Math.cos(angle * 112 - Math.sin(r * 42) * 1.1);
+          const crypt = Math.sin(angle * 19 + 1.2) * Math.cos(r * 36);
+          const radialDetail = fiber1 * 0.48 + fiber2 * 0.32 + crypt * 0.20;
+
+          // Collarette ring highlight around rCollarette
+          const collarette = Math.exp(-Math.pow((r - rCollarette) / 0.048, 2));
+
+          // Base warm espresso-chestnut iris
+          let ir = 82 + collarette * 36 + radialDetail * 22 - tIris * 26;
+          let ig = 49 + collarette * 22 + radialDetail * 14 - tIris * 18;
+          let ib = 28 + collarette * 10 + radialDetail * 8 - tIris * 11;
+
+          // Dark limbal ring at outer edge of iris (tIris > 0.78)
+          if (tIris > 0.76) {
+            const limbalT = Math.min(1, (tIris - 0.76) / 0.24);
+            const limbalDark = 1 - limbalT * 0.68;
+            ir *= limbalDark;
+            ig *= limbalDark;
+            ib *= limbalDark;
+          }
+
+          // Smooth anti-aliased transition from iris to sclera
+          if (r > rIris - 0.012) {
+            const scleralBlend = Math.min(1, (r - (rIris - 0.012)) / 0.030);
+            ir = ir * (1 - scleralBlend) + 242 * scleralBlend;
+            ig = ig * (1 - scleralBlend) + 239 * scleralBlend;
+            ib = ib * (1 - scleralBlend) + 236 * scleralBlend;
+          }
+
+          R = Math.round(ir);
+          G = Math.round(ig);
+          B = Math.round(ib);
+        }
+      } else {
+        // Sclera with subtle peripheral vascular warmth and ambient curvature shading
+        const scleralDist = Math.min(1, (r - rIris) / 0.56);
+        const veinNoise =
+          Math.max(0, Math.sin(angle * 23 + r * 18) * Math.cos(angle * 37 - r * 24)) *
+          scleralDist;
+        R = Math.round(247 - scleralDist * 14 + veinNoise * 6);
+        G = Math.round(244 - scleralDist * 20 - veinNoise * 5);
+        B = Math.round(240 - scleralDist * 22 - veinNoise * 6);
+      }
+
+      // Natural upper-eyelid ambient occlusion & cast shadow across top of eye (dy > 0.14)
+      if (dy > 0.12) {
+        const lidShadow = Math.min(0.52, Math.pow((dy - 0.12) / 0.55, 1.35) * 0.58);
+        R = Math.round(R * (1 - lidShadow * 0.82));
+        G = Math.round(G * (1 - lidShadow * 0.86));
+        B = Math.round(B * (1 - lidShadow * 0.88));
+      }
+      // Subtle lower-lid tear meniscus warmth
+      if (dy < -0.28) {
+        const lowerT = Math.min(0.28, (-dy - 0.28) * 0.45);
+        R = Math.round(R * (1 - lowerT * 0.22));
+        G = Math.round(G * (1 - lowerT * 0.30));
+        B = Math.round(B * (1 - lowerT * 0.32));
+      }
+
+      // Primary crisp corneal window catchlight (upper-right of pupil)
+      const dCatch1 = Math.hypot((dx - 0.115) * 1.1, (dy - 0.125) * 0.95);
+      if (dCatch1 < 0.068) {
+        const c1 = Math.pow(1 - dCatch1 / 0.068, 0.55);
+        R = Math.round(R + (255 - R) * c1);
+        G = Math.round(G + (255 - G) * c1);
+        B = Math.round(B + (255 - B) * c1);
+      }
+
+      // Secondary soft lower-left corneal catchlight
+      const dCatch2 = Math.hypot(dx + 0.125, dy + 0.115);
+      if (dCatch2 < 0.036) {
+        const c2 = (1 - dCatch2 / 0.036) * 0.72;
+        R = Math.round(R + (255 - R) * c2);
+        G = Math.round(G + (255 - G) * c2);
+        B = Math.round(B + (255 - B) * c2);
+      }
+
+      const idx = (py * size + px) * 4;
+      data[idx] = Math.max(0, Math.min(255, R));
+      data[idx + 1] = Math.max(0, Math.min(255, G));
+      data[idx + 2] = Math.max(0, Math.min(255, B));
+      data[idx + 3] = 255;
+    }
+  }
+
+  ctx.putImageData(img, 0, 0);
+  const tex = new THREE.CanvasTexture(canvas);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  tex.minFilter = THREE.LinearMipmapLinearFilter;
+  tex.magFilter = THREE.LinearFilter;
+  tex.generateMipmaps = true;
+  tex.needsUpdate = true;
+  return tex;
+}
+
+/**
+ * Create a high-resolution 3D anatomical eyeball pair (left & right)
+ * positioned inside the eye sockets at (±0.0345, 1.7158, 0.1432) with radius 0.0126m,
+ * plus sculpted 3D corneal bulge and medial lacrimal caruncle shading.
+ */
+function createRealistic3DEyeballGeometry(): THREE.BufferGeometry {
+  const baseSphere = new THREE.SphereGeometry(0.0126, 56, 40);
+  const posAttr = baseSphere.attributes.position;
+  const vCount = posAttr.count;
+  const idxArray = baseSphere.index!.array;
+
+  const totalVerts = vCount * 2;
+  const positions = new Float32Array(totalVerts * 3);
+  const normals = new Float32Array(totalVerts * 3);
+  const uvs = new Float32Array(totalVerts * 2);
+  const colors = new Float32Array(totalVerts * 3);
+  const indices = new Uint32Array(idxArray.length * 2);
+
+  const cWhite = new THREE.Color('#ffffff');
+  const cCaruncle = new THREE.Color('#de837b');
+  const tmp = new THREE.Color();
+
+  const eyeCenters: [number, number, number][] = [
+    [-0.0345, 1.7158, 0.1432],
+    [0.0345, 1.7158, 0.1432],
+  ];
+
+  eyeCenters.forEach(([cx, cy, cz], sideIdx) => {
+    const vOffset = sideIdx * vCount;
+    for (let i = 0; i < vCount; i++) {
+      const lx = posAttr.getX(i);
+      const ly = posAttr.getY(i);
+      let lz = posAttr.getZ(i);
+
+      // Subtle anatomical corneal dome bulge over the anterior iris (r < 0.0058)
+      const rAnt = Math.hypot(lx, ly);
+      if (lz > 0 && rAnt < 0.0060) {
+        const dome = Math.cos((rAnt / 0.0060) * Math.PI * 0.5);
+        lz += 0.00055 * dome * dome;
+      }
+
+      const wx = cx + lx;
+      const wy = cy + ly;
+      const wz = cz + lz;
+
+      positions[(vOffset + i) * 3] = wx;
+      positions[(vOffset + i) * 3 + 1] = wy;
+      positions[(vOffset + i) * 3 + 2] = wz;
+
+      const invR = 1 / Math.hypot(lx, ly, lz);
+      normals[(vOffset + i) * 3] = lx * invR;
+      normals[(vOffset + i) * 3 + 1] = ly * invR;
+      normals[(vOffset + i) * 3 + 2] = lz * invR;
+
+      // Planar frontal UV projection onto the 512x512 eye texture
+      const u = THREE.MathUtils.clamp(0.5 + lx / (2 * 0.0126), 0.01, 0.99);
+      const v = THREE.MathUtils.clamp(0.5 + ly / (2 * 0.0126), 0.01, 0.99);
+      uvs[(vOffset + i) * 2] = u;
+      uvs[(vOffset + i) * 2 + 1] = v;
+
+      // Medial canthus lacrimal caruncle tint at inner corner of eye
+      tmp.copy(cWhite);
+      const medialX = sideIdx === 0 ? lx : -lx;
+      if (lz > 0 && medialX > 0.0078) {
+        tmp.lerp(cCaruncle, Math.min(0.82, (medialX - 0.0078) * 210));
+      }
+
+      colors[(vOffset + i) * 3] = tmp.r;
+      colors[(vOffset + i) * 3 + 1] = tmp.g;
+      colors[(vOffset + i) * 3 + 2] = tmp.b;
+    }
+
+    const iOffset = sideIdx * idxArray.length;
+    for (let j = 0; j < idxArray.length; j++) {
+      indices[iOffset + j] = idxArray[j] + vOffset;
+    }
+  });
+
+  baseSphere.dispose();
+
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+  geo.setAttribute('normal', new THREE.BufferAttribute(normals, 3));
+  geo.setAttribute('uv', new THREE.BufferAttribute(uvs, 2));
+  geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+  geo.setIndex(new THREE.BufferAttribute(indices, 1));
+  return geo;
+}
+
+/**
+ * Clean, High-Definition Anatomical Skin Sculpting & Dermatological Shading for `/models/human-learning.glb`:
+ * 1. Removes 100% of the internal oral pouch via exact topological BFS hop-distance from the throat seed
+ *    and seamlessly closes the upper & lower lip inner rims along a natural Cupid's-bow parting line.
+ * 2. Sculpts subtle, realistic 3D musculoskeletal & surface landmarks:
+ *    - Clavicles, sternocleidomastoid (SCM) muscles, suprasternal jugular notch, pectorals, linea alba, rectus abdominis
+ *    - Posterior vertebral furrow (Đốc Mạch), scapular spine & medial border, erector spinae, sacral dimples (Yêu Nhãn)
+ *    - Palmar flexion creases (thenar, transverse palmar, wrist creases), finger joint creases, extensor tendons, and fingernails
+ * 3. Applies lifelike multi-chromophore human skin shading with hair-stroke eyebrows, ciliary lash lines, and vascular zones.
  */
 function enhanceAndColorHumanGeometry(geometry: THREE.BufferGeometry) {
   const posAttr = geometry.attributes.position;
@@ -208,84 +460,436 @@ function enhanceAndColorHumanGeometry(geometry: THREE.BufferGeometry) {
   }
 
   const count = posAttr.count;
+  const idxAttr = geometry.index;
+  const cavity = new Float32Array(count);
 
-  // 1. Generate cylindrical/triplanar UV coordinates for dermal micro-bump texture
+  if (idxAttr) {
+    const rawIdxArray = idxAttr.array;
+
+    // Build full vertex adjacency on original mesh
+    const rawAdj: number[][] = Array.from({ length: count }, () => []);
+    for (let t = 0; t < rawIdxArray.length; t += 3) {
+      const a = rawIdxArray[t];
+      const b = rawIdxArray[t + 1];
+      const c = rawIdxArray[t + 2];
+      rawAdj[a].push(b, c);
+      rawAdj[b].push(a, c);
+      rawAdj[c].push(a, b);
+    }
+
+    // --- STEP 1: Exact Topological BFS from Throat Seed to Strip 100% of Internal Oral Pouch ---
+    // In human-learning.glb:
+    //   hop 0..10: Internal throat & oral mucosal cavity (z <= 0.1682)
+    //   hop 11: Innermost lip rim (upper lip v=474 at y=1.6409, lower inner mucosa v=557 at y=1.6374)
+    //   hop 12: Upper lip lower roll (v=468 at y=1.6433) and lower inner lip (v=540 at y=1.6402)
+    //   hop 13: Upper lip tubercle (v=509 at y=1.6454) and lower lip inner edge (v=523 at y=1.6406)
+    //   hop 14: Upper lip Cupid's bow (v=467 at y=1.6479) and lower lip top edge (v=493 at y=1.6401)
+    const hopDist = new Int32Array(count).fill(-1);
+    let oralSeed = -1;
+    for (let i = 0; i < count; i++) {
+      if (
+        Math.abs(posAttr.getX(i)) < 0.005 &&
+        posAttr.getY(i) > 1.65 &&
+        posAttr.getY(i) < 1.67 &&
+        posAttr.getZ(i) > 0.07 &&
+        posAttr.getZ(i) < 0.09
+      ) {
+        oralSeed = i;
+        break;
+      }
+    }
+
+    if (oralSeed !== -1) {
+      const queue: number[] = [oralSeed];
+      hopDist[oralSeed] = 0;
+      while (queue.length > 0) {
+        const u = queue.shift()!;
+        const nbs = rawAdj[u];
+        for (let k = 0; k < nbs.length; k++) {
+          const v = nbs[k];
+          if (hopDist[v] === -1) {
+            hopDist[v] = hopDist[u] + 1;
+            queue.push(v);
+          }
+        }
+      }
+    }
+
+    // Remove internal oral cavity triangles (hopDist <= 10, plus deep lower mucosal ring hopDist <= 11 with z < 0.1685)
+    const isInternalOralVertex = new Uint8Array(count);
+    for (let i = 0; i < count; i++) {
+      const d = hopDist[i];
+      if (d >= 0 && (d <= 10 || (d === 11 && posAttr.getZ(i) < 0.1685))) {
+        isInternalOralVertex[i] = 1;
+      }
+    }
+
+    const filteredIndices: number[] = [];
+    for (let t = 0; t < rawIdxArray.length; t += 3) {
+      const a = rawIdxArray[t];
+      const b = rawIdxArray[t + 1];
+      const c = rawIdxArray[t + 2];
+      if (
+        isInternalOralVertex[a] ||
+        isInternalOralVertex[b] ||
+        isInternalOralVertex[c]
+      ) {
+        continue;
+      }
+      filteredIndices.push(a, b, c);
+    }
+    geometry.setIndex(
+      new THREE.BufferAttribute(new Uint32Array(filteredIndices), 1)
+    );
+
+    // --- STEP 2: Seamlessly Seal Upper & Lower Lip Rims into Natural Plump Occlusion ---
+    for (let i = 0; i < count; i++) {
+      const d = hopDist[i];
+      if (d >= 11 && d <= 15) {
+        const x = posAttr.getX(i);
+        let y = posAttr.getY(i);
+        let z = posAttr.getZ(i);
+        const absX = Math.abs(x);
+        if (absX < 0.0245 && z > 0.145) {
+          const widthFade = Math.max(0, 1 - Math.pow(absX / 0.024, 2));
+          // Natural Cupid's bow lip parting curve
+          const lipSeamY = 1.6409 + Math.pow(absX / 0.023, 2) * 0.0005;
+          const lipSeamZ = 0.1736 - Math.pow(absX / 0.024, 2) * 0.0175;
+
+          if (d === 11) {
+            // Innermost upper lip rim (e.g. v=474): seal directly onto the lip parting seam
+            y = THREE.MathUtils.lerp(y, lipSeamY, 0.95 * widthFade);
+            z = Math.max(z, THREE.MathUtils.lerp(z, lipSeamZ, 0.85 * widthFade));
+          } else if (d === 12) {
+            if (y > 1.6415) {
+              // Upper lip lower roll (v=468 at y=1.6433): roll smoothly down to meet lower lip
+              y = THREE.MathUtils.lerp(y, lipSeamY + 0.0005, 0.78 * widthFade);
+            } else {
+              // Lower inner lip rim (v=540): bring up and forward to tuck seamlessly behind upper lip
+              y = THREE.MathUtils.lerp(y, lipSeamY, 0.95 * widthFade);
+              z = Math.max(z, THREE.MathUtils.lerp(z, lipSeamZ - 0.0003, 0.90 * widthFade));
+            }
+          } else if (d === 13) {
+            if (y < 1.6425) {
+              // Lower lip inner edge (v=523): bring up to lip parting seam
+              y = THREE.MathUtils.lerp(y, lipSeamY - 0.0001, 0.92 * widthFade);
+              z = Math.max(z, THREE.MathUtils.lerp(z, lipSeamZ - 0.0001, 0.85 * widthFade));
+            } else {
+              // Upper lip tubercle (v=509 at y=1.6454): subtle plumpness
+              y = THREE.MathUtils.lerp(y, lipSeamY + 0.0028, 0.35 * widthFade);
+              z += 0.0005 * widthFade;
+            }
+          } else if (d === 14 && y < 1.6415) {
+            // Lower lip top border (v=493 at y=1.6401): touch upper lip roll with zero gap
+            y = THREE.MathUtils.lerp(y, lipSeamY - 0.0002, 0.85 * widthFade);
+            z += 0.0012 * widthFade;
+          } else if (d === 15 && y < 1.6400) {
+            // Lower lip upper cushion (v=494 at y=1.6387): plump forward slightly
+            y = THREE.MathUtils.lerp(y, lipSeamY - 0.0014, 0.45 * widthFade);
+            z += 0.0008 * widthFade;
+          }
+          posAttr.setXYZ(i, x, y, z);
+        }
+      }
+    }
+
+    // Build clean adjacency after oral pouch removal
+    const idxArray = geometry.index!.array;
+    const adj: number[][] = Array.from({ length: count }, () => []);
+    for (let t = 0; t < idxArray.length; t += 3) {
+      const a = idxArray[t];
+      const b = idxArray[t + 1];
+      const c = idxArray[t + 2];
+      adj[a].push(b, c);
+      adj[b].push(a, c);
+      adj[c].push(a, b);
+    }
+
+    const posArr = posAttr.array as Float32Array;
+    const tmpArr = new Float32Array(posArr.length);
+
+    // Gentle 2-pass Taubin fairing ONLY on rigging transition zones ( preserves clavicles, muscles, face & hands! )
+    const smoothPass = (factor: number) => {
+      tmpArr.set(posArr);
+      for (let i = 0; i < count; i++) {
+        const x = Math.abs(posArr[i * 3]);
+        const y = posArr[i * 3 + 1];
+        // Never blur face/ears (y > 1.585), hands/wrists (x > 0.46), or feet/toes (y < 0.07)
+        if (y > 1.585 || x > 0.46 || y < 0.070) continue;
+
+        const nb = adj[i];
+        const nLen = nb.length;
+        if (nLen === 0) continue;
+
+        let sx = 0;
+        let sy = 0;
+        let sz = 0;
+        for (let k = 0; k < nLen; k++) {
+          const j = nb[k] * 3;
+          sx += posArr[j];
+          sy += posArr[j + 1];
+          sz += posArr[j + 2];
+        }
+        const inv = 1 / nLen;
+
+        // Moderate fairing on elbow/axilla rigging seams; light fairing on torso so muscles stay defined
+        let weight = 0.22;
+        if (x > 0.24 && x < 0.42) {
+          weight = 0.52;
+        }
+        const f = factor * weight;
+        tmpArr[i * 3] = posArr[i * 3] + f * (sx * inv - posArr[i * 3]);
+        tmpArr[i * 3 + 1] = posArr[i * 3 + 1] + f * (sy * inv - posArr[i * 3 + 1]);
+        tmpArr[i * 3 + 2] = posArr[i * 3 + 2] + f * (sz * inv - posArr[i * 3 + 2]);
+      }
+      posArr.set(tmpArr);
+    };
+
+    for (let iter = 0; iter < 2; iter++) {
+      smoothPass(0.42);
+      smoothPass(-0.435);
+    }
+
+    // --- STEP 3: Sculpt Realistic 3D Musculoskeletal & Surface Landmarks ---
+    geometry.computeVertexNormals();
+    normAttr = geometry.attributes.normal;
+
+    for (let i = 0; i < count; i++) {
+      let x = posArr[i * 3];
+      let y = posArr[i * 3 + 1];
+      let z = posArr[i * 3 + 2];
+      const absX = Math.abs(x);
+      const nx = normAttr.getX(i);
+      const ny = normAttr.getY(i);
+      const nz = normAttr.getZ(i);
+
+      let disp = 0; // Normal displacement in meters
+
+      // A. ANTERIOR NECK, CLAVICLES, CHEST & ABDOMEN (z > 0.02, y in 0.94..1.58)
+      if (z > 0.02 && y > 0.94 && y < 1.58 && absX < 0.175) {
+        // 1. Suprasternal jugular notch (Hõm ức Thiên Đột CV-22 at x=0, y=1.500)
+        const dNotch = Math.hypot(x / 0.015, (y - 1.500) / 0.014);
+        if (dNotch < 1.5) {
+          disp -= 0.0022 * Math.exp(-dNotch * dNotch * 1.4);
+        }
+
+        // 2. Sternocleidomastoid (SCM) muscle columns (Cơ ức đòn chũm)
+        if (y >= 1.495 && y <= 1.585) {
+          const tScm = (y - 1.495) / 0.090;
+          const scmCenterX = 0.015 + tScm * 0.036;
+          const dScm = Math.abs(absX - scmCenterX);
+          if (dScm < 0.014) {
+            disp += 0.0014 * Math.cos((dScm / 0.014) * Math.PI * 0.5) * Math.sin(tScm * Math.PI);
+          }
+        }
+
+        // 3. Clavicular bone ridge (Xương đòn) & supraclavicular fossa (Hố thượng đòn ST-12)
+        if (absX >= 0.016 && absX <= 0.148 && y >= 1.465 && y <= 1.530) {
+          const clavT = (absX - 0.016) / 0.132;
+          const clavY = 1.493 + 0.011 * Math.sin(clavT * Math.PI * 0.75);
+          const dyClav = y - clavY;
+          const envX = Math.sin(clavT * Math.PI);
+          // Prominent bony ridge along clavicle
+          disp += 0.0019 * Math.exp(-Math.pow(dyClav / 0.0075, 2)) * envX;
+          // Supraclavicular hollow just above clavicle
+          disp -= 0.0014 * Math.exp(-Math.pow((dyClav - 0.012) / 0.0085, 2)) * envX;
+        }
+
+        // 4. Median sternal furrow (Rãnh ức Đản Trung CV-17) & Pectoral contour
+        if (y >= 1.295 && y <= 1.465 && absX < 0.025) {
+          const sternalEnv = Math.sin(((y - 1.295) / 0.170) * Math.PI);
+          disp -= 0.0013 * Math.exp(-Math.pow(x / 0.011, 2)) * sternalEnv;
+        }
+
+        // 5. Linea alba (Đường trắng giữa bụng CV-14 -> CV-8 -> CV-4)
+        if (y >= 0.990 && y <= 1.290 && absX < 0.018) {
+          const albaEnv = Math.sin(((y - 0.990) / 0.300) * Math.PI);
+          disp -= 0.0015 * Math.exp(-Math.pow(x / 0.0075, 2)) * albaEnv;
+        }
+
+        // 6. Linea semilunaris & Rectus abdominis muscular relief
+        if (y >= 1.040 && y <= 1.275 && absX >= 0.008 && absX <= 0.082) {
+          const absEnvY = Math.sin(((y - 1.040) / 0.235) * Math.PI);
+          // Lateral border of rectus abdominis (linea semilunaris at absX ~ 0.064)
+          disp -= 0.0010 * Math.exp(-Math.pow((absX - 0.064) / 0.009, 2)) * absEnvY;
+          // Subtle rectus belly fullness between x=0.014 and x=0.052
+          if (absX > 0.010 && absX < 0.056) {
+            const bellyX = Math.sin(((absX - 0.010) / 0.046) * Math.PI);
+            // Tendinous intersections at y = 1.238, 1.178, 1.120
+            const tendinous =
+              Math.exp(-Math.pow((y - 1.238) / 0.007, 2)) +
+              Math.exp(-Math.pow((y - 1.178) / 0.007, 2)) +
+              Math.exp(-Math.pow((y - 1.120) / 0.007, 2));
+            disp += (0.0011 - 0.0009 * tendinous) * bellyX * absEnvY;
+          }
+        }
+      }
+
+      // B. POSTERIOR BACK, SPINE, SCAPULAE & SACRAL DIMPLES (z < -0.01, y in 0.96..1.53)
+      if (z < -0.01 && y > 0.96 && y < 1.53 && absX < 0.175) {
+        // 1. C7 Vertebra Prominens (Huyệt Đại Chùy GV-14 at x=0, y=1.505)
+        const dC7 = Math.hypot(x / 0.012, (y - 1.505) / 0.012);
+        if (dC7 < 1.4) {
+          disp += 0.0018 * Math.exp(-dC7 * dC7 * 1.5);
+        }
+
+        // 2. Median posterior vertebral furrow (Rãnh cột sống Đốc Mạch) & Erector Spinae columns
+        if (y >= 0.995 && y <= 1.485 && absX < 0.065) {
+          const spineEnv = Math.sin(((y - 0.995) / 0.490) * Math.PI);
+          // Central spinal groove
+          disp -= 0.0022 * Math.exp(-Math.pow(x / 0.0105, 2)) * spineEnv;
+          // Paravertebral erector spinae muscle columns (absX ~ 0.030, Kinh Bàng Quang)
+          disp += 0.0015 * Math.exp(-Math.pow((absX - 0.030) / 0.014, 2)) * spineEnv;
+        }
+
+        // 3. Scapular spine (Gai xương bả vai) & Medial scapular border (Bờ trong xương bả vai)
+        if (y >= 1.300 && y <= 1.475 && absX >= 0.048 && absX <= 0.155) {
+          // Scapular spine running obliquely from (0.055, 1.432) to (0.145, 1.458)
+          const spineLineY = 1.432 + ((absX - 0.055) / 0.090) * 0.026;
+          const dScapSpine = Math.abs(y - spineLineY);
+          const scapEnvX = Math.sin(
+            THREE.MathUtils.clamp((absX - 0.050) / 0.100, 0, 1) * Math.PI
+          );
+          disp += 0.0016 * Math.exp(-Math.pow(dScapSpine / 0.009, 2)) * scapEnvX;
+
+          // Medial border of scapula (absX ~ 0.058 + (1.44 - y) * 0.08)
+          if (y >= 1.315 && y <= 1.445) {
+            const medX = 0.058 + (1.445 - y) * 0.09;
+            const medEnvY = Math.sin(((y - 1.315) / 0.130) * Math.PI);
+            disp += 0.0013 * Math.exp(-Math.pow((absX - medX) / 0.0085, 2)) * medEnvY;
+          }
+        }
+
+        // 4. Lumbar Sacral Dimples (Hõm Yêu Nhãn EX-B7 / PSIS at absX=0.039, y=1.010)
+        const dDimple = Math.hypot((absX - 0.039) / 0.011, (y - 1.010) / 0.011);
+        if (dDimple < 1.5) {
+          disp -= 0.0020 * Math.exp(-dDimple * dDimple * 1.5);
+        }
+      }
+
+      // C. HANDS, PALMS, WRISTS & FINGERS (absX > 0.48)
+      if (absX > 0.48) {
+        // 1. Wrist flexion crease (Lằn chỉ cổ tay Thái Uyên LU-9 / Đại Lăng PC-7 / Thần Môn HT-7)
+        const wristLine = y - (1.1009 + 0.71 * (absX - 0.5076));
+        if (absX < 0.532 && Math.abs(wristLine) < 0.0055 && nz > 0.05) {
+          disp -= 0.00065 * Math.exp(-Math.pow(wristLine / 0.0022, 2));
+        }
+
+        // 2. Palmar flexion creases (Đường sinh đạo, trí đạo, tâm đạo lòng bàn tay)
+        if (absX >= 0.525 && absX <= 0.595 && y >= 1.008 && y <= 1.102 && nz > 0.15) {
+          // Thenar crease (life line) curving around thumb base
+          const thenarDist = Math.abs(
+            Math.hypot(absX - 0.538, y - 1.098) - 0.036
+          );
+          if (thenarDist < 0.004) {
+            disp -= 0.00065 * Math.exp(-Math.pow(thenarDist / 0.0015, 2));
+          }
+          // Proximal transverse palmar crease (head line through Lao Cung PC-8)
+          const headLine = y - (1.062 - 0.48 * (absX - 0.542));
+          if (absX >= 0.538 && absX <= 0.590 && Math.abs(headLine) < 0.004) {
+            disp -= 0.00060 * Math.exp(-Math.pow(headLine / 0.0015, 2));
+          }
+          // Distal transverse palmar crease (heart line through Thiếu Phủ HT-8)
+          const heartLine = y - (1.022 + 0.42 * (absX - 0.540));
+          if (absX >= 0.536 && absX <= 0.588 && Math.abs(heartLine) < 0.004) {
+            disp -= 0.00060 * Math.exp(-Math.pow(heartLine / 0.0015, 2));
+          }
+        }
+
+        // 3. Dorsal hand extensor tendons (Gân duỗi mu bàn tay)
+        if (absX >= 0.518 && absX <= 0.582 && y >= 1.015 && y <= 1.085 && nz < -0.10) {
+          const wristDx = absX - 0.512;
+          const wristDy = y - 1.092;
+          const rayAngle = Math.atan2(wristDy, wristDx);
+          // 4 extensor tendon rays at angles ~ -0.78, -0.95, -1.12, -1.28 rad
+          const tendonWave = Math.cos((rayAngle + 0.78) * 18.5);
+          if (tendonWave > 0.4 && rayAngle < -0.68 && rayAngle > -1.36) {
+            const radialEnv = Math.sin(((absX - 0.518) / 0.064) * Math.PI);
+            disp += 0.00065 * Math.pow((tendonWave - 0.4) / 0.6, 1.5) * radialEnv;
+          }
+        }
+      }
+
+      if (disp !== 0) {
+        x += nx * disp;
+        y += ny * disp;
+        z += nz * disp;
+        posArr[i * 3] = x;
+        posArr[i * 3 + 1] = y;
+        posArr[i * 3 + 2] = z;
+      }
+    }
+
+    posAttr.needsUpdate = true;
+    geometry.computeVertexNormals();
+    normAttr = geometry.attributes.normal;
+
+    // Compute local mean curvature (cavity) for fine detail enhancement
+    for (let i = 0; i < count; i++) {
+      const nb = adj[i];
+      const nLen = nb.length;
+      if (nLen === 0) continue;
+      let sx = 0;
+      let sy = 0;
+      let sz = 0;
+      for (let k = 0; k < nLen; k++) {
+        const j = nb[k] * 3;
+        sx += posArr[j];
+        sy += posArr[j + 1];
+        sz += posArr[j + 2];
+      }
+      const inv = 1 / nLen;
+      const dx = sx * inv - posArr[i * 3];
+      const dy = sy * inv - posArr[i * 3 + 1];
+      const dz = sz * inv - posArr[i * 3 + 2];
+      const dot =
+        dx * normAttr.getX(i) + dy * normAttr.getY(i) + dz * normAttr.getZ(i);
+      cavity[i] = THREE.MathUtils.clamp(dot * 320, -1.0, 1.0);
+    }
+  }
+
+  // --- STEP 4: Singularity-Free Continuous 3D Anatomical UV Projection ---
   const uvs = new Float32Array(count * 2);
   for (let i = 0; i < count; i++) {
     const x = posAttr.getX(i);
     const y = posAttr.getY(i);
     const z = posAttr.getZ(i);
-    const angle = Math.atan2(x, z) / (Math.PI * 2) + 0.5;
-    uvs[i * 2] = angle * 3.0;
-    uvs[i * 2 + 1] = y * 2.5;
+    uvs[i * 2] = x * 3.6 + z * 2.4;
+    uvs[i * 2 + 1] = y * 3.6 - z * 1.5;
   }
   geometry.setAttribute('uv', new THREE.BufferAttribute(uvs, 2));
 
-  // 2. Build vertex adjacency from index buffer to compute true 3D surface curvature (cavity & ridge map)
-  const cavity = new Float32Array(count);
-  const idxAttr = geometry.index;
-  if (idxAttr) {
-    const neighborSumX = new Float32Array(count);
-    const neighborSumY = new Float32Array(count);
-    const neighborSumZ = new Float32Array(count);
-    const neighborCount = new Uint16Array(count);
-
-    const idxArray = idxAttr.array;
-    const addEdge = (a: number, b: number) => {
-      neighborSumX[a] += posAttr.getX(b);
-      neighborSumY[a] += posAttr.getY(b);
-      neighborSumZ[a] += posAttr.getZ(b);
-      neighborCount[a]++;
-    };
-
-    for (let t = 0; t < idxArray.length; t += 3) {
-      const i0 = idxArray[t];
-      const i1 = idxArray[t + 1];
-      const i2 = idxArray[t + 2];
-      addEdge(i0, i1);
-      addEdge(i0, i2);
-      addEdge(i1, i0);
-      addEdge(i1, i2);
-      addEdge(i2, i0);
-      addEdge(i2, i1);
-    }
-
-    for (let i = 0; i < count; i++) {
-      const deg = neighborCount[i];
-      if (deg === 0) continue;
-      const avgX = neighborSumX[i] / deg - posAttr.getX(i);
-      const avgY = neighborSumY[i] / deg - posAttr.getY(i);
-      const avgZ = neighborSumZ[i] / deg - posAttr.getZ(i);
-
-      const nx = normAttr.getX(i);
-      const ny = normAttr.getY(i);
-      const nz = normAttr.getZ(i);
-
-      // Dot product > 0 means neighbors lie in front of vertex along normal => CONCAVE CREASE / CAVITY
-      // Dot product < 0 means vertex protrudes outward relative to neighbors => CONVEX RIDGE
-      const dot = avgX * nx + avgY * ny + avgZ * nz;
-      cavity[i] = THREE.MathUtils.clamp(dot * 420, -1.0, 1.0);
-    }
-  }
-
-  // 3. Subtle anatomical muscle-relief normal perturbation & high-definition vertex coloring
+  // --- STEP 5: Lifelike Multi-Chromophore Human Skin & Anatomical Feature Coloring ---
   const colors = new Float32Array(count * 3);
 
-  const cSkinBase = new THREE.Color('#ddb09a');
-  const cSkinHighlight = new THREE.Color('#efd0c0');
-  const cSkinCavity = new THREE.Color('#9c6854');
-  const cSkinWarm = new THREE.Color('#cf8772');
-  const cLips = new THREE.Color('#bc6862');
-  const cLipLine = new THREE.Color('#7a3834');
-  const cBrow = new THREE.Color('#543b2c');
-  const cSclera = new THREE.Color('#f1f5f9');
-  const cIris = new THREE.Color('#466f84');
-  const cPupil = new THREE.Color('#0f172a');
-  const cEyelidLine = new THREE.Color('#6e4639');
-  const cNipple = new THREE.Color('#a85d52');
-  const cNavel = new THREE.Color('#7d4b3b');
+  const cSkinBase = new THREE.Color('#eabaa3');      // Natural living warm peach-ivory complexion
+  const cSkinLuminous = new THREE.Color('#f7dfd4');  // Soft upward-facing dermal highlight
+  const cSkinContour = new THREE.Color('#c88e76');   // Smooth anatomical muscle/groove contour
+  const cVascularRosy = new THREE.Color('#de8070');  // Capillary hemoglobin oxygenation (cheeks, palms, knees, joints)
+  const cSkinCrease = new THREE.Color('#b0745f');    // Palmar creases, finger joint folds, philtrum & facial creases
+  const cLipsUpper = new THREE.Color('#bd5f59');
+  const cLipsLower = new THREE.Color('#d4726b');
+  const cLipHighlight = new THREE.Color('#eb9b94');
+  const cLipLine = new THREE.Color('#783431');
+  const cBrow = new THREE.Color('#3b271e');
+  const cEyelidLine = new THREE.Color('#472a20');
+  const cNipple = new THREE.Color('#b8685b');
+  const cAreola = new THREE.Color('#cf8476');
+  const cNavel = new THREE.Color('#8f5746');
+  const cNailPlate = new THREE.Color('#f4dad2');
+  const cNailLunula = new THREE.Color('#fbf0ec');
 
   const tmp = new THREE.Color();
+
+  // Exact fingertip & joint coordinates for all 5 fingers (symmetrical in absX)
+  const fingerRays = [
+    // [tipX, tipY, tipZ, pipX, pipY, mcpX, mcpY]
+    [0.624, 1.090, 0.084, 0.600, 1.055, 0.576, 1.068], // Thumb
+    [0.652, 1.011, 0.056, 0.618, 1.012, 0.582, 1.028], // Index
+    [0.633, 0.958, 0.072, 0.604, 0.992, 0.568, 1.018], // Middle
+    [0.589, 0.954, 0.055, 0.582, 0.986, 0.552, 1.014], // Ring
+    [0.557, 0.965, 0.056, 0.555, 0.988, 0.536, 1.015], // Little
+  ];
 
   for (let i = 0; i < count; i++) {
     const x = posAttr.getX(i);
@@ -293,150 +897,289 @@ function enhanceAndColorHumanGeometry(geometry: THREE.BufferGeometry) {
     const z = posAttr.getZ(i);
     const absX = Math.abs(x);
 
+    const nx = normAttr.getX(i);
     const ny = normAttr.getY(i);
     const nz = normAttr.getZ(i);
-    const cav = cavity[i]; // +1 in deep creases, -1 on sharp ridges
+    const cav = cavity[i];
 
-    // Base skin color across the entire body (100% seamless natural human skin, no dark briefs)
+    // 1. Living Base Complexion with smooth directional normal luminance
     tmp.copy(cSkinBase);
-
-    // Apply real 3D mesh cavity occlusion & ridge highlight (makes nose, eyelids, ears, fingers, toes & muscles super sharp!)
-    if (cav > 0) {
-      tmp.lerp(cSkinCavity, Math.min(0.78, cav * 0.72));
-    } else if (cav < 0) {
-      tmp.lerp(cSkinHighlight, Math.min(0.38, -cav * 0.34));
+    const upwardFacing = THREE.MathUtils.clamp(ny * 0.55 + Math.abs(nz) * 0.25, -0.6, 0.7);
+    if (upwardFacing > 0) {
+      tmp.lerp(cSkinLuminous, upwardFacing * 0.27);
+    } else {
+      tmp.lerp(cSkinContour, -upwardFacing * 0.30);
     }
 
-    // Natural downward-facing anatomical shadow (under chin, under pecs, under glutes, between thighs)
-    if (ny < -0.1) {
-      tmp.lerp(cSkinCavity, Math.min(0.42, (-ny - 0.1) * 0.48));
+    // 2. Smooth 3D Gaussian Vascular (Hemoglobin) Zones across the body
+    const cheekFlush =
+      Math.exp(
+        -(Math.pow((absX - 0.042) / 0.024, 2) + Math.pow((y - 1.682) / 0.024, 2))
+      ) * THREE.MathUtils.clamp((z - 0.11) * 18, 0, 1);
+    const noseTipFlush =
+      Math.exp(
+        -(Math.pow(absX / 0.018, 2) + Math.pow((y - 1.672) / 0.016, 2))
+      ) * THREE.MathUtils.clamp((z - 0.15) * 25, 0, 1);
+    const earFlush =
+      Math.exp(-Math.pow((y - 1.702) / 0.036, 2)) *
+      THREE.MathUtils.clamp((absX - 0.072) * 45, 0, 1);
+    const shoulderWarmth =
+      Math.exp(
+        -(Math.pow((absX - 0.175) / 0.055, 2) + Math.pow((y - 1.485) / 0.048, 2))
+      ) * 0.32;
+    const elbowWarmth =
+      Math.exp(
+        -(Math.pow((absX - 0.345) / 0.038, 2) + Math.pow((y - 1.245) / 0.038, 2))
+      ) * 0.26;
+    const kneeWarmth =
+      Math.exp(-Math.pow((y - 0.495) / 0.048, 2)) *
+      THREE.MathUtils.clamp((z - 0.035) * 16, 0, 1) *
+      0.42;
+    const handWarmth = THREE.MathUtils.smoothstep(absX, 0.48, 0.58) * 0.48;
+    const footWarmth = (1 - THREE.MathUtils.smoothstep(y, 0.015, 0.085)) * 0.42;
+
+    const totalVascular = Math.min(
+      0.60,
+      cheekFlush * 0.48 +
+        noseTipFlush * 0.42 +
+        earFlush * 0.45 +
+        shoulderWarmth +
+        elbowWarmth +
+        kneeWarmth +
+        handWarmth +
+        footWarmth
+    );
+    if (totalVascular > 0.005) {
+      tmp.lerp(cVascularRosy, totalVascular);
     }
 
-    // Grazing side-edge definition (Fresnel contour darkening so silhouette & limbs stand out crisply against studio backdrop)
-    const sideGrazing = 1.0 - Math.abs(nz);
-    if (sideGrazing > 0.65) {
-      tmp.lerp(cSkinCavity, (sideGrazing - 0.65) * 0.42);
-    }
-
-    // Sculpted anatomical muscle shading on torso & limbs (matching Acu Atlas 3D screenshots):
-    // A. Lower pectoral fold & central sternal cleavage
-    if (z > 0.10 && y > 1.28 && y < 1.38 && absX > 0.015 && absX < 0.125) {
-      const pecCurve = 1.305 + Math.pow((absX - 0.068) * 9.5, 2) * 0.035;
-      const distPecFold = Math.abs(y - pecCurve);
-      if (distPecFold < 0.012) {
-        tmp.lerp(cSkinCavity, (1 - distPecFold / 0.012) * 0.36);
+    // 3. Subtle Musculoskeletal Chiaroscuro (Clavicles, SCM, Linea Alba, Spinal Groove, Scapulae)
+    if (z > 0.02 && y > 0.94 && y < 1.58 && absX < 0.175) {
+      // Suprasternal notch shadow (CV-22)
+      const dNotch = Math.hypot(x / 0.015, (y - 1.500) / 0.014);
+      if (dNotch < 1.3) {
+        tmp.lerp(cSkinContour, Math.exp(-dNotch * dNotch * 1.6) * 0.42);
       }
-    }
-    // B. Central Linea Alba & 6-Pack Rectus Abdominis intersections
-    if (z > 0.11 && y > 1.02 && y < 1.32 && absX < 0.085) {
-      // Vertical linea alba groove
-      if (absX < 0.008) {
-        tmp.lerp(cSkinCavity, (1 - absX / 0.008) * 0.32);
+      // Clavicular highlight & supraclavicular shadow
+      if (absX >= 0.016 && absX <= 0.148 && y >= 1.465 && y <= 1.530) {
+        const clavT = (absX - 0.016) / 0.132;
+        const clavY = 1.493 + 0.011 * Math.sin(clavT * Math.PI * 0.75);
+        const dyClav = y - clavY;
+        const envX = Math.sin(clavT * Math.PI);
+        tmp.lerp(cSkinLuminous, Math.exp(-Math.pow(dyClav / 0.007, 2)) * envX * 0.28);
+        tmp.lerp(cSkinContour, Math.exp(-Math.pow((dyClav - 0.012) / 0.008, 2)) * envX * 0.34);
       }
-      // Lateral semilunaris border of abs
-      const distSemilunaris = Math.abs(absX - 0.068);
-      if (distSemilunaris < 0.009) {
-        tmp.lerp(cSkinCavity, (1 - distSemilunaris / 0.009) * 0.28);
-      }
-      // Tendinous intersections at y = 1.24, 1.18, 1.115
-      for (const ty of [1.245, 1.178, 1.112]) {
-        const distTendon = Math.abs(y - ty);
-        if (absX > 0.006 && absX < 0.068 && distTendon < 0.007) {
-          tmp.lerp(cSkinCavity, (1 - distTendon / 0.007) * 0.26);
+      // Linea alba & semilunaris subtle abdominal definition
+      if (y >= 0.990 && y <= 1.290) {
+        const albaEnv = Math.sin(((y - 0.990) / 0.300) * Math.PI);
+        if (absX < 0.016) {
+          tmp.lerp(cSkinContour, Math.exp(-Math.pow(x / 0.007, 2)) * albaEnv * 0.28);
+        }
+        if (absX > 0.048 && absX < 0.080) {
+          tmp.lerp(cSkinContour, Math.exp(-Math.pow((absX - 0.064) / 0.009, 2)) * albaEnv * 0.22);
         }
       }
-    }
-    // C. Clavicle ridge & supraclavicular hollow
-    if (z > 0.06 && y > 1.46 && y < 1.52 && absX > 0.025 && absX < 0.135) {
-      const clavY = 1.485 + (absX - 0.03) * 0.14;
-      const dClav = y - clavY;
-      if (Math.abs(dClav) < 0.008) {
-        tmp.lerp(cSkinHighlight, 0.25);
-      } else if (dClav > 0.008 && dClav < 0.020) {
-        tmp.lerp(cSkinCavity, 0.28);
+    } else if (z < -0.01 && y > 0.96 && y < 1.53 && absX < 0.175) {
+      // Posterior spinal furrow & sacral dimples
+      if (y >= 0.995 && y <= 1.485 && absX < 0.025) {
+        const spineEnv = Math.sin(((y - 0.995) / 0.490) * Math.PI);
+        tmp.lerp(cSkinContour, Math.exp(-Math.pow(x / 0.010, 2)) * spineEnv * 0.35);
+      }
+      const dDimple = Math.hypot((absX - 0.039) / 0.011, (y - 1.010) / 0.011);
+      if (dDimple < 1.4) {
+        tmp.lerp(cSkinContour, Math.exp(-dDimple * dDimple * 1.6) * 0.40);
       }
     }
-    // D. Posterior median spinal furrow (DU channel) & Scapular borders
-    if (z < -0.02 && y > 1.00 && y < 1.52 && absX < 0.015) {
-      tmp.lerp(cSkinCavity, (1 - absX / 0.015) * 0.38);
-    }
 
-    // Subtle vascular warmth on cheeks, nose, fingertips, knuckles, knees & toes
-    if (
-      (y > 1.62 && z > 0.10) ||
-      absX > 0.48 ||
-      (y > 0.44 && y < 0.54) ||
-      y < 0.08
-    ) {
-      tmp.lerp(cSkinWarm, 0.22);
-    }
-
-    // Nipples (ST-17 landmark: [±0.0905, 1.3252, 0.1764])
-    const distNipple = Math.hypot(absX - 0.0905, y - 1.3252);
-    if (z > 0.14 && distNipple < 0.014) {
-      const t = 1 - distNipple / 0.014;
-      tmp.lerp(cNipple, Math.min(1, t * 1.45));
-    }
-
-    // Umbilical Navel (CV-8 landmark: [0, 1.1114, 0.1542])
-    const distNavel = Math.hypot(x, y - 1.1114);
-    if (z > 0.12 && distNavel < 0.011) {
-      const t = 1 - distNavel / 0.011;
-      tmp.lerp(cNavel, Math.min(1, t * 1.55));
-    }
-
-    // High-Definition Facial Features (Eyes, Eyelids, Iris, Pupil, Eyebrows, Nostrils, Lips)
-    if (y > 1.58 && z > 0.08) {
-      // Nostrils dark cavity under nose tip
-      const distNostril = Math.hypot(absX - 0.011, y - 1.663);
-      if (z > 0.162 && ny < -0.15 && distNostril < 0.0085) {
-        tmp.lerp(cLipLine, 0.75);
+    // 4. Palmar Creases, Finger Joint Folds & Realistic Fingernails (absX > 0.48)
+    if (absX > 0.48) {
+      // Fine mesh cavity shading on fingers/ears/toes
+      if (cav > 0) {
+        tmp.lerp(cSkinCrease, Math.min(0.42, cav * 0.38));
+      } else if (cav < 0) {
+        tmp.lerp(cSkinLuminous, Math.min(0.22, -cav * 0.20));
       }
 
-      // Lips & Mouth parting line
-      const lipCheck =
-        Math.pow(x / 0.026, 2) + Math.pow((y - 1.638) / 0.0115, 2);
-      if (z > 0.152 && lipCheck <= 1.0) {
-        const distParting = Math.abs(y - 1.6385);
-        if (distParting < 0.0018 && absX < 0.022) {
-          tmp.lerp(cLipLine, 0.85);
-        } else {
-          tmp.lerp(cLips, Math.min(1, (1 - lipCheck) * 1.65));
+      // Wrist flexion crease shading
+      const wristLine = y - (1.1009 + 0.71 * (absX - 0.5076));
+      if (absX < 0.532 && Math.abs(wristLine) < 0.0045 && nz > 0.05) {
+        tmp.lerp(cSkinCrease, Math.exp(-Math.pow(wristLine / 0.0018, 2)) * 0.46);
+      }
+
+      // Palmar flexion lines (thenar, head line, heart line)
+      if (absX >= 0.525 && absX <= 0.595 && y >= 1.008 && y <= 1.102 && nz > 0.15) {
+        const thenarDist = Math.abs(Math.hypot(absX - 0.538, y - 1.098) - 0.036);
+        const headLine = Math.abs(y - (1.062 - 0.48 * (absX - 0.542)));
+        const heartLine = Math.abs(y - (1.022 + 0.42 * (absX - 0.540)));
+        const palmLineStrength = Math.max(
+          Math.exp(-Math.pow(thenarDist / 0.0014, 2)),
+          absX >= 0.538 ? Math.exp(-Math.pow(headLine / 0.0014, 2)) : 0,
+          absX >= 0.536 ? Math.exp(-Math.pow(heartLine / 0.0014, 2)) : 0
+        );
+        if (palmLineStrength > 0.05) {
+          tmp.lerp(cSkinCrease, palmLineStrength * 0.52);
         }
       }
 
-      // Eyes (Centers at [±0.03418, 1.71594, 0.15458])
-      const dxEye = absX - 0.0342;
-      const dyEye = y - 1.7159;
-      const eyeEllipse = Math.pow(dxEye / 0.0145, 2) + Math.pow(dyEye / 0.006, 2);
-      if (z > 0.144 && eyeEllipse <= 1.18) {
-        if (eyeEllipse > 0.92) {
-          // Crisp lash/eyelid rim
-          tmp.lerp(cEyelidLine, 0.72);
-        } else {
-          const rIris = Math.hypot(dxEye, dyEye);
-          if (rIris < 0.0026) {
-            tmp.copy(cPupil);
-          } else if (rIris < 0.0064) {
-            tmp.copy(cIris);
-            // Outer limbal ring of iris
-            if (rIris > 0.0052) tmp.lerp(cPupil, 0.45);
-          } else {
-            tmp.copy(cSclera);
+      // Finger PIP/MCP joint creases & Fingernail plates with pale lunula
+      for (let f = 0; f < fingerRays.length; f++) {
+        const [tipX, tipY, tipZ, pipX, pipY, mcpX, mcpY] = fingerRays[f];
+        const dTip = Math.hypot(absX - tipX, y - tipY, z - tipZ);
+        // Dorsal fingernail plate near fingertip
+        if (dTip < 0.0095 && (nz < 0.15 || ny > 0.15)) {
+          const nailT = THREE.MathUtils.smoothstep(0.0095 - dTip, 0, 0.003);
+          tmp.lerp(cNailPlate, nailT * 0.72);
+          // Pale half-moon lunula at proximal base of nail (dTip in 0.0065..0.0088)
+          if (dTip > 0.0062 && dTip < 0.0088) {
+            tmp.lerp(cNailLunula, 0.45);
           }
         }
+        // PIP & MCP joint flexion/knuckle creases
+        const dPip = Math.hypot(absX - pipX, y - pipY);
+        const dMcp = Math.hypot(absX - mcpX, y - mcpY);
+        if (dPip < 0.0065) {
+          tmp.lerp(cSkinCrease, Math.exp(-Math.pow(dPip / 0.0035, 2)) * 0.34);
+        }
+        if (dMcp < 0.0075) {
+          tmp.lerp(cSkinCrease, Math.exp(-Math.pow(dMcp / 0.0040, 2)) * 0.28);
+        }
+      }
+    }
+
+    // Toenail beds on distal dorsal toe tips
+    if (y < 0.028 && z > 0.162 && ny > 0.22) {
+      tmp.lerp(cNailPlate, 0.62);
+    }
+
+    // 5. Realistic Nipple & Areola (ST-17 landmark: [±0.0905, 1.3252, 0.1764])
+    const distNipple = Math.hypot(absX - 0.0905, y - 1.3252);
+    if (z > 0.14 && distNipple < 0.0165) {
+      const areolaT = THREE.MathUtils.smoothstep(0.0165 - distNipple, 0, 0.008);
+      tmp.lerp(cAreola, areolaT * 0.58);
+      if (distNipple < 0.0065) {
+        const papillaT = 1 - distNipple / 0.0065;
+        tmp.lerp(cNipple, papillaT * 0.82);
+      }
+    }
+
+    // 6. Umbilical Navel (CV-8 landmark: [0, 1.1114, 0.1542])
+    const distNavel = Math.hypot(x, y - 1.1114);
+    if (z > 0.12 && distNavel < 0.0115) {
+      const t = Math.pow(1 - distNavel / 0.0115, 1.45);
+      tmp.lerp(cNavel, t * 0.76);
+    }
+
+    // 7. Detailed Facial Features (Nostrils, Philtrum, Vermilion Lips, Ciliary Eyelashes, Hair-Stroke Eyebrows)
+    if (y > 1.585 && z > 0.08) {
+      if (cav > 0) {
+        tmp.lerp(cSkinCrease, Math.min(0.36, cav * 0.32));
+      } else if (cav < 0) {
+        tmp.lerp(cSkinLuminous, Math.min(0.20, -cav * 0.18));
       }
 
-      // Defined Eyebrows
-      const browY = 1.736 - Math.pow((absX - 0.036) * 4.5, 2) * 0.006;
-      if (
-        z > 0.142 &&
-        absX >= 0.015 &&
-        absX <= 0.057 &&
-        Math.abs(y - browY) < 0.0046
-      ) {
-        tmp.lerp(cBrow, 0.78);
+      // Nostrils cavity under nose tip
+      const distNostril = Math.hypot(absX - 0.011, y - 1.663);
+      if (z > 0.162 && ny < -0.15 && distNostril < 0.008) {
+        tmp.lerp(cLipLine, 0.78);
       }
+
+      // Philtrum groove (Nhân Trung GV-26 between nose base y=1.659 and Cupid's bow y=1.648)
+      if (y >= 1.6475 && y <= 1.660 && absX < 0.0075 && z > 0.168) {
+        const philEnv = Math.sin(((y - 1.6475) / 0.0125) * Math.PI);
+        if (absX < 0.0032) {
+          tmp.lerp(cSkinContour, (1 - absX / 0.0032) * philEnv * 0.32);
+        } else {
+          // Philtrum ridges
+          tmp.lerp(cSkinLuminous, Math.exp(-Math.pow((absX - 0.0045) / 0.0018, 2)) * philEnv * 0.25);
+        }
+      }
+
+      // Multi-tone Vermilion Lips with Cupid's bow, vertical tubercular micro-striations & glossy lower cushion
+      const lipPartY = 1.6409 + Math.pow(absX / 0.023, 2) * 0.0005;
+      const cupidBowY =
+        1.6485 -
+        0.0016 * Math.exp(-Math.pow(absX / 0.0035, 2)) +
+        0.0012 * Math.exp(-Math.pow((absX - 0.0065) / 0.0045, 2)) -
+        0.0065 * Math.pow(absX / 0.0245, 2.1);
+      const lowerBorderY = 1.6318 + 0.0088 * Math.pow(absX / 0.0245, 2.0);
+
+      if (z > 0.152 && absX < 0.0248 && y >= lowerBorderY - 0.001 && y <= cupidBowY + 0.001) {
+        const distParting = Math.abs(y - lipPartY);
+        const xFade = THREE.MathUtils.smoothstep(0.0248 - absX, 0, 0.004);
+        // Subtle vertical vermilion lip striation
+        const lipStria = 1 + 0.04 * Math.sin(absX * 1450);
+
+        if (distParting < 0.00095 && absX < 0.0225) {
+          tmp.lerp(cLipLine, 0.72 * (1 - distParting / 0.00095) * xFade);
+        } else if (y >= lipPartY) {
+          const upperT = THREE.MathUtils.clamp((cupidBowY - y) / Math.max(0.001, cupidBowY - lipPartY), 0, 1);
+          const rimFactor = THREE.MathUtils.smoothstep(upperT, 0, 0.25) * xFade;
+          tmp.lerp(cLipsUpper, rimFactor * 0.88 * lipStria);
+          // White roll highlight along Cupid's bow border
+          if (upperT < 0.18) {
+            tmp.lerp(cSkinLuminous, (1 - upperT / 0.18) * xFade * 0.24);
+          }
+        } else {
+          const lowerT = THREE.MathUtils.clamp((y - lowerBorderY) / Math.max(0.001, lipPartY - lowerBorderY), 0, 1);
+          const rimFactor = THREE.MathUtils.smoothstep(lowerT, 0, 0.25) * xFade;
+          tmp.lerp(cLipsLower, rimFactor * 0.90 * lipStria);
+          // Natural lower-lip cushion highlight
+          const cushion =
+            Math.exp(-Math.pow((y - 1.6358) / 0.0026, 2)) *
+            Math.exp(-Math.pow(absX / 0.014, 2));
+          tmp.lerp(cLipHighlight, cushion * 0.44);
+        }
+      }
+
+      // Eyelid ciliary lash rim & crisp upper palpebral fold (supratarsal crease)
+      const dxEye = absX - 0.0345;
+      const dyEye = y - 1.7158;
+      const eyeEllipse =
+        Math.pow(dxEye / 0.0136, 2) + Math.pow(dyEye / 0.0055, 2);
+      if (z > 0.146 && eyeEllipse >= 0.68 && eyeEllipse <= 1.24) {
+        // Fine eyelash fringe modulation along upper and lower lid margins
+        const lashAngle = Math.atan2(dyEye, dxEye);
+        const lashFringe = 0.78 + 0.22 * Math.sin(lashAngle * 48);
+        tmp.lerp(cEyelidLine, (dyEye > 0 ? 0.84 : 0.48) * lashFringe);
+      } else if (
+        z > 0.144 &&
+        dyEye > 0.0062 &&
+        dyEye < 0.0098 &&
+        Math.abs(dxEye) < 0.0145
+      ) {
+        // Supratarsal double-eyelid crease
+        const foldArch = 0.0078 - Math.pow(dxEye / 0.014, 2) * 0.0016;
+        const dFold = Math.abs(dyEye - foldArch);
+        if (dFold < 0.0014) {
+          tmp.lerp(cSkinCrease, (1 - dFold / 0.0014) * 0.42);
+        }
+      }
+
+      // Realistic Hair-Stroke Tapered Eyebrows
+      const browArchX = (absX - 0.013) / 0.043; // 0 at medial head -> 1 at lateral tail
+      if (z > 0.140 && browArchX >= 0 && browArchX <= 1.0) {
+        const browCenterY =
+          1.7345 +
+          0.0028 * Math.sin(browArchX * Math.PI * 0.82) -
+          0.0032 * Math.pow(Math.max(0, browArchX - 0.55) / 0.45, 1.8);
+        const browHalfThick =
+          0.0040 * (1 - 0.55 * Math.pow(browArchX, 1.6)) * Math.sin(Math.pow(browArchX, 0.45) * Math.PI);
+        const dBrowY = Math.abs(y - browCenterY);
+        if (dBrowY < browHalfThick && browHalfThick > 0.0004) {
+          const yProfile = Math.cos((dBrowY / browHalfThick) * Math.PI * 0.5);
+          // Oblique hair-follicle stroke pattern
+          const hairStroke =
+            0.72 +
+            0.28 *
+              Math.sin((absX * 1650 - (y - browCenterY) * 950) + Math.cos(y * 1200));
+          tmp.lerp(cBrow, 0.82 * yProfile * hairStroke);
+        }
+      }
+    }
+
+    // Subtle lateral silhouette contour richness
+    if (Math.abs(nx) > 0.75 && y > 0.85 && y < 1.55) {
+      tmp.lerp(cSkinContour, (Math.abs(nx) - 0.75) * 0.25);
     }
 
     colors[i * 3] = tmp.r;
@@ -446,6 +1189,7 @@ function enhanceAndColorHumanGeometry(geometry: THREE.BufferGeometry) {
 
   geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 }
+
 
 // Fast outward anatomical surface normal for any 3D acupoint on the MakeHuman body
 function computeOutwardSurfaceNormal(x: number, y: number, z: number): THREE.Vector3 {
@@ -466,9 +1210,9 @@ function computeOutwardSurfaceNormal(x: number, y: number, z: number): THREE.Vec
     ny = 0;
     nz = z - 0.032;
   } else if (y < 0.82) {
-    // Legs & feet
-    const legCenterX = signX * 0.082;
-    const legCenterZ = y < 0.10 ? 0.045 : 0.012;
+    // Legs & feet (angled A-stance axis from hip absX=0.11 down to ankle absX=0.25)
+    const legCenterX = signX * (0.264 - THREE.MathUtils.clamp(y, 0.05, 0.82) * 0.185);
+    const legCenterZ = y < 0.10 ? 0.045 : y > 0.50 ? 0.032 : 0.008;
     nx = x - legCenterX;
     ny = y < 0.08 ? 0.25 : 0;
     nz = z - legCenterZ;
@@ -476,8 +1220,8 @@ function computeOutwardSurfaceNormal(x: number, y: number, z: number): THREE.Vec
     // Arms, forearms & hands
     const t = THREE.MathUtils.clamp((absX - 0.165) / 0.415, 0, 1);
     const armCenterX = signX * (0.165 + t * 0.415);
-    const armCenterY = 1.44 - t * 0.53;
-    const armCenterZ = 0.01 + t * 0.11;
+    const armCenterY = 1.44 - t * 0.42;
+    const armCenterZ = 0.01 + t * 0.045;
     nx = (x - armCenterX) * 0.55;
     ny = (y - armCenterY) * 0.35;
     nz = z - armCenterZ;
@@ -564,11 +1308,10 @@ const SHARED_PIN_GEO_SELECTED = new THREE.SphereGeometry(0.0062, 14, 14);
 export const Human3DMeridianViewer: React.FC = () => {
   const mountRef = useRef<HTMLDivElement>(null);
 
-  // Active meridians: Default to ALL meridians so all acupoint positions & Vietnamese names are visible immediately!
-  const [activeMeridianIds, setActiveMeridianIds] = useState<string[]>(() =>
-    ACU_ATLAS_BAR_ITEMS.map((item) => item.id)
-  );
-  const [multiSelectMode, setMultiSelectMode] = useState<boolean>(true);
+  // Active meridians: Default to empty array [] so the 3D body opens cleanly without all 14 meridians cluttered;
+  // meridians only appear when the user selects them!
+  const [activeMeridianIds, setActiveMeridianIds] = useState<string[]>([]);
+  const [multiSelectMode, setMultiSelectMode] = useState<boolean>(false);
   const [selectedPoint, setSelectedPoint] = useState<Acupoint3D | null>(null);
   const [showLabels, setShowLabels] = useState<boolean>(true);
   // 4 Anatomical Modes:
@@ -593,7 +1336,8 @@ export const Human3DMeridianViewer: React.FC = () => {
   const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
   const controlsRef = useRef<OrbitControls | null>(null);
   const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
-  const skinMaterialRef = useRef<THREE.MeshStandardMaterial | null>(null);
+  const skinMaterialRef = useRef<THREE.MeshPhysicalMaterial | null>(null);
+  const eyeballMaterialRef = useRef<THREE.MeshPhysicalMaterial | null>(null);
   const skinDepthMaterialRef = useRef<THREE.MeshBasicMaterial | null>(null);
   const bodyGroupRef = useRef<THREE.Group | null>(null);
   const skeletonGroupRef = useRef<THREE.Group | null>(null);
@@ -615,25 +1359,34 @@ export const Human3DMeridianViewer: React.FC = () => {
           const pos = surfaceData.points[exCode];
           if (!pos) return;
           const isMidline = Math.abs(pos[0]) < 0.004;
+          const clinical = COMPLETE_ACUPOINT_CLINICAL_DB[exCode];
           const detail: Acupoint3D = {
             id: exCode,
             code: exCode,
             name: exViName,
             vietnameseName: `${exViName} (Kinh Ngoại Kỳ Huyệt)`,
-            chineseName: exCode,
+            chineseName: clinical?.chineseName || exCode,
             meridianId: 'EX',
-            meridianName: 'Kinh Ngoại Kỳ Huyệt & Kỳ Kinh Bát Mạch',
+            meridianName: 'Kinh Ngoại Kỳ Huyệt (58 Kỳ Huyệt Đặc Hiệu)',
             position: pos,
             isBilateral: !isMidline,
-            location: `Kinh ngoại kỳ huyệt ${exViName} (${exCode}) định vị chuẩn giải phẫu trên cơ thể 3D.`,
-            depth: 'Châm thẳng hoặc xiên 0.3 - 1.0 thốn tùy vị trí giải phẫu.',
-            anatomy: 'Vùng giải phẫu đặc hiệu của Kinh Ngoại Kỳ Huyệt.',
-            actions: `Đặc trị vùng bệnh tại chỗ và toàn thân theo công năng của huyệt ${exViName}.`,
-            indications: [
+            location:
+              clinical?.location ||
+              `Kinh ngoại kỳ huyệt ${exViName} (${exCode}) định vị chuẩn giải phẫu trên cơ thể 3D.`,
+            depth:
+              clinical?.depth ||
+              'Châm thẳng hoặc xiên 0.3 - 1.0 thốn tùy vị trí giải phẫu.',
+            anatomy:
+              clinical?.anatomy ||
+              'Vùng giải phẫu đặc hiệu của Kinh Ngoại Kỳ Huyệt.',
+            actions:
+              clinical?.actions ||
+              `Đặc trị vùng bệnh tại chỗ và toàn thân theo công năng của huyệt ${exViName}.`,
+            indications: clinical?.indications || [
               `Chủ trị chuyên biệt tại vùng huyệt ${exViName}`,
               'Điều hòa khí huyết và giảm đau đặc hiệu',
             ],
-            specialRole: `Kinh Ngoại Kỳ Huyệt (${exViName})`,
+            specialRole: clinical?.specialRole || `Kinh Ngoại Kỳ Huyệt (${exViName})`,
           };
           list.push({
             code: exCode,
@@ -659,34 +1412,46 @@ export const Human3DMeridianViewer: React.FC = () => {
         const existingDetail = mData.points.find(
           (p) => p.code.toUpperCase() === code.toUpperCase()
         );
+        const clinical = COMPLETE_ACUPOINT_CLINICAL_DB[code];
         const pointViName = viNames[idx - 1] || existingDetail?.name || displayCode;
 
-        const detail: Acupoint3D = existingDetail
-          ? {
-              ...existingDetail,
-              name: pointViName,
-              position: pos,
-            }
-          : {
-              id: code,
-              code: displayCode,
-              name: pointViName,
-              vietnameseName: `${pointViName} (${mData.vietnameseName})`,
-              chineseName: code,
-              meridianId: mData.id,
-              meridianName: mData.name,
-              position: pos,
-              isBilateral: mData.isBilateral,
-              location: `Huyệt ${pointViName} (huyệt thứ ${idx} trên ${mData.vietnameseName}). Định vị giải phẫu chuẩn WHO trên bề mặt cơ thể 3D.`,
-              depth: 'Châm thẳng hoặc xiên 0.3 - 1.2 thốn tùy độ dày cơ giải phẫu tại vùng huyệt.',
-              anatomy: `Nằm trên lộ trình giải phẫu của ${mData.vietnameseName} (${mData.pathWayDescription})`,
-              actions: `Thông kinh hoạt lạc ${mData.vietnameseName}, điều hòa khí huyết tạng phủ (${mData.element}).`,
-              indications: [
-                `Đau nhức hoặc rối loạn cảm giác dọc lộ trình ${mData.vietnameseName}`,
-                mData.description,
-              ],
-              specialRole: `Huyệt ${pointViName} thuộc ${mData.vietnameseName}`,
-            };
+        const detail: Acupoint3D = {
+          id: code,
+          code: displayCode,
+          name: pointViName,
+          vietnameseName: `${pointViName} (${mData.vietnameseName})`,
+          chineseName: clinical?.chineseName || existingDetail?.chineseName || code,
+          meridianId: mData.id,
+          meridianName: mData.name,
+          position: pos,
+          isBilateral: mData.isBilateral,
+          location:
+            clinical?.location ||
+            existingDetail?.location ||
+            `Huyệt ${pointViName} (huyệt thứ ${idx} trên ${mData.vietnameseName}).`,
+          depth:
+            clinical?.depth ||
+            existingDetail?.depth ||
+            'Châm thẳng hoặc xiên 0.3 - 1.2 thốn tùy độ dày cơ giải phẫu tại vùng huyệt.',
+          anatomy:
+            clinical?.anatomy ||
+            existingDetail?.anatomy ||
+            `Nằm trên lộ trình giải phẫu của ${mData.vietnameseName}.`,
+          actions:
+            clinical?.actions ||
+            existingDetail?.actions ||
+            `Thông kinh hoạt lạc ${mData.vietnameseName}, điều hòa khí huyết tạng phủ.`,
+          indications:
+            clinical?.indications ||
+            existingDetail?.indications || [
+              `Đau nhức hoặc rối loạn cảm giác dọc lộ trình ${mData.vietnameseName}`,
+              mData.description,
+            ],
+          specialRole:
+            clinical?.specialRole ||
+            existingDetail?.specialRole ||
+            `Huyệt ${pointViName} thuộc ${mData.vietnameseName}`,
+        };
 
         list.push({
           code,
@@ -847,7 +1612,7 @@ export const Human3DMeridianViewer: React.FC = () => {
     backKeyLight.position.set(-1.2, 2.3, -2.8);
     scene.add(backKeyLight);
 
-    // 5. Responsive OrbitControls (snappy damping so dragging/rotating feels instant)
+    // 5. Responsive OrbitControls (restricted to interactions ON the 3D human body so outside touches scroll the page!)
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = !isSoftwareGl;
     controls.dampingFactor = 0.16;
@@ -856,6 +1621,8 @@ export const Human3DMeridianViewer: React.FC = () => {
     controls.minDistance = 0.32;
     controls.maxDistance = 4.2;
     controls.target.set(0, 0.96, 0);
+    // Allow vertical page scrolling by default when touching outside the 3D human figure
+    renderer.domElement.style.touchAction = 'pan-y';
     controlsRef.current = controls;
 
     // 6. Groups (Complete 206-Bone 3D Skeleton + Skin Body + Meridians + Acupoints)
@@ -876,9 +1643,6 @@ export const Human3DMeridianViewer: React.FC = () => {
     scene.add(pointsGroup);
 
     // 7. Load Real MakeHuman GLB Mesh (`/models/human-learning.glb`) with Depth Pre-pass + PBR Skin Material
-    // Stage 1 (renderOrder=1): 242-Bone CT-scanned Medical Skeleton (opaque, self-occluding)
-    // Stage 2 (renderOrder=2): Skin Depth Pre-pass (colorWrite=false, depthWrite=true) -> locks depth buffer to front-most skin surface!
-    // Stage 3 (renderOrder=3): Skin Color Pass (opacity=0.45, depthFunc=LessEqualDepth) -> blends lifelike skin over skeleton with ZERO eye/lip self-bleeding!
     const bumpTex = createHighDefSkinBumpTexture();
     const skinDepthMat = new THREE.MeshBasicMaterial({
       colorWrite: false,
@@ -891,14 +1655,21 @@ export const Human3DMeridianViewer: React.FC = () => {
     });
     skinDepthMaterialRef.current = skinDepthMat;
 
-    const skinMat = new THREE.MeshStandardMaterial({
+    const skinMat = new THREE.MeshPhysicalMaterial({
       vertexColors: true,
       bumpMap: bumpTex,
-      bumpScale: 0.0008,
-      roughness: 0.45,
-      metalness: 0.02,
+      bumpScale: 0.00058,
+      roughnessMap: bumpTex,
+      roughness: 0.46,
+      metalness: 0.0,
+      clearcoat: 0.09,
+      clearcoatRoughness: 0.46,
+      reflectivity: 0.52,
+      sheen: 0.36,
+      sheenRoughness: 0.45,
+      sheenColor: new THREE.Color('#ffe6d9'),
       transparent: true,
-      opacity: 0.45,
+      opacity: 0.52,
       depthWrite: false,
       depthTest: true,
       depthFunc: THREE.LessEqualDepth,
@@ -907,7 +1678,55 @@ export const Human3DMeridianViewer: React.FC = () => {
       polygonOffsetFactor: 1.2,
       polygonOffsetUnits: 1.2,
     });
+    // Real-time Dual-Lobe Dermal Subsurface Scattering (SSS) + Fresnel Rim Presence
+    skinMat.onBeforeCompile = (shader) => {
+      shader.fragmentShader = shader.fragmentShader
+        .replace(
+          '#include <lights_fragment_end>',
+          `#include <lights_fragment_end>
+          vec3 sssViewDir = normalize(vViewPosition);
+          float sssNoV = clamp(dot(geometryNormal, sssViewDir), 0.0, 1.0);
+          float sssLum = dot(reflectedLight.directDiffuse, vec3(0.333));
+          float terminatorBand = smoothstep(0.01, 0.38, sssLum) * (1.0 - smoothstep(0.38, 0.88, sssLum));
+          vec3 dermalScatter = vec3(0.98, 0.35, 0.22) * diffuseColor.rgb * (terminatorBand * 0.32 + 0.05);
+          float grazingSheen = pow(1.0 - sssNoV, 2.6) * 0.14;
+          reflectedLight.directDiffuse += dermalScatter;
+          reflectedLight.indirectDiffuse += diffuseColor.rgb * vec3(1.06, 0.94, 0.88) * grazingSheen;
+          `
+        )
+        .replace(
+          '#include <opaque_fragment>',
+          `if (diffuseColor.a < 0.99) {
+            float rimPresence = pow(1.0 - clamp(dot(geometryNormal, normalize(vViewPosition)), 0.0, 1.0), 1.55);
+            diffuseColor.a = clamp(diffuseColor.a * 0.72 + rimPresence * 0.44, 0.24, 0.86);
+          }
+          #include <opaque_fragment>`
+        );
+    };
+    skinMat.customProgramCacheKey = () => 'lifelike_dermal_sss_physical_v4';
     skinMaterialRef.current = skinMat;
+
+    // Dedicated glossy corneal tear-film material for the 3D Eyeballs with 512x512 photorealistic iris texture
+    const eyeTex = createPhotorealisticEyeTexture();
+    const eyeballMat = new THREE.MeshPhysicalMaterial({
+      map: eyeTex,
+      vertexColors: true,
+      roughness: 0.06,
+      metalness: 0.0,
+      clearcoat: 1.0,
+      clearcoatRoughness: 0.03,
+      reflectivity: 0.9,
+      transparent: true,
+      opacity: 0.88,
+      depthWrite: false,
+      depthTest: true,
+      depthFunc: THREE.LessEqualDepth,
+      side: THREE.FrontSide,
+    });
+    eyeballMaterialRef.current = eyeballMat;
+
+    // Keep reference to the 3D human body meshes so hit-testing works in all anatomical modes (including skeleton_only)
+    const skinHitMeshes: THREE.Object3D[] = [];
 
     const loader = new GLTFLoader();
     loader.load(
@@ -920,6 +1739,7 @@ export const Human3DMeridianViewer: React.FC = () => {
             enhanceAndColorHumanGeometry(obj.geometry);
             obj.material = skinMat;
             obj.renderOrder = 3;
+            skinHitMeshes.push(obj);
 
             const depthMesh = new THREE.Mesh(obj.geometry, skinDepthMat);
             depthMesh.position.copy(obj.position);
@@ -929,6 +1749,17 @@ export const Human3DMeridianViewer: React.FC = () => {
             depthClones.push(depthMesh);
           }
         });
+
+        // Add high-definition 3D Eyeball pair inside the open eyelid sockets
+        const eyeballGeo = createRealistic3DEyeballGeometry();
+        const eyeballDepthMesh = new THREE.Mesh(eyeballGeo, skinDepthMat);
+        eyeballDepthMesh.renderOrder = 2;
+        const eyeballColorMesh = new THREE.Mesh(eyeballGeo, eyeballMat);
+        eyeballColorMesh.renderOrder = 3;
+        depthClones.push(eyeballDepthMesh);
+        bodyGroup.add(eyeballColorMesh);
+        skinHitMeshes.push(eyeballColorMesh);
+
         depthClones.forEach((dm) => bodyGroup.add(dm));
         bodyGroup.add(gltf.scene);
         occlusionDirtyRef.current = true;
@@ -949,16 +1780,119 @@ export const Human3DMeridianViewer: React.FC = () => {
       })
       .catch((err) => console.error('Error loading meridian surface data:', err));
 
-    // 8. Raycasting for Clicking Visible Acupoint Pins or Labels on Skin
+    // 8. Body-Only Touch/Mouse Interaction & Acupoint Click Raycasting
+    // Touching/dragging ON the 3D human body rotates/flips/zooms; touching OUTSIDE scrolls the page!
     const raycaster = new THREE.Raycaster();
     const mouse = new THREE.Vector2();
+    const samplePt = new THREE.Vector2();
     let downPos = { x: 0, y: 0 };
+    let isInteractingWithBody = false;
 
-    const onPointerDown = (e: PointerEvent) => {
+    const hitTestHumanBody = (clientX: number, clientY: number): boolean => {
+      if (!mountRef.current) return false;
+      const rect = mountRef.current.getBoundingClientRect();
+      if (rect.width <= 0 || rect.height <= 0) return false;
+      const baseX = ((clientX - rect.left) / rect.width) * 2 - 1;
+      const baseY = -((clientY - rect.top) / rect.height) * 2 + 1;
+
+      // Check center point plus a small ~7px cross neighborhood so fingers/edges/acupoints are easy to grab
+      const offsets: [number, number][] = [
+        [0, 0],
+        [0.024, 0],
+        [-0.024, 0],
+        [0, 0.024],
+        [0, -0.024],
+      ];
+
+      for (let i = 0; i < offsets.length; i++) {
+        samplePt.set(baseX + offsets[i][0], baseY + offsets[i][1]);
+        raycaster.setFromCamera(samplePt, camera);
+
+        if (skinHitMeshes.length > 0) {
+          const hits = raycaster.intersectObjects(skinHitMeshes, false);
+          if (hits.length > 0) return true;
+        } else if (skeletonGroupRef.current) {
+          const skelHits = raycaster.intersectObjects(
+            skeletonGroupRef.current.children,
+            true
+          );
+          if (skelHits.length > 0) return true;
+        }
+
+        if (pointsGroupRef.current && pointsGroupRef.current.children.length > 0) {
+          const ptHits = raycaster
+            .intersectObjects(pointsGroupRef.current.children, false)
+            .filter((h) => h.object.visible);
+          if (ptHits.length > 0) return true;
+        }
+      }
+      return false;
+    };
+
+    const onTouchStartCapture = (e: TouchEvent) => {
+      let hitBody = false;
+      for (let i = 0; i < e.touches.length; i++) {
+        if (hitTestHumanBody(e.touches[i].clientX, e.touches[i].clientY)) {
+          hitBody = true;
+          break;
+        }
+      }
+      isInteractingWithBody = hitBody;
+      if (hitBody) {
+        controls.enabled = true;
+        renderer.domElement.style.touchAction = 'none';
+        if (e.cancelable) e.preventDefault();
+      } else {
+        controls.enabled = false;
+        renderer.domElement.style.touchAction = 'pan-y';
+        e.stopImmediatePropagation();
+      }
+    };
+
+    const onTouchMoveCapture = (e: TouchEvent) => {
+      if (isInteractingWithBody) {
+        if (e.cancelable) e.preventDefault();
+      } else {
+        e.stopImmediatePropagation();
+      }
+    };
+
+    const onTouchEndCapture = () => {
+      isInteractingWithBody = false;
+      renderer.domElement.style.touchAction = 'pan-y';
+    };
+
+    const onPointerDownCapture = (e: PointerEvent) => {
       downPos = { x: e.clientX, y: e.clientY };
+      const hitBody =
+        e.pointerType === 'touch'
+          ? isInteractingWithBody || hitTestHumanBody(e.clientX, e.clientY)
+          : hitTestHumanBody(e.clientX, e.clientY);
+      isInteractingWithBody = hitBody;
+
+      if (hitBody) {
+        controls.enabled = true;
+        renderer.domElement.style.touchAction = 'none';
+      } else {
+        controls.enabled = false;
+        renderer.domElement.style.touchAction = 'pan-y';
+        e.stopImmediatePropagation();
+      }
+    };
+
+    const onWheelCapture = (e: WheelEvent) => {
+      const hitBody = hitTestHumanBody(e.clientX, e.clientY);
+      if (hitBody) {
+        controls.enabled = true;
+      } else {
+        controls.enabled = false;
+        // Stop OrbitControls from zooming so the browser scrolls the webpage vertically!
+        e.stopImmediatePropagation();
+      }
     };
 
     const onPointerUp = (e: PointerEvent) => {
+      renderer.domElement.style.touchAction = 'pan-y';
       if (Math.hypot(e.clientX - downPos.x, e.clientY - downPos.y) > 6 || !mountRef.current) {
         return;
       }
@@ -985,7 +1919,24 @@ export const Human3DMeridianViewer: React.FC = () => {
       }
     };
 
-    renderer.domElement.addEventListener('pointerdown', onPointerDown);
+    renderer.domElement.addEventListener('touchstart', onTouchStartCapture, {
+      capture: true,
+      passive: false,
+    });
+    renderer.domElement.addEventListener('touchmove', onTouchMoveCapture, {
+      capture: true,
+      passive: false,
+    });
+    renderer.domElement.addEventListener('touchend', onTouchEndCapture, {
+      capture: true,
+    });
+    renderer.domElement.addEventListener('pointerdown', onPointerDownCapture, {
+      capture: true,
+    });
+    renderer.domElement.addEventListener('wheel', onWheelCapture, {
+      capture: true,
+      passive: false,
+    });
     renderer.domElement.addEventListener('pointerup', onPointerUp);
 
     // 9. Resize Handler
@@ -1308,7 +2259,21 @@ export const Human3DMeridianViewer: React.FC = () => {
       disposed = true;
       cancelAnimationFrame(animFrameIdRef.current);
       window.removeEventListener('resize', handleResize);
-      renderer.domElement.removeEventListener('pointerdown', onPointerDown);
+      renderer.domElement.removeEventListener('touchstart', onTouchStartCapture, {
+        capture: true,
+      } as EventListenerOptions);
+      renderer.domElement.removeEventListener('touchmove', onTouchMoveCapture, {
+        capture: true,
+      } as EventListenerOptions);
+      renderer.domElement.removeEventListener('touchend', onTouchEndCapture, {
+        capture: true,
+      } as EventListenerOptions);
+      renderer.domElement.removeEventListener('pointerdown', onPointerDownCapture, {
+        capture: true,
+      } as EventListenerOptions);
+      renderer.domElement.removeEventListener('wheel', onWheelCapture, {
+        capture: true,
+      } as EventListenerOptions);
       renderer.domElement.removeEventListener('pointerup', onPointerUp);
       bumpTex.dispose();
       renderer.dispose();
@@ -1349,9 +2314,9 @@ export const Human3DMeridianViewer: React.FC = () => {
       skinMaterialRef.current.transparent = skinIsTranslucent;
       skinMaterialRef.current.opacity =
         anatomicalMode === 'xray_all'
-          ? 0.28
+          ? 0.32
           : anatomicalMode === 'skin_skeleton'
-          ? 0.45
+          ? 0.52
           : 1.0;
       skinMaterialRef.current.depthWrite = !skinIsTranslucent;
       skinMaterialRef.current.depthTest = true;
@@ -1360,6 +2325,18 @@ export const Human3DMeridianViewer: React.FC = () => {
         ? THREE.FrontSide
         : THREE.DoubleSide;
       skinMaterialRef.current.needsUpdate = true;
+    }
+
+    if (eyeballMaterialRef.current) {
+      eyeballMaterialRef.current.transparent = skinIsTranslucent;
+      eyeballMaterialRef.current.opacity =
+        anatomicalMode === 'xray_all'
+          ? 0.55
+          : anatomicalMode === 'skin_skeleton'
+          ? 0.88
+          : 1.0;
+      eyeballMaterialRef.current.depthWrite = !skinIsTranslucent;
+      eyeballMaterialRef.current.needsUpdate = true;
     }
 
     // Update meridian lines and acupoint pin depth testing immediately without rebuilding geometries
@@ -1553,19 +2530,15 @@ export const Human3DMeridianViewer: React.FC = () => {
     showLabels,
   ]);
 
-  // Toggle meridian selection
+  // Toggle meridian selection (clicking an active meridian toggles it off; clicking a new one opens it)
   const handleToggleMeridian = (id: string) => {
     setSelectedPoint(null);
     if (multiSelectMode) {
       setActiveMeridianIds((prev) =>
-        prev.includes(id)
-          ? prev.length > 1
-            ? prev.filter((item) => item !== id)
-            : prev
-          : [...prev, id]
+        prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
       );
     } else {
-      setActiveMeridianIds([id]);
+      setActiveMeridianIds((prev) => (prev.includes(id) ? [] : [id]));
     }
   };
 
@@ -1804,12 +2777,13 @@ export const Human3DMeridianViewer: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => {
-                      setActiveMeridianIds(['LU', 'LI']);
+                      setActiveMeridianIds([]);
+                      setSelectedPoint(null);
                       setShowToolPopover(false);
                     }}
-                    className="flex-1 py-1.5 rounded-lg bg-rose-600 text-white text-xs font-bold hover:bg-rose-700 cursor-pointer"
+                    className="flex-1 py-1.5 rounded-lg bg-slate-200 text-slate-800 text-xs font-bold hover:bg-slate-300 cursor-pointer"
                   >
-                    Cặp Phế - Đại Trường
+                    Ẩn Tất Cả Kinh
                   </button>
                 </div>
               </div>
@@ -2049,10 +3023,13 @@ export const Human3DMeridianViewer: React.FC = () => {
               </button>
               <button
                 type="button"
-                onClick={() => setActiveMeridianIds(['LU', 'LI'])}
+                onClick={() => {
+                  setActiveMeridianIds([]);
+                  setSelectedPoint(null);
+                }}
                 className="flex-1 py-1.5 rounded-lg bg-slate-100 text-slate-800 text-xs font-bold hover:bg-slate-200 cursor-pointer"
               >
-                Cặp Phế - Đại Trường
+                Ẩn Tất Cả Kinh
               </button>
             </div>
 
