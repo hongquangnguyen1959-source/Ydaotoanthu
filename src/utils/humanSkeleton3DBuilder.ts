@@ -343,16 +343,16 @@ function createSculptedAnatomicalDentition(): THREE.BufferGeometry {
   ];
 
   const evalArchPoint = (t: number, isUpper: boolean, side: number) => {
-    // Parabolic-catenary human dental arch curve in X-Z
-    const archW = isUpper ? 0.0268 : 0.0254;
-    const zFront = isUpper ? 0.1486 : 0.1470;
-    const zBack = isUpper ? 0.1255 : 0.1245;
+    // Parabolic-catenary human dental arch curve in X-Z matching the registered skull in skeleton.glb
+    const archW = isUpper ? 0.0296 : 0.0282;
+    const zFront = isUpper ? 0.1590 : 0.1575;
+    const zBack = isUpper ? 0.1350 : 0.1335;
 
     const x = side * archW * Math.pow(Math.sin(t * 0.5 * Math.PI), 0.86);
     const z = zFront - (zFront - zBack) * Math.pow(t, 1.55);
 
     // Slight Curve of Spee (occlusal plane rises gently toward molars)
-    const occlusalY = 1.6470 + 0.0022 * Math.pow(t, 1.4);
+    const occlusalY = 1.6465 + 0.0020 * Math.pow(t, 1.4);
     return { x, z, occlusalY };
   };
 
@@ -561,16 +561,16 @@ function createCranialFossaOcclusionLiners(): THREE.BufferGeometry {
 
   // Left and Right posterior orbital cone liners (recessed behind sphenoid/zygomatic orbital walls)
   for (const side of [-1, 1]) {
-    const orbitBack = new THREE.SphereGeometry(0.0175, 16, 12);
-    orbitBack.scale(1.05, 0.92, 0.85);
-    orbitBack.translate(side * 0.0295, 1.7145, 0.1145);
+    const orbitBack = new THREE.SphereGeometry(0.0185, 16, 12);
+    orbitBack.scale(1.08, 0.92, 0.85);
+    orbitBack.translate(side * 0.0335, 1.7155, 0.1225);
     addColoredFossaMesh(orbitBack, 0x6e604e);
   }
 
   // Deep nasal cavity / posterior choanae / ethmoidal turbinate shadow block
-  const nasalBack = new THREE.SphereGeometry(0.0145, 16, 12);
-  nasalBack.scale(0.82, 1.25, 0.95);
-  nasalBack.translate(0.0, 1.6905, 0.1185);
+  const nasalBack = new THREE.SphereGeometry(0.0155, 16, 12);
+  nasalBack.scale(0.85, 1.25, 0.95);
+  nasalBack.translate(0.0, 1.6910, 0.1265);
   addColoredFossaMesh(nasalBack, 0x665847);
 
   const merged = mergeGeometries(parts, false);
