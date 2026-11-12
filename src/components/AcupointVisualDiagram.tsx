@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 interface AcupointVisualDiagramProps {
   code: string;
@@ -129,7 +129,7 @@ const EXACT_POINT_DATABASE: Record<string, ExactCodeEntry> = {
       { left: 83.0, top: 34.0 },
       { left: 85.5, top: 49.0 },
       { left: 82.5, top: 63.2 },
-      { left: 64.8, top: 81.2 }
+      { left: 74.0, top: 78.5 }
     ],
     landmark: 'Chính giữa nếp khớp liên đốt xa (đốt 2–3) mặt lưng 4 ngón tay trỏ, giữa, áp út, út (4 huyệt Mộc Hỏa)'
   },
@@ -2414,6 +2414,7 @@ export const AcupointVisualDiagram: React.FC<AcupointVisualDiagramProps> = ({
   anatomy,
   mode = 'compact'
 }) => {
+  const [isZoomed, setIsZoomed] = useState(false);
   const mapping = getAccurateAcupointMapping(code, name, zone, location);
   const isMultiPoint = mapping.markers.length > 1;
 
@@ -2438,7 +2439,7 @@ export const AcupointVisualDiagram: React.FC<AcupointVisualDiagramProps> = ({
             } rounded-full bg-rose-600 ring-1 ring-white shadow-xs absolute -translate-x-1/2 -translate-y-1/2 pointer-events-none`}
           />
         ))}
-        <div className="absolute bottom-0 inset-x-0 bg-slate-900/85 text-white text-[10px] font-bold text-center py-0.5 truncate px-1">
+        <div className="absolute top-1 left-1 bg-slate-950/80 backdrop-blur-xs text-white text-[9px] font-mono font-bold px-1.5 py-0.5 rounded shadow-xs pointer-events-none">
           {code}
         </div>
       </div>
@@ -2446,90 +2447,203 @@ export const AcupointVisualDiagram: React.FC<AcupointVisualDiagramProps> = ({
   }
 
   return (
-    <div className="w-full rounded-2xl bg-slate-50 border border-slate-200 overflow-hidden shadow-xs">
-      <div className="px-4 py-3 bg-white border-b border-slate-200 flex flex-wrap items-center justify-between gap-2">
-        <div className="flex items-center gap-2">
-          <span className="w-2.5 h-2.5 rounded-full bg-rose-600 ring-2 ring-rose-200 shrink-0" />
-          <span className="text-sm sm:text-base font-bold text-slate-900">
-            Vị Trí Thực Tế Huyệt {name} ({code})
+    <>
+      <div className="w-full rounded-2xl bg-slate-50 border border-slate-200 overflow-hidden shadow-xs">
+        <div className="px-4 py-3 bg-white border-b border-slate-200 flex flex-wrap items-center justify-between gap-2">
+          <div className="flex items-center gap-2">
+            <span className="w-2.5 h-2.5 rounded-full bg-rose-600 ring-2 ring-rose-200 shrink-0" />
+            <span className="text-sm sm:text-base font-bold text-slate-900">
+              Vị Trí Thực Tế Huyệt {name} ({code})
+            </span>
+          </div>
+          <span className="text-xs sm:text-sm font-bold text-teal-900 bg-teal-50 px-3 py-1 rounded-lg border border-teal-200">
+            {mapping.surfaceLabel}
           </span>
         </div>
-        <span className="text-xs sm:text-sm font-bold text-teal-900 bg-teal-50 px-3 py-1 rounded-lg border border-teal-200">
-          {mapping.surfaceLabel}
-        </span>
-      </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-4 p-4 items-center">
-        {/* Left: Real Anatomical Photograph with Precision Pinpoint Marker(s) */}
-        <div className="md:col-span-6 relative rounded-xl overflow-hidden border border-slate-300 bg-white aspect-4/3">
-          <img
-            src={mapping.photoUrl}
-            alt={`Ảnh thực tế định vị huyệt ${name} (${code})`}
-            referrerPolicy="no-referrer"
-            className="w-full h-full object-cover"
-          />
-          {mapping.markers.map((pt, idx) => (
-            <div
-              key={idx}
-              style={{
-                left: `${pt.left}%`,
-                top: `${pt.top}%`
-              }}
-              className="absolute -translate-x-1/2 -translate-y-1/2 flex items-center justify-center pointer-events-none"
-            >
-              <span
-                className={`${
-                  isMultiPoint ? 'w-3 h-3' : 'w-4 h-4'
-                } rounded-full bg-rose-500/35 animate-ping absolute`}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-4 p-4 items-start">
+          {/* Left: Real Anatomical Photograph with Precision Pinpoint Marker(s) - 100% UNOBSTRUCTED */}
+          <div className="md:col-span-6 flex flex-col">
+            <div className="relative rounded-2xl overflow-hidden border border-slate-300 bg-slate-950 aspect-4/3 shadow-sm select-none">
+              <img
+                src={mapping.photoUrl}
+                alt={`Ảnh thực tế định vị huyệt ${name} (${code})`}
+                referrerPolicy="no-referrer"
+                className="w-full h-full object-cover"
               />
-              <span
-                className={`${
-                  isMultiPoint ? 'w-2 h-2 ring-1' : 'w-2.5 h-2.5 ring-1.5'
-                } rounded-full bg-rose-600 ring-white shadow-sm relative z-10`}
-              />
+
+              {/* Pinpoint Acupoint Markers */}
+              {mapping.markers.map((pt, idx) => (
+                <div
+                  key={idx}
+                  style={{
+                    left: `${pt.left}%`,
+                    top: `${pt.top}%`
+                  }}
+                  className="absolute -translate-x-1/2 -translate-y-1/2 flex items-center justify-center pointer-events-none z-10"
+                >
+                  <span
+                    className={`${
+                      isMultiPoint ? 'w-3.5 h-3.5' : 'w-4 h-4'
+                    } rounded-full bg-rose-500/40 animate-ping absolute`}
+                  />
+                  <span
+                    className={`${
+                      isMultiPoint ? 'w-2.5 h-2.5 ring-1.5' : 'w-3 h-3 ring-2'
+                    } rounded-full bg-rose-600 ring-white shadow-md relative z-10 flex items-center justify-center`}
+                  >
+                    {isMultiPoint && (
+                      <span className="text-[7px] font-extrabold text-white leading-none">
+                        {idx + 1}
+                      </span>
+                    )}
+                  </span>
+                </div>
+              ))}
+
+              {/* Discrete Top-Right Badge: Never blocks hand or fingers */}
+              <div className="absolute top-2.5 right-2.5 z-20 pointer-events-none flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-950/85 backdrop-blur-md text-white border border-white/20 shadow-sm text-xs font-semibold">
+                <span className="w-2 h-2 rounded-full bg-rose-500 animate-pulse shrink-0" />
+                <span>
+                  {isMultiPoint ? `${mapping.markers.length} điểm huyệt` : 'Chấm đỏ = Tâm huyệt'}
+                </span>
+              </div>
+
+              {/* Sleek Top-Left Zoom Trigger */}
+              <button
+                type="button"
+                onClick={() => setIsZoomed(true)}
+                className="absolute top-2.5 left-2.5 z-20 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/95 hover:bg-white text-slate-800 shadow-sm text-xs font-semibold backdrop-blur-md border border-slate-300 transition-all cursor-pointer active:scale-95"
+                title="Nhấp để phóng to toàn màn hình"
+              >
+                <svg className="w-3.5 h-3.5 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7" />
+                </svg>
+                <span>Phóng to</span>
+              </button>
             </div>
-          ))}
 
-          <div className="absolute bottom-2 left-2 right-2 bg-slate-900/90 text-white px-3 py-2 rounded-lg flex flex-wrap items-center justify-between gap-2">
-            <span className="text-xs sm:text-sm font-bold">
-              {mapping.anatomicalLandmarkNote}
-            </span>
-            <span className="text-xs font-bold bg-rose-600 text-white px-2 py-0.5 rounded shrink-0">
-              {isMultiPoint ? `${mapping.markers.length} điểm huyệt` : 'Chấm đỏ = Tâm huyệt'}
-            </span>
+            {/* Clean Anatomical Caption (Positioned OUTSIDE and BELOW photo, preventing any blockage) */}
+            <div className="mt-2.5 px-1 flex flex-wrap items-center justify-between gap-2 text-xs">
+              <span className="font-semibold text-slate-700 flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" />
+                {mapping.anatomicalLandmarkNote}
+              </span>
+              <span className="text-teal-700 font-bold bg-teal-50 px-2 py-0.5 rounded border border-teal-200">
+                Toàn cảnh chi tiết
+              </span>
+            </div>
+          </div>
+
+          {/* Right: Detailed Verification of Surface & Location */}
+          <div className="md:col-span-6 space-y-3">
+            <div className="p-3.5 rounded-xl bg-teal-50/70 border border-teal-200">
+              <div className="text-xs sm:text-sm font-bold text-teal-950 mb-1">
+                Mặt Giải Phẫu Chính Xác: {mapping.surfaceLabel}
+              </div>
+              <p className="text-xs sm:text-sm text-slate-800 leading-relaxed">
+                Mốc định vị: <strong>{mapping.anatomicalLandmarkNote}</strong> ({name}{chineseName ? ` - ${chineseName}` : ''})
+              </p>
+            </div>
+
+            <div className="p-3.5 rounded-xl bg-white border border-slate-200">
+              <div className="text-xs sm:text-sm font-bold text-cyan-900 mb-1">
+                Vị Trí & Cách Lấy Huyệt Chuẩn Trong Sách
+              </div>
+              <p className="text-sm sm:text-base text-slate-800 leading-relaxed">
+                {location}
+              </p>
+            </div>
+
+            <div className="p-3.5 rounded-xl bg-white border border-slate-200">
+              <div className="text-xs sm:text-sm font-bold text-emerald-900 mb-1">
+                Hướng Mũi Kim & Độ Sâu Châm
+              </div>
+              <p className="text-sm sm:text-base text-slate-800 leading-relaxed">
+                {needling || anatomy || 'Châm thẳng hoặc xiên dọc theo bờ xương, vê kim nhẹ đến khi đắc khí.'}
+              </p>
+            </div>
           </div>
         </div>
+      </div>
 
-        {/* Right: Detailed Verification of Surface & Location */}
-        <div className="md:col-span-6 space-y-3">
-          <div className="p-3.5 rounded-xl bg-teal-50/70 border border-teal-200">
-            <div className="text-xs sm:text-sm font-bold text-teal-950 mb-1">
-              Mặt Giải Phẫu Chính Xác: {mapping.surfaceLabel}
+      {/* Fullscreen High-Resolution Lightbox Modal */}
+      {isZoomed && (
+        <div
+          className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex flex-col items-center justify-center p-3 sm:p-6"
+          onClick={() => setIsZoomed(false)}
+        >
+          <div
+            className="relative w-full max-w-4xl bg-slate-900 rounded-3xl overflow-hidden shadow-2xl border border-slate-700 flex flex-col max-h-[90vh]"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Modal Header */}
+            <div className="p-4 bg-slate-950/90 border-b border-slate-800 flex items-center justify-between text-white">
+              <div>
+                <h3 className="text-base sm:text-lg font-bold flex items-center gap-2">
+                  <span className="w-2.5 h-2.5 rounded-full bg-rose-500 animate-pulse" />
+                  Định Vị Giải Phẫu: {name} ({code})
+                </h3>
+                <p className="text-xs text-slate-400 mt-0.5">
+                  {mapping.surfaceLabel} · {mapping.anatomicalLandmarkNote}
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsZoomed(false)}
+                className="px-3.5 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-sm transition-colors cursor-pointer"
+              >
+                ✕ Đóng
+              </button>
             </div>
-            <p className="text-xs sm:text-sm text-slate-800 leading-relaxed">
-              Mốc định vị: <strong>{mapping.anatomicalLandmarkNote}</strong> ({name}{chineseName ? ` - ${chineseName}` : ''})
-            </p>
-          </div>
 
-          <div className="p-3.5 rounded-xl bg-white border border-slate-200">
-            <div className="text-xs sm:text-sm font-bold text-cyan-900 mb-1">
-              Vị Trí & Cách Lấy Huyệt Chuẩn Trong Sách
+            {/* Modal Image View with Pinpoints */}
+            <div className="relative flex-1 bg-black overflow-auto flex items-center justify-center p-2 min-h-[300px]">
+              <div className="relative max-w-full max-h-[70vh]">
+                <img
+                  src={mapping.photoUrl}
+                  alt={`Phóng to vị trí huyệt ${name}`}
+                  referrerPolicy="no-referrer"
+                  className="max-w-full max-h-[70vh] object-contain rounded-lg"
+                />
+                {mapping.markers.map((pt, idx) => (
+                  <div
+                    key={idx}
+                    style={{
+                      left: `${pt.left}%`,
+                      top: `${pt.top}%`
+                    }}
+                    className="absolute -translate-x-1/2 -translate-y-1/2 flex items-center justify-center pointer-events-none z-10"
+                  >
+                    <span
+                      className={`${
+                        isMultiPoint ? 'w-5 h-5' : 'w-6 h-6'
+                      } rounded-full bg-rose-500/40 animate-ping absolute`}
+                    />
+                    <span
+                      className={`${
+                        isMultiPoint ? 'w-3.5 h-3.5 ring-2' : 'w-4 h-4 ring-2'
+                      } rounded-full bg-rose-600 ring-white shadow-xl relative z-10 flex items-center justify-center`}
+                    >
+                      {isMultiPoint && (
+                        <span className="text-[8px] font-extrabold text-white leading-none">
+                          {idx + 1}
+                        </span>
+                      )}
+                    </span>
+                  </div>
+                ))}
+              </div>
             </div>
-            <p className="text-sm sm:text-base text-slate-800 leading-relaxed">
-              {location}
-            </p>
-          </div>
 
-          <div className="p-3.5 rounded-xl bg-white border border-slate-200">
-            <div className="text-xs sm:text-sm font-bold text-emerald-900 mb-1">
-              Hướng Mũi Kim & Độ Sâu Châm
+            {/* Modal Footer Note */}
+            <div className="p-3 bg-slate-950 border-t border-slate-800 text-xs text-slate-300 flex flex-wrap items-center justify-between gap-2">
+              <span>{isMultiPoint ? `Hiển thị toàn bộ ${mapping.markers.length} điểm châm kim` : 'Điểm đỏ định vị chuẩn xác tâm huyệt'}</span>
+              <span className="text-emerald-400 font-medium">100% hình ảnh không bị che khuất</span>
             </div>
-            <p className="text-sm sm:text-base text-slate-800 leading-relaxed">
-              {needling || anatomy || 'Châm thẳng hoặc xiên dọc theo bờ xương, vê kim nhẹ đến khi đắc khí.'}
-            </p>
           </div>
         </div>
-      </div>
-    </div>
+      )}
+    </>
   );
 };

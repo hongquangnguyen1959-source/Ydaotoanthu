@@ -869,19 +869,18 @@ interface HerbalVisualCardProps {
 
 export const HerbalVisualCard: React.FC<HerbalVisualCardProps> = ({ herb, mode }) => {
   const spec = getHerbVisualSpec(herb);
-  const [imgFailed, setImgFailed] = useState(false);
-
-  const primarySrc = imgFailed ? spec.imageUrl : spec.speciesPhotoUrl;
+  const [naturalImgFailed, setNaturalImgFailed] = useState(false);
+  const [preparedImgFailed, setPreparedImgFailed] = useState(false);
+  const [inspectModal, setInspectModal] = useState<null | 'natural' | 'prepared' | 'compare'>(null);
 
   if (mode === 'thumbnail') {
     return (
       <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-2xl overflow-hidden border border-slate-200 shadow-xs shrink-0 bg-slate-100">
         <img
-          src={primarySrc}
+          src={spec.imageUrl}
           alt={`Hình thực tế vị thuốc ${herb.vietnameseName}`}
           loading="lazy"
           referrerPolicy="no-referrer"
-          onError={() => setImgFailed(true)}
           className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
         />
         <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slate-950/85 via-slate-950/40 to-transparent px-1.5 py-1 flex items-end justify-between">
@@ -894,93 +893,288 @@ export const HerbalVisualCard: React.FC<HerbalVisualCardProps> = ({ herb, mode }
   }
 
   return (
-    <div className="mb-4 rounded-2xl overflow-hidden border border-emerald-200 bg-slate-950 shadow-sm">
-      <div className="grid grid-cols-1 lg:grid-cols-12 items-stretch">
-        {/* Dual Real Visual Gallery: [1] Unique Real Species/Mineral Photo + [2] Prepared TCM Herb Photo */}
-        <div className="lg:col-span-6 grid grid-cols-2 gap-1.5 p-2 bg-slate-900">
-          {/* Photo 1: 100% Unique Real Plant / Animal / Mineral Species Photo */}
-          <div className="relative rounded-xl overflow-hidden bg-slate-950 min-h-[185px] sm:min-h-[210px] border border-slate-800">
-            <img
-              src={primarySrc}
-              alt={`Cây / Vị thuốc tự nhiên ${herb.vietnameseName} (${spec.taxonName})`}
-              referrerPolicy="no-referrer"
-              onError={() => setImgFailed(true)}
-              className="w-full h-full object-cover max-h-[240px]"
-            />
-            <div className="absolute top-2 left-2 right-2">
-              <span className="inline-block px-2 py-0.5 rounded-md bg-emerald-950/90 text-[9px] sm:text-[10px] font-bold text-emerald-300 border border-emerald-500/40 leading-tight">
-                1. Dạng Tự Nhiên
-              </span>
+    <>
+      <div className="mb-4 rounded-2xl overflow-hidden border border-emerald-300/60 bg-slate-950 shadow-sm">
+        <div className="grid grid-cols-1 lg:grid-cols-12 items-stretch">
+          {/* Dual Real Visual Gallery: [1] Living Biological Species + [2] Prepared Pharmacognosy Herb */}
+          <div className="lg:col-span-6 grid grid-cols-2 gap-2 p-2.5 bg-slate-900/90">
+            {/* Photo 1: Living Plant / Animal / Mineral Species in Nature (Dạng Tự Nhiên) */}
+            <div
+              onClick={() => setInspectModal('natural')}
+              className="group relative rounded-xl overflow-hidden bg-slate-950 min-h-[195px] sm:min-h-[220px] border border-emerald-800/40 cursor-pointer flex flex-col justify-between"
+              title="Nhấp để phóng to đối chiếu Dạng Tự Nhiên"
+            >
+              {!naturalImgFailed ? (
+                <img
+                  src={spec.speciesPhotoUrl}
+                  alt={`Cây / Vị thuốc sống tự nhiên ${herb.vietnameseName} (${spec.taxonName})`}
+                  referrerPolicy="no-referrer"
+                  onError={() => setNaturalImgFailed(true)}
+                  className="w-full h-full object-cover max-h-[240px] transition-transform duration-300 group-hover:scale-105"
+                />
+              ) : (
+                /* Dedicated Botanical Specimen Fallback - Never duplicates the sliced photo */
+                <div className="w-full h-full min-h-[195px] flex flex-col items-center justify-center p-3 text-center bg-gradient-to-b from-emerald-950 to-slate-950 border border-emerald-700/30">
+                  <div className="w-12 h-12 rounded-full bg-emerald-900/60 border border-emerald-500/40 flex items-center justify-center mb-2 text-emerald-300">
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                    </svg>
+                  </div>
+                  <span className="text-[10px] uppercase font-bold text-emerald-400 tracking-wider">
+                    Loài Định Danh Tự Nhiên
+                  </span>
+                  <span className="text-xs font-serif font-bold text-white mt-0.5">
+                    {spec.taxonName}
+                  </span>
+                  <span className="text-[10px] text-emerald-200/80 mt-1 italic">
+                    Mẫu cây/vật sống nguyên sinh
+                  </span>
+                </div>
+              )}
+
+              {/* Badges and Caption */}
+              <div className="absolute top-2 left-2 right-2 flex items-center justify-between pointer-events-none z-10">
+                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-emerald-950/95 text-[9px] sm:text-[10px] font-bold text-emerald-300 border border-emerald-500/40 backdrop-blur-xs">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                  1. Dạng Tự Nhiên
+                </span>
+                <span className="px-1.5 py-0.5 rounded bg-black/70 text-[9px] text-white/90 font-mono flex items-center gap-0.5 backdrop-blur-xs">
+                  <svg className="w-2.5 h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                  Xem
+                </span>
+              </div>
+
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slate-950/95 via-slate-950/70 to-transparent p-2 z-10 pointer-events-none">
+                <span className="text-[10px] sm:text-[11px] font-bold text-white block truncate">
+                  {herb.vietnameseName} (Cây/Vật sống)
+                </span>
+                <span className="text-[9px] sm:text-[10px] italic text-emerald-300 block truncate font-serif">
+                  {spec.taxonName}
+                </span>
+              </div>
             </div>
-            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slate-950/95 via-slate-950/60 to-transparent p-2">
-              <span className="text-[10px] sm:text-[11px] font-bold text-white block truncate">
-                {herb.vietnameseName}
-              </span>
-              <span className="text-[9px] sm:text-[10px] italic text-emerald-300 block truncate">
-                {spec.taxonName}
-              </span>
+
+            {/* Photo 2: Prepared Dried Pharmacognosy Herb (Sau Khi Bào Chế) */}
+            <div
+              onClick={() => setInspectModal('prepared')}
+              className="group relative rounded-xl overflow-hidden bg-white min-h-[195px] sm:min-h-[220px] border border-amber-800/40 cursor-pointer flex flex-col justify-between"
+              title="Nhấp để phóng to đối chiếu Dạng Sau Khi Bào Chế"
+            >
+              {!preparedImgFailed ? (
+                <img
+                  src={spec.imageUrl}
+                  alt={`Vị thuốc sau khi bào chế ${herb.vietnameseName}`}
+                  referrerPolicy="no-referrer"
+                  onError={() => setPreparedImgFailed(true)}
+                  className={`w-full h-full object-contain p-2 bg-white max-h-[240px] transition-transform duration-300 group-hover:scale-105 ${spec.variantClass || ''}`}
+                />
+              ) : (
+                <div className="w-full h-full min-h-[195px] flex flex-col items-center justify-center p-3 text-center bg-slate-900 text-amber-200">
+                  <span className="text-xs font-bold">{spec.partLabel}</span>
+                  <span className="text-[10px] text-slate-400 mt-1">{spec.processingNote}</span>
+                </div>
+              )}
+
+              {/* Badges and Caption */}
+              <div className="absolute top-2 left-2 right-2 flex items-center justify-between pointer-events-none z-10">
+                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-slate-950/95 text-[9px] sm:text-[10px] font-bold text-amber-300 border border-amber-500/40 backdrop-blur-xs">
+                  <span className="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+                  2. Sau Bào Chế
+                </span>
+                <span className="px-1.5 py-0.5 rounded bg-black/70 text-[9px] text-white/90 font-mono flex items-center gap-0.5 backdrop-blur-xs">
+                  <svg className="w-2.5 h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                  Xem
+                </span>
+              </div>
+
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slate-950/95 via-slate-950/70 to-transparent p-2 z-10 pointer-events-none">
+                <span className="text-[10px] font-serif font-bold text-amber-300 block truncate">
+                  {herb.chineseCharacters} ({herb.pinyinName})
+                </span>
+                <span className="text-[9px] text-slate-200 block truncate">
+                  {spec.partLabel}
+                </span>
+              </div>
             </div>
           </div>
 
-          {/* Photo 2: Prepared Dried Pharmacognosy Herb (Sau Khi Bào Chế) */}
-          <div className="relative rounded-xl overflow-hidden bg-white min-h-[185px] sm:min-h-[210px] border border-slate-800 flex items-center justify-center">
-            <img
-              src={spec.imageUrl}
-              alt={`Vị thuốc sau khi bào chế ${herb.vietnameseName}`}
-              className={`w-full h-full object-contain p-1.5 bg-white max-h-[240px] ${spec.variantClass || ''}`}
-            />
-            <div className="absolute top-2 left-2 right-2">
-              <span className="inline-block px-2 py-0.5 rounded-md bg-slate-950/90 text-[9px] sm:text-[10px] font-bold text-amber-300 border border-amber-500/40 leading-tight">
-                2. Sau Khi Bào Chế
-              </span>
-            </div>
-            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slate-950/90 via-slate-950/55 to-transparent p-2">
-              <span className="text-[10px] font-serif font-bold text-amber-300 block truncate">
-                {herb.chineseCharacters} ({herb.pinyinName})
-              </span>
-              <span className="text-[9px] text-slate-200 block truncate">
-                {spec.partLabel}
-              </span>
-            </div>
-          </div>
-        </div>
+          {/* Pharmacognosy & Preparation Metadata */}
+          <div className="lg:col-span-6 p-4 sm:p-5 bg-gradient-to-br from-emerald-950 via-slate-900 to-slate-950 text-white flex flex-col justify-between space-y-3">
+            <div>
+              <div className="flex flex-wrap items-center gap-1.5 mb-2">
+                <span className="text-[10px] uppercase tracking-wider font-extrabold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                  Đối Chiếu 2 Thể Dược Liệu Chuẩn Bensky
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setInspectModal('compare')}
+                  className="text-[10px] font-bold text-amber-300 bg-amber-500/15 hover:bg-amber-500/25 px-2.5 py-0.5 rounded border border-amber-400/40 cursor-pointer flex items-center gap-1 transition-colors"
+                >
+                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                  So sánh phóng to 2 ảnh
+                </button>
+              </div>
 
-        {/* Pharmacognosy & Preparation Metadata */}
-        <div className="lg:col-span-6 p-4 sm:p-5 bg-gradient-to-br from-emerald-950 via-slate-900 to-slate-950 text-white flex flex-col justify-between space-y-3">
-          <div>
-            <div className="flex flex-wrap items-center gap-1.5 mb-1.5">
-              <span className="text-[10px] uppercase tracking-wider font-extrabold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
-                Đối Chiếu Thực Tế & Dược Điển Bensky
-              </span>
-              <span className="text-[10px] font-mono text-amber-300 bg-amber-500/15 px-2 py-0.5 rounded border border-amber-400/30">
-                Liều chuẩn: {herb.dosageGram}
-              </span>
-            </div>
-            <h4 className="text-base sm:text-lg font-serif font-bold text-white leading-snug">
-              {herb.vietnameseName} — <span className="text-emerald-300 font-normal italic text-xs sm:text-sm">{herb.botanicalName}</span>
-            </h4>
-            <p className="text-xs text-slate-300 mt-1.5 leading-relaxed">
-              <strong className="text-amber-300">Đặc điểm nhận diện & Bào chế: </strong>
-              {spec.processingNote} (Loài định danh khoa học: <i>{spec.taxonName}</i>).
-            </p>
-          </div>
+              <h4 className="text-base sm:text-lg font-serif font-bold text-white leading-snug">
+                {herb.vietnameseName} — <span className="text-emerald-300 font-normal italic text-xs sm:text-sm">{herb.botanicalName}</span>
+              </h4>
 
-          <div className="grid grid-cols-2 gap-2 pt-2 border-t border-white/10 text-[11px]">
-            <div className="bg-white/5 rounded-xl p-2 border border-white/10">
-              <span className="text-[9px] uppercase text-slate-400 font-bold block">Tính Vị Đặc Trưng</span>
-              <span className="text-emerald-200 font-semibold mt-0.5 block break-words">
-                Tính {herb.properties.nature} · Vị {herb.properties.flavors.join(', ')}
-              </span>
+              <div className="mt-2 space-y-1.5 text-xs text-slate-300 leading-relaxed bg-white/5 p-2.5 rounded-xl border border-white/10">
+                <p>
+                  <strong className="text-emerald-300">🌱 Dạng Tự Nhiên: </strong>
+                  Loài sinh học định danh <i>{spec.taxonName}</i>. Khai thác đúng bộ phận dùng nguyên bản.
+                </p>
+                <p>
+                  <strong className="text-amber-300">🍂 Sau Khi Bào Chế: </strong>
+                  {spec.processingNote}. Đạt tiêu chuẩn dược dụng Bensky & Dược điển Việt Nam.
+                </p>
+              </div>
             </div>
-            <div className="bg-white/5 rounded-xl p-2 border border-white/10">
-              <span className="text-[9px] uppercase text-slate-400 font-bold block">Kinh Mạch Quy Hướng</span>
-              <span className="text-amber-200 font-semibold mt-0.5 block break-words">
-                Kinh {herb.properties.channels.join(', ')}
-              </span>
+
+            <div className="grid grid-cols-2 gap-2 pt-2 border-t border-white/10 text-[11px]">
+              <div className="bg-white/5 rounded-xl p-2 border border-white/10">
+                <span className="text-[9px] uppercase text-slate-400 font-bold block">Tính Vị Đặc Trưng</span>
+                <span className="text-emerald-200 font-semibold mt-0.5 block break-words">
+                  Tính {herb.properties.nature} · Vị {herb.properties.flavors.join(', ')}
+                </span>
+              </div>
+              <div className="bg-white/5 rounded-xl p-2 border border-white/10">
+                <span className="text-[9px] uppercase text-slate-400 font-bold block">Kinh Mạch Quy Hướng</span>
+                <span className="text-amber-200 font-semibold mt-0.5 block break-words">
+                  Kinh {herb.properties.channels.join(', ')}
+                </span>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+
+      {/* High-Resolution Comparison / Zoom Modal */}
+      {inspectModal && (
+        <div
+          className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex flex-col items-center justify-center p-3 sm:p-6"
+          onClick={() => setInspectModal(null)}
+        >
+          <div
+            className="relative w-full max-w-4xl bg-slate-900 rounded-3xl overflow-hidden shadow-2xl border border-slate-700 flex flex-col max-h-[92vh]"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Modal Header */}
+            <div className="p-4 bg-slate-950 border-b border-slate-800 flex items-center justify-between text-white">
+              <div>
+                <h3 className="text-base sm:text-lg font-serif font-bold text-white flex items-center gap-2">
+                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-400" />
+                  Đối Chiếu Vị Thuốc: {herb.vietnameseName} ({herb.chineseCharacters} - {herb.pinyinName})
+                </h3>
+                <p className="text-xs text-slate-300 mt-0.5">
+                  Tên khoa học: <i className="text-emerald-300">{spec.taxonName}</i> · Họ dược liệu: {herb.botanicalName}
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setInspectModal(null)}
+                className="px-3.5 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-sm transition-colors cursor-pointer"
+              >
+                ✕ Đóng
+              </button>
+            </div>
+
+            {/* Modal Content: Side-by-Side High-Res Inspection */}
+            <div className="p-4 overflow-y-auto flex-1 bg-slate-950 space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Panel 1: Dạng Tự Nhiên */}
+                <div className="rounded-2xl overflow-hidden border border-emerald-700/50 bg-slate-900 flex flex-col">
+                  <div className="p-2.5 bg-emerald-950/80 border-b border-emerald-800/40 flex items-center justify-between">
+                    <span className="text-xs font-bold text-emerald-300 flex items-center gap-1.5">
+                      <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
+                      1. MẪU DẠNG TỰ NHIÊN (CÂY/CON/KHOÁNG VẬT)
+                    </span>
+                    <span className="text-[10px] text-emerald-400/90 font-mono">Living Taxon</span>
+                  </div>
+                  <div className="relative aspect-4/3 sm:aspect-16/11 bg-black flex items-center justify-center overflow-hidden">
+                    {!naturalImgFailed ? (
+                      <img
+                        src={spec.speciesPhotoUrl}
+                        alt={`Mẫu cây sống ${herb.vietnameseName}`}
+                        referrerPolicy="no-referrer"
+                        className="w-full h-full object-contain max-h-[350px]"
+                      />
+                    ) : (
+                      <div className="p-6 text-center text-emerald-200">
+                        <span className="text-base font-bold block mb-1">Mẫu Tự Nhiên Nguyên Sinh</span>
+                        <span className="text-xs italic block">{spec.taxonName}</span>
+                      </div>
+                    )}
+                  </div>
+                  <div className="p-3 bg-slate-900 text-xs text-slate-300 space-y-1">
+                    <div className="text-white font-semibold">Định danh thực vật/động vật học:</div>
+                    <div className="text-emerald-300 italic">{spec.taxonName}</div>
+                    <p className="text-[11px] text-slate-400">Thu hái đúng thời vụ sinh trưởng để đảm bảo hàm lượng hoạt chất tối ưu.</p>
+                  </div>
+                </div>
+
+                {/* Panel 2: Sau Khi Bào Chế */}
+                <div className="rounded-2xl overflow-hidden border border-amber-700/50 bg-slate-900 flex flex-col">
+                  <div className="p-2.5 bg-amber-950/80 border-b border-amber-800/40 flex items-center justify-between">
+                    <span className="text-xs font-bold text-amber-300 flex items-center gap-1.5">
+                      <span className="w-2 h-2 rounded-full bg-amber-400"></span>
+                      2. DẠNG SAU BÀO CHẾ (DƯỢC LIỆU DƯỢC ĐIỂN)
+                    </span>
+                    <span className="text-[10px] text-amber-400/90 font-mono">Prepared Herb</span>
+                  </div>
+                  <div className="relative aspect-4/3 sm:aspect-16/11 bg-white flex items-center justify-center overflow-hidden p-3">
+                    <img
+                      src={spec.imageUrl}
+                      alt={`Dược liệu bào chế ${herb.vietnameseName}`}
+                      className={`w-full h-full object-contain max-h-[350px] ${spec.variantClass || ''}`}
+                    />
+                  </div>
+                  <div className="p-3 bg-slate-900 text-xs text-slate-300 space-y-1">
+                    <div className="text-amber-300 font-semibold">{spec.partLabel}</div>
+                    <p className="text-[11px] text-slate-300 leading-relaxed">{spec.processingNote}</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Identification & Pharmacopoeial Notes */}
+              <div className="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-800 text-xs text-slate-300 space-y-2">
+                <div className="text-sm font-bold text-white flex items-center gap-2">
+                  <span className="text-amber-400">❖</span>
+                  Tiêu Chuẩn Nhận Diện Dược Điển & Tác Dụng:
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-[11px]">
+                  <div>
+                    <strong className="text-emerald-300">Công năng chủ trị: </strong>
+                    <span>{herb.actions.join(', ')}</span>
+                  </div>
+                  <div>
+                    <strong className="text-amber-300">Liều dùng tiêu chuẩn: </strong>
+                    <span>{herb.dosageGram} (Sắc, tán hoàn hoặc ngâm tẩm theo đơn)</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Modal Footer */}
+            <div className="p-3 bg-slate-950 border-t border-slate-800 text-xs text-slate-400 flex items-center justify-between">
+              <span>Được đối chiếu chuẩn hóa theo Dược điển Bensky & Dược điển Việt Nam</span>
+              <button
+                type="button"
+                onClick={() => setInspectModal(null)}
+                className="px-4 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs cursor-pointer"
+              >
+                Hoàn tất đối chiếu
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
