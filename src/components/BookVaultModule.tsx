@@ -125,15 +125,15 @@ export const BookVaultModule: React.FC = () => {
           <div className="lg:col-span-7 p-6 sm:p-8 flex flex-col justify-between space-y-4">
             <div className="space-y-2.5">
               <div className="flex items-center gap-2 text-xs text-emerald-800 font-semibold">
-                <span>65/65 Tác Phẩm Y Điển</span>
+                <span>{MEDICAL_BOOKS.length}/{MEDICAL_BOOKS.length} Tác Phẩm Y Điển</span>
                 <span aria-hidden="true">·</span>
                 <span>4 Bộ Sách PDF Nguyên Bản (900+ Trang)</span>
               </div>
               <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 font-serif tracking-tight">
-                Kho Y Điển & Nam Dược Việt Nam (65 Tác Phẩm Đông - Tây Y & 4 Sách PDF Toàn Văn)
+                Kho Y Điển Kinh Điển & Hiện Đại ({MEDICAL_BOOKS.length} Tác Phẩm Đông - Tây Y & 4 Sách PDF Toàn Văn)
               </h2>
               <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
-                Tích hợp đầy đủ từ 32 cuốn Đông Y - Châm Cứu - Sinh Lý, 9 bộ Nam Dược Việt Nam kinh điển, <b>24 cuốn Dược thư & Sách thuốc Tây Y chuyên sâu</b> đến <b>4 bộ sách PDF nguyên bản</b>.
+                Tích hợp đầy đủ từ Nội Kinh, Thương Hàn Luận, Kim Quỹ, Hải Thượng Y Tông, Đổng Thị Kỳ Huyệt, Nam Dược Việt Nam đến <b>Harrison&apos;s, UpToDate, ESC 2024, ADA 2025, KDIGO 2024, GOLD 2025 & Dược Điển VN V</b>.
               </p>
             </div>
 
@@ -141,15 +141,21 @@ export const BookVaultModule: React.FC = () => {
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1 tabular-nums">
               <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200">
                 <span className="text-[10px] font-semibold text-slate-500 block">Nam Dược & Đông Y</span>
-                <span className="text-sm font-bold text-slate-900 font-mono">15 Cuốn</span>
+                <span className="text-sm font-bold text-slate-900 font-mono">
+                  {MEDICAL_BOOKS.filter(b => b.category === 'nam_duoc_vn' || b.category === 'dong_y_ly_luan').length} Cuốn
+                </span>
               </div>
               <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200">
                 <span className="text-[10px] font-semibold text-slate-500 block">Châm Cứu & Đổng Thị</span>
-                <span className="text-sm font-bold text-slate-900 font-mono">23 Cuốn</span>
+                <span className="text-sm font-bold text-slate-900 font-mono">
+                  {MEDICAL_BOOKS.filter(b => b.category === 'cham_cuu_vn' || b.category === 'cham_cuu_qt').length} Cuốn
+                </span>
               </div>
               <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200">
                 <span className="text-[10px] font-semibold text-slate-500 block">Dược Thư & Tây Y</span>
-                <span className="text-sm font-bold text-slate-900 font-mono">27 Cuốn</span>
+                <span className="text-sm font-bold text-slate-900 font-mono">
+                  {MEDICAL_BOOKS.filter(b => b.category === 'tay_y_co_so' || b.category === 'duoc_thu_vn' || b.category === 'duoc_lam_sang_qt').length} Cuốn
+                </span>
               </div>
               <div className="p-2.5 rounded-xl bg-emerald-50 border border-emerald-200">
                 <span className="text-[10px] font-semibold text-emerald-800 block">Sách PDF Gốc</span>
@@ -200,7 +206,7 @@ export const BookVaultModule: React.FC = () => {
               }`}
             >
               <Grid className="w-3.5 h-3.5" />
-              <span>Thẻ Y Điển (65 Cuốn)</span>
+              <span>Thẻ Y Điển ({MEDICAL_BOOKS.length} Cuốn)</span>
             </button>
             <button
               onClick={() => setViewMode('pdf_reader')}
@@ -222,7 +228,7 @@ export const BookVaultModule: React.FC = () => {
               }`}
             >
               <ListChecks className="w-3.5 h-3.5" />
-              <span>Bảng Đối Chiếu 65 Cuốn</span>
+              <span>Bảng Đối Chiếu {MEDICAL_BOOKS.length} Cuốn</span>
             </button>
             <button
               onClick={() => setViewMode('image_compare')}

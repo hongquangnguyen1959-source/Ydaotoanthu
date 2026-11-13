@@ -110,6 +110,8 @@ export const DiagnosisModule: React.FC<DiagnosisModuleProps> = ({ onOpenChatWith
     setSelectedPresetId(null);
   };
 
+  const [isAiRefining, setIsAiRefining] = useState(false);
+
   // Run diagnosis
   const handleDiagnose = async () => {
     if (!symptoms.mainComplaint.trim()) {
@@ -121,9 +123,10 @@ export const DiagnosisModule: React.FC<DiagnosisModuleProps> = ({ onOpenChatWith
     setResult(instantRes);
     setActiveStep('result');
     setIsLoading(false);
+    setIsAiRefining(true);
 
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 12000);
+    const timeoutId = setTimeout(() => controller.abort(), 45000);
 
     try {
       const response = await fetch('/api/diagnose', {
@@ -149,6 +152,8 @@ export const DiagnosisModule: React.FC<DiagnosisModuleProps> = ({ onOpenChatWith
       }
     } catch {
       clearTimeout(timeoutId);
+    } finally {
+      setIsAiRefining(false);
     }
   };
 
@@ -199,7 +204,7 @@ export const DiagnosisModule: React.FC<DiagnosisModuleProps> = ({ onOpenChatWith
 
         <div className="hidden md:flex items-center gap-2 text-xs text-slate-500 pr-2">
           <span className="font-medium text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-md border border-emerald-200">
-            ✓ Trí tuệ 65 Y Điển Đông - Nam - Tây Y
+            ✓ Trí tuệ 82+ Y Điển Đông - Nam - Tây Y
           </span>
         </div>
       </div>
@@ -624,7 +629,7 @@ export const DiagnosisModule: React.FC<DiagnosisModuleProps> = ({ onOpenChatWith
                 {isLoading ? (
                   <>
                     <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
-                    <span>Đang nạp tri thức 60 Y Điển & hội chẩn đa chiều...</span>
+                    <span>Đang nạp tri thức 82+ Y Điển & hội chẩn đa chiều...</span>
                   </>
                 ) : (
                   <>
@@ -642,6 +647,12 @@ export const DiagnosisModule: React.FC<DiagnosisModuleProps> = ({ onOpenChatWith
       {/* Comprehensive Diagnosis Results Section */}
       {result && (
         <div id="diagnosis-results" className="space-y-8 animate-fadeIn">
+          {isAiRefining && (
+            <div className="flex items-center gap-2.5 px-4 py-2.5 rounded-2xl bg-cyan-50 border border-cyan-200 text-cyan-900 text-xs font-semibold">
+              <span className="w-4 h-4 border-2 border-cyan-600 border-t-transparent rounded-full animate-spin shrink-0"></span>
+              <span>Đang hoàn tất biện chứng luận trị chuyên sâu AI dựa trên sinh hiệu, Tứ chẩn và tiền sử bệnh của bạn...</span>
+            </div>
+          )}
           {/* Top Banner Alert / Summary */}
           <div className="p-6 rounded-3xl bg-gradient-to-r from-emerald-50 via-teal-50 to-cyan-50 border border-emerald-200 shadow-sm">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">

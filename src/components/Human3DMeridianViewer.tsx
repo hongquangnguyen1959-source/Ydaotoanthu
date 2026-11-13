@@ -2,9 +2,31 @@ import React, { useEffect, useRef, useState, useMemo, useCallback } from 'react'
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import { MERIDIANS_3D_DATA, Acupoint3D } from '../data/meridians3dData';
+import {
+  MERIDIANS_3D_DATA,
+  Acupoint3D,
+  MERIDIAN_FLOW_META,
+  EXTRAORDINARY_VESSELS_META,
+  TUNG_3D_ANCHOR_SPECS,
+} from '../data/meridians3dData';
+import { TUNG_POINTS } from '../data/tungPoints';
 import { COMPLETE_ACUPOINT_CLINICAL_DB } from '../data/acupoints';
 import { buildCompleteAnatomicalSkeleton3D } from '../utils/humanSkeleton3DBuilder';
+import {
+  buildZangFuOrgans3D,
+  ZangFuOrgansRig,
+  ZangFuOrganInfo,
+} from '../utils/zangFuOrgans3DBuilder';
+import {
+  buildCunGuides3D,
+  CunGuidesRig,
+  buildAcupunctureNeedle3D,
+  AcupunctureNeedleRig,
+  QiBeadTrack,
+  isSpecialAcupoint,
+  extractClinicalSafetyWarning,
+  snapAnchorToHumanMesh,
+} from '../utils/meridianFlowAndGuides3D';
 import {
   Search,
   X,
@@ -16,11 +38,19 @@ import {
   Sparkles,
   Check,
   ChevronRight,
-  Bone
+  Bone,
+  Navigation,
+  Heart,
+  Ruler,
+  Filter,
+  AlertTriangle,
+  ArrowRight,
+  Pause,
+  Play,
+  Syringe,
 } from 'lucide-react';
 
-// Bottom Bar items matching Acu Atlas 3D
-const ACU_ATLAS_BAR_ITEMS: {
+export interface AtlasBarItem {
   id: string;
   shortLabel: string;
   enName: string;
@@ -28,22 +58,39 @@ const ACU_ATLAS_BAR_ITEMS: {
   lineColor: string;
   pointPrefix: string;
   maxIndex: number;
-}[] = [
-  { id: 'LU', shortLabel: 'Lu', enName: 'Lung', viShort: 'Phế', lineColor: '#2563eb', pointPrefix: 'Lu', maxIndex: 11 },
-  { id: 'LI', shortLabel: 'Li', enName: 'Large Intestine', viShort: 'Đại Trường', lineColor: '#c25e1a', pointPrefix: 'LI', maxIndex: 20 },
-  { id: 'ST', shortLabel: 'St', enName: 'Stomach', viShort: 'Vị', lineColor: '#d97706', pointPrefix: 'ST', maxIndex: 45 },
-  { id: 'SP', shortLabel: 'Sp', enName: 'Spleen', viShort: 'Tỳ', lineColor: '#ea580c', pointPrefix: 'SP', maxIndex: 21 },
-  { id: 'HT', shortLabel: 'He', enName: 'Heart', viShort: 'Tâm', lineColor: '#dc2626', pointPrefix: 'He', maxIndex: 9 },
-  { id: 'SI', shortLabel: 'Si', enName: 'Small Intestine', viShort: 'Tiểu Trường', lineColor: '#e11d48', pointPrefix: 'SI', maxIndex: 19 },
-  { id: 'BL', shortLabel: 'Bl', enName: 'Bladder', viShort: 'Bàng Quang', lineColor: '#1d4ed8', pointPrefix: 'BL', maxIndex: 67 },
-  { id: 'KI', shortLabel: 'Ki', enName: 'Kidney', viShort: 'Thận', lineColor: '#4f46e5', pointPrefix: 'KI', maxIndex: 27 },
-  { id: 'PC', shortLabel: 'Pc', enName: 'Pericardium', viShort: 'Tâm Bào', lineColor: '#db2777', pointPrefix: 'PC', maxIndex: 9 },
-  { id: 'TE', shortLabel: 'Tb', enName: 'Triple Burner', viShort: 'Tam Tiêu', lineColor: '#9333ea', pointPrefix: 'TB', maxIndex: 23 },
-  { id: 'GB', shortLabel: 'Gb', enName: 'Gallbladder', viShort: 'Đởm', lineColor: '#059669', pointPrefix: 'GB', maxIndex: 44 },
-  { id: 'LR', shortLabel: 'Lv', enName: 'Liver', viShort: 'Can', lineColor: '#047857', pointPrefix: 'LV', maxIndex: 14 },
-  { id: 'GV', shortLabel: 'Du', enName: 'Governing', viShort: 'Đốc Mạch', lineColor: '#b45309', pointPrefix: 'DU', maxIndex: 29 },
-  { id: 'CV', shortLabel: 'Rn', enName: 'Conception', viShort: 'Nhâm Mạch', lineColor: '#7c3aed', pointPrefix: 'RN', maxIndex: 24 },
-  { id: 'EX', shortLabel: 'Ex', enName: 'Extra Points', viShort: 'Kỳ Huyệt', lineColor: '#e11d48', pointPrefix: 'EX', maxIndex: 58 },
+  category: 'main' | 'extra_vessel' | 'special';
+}
+
+// Complete Bottom Bar items: 14 Main/Ren-Du + 6 Extraordinary Vessels + 58 WHO Extra Points + Đổng Thị 3D
+const ACU_ATLAS_BAR_ITEMS: AtlasBarItem[] = [
+  { id: 'LU', shortLabel: 'Lu', enName: 'Lung', viShort: 'Phế', lineColor: '#2563eb', pointPrefix: 'Lu', maxIndex: 11, category: 'main' },
+  { id: 'LI', shortLabel: 'Li', enName: 'Large Intestine', viShort: 'Đại Trường', lineColor: '#c25e1a', pointPrefix: 'LI', maxIndex: 20, category: 'main' },
+  { id: 'ST', shortLabel: 'St', enName: 'Stomach', viShort: 'Vị', lineColor: '#d97706', pointPrefix: 'ST', maxIndex: 45, category: 'main' },
+  { id: 'SP', shortLabel: 'Sp', enName: 'Spleen', viShort: 'Tỳ', lineColor: '#ea580c', pointPrefix: 'SP', maxIndex: 21, category: 'main' },
+  { id: 'HT', shortLabel: 'He', enName: 'Heart', viShort: 'Tâm', lineColor: '#dc2626', pointPrefix: 'He', maxIndex: 9, category: 'main' },
+  { id: 'SI', shortLabel: 'Si', enName: 'Small Intestine', viShort: 'Tiểu Trường', lineColor: '#e11d48', pointPrefix: 'SI', maxIndex: 19, category: 'main' },
+  { id: 'BL', shortLabel: 'Bl', enName: 'Bladder', viShort: 'Bàng Quang', lineColor: '#1d4ed8', pointPrefix: 'BL', maxIndex: 67, category: 'main' },
+  { id: 'KI', shortLabel: 'Ki', enName: 'Kidney', viShort: 'Thận', lineColor: '#4f46e5', pointPrefix: 'KI', maxIndex: 27, category: 'main' },
+  { id: 'PC', shortLabel: 'Pc', enName: 'Pericardium', viShort: 'Tâm Bào', lineColor: '#db2777', pointPrefix: 'PC', maxIndex: 9, category: 'main' },
+  { id: 'TE', shortLabel: 'Tb', enName: 'Triple Burner', viShort: 'Tam Tiêu', lineColor: '#9333ea', pointPrefix: 'TB', maxIndex: 23, category: 'main' },
+  { id: 'GB', shortLabel: 'Gb', enName: 'Gallbladder', viShort: 'Đởm', lineColor: '#059669', pointPrefix: 'GB', maxIndex: 44, category: 'main' },
+  { id: 'LR', shortLabel: 'Lv', enName: 'Liver', viShort: 'Can', lineColor: '#047857', pointPrefix: 'LV', maxIndex: 14, category: 'main' },
+  { id: 'GV', shortLabel: 'Du', enName: 'Governing', viShort: 'Đốc Mạch', lineColor: '#b45309', pointPrefix: 'DU', maxIndex: 29, category: 'main' },
+  { id: 'CV', shortLabel: 'Rn', enName: 'Conception', viShort: 'Nhâm Mạch', lineColor: '#7c3aed', pointPrefix: 'RN', maxIndex: 24, category: 'main' },
+  // 6 Kỳ Kinh Bát Mạch còn lại
+  ...EXTRAORDINARY_VESSELS_META.map((v) => ({
+    id: v.id,
+    shortLabel: v.shortLabel,
+    enName: v.enName,
+    viShort: v.viShort,
+    lineColor: v.lineColor,
+    pointPrefix: v.id,
+    maxIndex: 0,
+    category: 'extra_vessel' as const,
+  })),
+  // 58 Kỳ Huyệt WHO + 40 Đổng Thị Kỳ Huyệt 3D
+  { id: 'EX', shortLabel: 'Ex', enName: 'Extra Points', viShort: '58 Kỳ Huyệt', lineColor: '#e11d48', pointPrefix: 'EX', maxIndex: 58, category: 'special' },
+  { id: 'DT', shortLabel: 'ĐT', enName: 'Master Tung', viShort: 'Đổng Thị 3D', lineColor: '#0f766e', pointPrefix: 'ĐT', maxIndex: 40, category: 'special' },
 ];
 
 // Complete Sino-Vietnamese names for all 362 classical acupoints across the 14 meridians
@@ -153,6 +200,8 @@ interface PlottedPoint3D {
   displayCode: string;
   meridianId: string;
   position: [number, number, number];
+  snappedNormal?: [number, number, number];
+  isSpecial?: boolean;
   detail: Acupoint3D;
 }
 
@@ -1301,9 +1350,12 @@ function createPointCodeSprite(
   return sprite;
 }
 
-// Shared sphere geometries for acupoint pins to avoid repeated geometry allocations
+// Shared sphere & flow geometries to avoid repeated GPU allocations
 const SHARED_PIN_GEO_NORMAL = new THREE.SphereGeometry(0.0035, 10, 10);
-const SHARED_PIN_GEO_SELECTED = new THREE.SphereGeometry(0.0062, 14, 14);
+const SHARED_PIN_GEO_SPECIAL = new THREE.SphereGeometry(0.0044, 12, 12);
+const SHARED_PIN_GEO_SELECTED = new THREE.SphereGeometry(0.0064, 14, 14);
+const SHARED_FLOW_ARROW_GEO = new THREE.ConeGeometry(0.0031, 0.0092, 10);
+const SHARED_QI_BEAD_GEO = new THREE.SphereGeometry(0.0038, 10, 10);
 
 export const Human3DMeridianViewer: React.FC = () => {
   const mountRef = useRef<HTMLDivElement>(null);
@@ -1313,7 +1365,17 @@ export const Human3DMeridianViewer: React.FC = () => {
   const [activeMeridianIds, setActiveMeridianIds] = useState<string[]>([]);
   const [multiSelectMode, setMultiSelectMode] = useState<boolean>(false);
   const [selectedPoint, setSelectedPoint] = useState<Acupoint3D | null>(null);
+  const [selectedOrgan, setSelectedOrgan] = useState<ZangFuOrganInfo | null>(null);
   const [showLabels, setShowLabels] = useState<boolean>(true);
+  const [showFlowArrows, setShowFlowArrows] = useState<boolean>(true);
+  const [qiFlowSpeed, setQiFlowSpeed] = useState<number>(1.0); // 0 = paused, 0.6 = slow, 1.0 = normal, 1.8 = fast
+  const [showOrgans, setShowOrgans] = useState<boolean>(false);
+  const [showNeedle, setShowNeedle] = useState<boolean>(true);
+  const [showCunGuides, setShowCunGuides] = useState<boolean>(false);
+  const [pointFilterMode, setPointFilterMode] = useState<'all' | 'special'>('all');
+  const [vesselCategoryTab, setVesselCategoryTab] = useState<
+    'all' | 'main' | 'extra_vessel' | 'special'
+  >('all');
   // 4 Anatomical Modes:
   // - 'skin_skeleton': Translucent real skin + Complete 206-bone 3D skeleton inside + Front-facing acupoints (Default!)
   // - 'skeleton_only': Pure 206-bone 3D skeleton + Meridians & Acupoints
@@ -1330,6 +1392,10 @@ export const Human3DMeridianViewer: React.FC = () => {
   const [activePresetLabel, setActivePresetLabel] = useState<string>('Chính diện');
   const [surfaceData, setSurfaceData] = useState<SurfaceDataJSON | null>(null);
   const [modelLoaded, setModelLoaded] = useState<boolean>(false);
+  const [humanMeshBuffers, setHumanMeshBuffers] = useState<{
+    positions: Float32Array;
+    normals: Float32Array;
+  } | null>(null);
 
   // Three.js references
   const sceneRef = useRef<THREE.Scene | null>(null);
@@ -1341,25 +1407,68 @@ export const Human3DMeridianViewer: React.FC = () => {
   const skinDepthMaterialRef = useRef<THREE.MeshBasicMaterial | null>(null);
   const bodyGroupRef = useRef<THREE.Group | null>(null);
   const skeletonGroupRef = useRef<THREE.Group | null>(null);
+  const organsRigRef = useRef<ZangFuOrgansRig | null>(null);
+  const cunGuidesRigRef = useRef<CunGuidesRig | null>(null);
+  const needleRigRef = useRef<AcupunctureNeedleRig | null>(null);
   const meridiansGroupRef = useRef<THREE.Group | null>(null);
+  const flowArrowsGroupRef = useRef<THREE.Group | null>(null);
+  const qiBeadsMeshRef = useRef<THREE.InstancedMesh | null>(null);
+  const qiTracksRef = useRef<QiBeadTrack[]>([]);
+  const qiFlowSpeedRef = useRef<number>(1.0);
+  const showFlowArrowsRef = useRef<boolean>(true);
+  const showOrgansRef = useRef<boolean>(false);
   const pointsGroupRef = useRef<THREE.Group | null>(null);
   const animFrameIdRef = useRef<number>(0);
   const isTranslucentSkinRef = useRef<boolean>(false);
   const occlusionDirtyRef = useRef<boolean>(true);
   const tubeScaleUniformRef = useRef<{ value: number }>({ value: 1.0 });
+  const camFlightRef = useRef<{
+    active: boolean;
+    camPos: THREE.Vector3;
+    target: THREE.Vector3;
+  }>({
+    active: false,
+    camPos: new THREE.Vector3(0, 1.02, 2.28),
+    target: new THREE.Vector3(0, 0.96, 0),
+  });
 
-  // Build complete 419-point lookup (361 classical + 58 extra acupoints) with full Vietnamese names
+  useEffect(() => {
+    qiFlowSpeedRef.current = qiFlowSpeed;
+  }, [qiFlowSpeed]);
+
+  useEffect(() => {
+    showFlowArrowsRef.current = showFlowArrows;
+    if (flowArrowsGroupRef.current) {
+      flowArrowsGroupRef.current.visible = showFlowArrows;
+    }
+  }, [showFlowArrows]);
+
+  useEffect(() => {
+    showOrgansRef.current = showOrgans;
+  }, [showOrgans]);
+
+  // Build complete 3D acupoint catalog:
+  // 362 classical (including GV29 Ấn Đường) + 58 WHO Extra + 6 Kỳ Kinh Bát Mạch member sets + 40 Đổng Thị Kỳ Huyệt 3D
   const allPlottedPoints = useMemo(() => {
     if (!surfaceData) return [];
     const list: PlottedPoint3D[] = [];
+    const basePointByCode = new Map<string, PlottedPoint3D>();
 
+    // Helper to resolve surface position cleanly (including GV29 -> GV24+ fallback)
+    const resolveSurfacePos = (code: string): [number, number, number] | undefined =>
+      surfaceData.points[code] ||
+      (code === 'GV29' ? surfaceData.points['GV24+'] : undefined);
+
+    // 1. First build the 14 classic meridians (LU..CV) + 58 WHO Extra Points (EX)
     ACU_ATLAS_BAR_ITEMS.forEach((barItem) => {
       if (barItem.id === 'EX') {
         Object.entries(EXTRA_POINT_VIETNAMESE_NAMES).forEach(([exCode, exViName]) => {
-          const pos = surfaceData.points[exCode];
+          const pos = resolveSurfacePos(exCode);
           if (!pos) return;
           const isMidline = Math.abs(pos[0]) < 0.004;
           const clinical = COMPLETE_ACUPOINT_CLINICAL_DB[exCode];
+          const specialRole =
+            clinical?.specialRole || `Kinh Ngoại Kỳ Huyệt (${exViName})`;
           const detail: Acupoint3D = {
             id: exCode,
             code: exCode,
@@ -1386,18 +1495,23 @@ export const Human3DMeridianViewer: React.FC = () => {
               `Chủ trị chuyên biệt tại vùng huyệt ${exViName}`,
               'Điều hòa khí huyết và giảm đau đặc hiệu',
             ],
-            specialRole: clinical?.specialRole || `Kinh Ngoại Kỳ Huyệt (${exViName})`,
+            specialRole,
           };
-          list.push({
+          const item: PlottedPoint3D = {
             code: exCode,
             displayCode: exCode,
             meridianId: 'EX',
             position: pos,
+            isSpecial: true,
             detail,
-          });
+          };
+          list.push(item);
+          basePointByCode.set(exCode, item);
         });
         return;
       }
+
+      if (barItem.category !== 'main') return;
 
       const mData = MERIDIANS_3D_DATA.find((m) => m.id === barItem.id);
       if (!mData) return;
@@ -1406,7 +1520,7 @@ export const Human3DMeridianViewer: React.FC = () => {
       for (let idx = 1; idx <= barItem.maxIndex; idx++) {
         const code = `${barItem.id}${idx}`;
         const displayCode = `${barItem.pointPrefix}-${idx}`;
-        const pos = surfaceData.points[code];
+        const pos = resolveSurfacePos(code);
         if (!pos) continue;
 
         const existingDetail = mData.points.find(
@@ -1414,6 +1528,10 @@ export const Human3DMeridianViewer: React.FC = () => {
         );
         const clinical = COMPLETE_ACUPOINT_CLINICAL_DB[code];
         const pointViName = viNames[idx - 1] || existingDetail?.name || displayCode;
+        const specialRole =
+          clinical?.specialRole ||
+          existingDetail?.specialRole ||
+          `Huyệt ${pointViName} thuộc ${mData.vietnameseName}`;
 
         const detail: Acupoint3D = {
           id: code,
@@ -1447,29 +1565,94 @@ export const Human3DMeridianViewer: React.FC = () => {
               `Đau nhức hoặc rối loạn cảm giác dọc lộ trình ${mData.vietnameseName}`,
               mData.description,
             ],
-          specialRole:
-            clinical?.specialRole ||
-            existingDetail?.specialRole ||
-            `Huyệt ${pointViName} thuộc ${mData.vietnameseName}`,
+          specialRole,
         };
 
-        list.push({
-          code,
+        const item: PlottedPoint3D = {
+          code: code === 'GV29' && !surfaceData.points['GV29'] ? 'GV24+' : code,
           displayCode,
           meridianId: barItem.id,
           position: pos,
+          isSpecial: isSpecialAcupoint(specialRole),
           detail,
-        });
+        };
+        list.push(item);
+        basePointByCode.set(code, item);
       }
     });
 
-    return list;
-  }, [surfaceData]);
+    // 2. Plot member + opening points for the 6 Extraordinary Vessels (Kỳ Kinh Bát Mạch)
+    EXTRAORDINARY_VESSELS_META.forEach((vessel) => {
+      const flowMeta = MERIDIAN_FLOW_META[vessel.id];
+      const memberCodes = flowMeta?.memberPointCodes || [];
+      memberCodes.forEach((memberCode) => {
+        const base = basePointByCode.get(memberCode);
+        if (!base) return;
+        const isOpening = flowMeta?.openingPointCode === memberCode;
+        const detail: Acupoint3D = {
+          ...base.detail,
+          id: `${vessel.id}_${memberCode}`,
+          meridianId: vessel.id,
+          meridianName: `${vessel.name} (${flowMeta?.openingPointName || ''})`,
+          specialRole: isOpening
+            ? `Huyệt Khai ${vessel.name} (${flowMeta?.openingPointName})`
+            : `Huyệt giao hội thuộc ${vessel.name}`,
+        };
+        list.push({
+          code: base.code,
+          displayCode: base.displayCode,
+          meridianId: vessel.id,
+          position: base.position,
+          isSpecial: true,
+          detail,
+        });
+      });
+    });
 
-  // Search filter across all 361 surface-registered acupoints
+    // 3. Plot 40 Đổng Thị Kỳ Huyệt 3D snapped directly onto MakeHuman skin vertices
+    TUNG_3D_ANCHOR_SPECS.forEach((spec) => {
+      const tungData = TUNG_POINTS.find((tp) => tp.code === spec.code);
+      if (!tungData) return;
+      const snapped = snapAnchorToHumanMesh(
+        spec.anchor,
+        humanMeshBuffers?.positions || null,
+        humanMeshBuffers?.normals || null
+      );
+      const detail: Acupoint3D = {
+        id: `DT_${tungData.code}`,
+        code: `ĐT ${tungData.code}`,
+        name: tungData.name,
+        vietnameseName: `${tungData.vietnameseName} (Đổng Thị Kỳ Huyệt)`,
+        chineseName: tungData.chineseName,
+        meridianId: 'DT',
+        meridianName: `Đổng Thị Kỳ Huyệt — ${tungData.zone}`,
+        position: snapped.pos,
+        isBilateral: spec.isBilateral,
+        location: tungData.location,
+        depth: tungData.needlingMethod,
+        anatomy: tungData.anatomy,
+        actions: tungData.dongQiInstruction || tungData.westernMechanism,
+        indications: tungData.indications,
+        specialRole: `Đổng Thị Kỳ Huyệt (${tungData.zone})`,
+      };
+      list.push({
+        code: `DT_${tungData.code}`,
+        displayCode: `ĐT ${tungData.code}`,
+        meridianId: 'DT',
+        position: snapped.pos,
+        snappedNormal: snapped.normal,
+        isSpecial: true,
+        detail,
+      });
+    });
+
+    return list;
+  }, [surfaceData, humanMeshBuffers]);
+
+  // Search filter across all classic, extraordinary, WHO extra & Master Tung points
   const searchResults = useMemo(() => {
     const q = searchQuery.trim().toLowerCase();
-    if (!q) return allPlottedPoints.slice(0, 30);
+    if (!q) return allPlottedPoints.slice(0, 32);
     return allPlottedPoints.filter(
       (pt) =>
         pt.code.toLowerCase().includes(q) ||
@@ -1481,65 +1664,65 @@ export const Human3DMeridianViewer: React.FC = () => {
     );
   }, [allPlottedPoints, searchQuery]);
 
-  // Camera Presets calibrated to the 0..1.85m MakeHuman 3D body mesh (matching all 5 user screenshots!)
+  // Smooth damped camera presets calibrated to the 0..1.85m MakeHuman 3D body mesh
   const setCameraView = useCallback(
     (preset: 'front' | 'leftArm' | 'rightArm' | 'sideProfile' | 'back' | 'head' | 'legs') => {
       if (!cameraRef.current || !controlsRef.current) return;
-      const camera = cameraRef.current;
-      const controls = controlsRef.current;
+      const flight = camFlightRef.current;
 
       switch (preset) {
         case 'front':
-          camera.position.set(0, 1.02, 2.28);
-          controls.target.set(0, 0.96, 0);
+          flight.camPos.set(0, 1.02, 2.28);
+          flight.target.set(0, 0.96, 0);
           setActivePresetLabel('Chính diện');
           break;
         case 'leftArm':
-          camera.position.set(0.18, 1.12, 1.78);
-          controls.target.set(0.18, 1.06, 0.02);
+          flight.camPos.set(0.18, 1.12, 1.78);
+          flight.target.set(0.18, 1.06, 0.02);
           setActivePresetLabel('Tay Trái');
           break;
         case 'rightArm':
-          camera.position.set(-0.18, 1.12, 1.78);
-          controls.target.set(-0.18, 1.06, 0.02);
+          flight.camPos.set(-0.18, 1.12, 1.78);
+          flight.target.set(-0.18, 1.06, 0.02);
           setActivePresetLabel('Tay Phải');
           break;
         case 'sideProfile':
-          camera.position.set(2.08, 1.06, 0.48);
-          controls.target.set(0.04, 1.02, 0.02);
+          flight.camPos.set(2.08, 1.06, 0.48);
+          flight.target.set(0.04, 1.02, 0.02);
           setActivePresetLabel('Nghiêng');
           break;
         case 'back':
-          camera.position.set(0, 1.02, -2.28);
-          controls.target.set(0, 0.96, 0);
+          flight.camPos.set(0, 1.02, -2.28);
+          flight.target.set(0, 0.96, 0);
           setActivePresetLabel('Sau Lưng');
           break;
         case 'head':
-          camera.position.set(0, 1.66, 0.68);
-          controls.target.set(0, 1.65, 0.06);
+          flight.camPos.set(0, 1.66, 0.68);
+          flight.target.set(0, 1.65, 0.06);
           setActivePresetLabel('Đầu Mặt');
           break;
         case 'legs':
-          camera.position.set(0, 0.48, 1.58);
-          controls.target.set(0, 0.46, 0);
+          flight.camPos.set(0, 0.48, 1.58);
+          flight.target.set(0, 0.46, 0);
           setActivePresetLabel('Hai Chân');
           break;
       }
-      controls.update();
+      flight.active = true;
       occlusionDirtyRef.current = true;
     },
     []
   );
 
-  // Fly camera to a specific acupoint on the 3D MakeHuman skin
+  // Smoothly fly camera to a specific acupoint on the 3D MakeHuman skin
   const focusOnPoint = useCallback((pt: Acupoint3D) => {
     setSelectedPoint(pt);
+    setSelectedOrgan(null);
     if (!cameraRef.current || !controlsRef.current) return;
     const [x, y, z] = pt.position;
     const zDir = z >= -0.01 ? 1 : -1;
-    cameraRef.current.position.set(x * 1.15, y + 0.03, z + zDir * 0.72);
-    controlsRef.current.target.set(x * 0.6, y, z * 0.6);
-    controlsRef.current.update();
+    camFlightRef.current.camPos.set(x * 1.15, y + 0.03, z + zDir * 0.68);
+    camFlightRef.current.target.set(x * 0.6, y, z * 0.6);
+    camFlightRef.current.active = true;
     occlusionDirtyRef.current = true;
   }, []);
 
@@ -1621,14 +1804,27 @@ export const Human3DMeridianViewer: React.FC = () => {
     controls.minDistance = 0.32;
     controls.maxDistance = 4.2;
     controls.target.set(0, 0.96, 0);
+    // Cancel camera flight immediately if user drags/rotates manually
+    const onControlsStart = () => {
+      camFlightRef.current.active = false;
+    };
+    controls.addEventListener('start', onControlsStart);
     // Allow vertical page scrolling by default when touching outside the 3D human figure
     renderer.domElement.style.touchAction = 'pan-y';
     controlsRef.current = controls;
 
-    // 6. Groups (Complete 206-Bone 3D Skeleton + Skin Body + Meridians + Acupoints)
+    // 6. Groups (Complete 242-Bone 3D Skeleton + Zang-Fu Organs + Cun Guides + Skin + Meridians + Flow Arrows + Needles + Acupoints)
     const skeletonGroup = buildCompleteAnatomicalSkeleton3D();
     skeletonGroupRef.current = skeletonGroup;
     scene.add(skeletonGroup);
+
+    const organsRig = buildZangFuOrgans3D();
+    organsRigRef.current = organsRig;
+    scene.add(organsRig.group);
+
+    const cunGuidesRig = buildCunGuides3D();
+    cunGuidesRigRef.current = cunGuidesRig;
+    scene.add(cunGuidesRig.group);
 
     const bodyGroup = new THREE.Group();
     bodyGroupRef.current = bodyGroup;
@@ -1638,9 +1834,18 @@ export const Human3DMeridianViewer: React.FC = () => {
     meridiansGroupRef.current = meridiansGroup;
     scene.add(meridiansGroup);
 
+    const flowArrowsGroup = new THREE.Group();
+    flowArrowsGroupRef.current = flowArrowsGroup;
+    flowArrowsGroup.visible = showFlowArrowsRef.current;
+    scene.add(flowArrowsGroup);
+
     const pointsGroup = new THREE.Group();
     pointsGroupRef.current = pointsGroup;
     scene.add(pointsGroup);
+
+    const needleRig = buildAcupunctureNeedle3D();
+    needleRigRef.current = needleRig;
+    scene.add(needleRig.group);
 
     // 7. Load Real MakeHuman GLB Mesh (`/models/human-learning.glb`) with Depth Pre-pass + PBR Skin Material
     const bumpTex = createHighDefSkinBumpTexture();
@@ -1734,9 +1939,19 @@ export const Human3DMeridianViewer: React.FC = () => {
       (gltf) => {
         if (disposed) return;
         const depthClones: THREE.Mesh[] = [];
+        let capturedPos: Float32Array | null = null;
+        let capturedNorm: Float32Array | null = null;
         gltf.scene.traverse((obj) => {
           if (obj instanceof THREE.Mesh && obj.geometry) {
             enhanceAndColorHumanGeometry(obj.geometry);
+            if (!capturedPos && obj.geometry.attributes.position && obj.geometry.attributes.normal) {
+              capturedPos = new Float32Array(
+                obj.geometry.attributes.position.array as Float32Array
+              );
+              capturedNorm = new Float32Array(
+                obj.geometry.attributes.normal.array as Float32Array
+              );
+            }
             obj.material = skinMat;
             obj.renderOrder = 3;
             skinHitMeshes.push(obj);
@@ -1762,6 +1977,9 @@ export const Human3DMeridianViewer: React.FC = () => {
 
         depthClones.forEach((dm) => bodyGroup.add(dm));
         bodyGroup.add(gltf.scene);
+        if (capturedPos && capturedNorm) {
+          setHumanMeshBuffers({ positions: capturedPos, normals: capturedNorm });
+        }
         occlusionDirtyRef.current = true;
         setModelLoaded(true);
       },
@@ -1824,6 +2042,14 @@ export const Human3DMeridianViewer: React.FC = () => {
             .intersectObjects(pointsGroupRef.current.children, false)
             .filter((h) => h.object.visible);
           if (ptHits.length > 0) return true;
+        }
+
+        if (showOrgansRef.current && organsRigRef.current) {
+          const organHits = raycaster.intersectObjects(
+            organsRigRef.current.organMeshes,
+            false
+          );
+          if (organHits.length > 0) return true;
         }
       }
       return false;
@@ -1901,6 +2127,7 @@ export const Human3DMeridianViewer: React.FC = () => {
       mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
 
       raycaster.setFromCamera(mouse, camera);
+      let handledHit = false;
       if (pointsGroupRef.current) {
         // Only intersect visible points (back-facing points are already hidden in "Da thật" mode!)
         const hits = raycaster
@@ -1914,6 +2141,24 @@ export const Human3DMeridianViewer: React.FC = () => {
           }
           if (obj?.userData?.point) {
             setSelectedPoint(obj.userData.point as Acupoint3D);
+            setSelectedOrgan(null);
+            handledHit = true;
+          }
+        }
+      }
+
+      if (!handledHit && showOrgansRef.current && organsRigRef.current) {
+        const organHits = raycaster.intersectObjects(
+          organsRigRef.current.organMeshes,
+          false
+        );
+        if (organHits.length > 0) {
+          const info = organHits[0].object.userData?.organInfo as
+            | ZangFuOrganInfo
+            | undefined;
+          if (info) {
+            setSelectedOrgan(info);
+            setSelectedPoint(null);
           }
         }
       }
@@ -1961,6 +2206,14 @@ export const Human3DMeridianViewer: React.FC = () => {
     const camForward = new THREE.Vector3();
     const halfTanFov = Math.tan((35 * 0.5 * Math.PI) / 180);
 
+    // Pre-allocated scratch math for zero-allocation Qi bead streaming in animate()
+    const _beadPos = new THREE.Vector3();
+    const _beadQuat = new THREE.Quaternion();
+    const _beadScale = new THREE.Vector3();
+    const _beadMat = new THREE.Matrix4();
+    let lastFrameTime = performance.now();
+    let qiPhase = 0;
+
     interface ScreenPinObstacle {
       sx: number;
       sy: number;
@@ -1985,7 +2238,59 @@ export const Human3DMeridianViewer: React.FC = () => {
 
     const animate = () => {
       animFrameIdRef.current = requestAnimationFrame(animate);
+      const now = performance.now();
+      const dt = Math.min(0.05, Math.max(0.001, (now - lastFrameTime) * 0.001));
+      lastFrameTime = now;
+
+      // Smooth damped camera flight transitions when clicking presets or acupoints
+      const flight = camFlightRef.current;
+      if (flight.active) {
+        const lerpAlpha = 1 - Math.exp(-9.5 * dt);
+        camera.position.lerp(flight.camPos, lerpAlpha);
+        controls.target.lerp(flight.target, lerpAlpha);
+        if (
+          camera.position.distanceToSquared(flight.camPos) < 0.00008 &&
+          controls.target.distanceToSquared(flight.target) < 0.00008
+        ) {
+          camera.position.copy(flight.camPos);
+          controls.target.copy(flight.target);
+          flight.active = false;
+        }
+      }
+
       controls.update();
+
+      // Update flowing Qi pulses strictly in physiological direction (origin -> terminal)
+      const qiMesh = qiBeadsMeshRef.current;
+      const tracks = qiTracksRef.current;
+      const flowSpeed = qiFlowSpeedRef.current;
+      if (qiMesh && tracks.length > 0) {
+        if (!showFlowArrowsRef.current || flowSpeed <= 0) {
+          qiMesh.visible = false;
+        } else {
+          qiMesh.visible = true;
+          qiPhase = (qiPhase + dt * 0.24 * flowSpeed) % 1000;
+          const beadZoomScale = Math.pow(
+            THREE.MathUtils.clamp(
+              camera.position.distanceTo(controls.target) / 2.1,
+              0.22,
+              1.1
+            ),
+            0.85
+          );
+          _beadScale.setScalar(beadZoomScale);
+          _beadQuat.identity();
+
+          for (let i = 0; i < tracks.length; i++) {
+            const tr = tracks[i];
+            const u = (qiPhase * tr.lengthWeight + tr.phaseOffset) % 1;
+            tr.curve.getPointAt(u, _beadPos);
+            _beadMat.compose(_beadPos, _beadQuat, _beadScale);
+            qiMesh.setMatrixAt(i, _beadMat);
+          }
+          qiMesh.instanceMatrix.needsUpdate = true;
+        }
+      }
 
       const camMoved =
         lastCamPos.distanceToSquared(camera.position) > 0.00001 ||
@@ -2275,7 +2580,12 @@ export const Human3DMeridianViewer: React.FC = () => {
         capture: true,
       } as EventListenerOptions);
       renderer.domElement.removeEventListener('pointerup', onPointerUp);
+      controls.removeEventListener('start', onControlsStart);
+      organsRig.dispose();
+      cunGuidesRig.dispose();
+      needleRig.dispose();
       bumpTex.dispose();
+      eyeTex.dispose();
       renderer.dispose();
       if (mountRef.current && renderer.domElement) {
         mountRef.current.removeChild(renderer.domElement);
@@ -2365,15 +2675,75 @@ export const Human3DMeridianViewer: React.FC = () => {
         }
       });
     }
+
+    if (flowArrowsGroupRef.current) {
+      flowArrowsGroupRef.current.children.forEach((child) => {
+        if (child instanceof THREE.Mesh) {
+          const mat = child.material as THREE.MeshBasicMaterial;
+          if (mat) {
+            mat.depthTest = !showAllPointsThroughBody;
+            mat.depthWrite = !showAllPointsThroughBody;
+            mat.transparent = showAllPointsThroughBody;
+            mat.opacity = showAllPointsThroughBody ? 0.92 : 1.0;
+            mat.needsUpdate = true;
+          }
+        }
+      });
+    }
   }, [anatomicalMode]);
 
-  // Render Surface-Registered Meridian Curves & 361 Acupoint Pins + Labels
+  // Sync Zang-Fu 3D internal organs visibility & meridian pairing highlight
   useEffect(() => {
-    if (!surfaceData || !meridiansGroupRef.current || !pointsGroupRef.current) return;
+    const rig = organsRigRef.current;
+    if (!rig) return;
+    rig.setVisible(showOrgans);
+    if (showOrgans) {
+      rig.highlightMeridians(activeMeridianIds);
+    }
+  }, [showOrgans, activeMeridianIds]);
+
+  // Sync anatomical Cun & Midline reference guides visibility
+  useEffect(() => {
+    cunGuidesRigRef.current?.setVisible(showCunGuides);
+  }, [showCunGuides]);
+
+  // Sync 3D virtual acupuncture needle target & insertion angle on selected point
+  useEffect(() => {
+    const needle = needleRigRef.current;
+    if (!needle) return;
+    if (!showNeedle || !selectedPoint) {
+      needle.setVisible(false);
+      return;
+    }
+
+    const plotted = allPlottedPoints.find(
+      (p) => p.detail.id === selectedPoint.id || p.displayCode === selectedPoint.code
+    );
+    const exactNorm =
+      (plotted?.snappedNormal) ||
+      (plotted && surfaceData?.normals?.[plotted.code]);
+    const [px, py, pz] = selectedPoint.position;
+    const outwardNormal = exactNorm
+      ? new THREE.Vector3(exactNorm[0], exactNorm[1], exactNorm[2]).normalize()
+      : computeOutwardSurfaceNormal(px, py, pz);
+
+    needle.setTarget(selectedPoint.position, outwardNormal, selectedPoint.depth);
+    needle.setVisible(true);
+  }, [selectedPoint, showNeedle, allPlottedPoints, surfaceData]);
+
+  // Render Surface-Registered Meridian Curves, Flow Direction Arrows, Qi Beads, & Acupoint Pins + Labels
+  useEffect(() => {
+    if (
+      !surfaceData ||
+      !meridiansGroupRef.current ||
+      !pointsGroupRef.current ||
+      !flowArrowsGroupRef.current
+    )
+      return;
 
     const currentTranslucent = isTranslucentSkinRef.current;
 
-    // Clear previous meridian tubes & acupoint pins
+    // Clear previous meridian tubes, directional flow arrows, Qi beads, & acupoint pins
     while (meridiansGroupRef.current.children.length > 0) {
       const obj = meridiansGroupRef.current.children[0] as THREE.Mesh;
       obj.geometry?.dispose();
@@ -2381,6 +2751,16 @@ export const Human3DMeridianViewer: React.FC = () => {
       else obj.material?.dispose();
       meridiansGroupRef.current.remove(obj);
     }
+    while (flowArrowsGroupRef.current.children.length > 0) {
+      const obj = flowArrowsGroupRef.current.children[0] as THREE.Mesh;
+      // Do not dispose shared cone/bead geometries
+      if (Array.isArray(obj.material)) obj.material.forEach((m) => m.dispose());
+      else obj.material?.dispose();
+      flowArrowsGroupRef.current.remove(obj);
+    }
+    qiBeadsMeshRef.current = null;
+    qiTracksRef.current = [];
+
     while (pointsGroupRef.current.children.length > 0) {
       const obj = pointsGroupRef.current.children[0] as any;
       // Do not dispose shared pin geometries or cached sprite textures
@@ -2389,17 +2769,32 @@ export const Human3DMeridianViewer: React.FC = () => {
       pointsGroupRef.current.remove(obj);
     }
 
+    const arrowTransforms: { mat: THREE.Matrix4; color: THREE.Color }[] = [];
+    const qiTracks: QiBeadTrack[] = [];
+    const upAxis = new THREE.Vector3(0, 1, 0);
+    const tmpPos = new THREE.Vector3();
+    const tmpTangent = new THREE.Vector3();
+    const tmpQuat = new THREE.Quaternion();
+    const tmpScale = new THREE.Vector3(1, 1, 1);
+
     ACU_ATLAS_BAR_ITEMS.forEach((barItem, meridianIdx) => {
       if (!activeMeridianIds.includes(barItem.id)) return;
 
-      const isBilateral = !['GV', 'CV'].includes(barItem.id);
-      const sides = isBilateral ? [1, -1] : [1];
-      const routeSegments =
-        barItem.id === 'EX' ? [] : surfaceData.routes[barItem.id] || [];
-      const lineColor = new THREE.Color(barItem.lineColor);
+      // Note: GV, CV are midline; DAI surfaceData.routes already includes left, right, and full belt loop
+      const isBilateralCurves = !['GV', 'CV', 'DAI'].includes(barItem.id);
+      const curveSides = isBilateralCurves ? [1, -1] : [1];
+      const isBilateralPoints = !['GV', 'CV'].includes(barItem.id);
+      const pointSides = isBilateralPoints ? [1, -1] : [1];
 
-      sides.forEach((sideSign) => {
-        // 1. Render exact surface-bound meridian pathway curves with GPU zoom-adaptive radius
+      const routeSegments =
+        barItem.id === 'EX' || barItem.id === 'DT'
+          ? []
+          : surfaceData.routes[barItem.id] || [];
+      const lineColor = new THREE.Color(barItem.lineColor);
+      const arrowColor = lineColor.clone().lerp(new THREE.Color('#ffffff'), 0.32);
+
+      // 1. Render exact surface-bound meridian curves + directional arrowheads + Qi bead tracks
+      curveSides.forEach((sideSign) => {
         routeSegments.forEach((seg) => {
           if (seg.length < 2) return;
           const vPoints = seg.map(
@@ -2432,40 +2827,80 @@ export const Human3DMeridianViewer: React.FC = () => {
           const tubeMesh = new THREE.Mesh(tubeGeo, tubeMat);
           tubeMesh.renderOrder = 4;
           meridiansGroupRef.current?.add(tubeMesh);
+
+          // Sample curve length to place equally spaced directional arrowheads & Qi energy beads
+          const segLen = Math.max(0.06, curve.getLength());
+          const numArrows = Math.max(2, Math.min(18, Math.floor(segLen / 0.14)));
+          for (let a = 0; a < numArrows; a++) {
+            const u = (a + 0.5) / numArrows;
+            curve.getPointAt(u, tmpPos);
+            curve.getTangentAt(u, tmpTangent).normalize();
+            tmpQuat.setFromUnitVectors(upAxis, tmpTangent);
+            const mat = new THREE.Matrix4().compose(tmpPos, tmpQuat, tmpScale);
+            arrowTransforms.push({ mat, color: arrowColor });
+          }
+
+          // Spawn 2..6 traveling Qi pulses per spline segment moving strictly origin -> terminal
+          const numBeads = Math.max(2, Math.min(6, Math.round(segLen / 0.25)));
+          const speedWeight = THREE.MathUtils.clamp(0.55 / segLen, 0.35, 1.45);
+          for (let b = 0; b < numBeads; b++) {
+            qiTracks.push({
+              curve,
+              color: arrowColor,
+              phaseOffset: b / numBeads,
+              lengthWeight: speedWeight,
+            });
+          }
         });
+      });
 
-        // 2. Render every acupoint along this meridian with yellow-gold pin & Vietnamese name label
-        const meridianPoints = allPlottedPoints.filter(
-          (pt) => pt.meridianId === barItem.id
-        );
+      // 2. Render acupoints along this meridian (classic, extraordinary vessels, WHO extra & Đổng Thị 3D)
+      const meridianPoints = allPlottedPoints.filter(
+        (pt) => pt.meridianId === barItem.id
+      );
 
+      pointSides.forEach((sideSign) => {
         meridianPoints.forEach((pt, ptIdx) => {
-          // Avoid duplicating midline extra points (like Ấn Đường) on both +1 and -1 sides
+          // Avoid duplicating midline points (like Ấn Đường) on both +1 and -1 sides
           if (sideSign === -1 && Math.abs(pt.position[0]) < 0.004) return;
+
+          const isSelected =
+            selectedPoint?.id === pt.detail.id || selectedPoint?.code === pt.displayCode;
+          const isSpecial = Boolean(pt.isSpecial);
+
+          if (pointFilterMode === 'special' && !isSpecial && !isSelected) {
+            return;
+          }
 
           const posX = pt.position[0] * sideSign;
           const posY = pt.position[1];
           const posZ = pt.position[2];
 
-          // Use exact 3D mesh normal from human-learning.glb (`surfaceData.normals`)
-          const exactNorm = surfaceData.normals?.[pt.code];
+          const exactNorm = pt.snappedNormal || surfaceData.normals?.[pt.code];
           const outwardNormal = exactNorm
             ? new THREE.Vector3(exactNorm[0] * sideSign, exactNorm[1], exactNorm[2]).normalize()
             : computeOutwardSurfaceNormal(posX, posY, posZ);
 
-          // Align pin center directly with the meridian tube centerline (already 1.2mm above skin + 0.4mm = 1.6mm)
+          // Align pin center cleanly along meridian tube / skin offset
           const pinX = posX + outwardNormal.x * 0.0004;
           const pinY = posY + outwardNormal.y * 0.0004;
           const pinZ = posZ + outwardNormal.z * 0.0004;
           const anchorPos = new THREE.Vector3(pinX, pinY, pinZ);
 
-          const isSelected =
-            selectedPoint?.id === pt.detail.id || selectedPoint?.code === pt.displayCode;
-
-          // Yellow-gold pinhead sphere (matching Acu Atlas 3D)
-          const pinGeo = isSelected ? SHARED_PIN_GEO_SELECTED : SHARED_PIN_GEO_NORMAL;
+          const pinGeo = isSelected
+            ? SHARED_PIN_GEO_SELECTED
+            : isSpecial
+              ? SHARED_PIN_GEO_SPECIAL
+              : SHARED_PIN_GEO_NORMAL;
+          const pinColor = isSelected
+            ? 0xef4444
+            : barItem.id === 'DT'
+              ? 0x14b8a6
+              : isSpecial
+                ? 0xf97316
+                : 0xfacc15;
           const pinMat = new THREE.MeshBasicMaterial({
-            color: isSelected ? 0xef4444 : 0xfacc15,
+            color: pinColor,
             depthTest: !currentTranslucent,
             depthWrite: !currentTranslucent,
           });
@@ -2478,10 +2913,12 @@ export const Human3DMeridianViewer: React.FC = () => {
             meridianId: barItem.id,
             anchorPos,
             outwardNormal,
+            isSelected,
+            isSpecial,
           };
           pointsGroupRef.current?.add(pinMesh);
 
-          // Floating Vietnamese Acupoint Name Label ("Trung Phủ", "Xích Trạch", "Khổng Tối", "Liệt Khuyết", "Kinh Cừ", "Thái Uyên", "Ngư Tế", "Thiếu Thương"...)
+          // Floating Vietnamese Acupoint Name Label
           if (showLabels) {
             const labelText =
               pt.code === 'EX_HN12'
@@ -2494,7 +2931,6 @@ export const Human3DMeridianViewer: React.FC = () => {
               isSelected,
               currentTranslucent
             );
-            // Alternate left/right & slight vertical offset for consecutive points so densely packed wrist/ankle/face points fan out cleanly
             const altSign = ptIdx % 2 === 0 ? 1 : -1;
             const staggerX =
               posX === 0
@@ -2521,6 +2957,64 @@ export const Human3DMeridianViewer: React.FC = () => {
       });
     });
 
+    // Build GPU-instanced directional arrowheads along all active meridians
+    if (arrowTransforms.length > 0 && flowArrowsGroupRef.current) {
+      const arrowMat = new THREE.MeshBasicMaterial({
+        color: 0xffffff,
+        depthTest: !currentTranslucent,
+        depthWrite: !currentTranslucent,
+        transparent: currentTranslucent,
+        opacity: currentTranslucent ? 0.92 : 1.0,
+      });
+      const arrowInstanced = new THREE.InstancedMesh(
+        SHARED_FLOW_ARROW_GEO,
+        arrowMat,
+        arrowTransforms.length
+      );
+      arrowInstanced.frustumCulled = false;
+      arrowInstanced.renderOrder = 5;
+      for (let i = 0; i < arrowTransforms.length; i++) {
+        arrowInstanced.setMatrixAt(i, arrowTransforms[i].mat);
+        arrowInstanced.setColorAt(i, arrowTransforms[i].color);
+      }
+      arrowInstanced.instanceMatrix.needsUpdate = true;
+      if (arrowInstanced.instanceColor) arrowInstanced.instanceColor.needsUpdate = true;
+      flowArrowsGroupRef.current.add(arrowInstanced);
+    }
+
+    // Build GPU-instanced flowing Qi energy beads
+    if (qiTracks.length > 0 && flowArrowsGroupRef.current) {
+      const beadMat = new THREE.MeshBasicMaterial({
+        color: 0xffffff,
+        depthTest: !currentTranslucent,
+        depthWrite: false,
+        transparent: true,
+        opacity: 0.95,
+      });
+      const qiInstanced = new THREE.InstancedMesh(
+        SHARED_QI_BEAD_GEO,
+        beadMat,
+        qiTracks.length
+      );
+      qiInstanced.frustumCulled = false;
+      qiInstanced.renderOrder = 6;
+      const initMat = new THREE.Matrix4();
+      const initPos = new THREE.Vector3();
+      const initQuat = new THREE.Quaternion();
+      const initScale = new THREE.Vector3(1, 1, 1);
+      for (let i = 0; i < qiTracks.length; i++) {
+        qiTracks[i].curve.getPointAt(qiTracks[i].phaseOffset, initPos);
+        initMat.compose(initPos, initQuat, initScale);
+        qiInstanced.setMatrixAt(i, initMat);
+        qiInstanced.setColorAt(i, qiTracks[i].color.clone().lerp(new THREE.Color('#fef08a'), 0.45));
+      }
+      qiInstanced.instanceMatrix.needsUpdate = true;
+      if (qiInstanced.instanceColor) qiInstanced.instanceColor.needsUpdate = true;
+      qiBeadsMeshRef.current = qiInstanced;
+      qiTracksRef.current = qiTracks;
+      flowArrowsGroupRef.current.add(qiInstanced);
+    }
+
     occlusionDirtyRef.current = true;
   }, [
     surfaceData,
@@ -2528,11 +3022,13 @@ export const Human3DMeridianViewer: React.FC = () => {
     allPlottedPoints,
     selectedPoint,
     showLabels,
+    pointFilterMode,
   ]);
 
   // Toggle meridian selection (clicking an active meridian toggles it off; clicking a new one opens it)
   const handleToggleMeridian = (id: string) => {
     setSelectedPoint(null);
+    setSelectedOrgan(null);
     if (multiSelectMode) {
       setActiveMeridianIds((prev) =>
         prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
@@ -2541,6 +3037,37 @@ export const Human3DMeridianViewer: React.FC = () => {
       setActiveMeridianIds((prev) => (prev.includes(id) ? [] : [id]));
     }
   };
+
+  const handleCycleMeridian = (targetId: string) => {
+    setSelectedPoint(null);
+    setSelectedOrgan(null);
+    setActiveMeridianIds([targetId]);
+  };
+
+  const primaryActiveId =
+    activeMeridianIds.length > 0
+      ? activeMeridianIds[activeMeridianIds.length - 1]
+      : null;
+  const primaryActiveItem = primaryActiveId
+    ? ACU_ATLAS_BAR_ITEMS.find((i) => i.id === primaryActiveId) || null
+    : null;
+  const primaryFlowMeta = primaryActiveId
+    ? MERIDIAN_FLOW_META[primaryActiveId] || null
+    : null;
+  const nextFlowItem =
+    primaryFlowMeta?.nextMeridianId
+      ? ACU_ATLAS_BAR_ITEMS.find((i) => i.id === primaryFlowMeta.nextMeridianId) || null
+      : null;
+
+  const filteredBarItems = useMemo(() => {
+    if (vesselCategoryTab === 'all') return ACU_ATLAS_BAR_ITEMS;
+    return ACU_ATLAS_BAR_ITEMS.filter((item) => item.category === vesselCategoryTab);
+  }, [vesselCategoryTab]);
+
+  const safetyWarningText = useMemo(
+    () => (selectedPoint ? extractClinicalSafetyWarning(selectedPoint.depth) : null),
+    [selectedPoint]
+  );
 
   return (
     <div className="w-full rounded-2xl overflow-hidden border border-slate-300 shadow-2xl flex flex-col select-none bg-[#b8b0b3]">
@@ -2581,7 +3108,7 @@ export const Human3DMeridianViewer: React.FC = () => {
               setShowToolPopover(false);
               setShowCameraPopover(false);
             }}
-            title="Tìm nhanh trong 361 huyệt đạo & 14 đường kinh"
+            title="Tìm nhanh trong 460+ huyệt đạo & 20 đường kinh"
             className="pointer-events-auto shrink-0 w-9 h-9 sm:w-11 sm:h-11 rounded-xl bg-white/95 hover:bg-white text-slate-900 shadow-lg border border-slate-200/80 flex items-center justify-center transition-transform active:scale-95 cursor-pointer"
           >
             <Search className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.4]" />
@@ -2662,10 +3189,10 @@ export const Human3DMeridianViewer: React.FC = () => {
             </div>
 
             {showToolPopover && (
-              <div className="mt-2 w-72 sm:w-80 bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-slate-200 p-3 text-slate-800 space-y-2.5 animate-fade-in">
+              <div className="mt-2 w-76 sm:w-88 max-h-[72vh] overflow-y-auto bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-slate-200 p-3 text-slate-800 space-y-2.5 animate-fade-in">
                 <div className="flex items-center justify-between border-b border-slate-100 pb-1.5">
                   <span className="text-xs font-extrabold uppercase tracking-wider text-slate-500">
-                    Tuỳ Chỉnh Giải Phẫu & Khung Xương 3D
+                    Tuỳ Chỉnh Giải Phẫu & Kinh Lạc 3D
                   </span>
                   <button
                     type="button"
@@ -2727,63 +3254,210 @@ export const Human3DMeridianViewer: React.FC = () => {
                   </button>
                 </div>
 
-                <button
-                  type="button"
-                  onClick={() => setShowLabels(!showLabels)}
-                  className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold bg-slate-50 hover:bg-slate-100 transition-colors cursor-pointer"
-                >
-                  <span className="flex items-center gap-2">
-                    <Tag className="w-4 h-4 text-sky-600" />
-                    Hiện tên huyệt trên 3D (Trung Phủ, Hợp Cốc...)
-                  </span>
-                  <span
-                    className={`px-2 py-0.5 rounded-full text-[11px] ${
-                      showLabels ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-200 text-slate-600'
-                    }`}
-                  >
-                    {showLabels ? 'Đang Bật' : 'Tắt'}
-                  </span>
-                </button>
+                {/* Flow Direction Arrows & Qi Velocity Controls */}
+                <div className="p-2.5 rounded-xl bg-rose-50/70 border border-rose-200/70 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="flex items-center gap-1.5 text-xs font-extrabold text-rose-900">
+                      <Navigation className="w-3.5 h-3.5 text-rose-600" />
+                      Chiều Đi Kinh Lạc & Dòng Khí
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => setShowFlowArrows(!showFlowArrows)}
+                      className={`px-2 py-0.5 rounded-full text-[11px] font-bold cursor-pointer ${
+                        showFlowArrows
+                          ? 'bg-rose-600 text-white'
+                          : 'bg-slate-200 text-slate-600'
+                      }`}
+                    >
+                      {showFlowArrows ? 'Đang Bật' : 'Đã Tắt'}
+                    </button>
+                  </div>
+                  {showFlowArrows && (
+                    <div className="flex items-center gap-1">
+                      <span className="text-[10px] font-bold text-slate-600 mr-1">
+                        Tốc độ khí:
+                      </span>
+                      {[
+                        { val: 0, label: 'Dừng' },
+                        { val: 0.6, label: 'Chậm' },
+                        { val: 1.0, label: 'Vừa' },
+                        { val: 1.8, label: 'Nhanh' },
+                      ].map((spd) => (
+                        <button
+                          key={spd.label}
+                          type="button"
+                          onClick={() => setQiFlowSpeed(spd.val)}
+                          className={`flex-1 py-1 rounded-lg text-[10px] font-bold cursor-pointer transition-colors ${
+                            qiFlowSpeed === spd.val
+                              ? 'bg-rose-600 text-white shadow-xs'
+                              : 'bg-white text-slate-700 hover:bg-rose-100 border border-rose-200/60'
+                          }`}
+                        >
+                          {spd.label}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
 
-                <button
-                  type="button"
-                  onClick={() => setMultiSelectMode(!multiSelectMode)}
-                  className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold bg-slate-50 hover:bg-slate-100 transition-colors cursor-pointer"
-                >
-                  <span className="flex items-center gap-2">
-                    <Sparkles className="w-4 h-4 text-rose-600" />
-                    Chọn gộp nhiều đường kinh
-                  </span>
-                  <span
-                    className={`px-2 py-0.5 rounded-full text-[11px] ${
-                      multiSelectMode ? 'bg-rose-100 text-rose-700' : 'bg-slate-200 text-slate-600'
-                    }`}
+                {/* Anatomical Extras: Internal Organs, Virtual Needle, Cun Guides, Special Point Filter */}
+                <div className="space-y-1.5">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const next = !showOrgans;
+                      setShowOrgans(next);
+                      if (next && anatomicalMode === 'opaque_skin') {
+                        setAnatomicalMode('skin_skeleton');
+                      }
+                    }}
+                    className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold bg-slate-50 hover:bg-slate-100 transition-colors cursor-pointer"
                   >
-                    {multiSelectMode ? 'Nhiều kinh' : 'Đơn kinh'}
-                  </span>
-                </button>
+                    <span className="flex items-center gap-2">
+                      <Heart className="w-4 h-4 text-rose-600" />
+                      Nội Tạng Tạng Phủ 3D (Click xem kinh)
+                    </span>
+                    <span
+                      className={`px-2 py-0.5 rounded-full text-[11px] ${
+                        showOrgans
+                          ? 'bg-rose-100 text-rose-700'
+                          : 'bg-slate-200 text-slate-600'
+                      }`}
+                    >
+                      {showOrgans ? 'Đang Bật' : 'Tắt'}
+                    </span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setShowNeedle(!showNeedle)}
+                    className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold bg-slate-50 hover:bg-slate-100 transition-colors cursor-pointer"
+                  >
+                    <span className="flex items-center gap-2">
+                      <Syringe className="w-4 h-4 text-amber-600" />
+                      Kim Châm 3D mô phỏng góc & hướng châm
+                    </span>
+                    <span
+                      className={`px-2 py-0.5 rounded-full text-[11px] ${
+                        showNeedle
+                          ? 'bg-amber-100 text-amber-800'
+                          : 'bg-slate-200 text-slate-600'
+                      }`}
+                    >
+                      {showNeedle ? 'Đang Bật' : 'Tắt'}
+                    </span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setShowCunGuides(!showCunGuides)}
+                    className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold bg-slate-50 hover:bg-slate-100 transition-colors cursor-pointer"
+                  >
+                    <span className="flex items-center gap-2">
+                      <Ruler className="w-4 h-4 text-sky-600" />
+                      Trục Giữa & Mốc Đo Thốn (Cun)
+                    </span>
+                    <span
+                      className={`px-2 py-0.5 rounded-full text-[11px] ${
+                        showCunGuides
+                          ? 'bg-sky-100 text-sky-700'
+                          : 'bg-slate-200 text-slate-600'
+                      }`}
+                    >
+                      {showCunGuides ? 'Đang Bật' : 'Tắt'}
+                    </span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setPointFilterMode(pointFilterMode === 'all' ? 'special' : 'all')
+                    }
+                    className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold bg-slate-50 hover:bg-slate-100 transition-colors cursor-pointer"
+                  >
+                    <span className="flex items-center gap-2">
+                      <Filter className="w-4 h-4 text-orange-600" />
+                      Lọc Huyệt (Nguyên, Lạc, Du, Mộ, Khích...)
+                    </span>
+                    <span
+                      className={`px-2 py-0.5 rounded-full text-[11px] ${
+                        pointFilterMode === 'special'
+                          ? 'bg-orange-100 text-orange-800'
+                          : 'bg-slate-200 text-slate-600'
+                      }`}
+                    >
+                      {pointFilterMode === 'special' ? 'Đặc Hiệu' : 'Tất Cả'}
+                    </span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setShowLabels(!showLabels)}
+                    className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold bg-slate-50 hover:bg-slate-100 transition-colors cursor-pointer"
+                  >
+                    <span className="flex items-center gap-2">
+                      <Tag className="w-4 h-4 text-sky-600" />
+                      Hiện tên huyệt trên 3D (Trung Phủ, Hợp Cốc...)
+                    </span>
+                    <span
+                      className={`px-2 py-0.5 rounded-full text-[11px] ${
+                        showLabels
+                          ? 'bg-emerald-100 text-emerald-700'
+                          : 'bg-slate-200 text-slate-600'
+                      }`}
+                    >
+                      {showLabels ? 'Đang Bật' : 'Tắt'}
+                    </span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setMultiSelectMode(!multiSelectMode)}
+                    className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold bg-slate-50 hover:bg-slate-100 transition-colors cursor-pointer"
+                  >
+                    <span className="flex items-center gap-2">
+                      <Sparkles className="w-4 h-4 text-rose-600" />
+                      Chọn gộp nhiều đường kinh
+                    </span>
+                    <span
+                      className={`px-2 py-0.5 rounded-full text-[11px] ${
+                        multiSelectMode
+                          ? 'bg-rose-100 text-rose-700'
+                          : 'bg-slate-200 text-slate-600'
+                      }`}
+                    >
+                      {multiSelectMode ? 'Nhiều kinh' : 'Đơn kinh'}
+                    </span>
+                  </button>
+                </div>
 
                 <div className="pt-1 flex gap-1.5">
                   <button
                     type="button"
                     onClick={() => {
-                      setActiveMeridianIds(ACU_ATLAS_BAR_ITEMS.map((i) => i.id));
+                      setActiveMeridianIds(
+                        ACU_ATLAS_BAR_ITEMS.filter((i) => i.category === 'main').map(
+                          (i) => i.id
+                        )
+                      );
                       setShowToolPopover(false);
                     }}
                     className="flex-1 py-1.5 rounded-lg bg-slate-900 text-white text-xs font-bold hover:bg-slate-800 cursor-pointer"
                   >
-                    Bật Tất Cả Kinh
+                    Bật 14 Kinh Chính
                   </button>
                   <button
                     type="button"
                     onClick={() => {
                       setActiveMeridianIds([]);
                       setSelectedPoint(null);
+                      setSelectedOrgan(null);
                       setShowToolPopover(false);
                     }}
                     className="flex-1 py-1.5 rounded-lg bg-slate-200 text-slate-800 text-xs font-bold hover:bg-slate-300 cursor-pointer"
                   >
-                    Ẩn Tất Cả Kinh
+                    Ẩn Tất Cả
                   </button>
                 </div>
               </div>
@@ -2811,70 +3485,174 @@ export const Human3DMeridianViewer: React.FC = () => {
                 Góc Nhìn Giải Phẫu 3D
               </div>
               {[
-                { id: 'front', label: 'Chính diện (Toàn thân trước)' },
-                { id: 'leftArm', label: 'Cánh tay & Bàn tay Trái' },
-                { id: 'rightArm', label: 'Cánh tay & Bàn tay Phải' },
-                { id: 'sideProfile', label: 'Nghiêng Bên (Vai - Cánh tay)' },
-                { id: 'back', label: 'Sau Lưng (Cột sống - Du huyệt)' },
-                { id: 'head', label: 'Cận cảnh Đầu - Mặt - Cổ' },
-                { id: 'legs', label: 'Hai Chân & Bàn chân' },
-              ].map((v) => (
-                <button
-                  key={v.id}
-                  type="button"
-                  onClick={() => {
-                    setCameraView(v.id as any);
-                    setShowCameraPopover(false);
-                  }}
-                  className="w-full text-left px-3 py-1.5 rounded-xl text-xs font-bold text-slate-700 hover:bg-rose-50 hover:text-rose-700 flex items-center justify-between transition-colors cursor-pointer"
-                >
-                  <span>{v.label}</span>
-                  <ChevronRight className="w-3.5 h-3.5 opacity-60" />
-                </button>
-              ))}
+                { id: 'front', label: 'Chính diện (Toàn thân trước)', match: 'Chính diện' },
+                { id: 'leftArm', label: 'Cánh tay & Bàn tay Trái', match: 'Tay Trái' },
+                { id: 'rightArm', label: 'Cánh tay & Bàn tay Phải', match: 'Tay Phải' },
+                { id: 'sideProfile', label: 'Nghiêng Bên (Vai - Cánh tay)', match: 'Nghiêng' },
+                { id: 'back', label: 'Sau Lưng (Cột sống - Du huyệt)', match: 'Sau Lưng' },
+                { id: 'head', label: 'Cận cảnh Đầu - Mặt - Cổ', match: 'Đầu Mặt' },
+                { id: 'legs', label: 'Hai Chân & Bàn chân', match: 'Hai Chân' },
+              ].map((v) => {
+                const isActive = activePresetLabel === v.match;
+                return (
+                  <button
+                    key={v.id}
+                    type="button"
+                    onClick={() => {
+                      setCameraView(v.id as any);
+                      setShowCameraPopover(false);
+                    }}
+                    className={`w-full text-left px-3 py-1.5 rounded-xl text-xs font-bold flex items-center justify-between transition-colors cursor-pointer ${
+                      isActive
+                        ? 'bg-rose-50 text-rose-700'
+                        : 'text-slate-700 hover:bg-rose-50 hover:text-rose-700'
+                    }`}
+                  >
+                    <span>{v.label}</span>
+                    {isActive ? (
+                      <Check className="w-3.5 h-3.5 text-rose-600" />
+                    ) : (
+                      <ChevronRight className="w-3.5 h-3.5 opacity-60" />
+                    )}
+                  </button>
+                );
+              })}
             </div>
           )}
           </div>
         </div>
 
-        {/* Quick View Pills along bottom-right above the white bar */}
-        <div className="absolute bottom-4 right-4 z-10 flex flex-wrap justify-end gap-1.5">
-          {[
-            { id: 'front', label: 'Chính diện' },
-            { id: 'leftArm', label: 'Tay Trái' },
-            { id: 'rightArm', label: 'Tay Phải' },
-            { id: 'sideProfile', label: 'Nghiêng' },
-            { id: 'back', label: 'Sau Lưng' },
-            { id: 'head', label: 'Đầu Mặt' },
-            { id: 'legs', label: 'Hai Chân' },
-          ].map((btn) => (
+        {/* Quick Toggle Chips directly below top bar (Tạng Phủ, Chiều Đi Khí, Đặc Hiệu, Thốn) */}
+        <div className="absolute top-14 sm:top-16 right-2.5 sm:right-4 z-10 flex flex-col items-end gap-1.5 pointer-events-none">
+          <div className="pointer-events-auto flex flex-wrap justify-end gap-1">
             <button
-              key={btn.id}
               type="button"
-              onClick={() => setCameraView(btn.id as any)}
-              className={`px-2.5 py-1 rounded-lg text-xs font-bold shadow-sm transition-all cursor-pointer ${
-                activePresetLabel === btn.label
-                  ? 'bg-[#d93829] text-white shadow-md'
-                  : 'bg-white/85 hover:bg-white text-slate-800 border border-slate-200/70'
+              onClick={() => setShowFlowArrows(!showFlowArrows)}
+              title="Bật/Tắt mũi tên chỉ chiều đi kinh lạc và dòng Khí lưu chuyển"
+              className={`px-2 py-1 rounded-lg text-[10px] sm:text-xs font-bold shadow-sm border transition-all flex items-center gap-1 cursor-pointer ${
+                showFlowArrows
+                  ? 'bg-rose-600 text-white border-rose-700'
+                  : 'bg-white/90 text-slate-700 border-slate-200 hover:bg-white'
               }`}
             >
-              {btn.label}
+              <Navigation className="w-3 h-3" />
+              <span>Chiều Khí</span>
             </button>
-          ))}
+            {showFlowArrows && (
+              <button
+                type="button"
+                onClick={() => setQiFlowSpeed((s) => (s > 0 ? 0 : 1.0))}
+                title={qiFlowSpeed > 0 ? 'Tạm dừng dòng khí' : 'Chạy dòng khí tuần hoàn'}
+                className="px-2 py-1 rounded-lg text-[10px] sm:text-xs font-bold shadow-sm bg-white/90 hover:bg-white text-slate-800 border border-slate-200 flex items-center gap-1 cursor-pointer"
+              >
+                {qiFlowSpeed > 0 ? (
+                  <Pause className="w-3 h-3 text-rose-600" />
+                ) : (
+                  <Play className="w-3 h-3 text-emerald-600" />
+                )}
+              </button>
+            )}
+            <button
+              type="button"
+              onClick={() => {
+                const next = !showOrgans;
+                setShowOrgans(next);
+                if (next && anatomicalMode === 'opaque_skin') {
+                  setAnatomicalMode('skin_skeleton');
+                }
+              }}
+              title="Hiển thị 3D Tạng Phủ (Tim, Phổi, Gan, Dạ Dày, Thận, Bàng Quang...)"
+              className={`px-2 py-1 rounded-lg text-[10px] sm:text-xs font-bold shadow-sm border transition-all flex items-center gap-1 cursor-pointer ${
+                showOrgans
+                  ? 'bg-rose-700 text-white border-rose-800'
+                  : 'bg-white/90 text-slate-700 border-slate-200 hover:bg-white'
+              }`}
+            >
+              <Heart className="w-3 h-3" />
+              <span>Tạng Phủ</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setShowCunGuides(!showCunGuides)}
+              title="Hiện/Ẩn đường giữa Nhâm-Đốc & vòng mốc đo Thốn (Cun)"
+              className={`px-2 py-1 rounded-lg text-[10px] sm:text-xs font-bold shadow-sm border transition-all hidden sm:flex items-center gap-1 cursor-pointer ${
+                showCunGuides
+                  ? 'bg-sky-600 text-white border-sky-700'
+                  : 'bg-white/90 text-slate-700 border-slate-200 hover:bg-white'
+              }`}
+            >
+              <Ruler className="w-3 h-3" />
+              <span>Mốc Thốn</span>
+            </button>
+            <button
+              type="button"
+              onClick={() =>
+                setPointFilterMode(pointFilterMode === 'all' ? 'special' : 'all')
+              }
+              title="Chỉ hiện các Huyệt Đặc Hiệu (Nguyên, Lạc, Khích, Du, Mộ, Ngũ Du, Bát Hội...)"
+              className={`px-2 py-1 rounded-lg text-[10px] sm:text-xs font-bold shadow-sm border transition-all flex items-center gap-1 cursor-pointer ${
+                pointFilterMode === 'special'
+                  ? 'bg-orange-600 text-white border-orange-700'
+                  : 'bg-white/90 text-slate-700 border-slate-200 hover:bg-white'
+              }`}
+            >
+              <Filter className="w-3 h-3" />
+              <span>{pointFilterMode === 'special' ? 'Đặc Hiệu' : 'Tất Cả'}</span>
+            </button>
+          </div>
         </div>
+
+        {/* Active Meridian Qi Flow Direction & Tử Ngọ Lưu Chú HUD Card */}
+        {primaryFlowMeta && primaryActiveItem && !showMenuDrawer && !selectedPoint && !selectedOrgan && (
+          <div className="absolute bottom-3 sm:bottom-4 left-2.5 sm:left-4 z-10 max-w-[310px] sm:max-w-sm bg-white/92 backdrop-blur-md border border-slate-200/90 rounded-2xl p-2.5 sm:p-3 shadow-xl text-slate-900 space-y-1.5">
+            <div className="flex items-center justify-between gap-2">
+              <div className="flex items-center gap-1.5 min-w-0">
+                <span
+                  className="w-2.5 h-2.5 rounded-full shrink-0"
+                  style={{ backgroundColor: primaryActiveItem.lineColor }}
+                />
+                <span className="text-xs font-extrabold text-slate-900 truncate">
+                  {primaryActiveItem.viShort}
+                </span>
+                <span className="px-1.5 py-0.5 rounded bg-rose-50 text-rose-700 border border-rose-200 text-[10px] font-bold shrink-0">
+                  {primaryFlowMeta.flowDirectionType}
+                </span>
+              </div>
+              {nextFlowItem && (
+                <button
+                  type="button"
+                  onClick={() => handleCycleMeridian(nextFlowItem.id)}
+                  title={`Chuyển tiếp vòng tuần hoàn Tý Ngọ Lưu Chú sang ${nextFlowItem.viShort}`}
+                  className="px-2 py-0.5 rounded-lg bg-slate-900 hover:bg-rose-700 text-white text-[10px] font-bold flex items-center gap-1 shrink-0 transition-colors cursor-pointer"
+                >
+                  <span>Tiếp: {nextFlowItem.viShort}</span>
+                  <ArrowRight className="w-2.5 h-2.5" />
+                </button>
+              )}
+            </div>
+            <div className="text-[11px] font-semibold text-slate-700 flex flex-wrap gap-x-2 gap-y-0.5">
+              <span>• Giờ vượng: {primaryFlowMeta.flowTime}</span>
+              <span>• {primaryFlowMeta.pairedZangFu}</span>
+            </div>
+            <p className="text-[11px] leading-snug text-slate-600">
+              <span className="font-bold text-slate-800">Chiều kinh: </span>
+              {primaryFlowMeta.originPointName} → {primaryFlowMeta.terminalPointName}
+            </p>
+          </div>
+        )}
 
         {/* ===================================================================
             SEARCH MODAL OVERLAY (Triggered by top-left 🔍 button)
            =================================================================== */}
         {showSearchModal && (
-          <div className="absolute top-20 left-4 z-30 w-80 sm:w-96 bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-slate-200 p-3.5 text-slate-900 animate-fade-in">
+          <div className="absolute top-16 left-3 sm:left-4 z-30 w-80 sm:w-96 bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-slate-200 p-3.5 text-slate-900 animate-fade-in">
             <div className="flex items-center gap-2 border-b border-slate-200 pb-2.5">
               <Search className="w-4 h-4 text-slate-400 shrink-0" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Tìm trong 361 huyệt (VD: Lu-1, LI-4, ST-36, Hợp Cốc)..."
+                placeholder="Tìm trong 460+ huyệt (LU-1, ĐT 22.05, Hợp Cốc, Ấn Đường)..."
                 className="w-full text-xs sm:text-sm font-medium bg-transparent focus:outline-none text-slate-900 placeholder:text-slate-400"
                 autoFocus
               />
@@ -2925,10 +3703,10 @@ export const Human3DMeridianViewer: React.FC = () => {
             SELECTED ACUPOINT CLINICAL DETAIL CARD
            =================================================================== */}
         {selectedPoint && (
-          <div className="absolute top-20 left-4 z-30 max-w-sm w-[calc(100%-2rem)] bg-white/95 backdrop-blur-md border border-slate-200 rounded-2xl p-4 shadow-2xl text-slate-900 space-y-2.5 animate-fade-in">
+          <div className="absolute top-16 left-3 sm:left-4 z-30 max-w-sm w-[calc(100%-1.5rem)] max-h-[68vh] overflow-y-auto bg-white/95 backdrop-blur-md border border-slate-200 rounded-2xl p-4 shadow-2xl text-slate-900 space-y-2.5 animate-fade-in">
             <div className="flex items-start justify-between gap-2 border-b border-slate-100 pb-2">
               <div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 flex-wrap">
                   <span className="px-2 py-0.5 rounded-md bg-[#d93829] text-white font-mono text-xs font-extrabold">
                     {selectedPoint.code}
                   </span>
@@ -2946,13 +3724,28 @@ export const Human3DMeridianViewer: React.FC = () => {
                   {selectedPoint.meridianName}
                 </p>
               </div>
-              <button
-                type="button"
-                onClick={() => setSelectedPoint(null)}
-                className="p-1 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 cursor-pointer"
-              >
-                <X className="w-4 h-4" />
-              </button>
+              <div className="flex items-center gap-1 shrink-0">
+                <button
+                  type="button"
+                  onClick={() => setShowNeedle(!showNeedle)}
+                  title="Bật/Tắt Kim Châm 3D mô phỏng hướng & góc châm"
+                  className={`px-2 py-1 rounded-lg text-[10px] font-bold flex items-center gap-1 cursor-pointer border ${
+                    showNeedle
+                      ? 'bg-amber-50 border-amber-300 text-amber-800'
+                      : 'bg-slate-50 border-slate-200 text-slate-600'
+                  }`}
+                >
+                  <Syringe className="w-3 h-3" />
+                  <span>{showNeedle ? 'Kim 3D' : 'Tắt kim'}</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setSelectedPoint(null)}
+                  className="p-1 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 cursor-pointer"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
             </div>
 
             <div className="space-y-1.5 text-xs leading-relaxed">
@@ -2960,6 +3753,15 @@ export const Human3DMeridianViewer: React.FC = () => {
                 <div className="px-2.5 py-1.5 rounded-lg bg-amber-50 border border-amber-200/80 text-amber-900">
                   <span className="font-bold">Đặc tính huyệt: </span>
                   <span>{selectedPoint.specialRole}</span>
+                </div>
+              )}
+              {safetyWarningText && (
+                <div className="px-2.5 py-1.5 rounded-lg bg-rose-50 border border-rose-300 text-rose-900 flex items-start gap-1.5">
+                  <AlertTriangle className="w-3.5 h-3.5 text-rose-600 shrink-0 mt-0.5" />
+                  <span>
+                    <span className="font-bold">Lưu ý an toàn giải phẫu: </span>
+                    {safetyWarningText}
+                  </span>
                 </div>
               )}
               <div>
@@ -2991,6 +3793,63 @@ export const Human3DMeridianViewer: React.FC = () => {
         )}
 
         {/* ===================================================================
+            SELECTED 3D ZANG-FU INTERNAL ORGAN CARD
+           =================================================================== */}
+        {selectedOrgan && !selectedPoint && (
+          <div className="absolute top-16 left-3 sm:left-4 z-30 max-w-sm w-[calc(100%-1.5rem)] bg-white/95 backdrop-blur-md border border-rose-200 rounded-2xl p-4 shadow-2xl text-slate-900 space-y-2.5 animate-fade-in">
+            <div className="flex items-start justify-between gap-2 border-b border-slate-100 pb-2">
+              <div>
+                <div className="flex items-center gap-2">
+                  <span
+                    className="w-3 h-3 rounded-full shrink-0"
+                    style={{ backgroundColor: selectedOrgan.baseColor }}
+                  />
+                  <h4 className="text-sm sm:text-base font-extrabold text-slate-900">
+                    {selectedOrgan.name}
+                  </h4>
+                  <span className="text-xs text-slate-500 font-serif">
+                    ({selectedOrgan.chineseName})
+                  </span>
+                </div>
+                <p className="text-[11px] font-bold text-rose-700 mt-0.5">
+                  {selectedOrgan.category} • Tương ứng Kinh {selectedOrgan.meridianIds.join(' / ')}
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setSelectedOrgan(null)}
+                className="p-1 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 cursor-pointer"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            <div className="space-y-1.5 text-xs leading-relaxed">
+              <div>
+                <span className="font-bold text-slate-900">• Công năng Tạng Phủ: </span>
+                <span className="text-slate-700">{selectedOrgan.physiology}</span>
+              </div>
+              <div>
+                <span className="font-bold text-slate-900">• Định vị giải phẫu: </span>
+                <span className="text-slate-700">{selectedOrgan.clinicalNotes}</span>
+              </div>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => {
+                setActiveMeridianIds(selectedOrgan.meridianIds);
+                setSelectedOrgan(null);
+              }}
+              className="w-full py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+            >
+              <Navigation className="w-3.5 h-3.5" />
+              <span>Hiện Đường Kinh & Chiều Khí Của {selectedOrgan.id}</span>
+            </button>
+          </div>
+        )}
+
+        {/* ===================================================================
             LEFT MENU DRAWER (Triggered by ☰ button on bottom bar)
            =================================================================== */}
         {showMenuDrawer && (
@@ -2998,10 +3857,10 @@ export const Human3DMeridianViewer: React.FC = () => {
             <div className="flex items-center justify-between border-b border-slate-200 pb-2">
               <div>
                 <h3 className="text-sm font-extrabold text-slate-900">
-                  Danh Sách 14 Đường Kinh & 361 Huyệt Vị 3D
+                  Hệ Thống 20 Kinh Mạch & 460+ Huyệt 3D
                 </h3>
                 <p className="text-[11px] text-slate-500">
-                  Định vị chính xác từng milimet trên lưới cơ thể người 3D
+                  14 Kinh Chính + 6 Kỳ Kinh Bát Mạch + 58 Kỳ Huyệt + 40 Đổng Thị 3D
                 </p>
               </div>
               <button
@@ -3016,37 +3875,45 @@ export const Human3DMeridianViewer: React.FC = () => {
             <div className="flex gap-1.5">
               <button
                 type="button"
-                onClick={() => setActiveMeridianIds(ACU_ATLAS_BAR_ITEMS.map((m) => m.id))}
+                onClick={() =>
+                  setActiveMeridianIds(
+                    ACU_ATLAS_BAR_ITEMS.filter((i) => i.category === 'main').map(
+                      (m) => m.id
+                    )
+                  )
+                }
                 className="flex-1 py-1.5 rounded-lg bg-[#d93829] text-white text-xs font-bold hover:bg-rose-700 cursor-pointer"
               >
-                Hiện Cả 14 Kinh
+                Hiện 14 Kinh Chính
               </button>
               <button
                 type="button"
                 onClick={() => {
                   setActiveMeridianIds([]);
                   setSelectedPoint(null);
+                  setSelectedOrgan(null);
                 }}
                 className="flex-1 py-1.5 rounded-lg bg-slate-100 text-slate-800 text-xs font-bold hover:bg-slate-200 cursor-pointer"
               >
-                Ẩn Tất Cả Kinh
+                Ẩn Tất Cả
               </button>
             </div>
 
             <div className="max-h-64 overflow-y-auto divide-y divide-slate-100">
-              {MERIDIANS_3D_DATA.map((m) => {
-                const isChecked = activeMeridianIds.includes(m.id);
-                const mPoints = allPlottedPoints.filter((p) => p.meridianId === m.id);
+              {ACU_ATLAS_BAR_ITEMS.map((item) => {
+                const isChecked = activeMeridianIds.includes(item.id);
+                const mPoints = allPlottedPoints.filter((p) => p.meridianId === item.id);
+                const flow = MERIDIAN_FLOW_META[item.id];
                 return (
-                  <div key={m.id} className="py-2">
-                    <div className="flex items-center justify-between">
+                  <div key={item.id} className="py-2">
+                    <div className="flex items-center justify-between gap-2">
                       <button
                         type="button"
-                        onClick={() => handleToggleMeridian(m.id)}
-                        className="flex items-center gap-2 text-left cursor-pointer"
+                        onClick={() => handleToggleMeridian(item.id)}
+                        className="flex items-center gap-2 text-left cursor-pointer min-w-0"
                       >
                         <span
-                          className={`w-4 h-4 rounded flex items-center justify-center border ${
+                          className={`w-4 h-4 rounded flex items-center justify-center border shrink-0 ${
                             isChecked
                               ? 'bg-[#d93829] border-[#d93829] text-white'
                               : 'border-slate-300 bg-white'
@@ -3054,16 +3921,16 @@ export const Human3DMeridianViewer: React.FC = () => {
                         >
                           {isChecked && <Check className="w-3 h-3 stroke-[3]" />}
                         </span>
-                        <div>
-                          <div className="text-xs font-extrabold text-slate-900">
-                            {m.code} — {m.vietnameseName}
+                        <div className="min-w-0">
+                          <div className="text-xs font-extrabold text-slate-900 truncate">
+                            {item.shortLabel.toUpperCase()} — {item.viShort}
                           </div>
-                          <div className="text-[11px] text-slate-500">
-                            {m.name} • {m.flowTime}
+                          <div className="text-[11px] text-slate-500 truncate">
+                            {flow ? `${flow.flowDirectionType} • ${flow.flowTime}` : item.enName}
                           </div>
                         </div>
                       </button>
-                      <span className="text-[11px] font-bold text-slate-400">
+                      <span className="text-[11px] font-bold text-slate-400 shrink-0">
                         {mPoints.length} huyệt
                       </span>
                     </div>
@@ -3072,7 +3939,7 @@ export const Human3DMeridianViewer: React.FC = () => {
                       <div className="flex flex-wrap gap-1 mt-1.5 pl-6">
                         {mPoints.map((sp) => (
                           <button
-                            key={sp.code}
+                            key={`${item.id}-${sp.code}`}
                             type="button"
                             onClick={() => {
                               focusOnPoint(sp.detail);
@@ -3094,39 +3961,61 @@ export const Human3DMeridianViewer: React.FC = () => {
       </div>
 
       {/* =====================================================================
-          BOTTOM WHITE ACU ATLAS 3D MERIDIAN BAR (☰ | Lu | Li | St | Sp | He | Si | Bl | Ki | Pc | Tb | Gb | Lv | Du | Rn)
+          CATEGORY FILTER STRIP + BOTTOM WHITE ACU ATLAS 3D MERIDIAN BAR
          ===================================================================== */}
-      <div className="w-full bg-[#f5f5f5] border-t border-slate-300 flex items-stretch h-20 sm:h-22">
+      <div className="w-full bg-slate-100 border-t border-slate-300 px-2.5 py-1.5 flex items-center gap-1.5 overflow-x-auto scrollbar-none">
+        {[
+          { id: 'all', label: `Tất cả (${ACU_ATLAS_BAR_ITEMS.length})` },
+          { id: 'main', label: '14 Kinh Chính & Nhâm-Đốc' },
+          { id: 'extra_vessel', label: 'Kỳ Kinh Bát Mạch (6)' },
+          { id: 'special', label: 'Kỳ Huyệt WHO & Đổng Thị 3D' },
+        ].map((cat) => (
+          <button
+            key={cat.id}
+            type="button"
+            onClick={() => setVesselCategoryTab(cat.id as any)}
+            className={`px-2.5 py-1 rounded-full text-[11px] font-bold whitespace-nowrap transition-colors cursor-pointer ${
+              vesselCategoryTab === cat.id
+                ? 'bg-[#d83427] text-white shadow-xs'
+                : 'bg-white text-slate-700 hover:bg-slate-200 border border-slate-200'
+            }`}
+          >
+            {cat.label}
+          </button>
+        ))}
+      </div>
+
+      <div className="w-full bg-[#f5f5f5] border-t border-slate-200 flex items-stretch h-20 sm:h-22">
         {/* Left Hamburger Button (☰) */}
         <button
           type="button"
           onClick={() => setShowMenuDrawer(!showMenuDrawer)}
-          title="Mở danh sách chi tiết 14 Kinh Mạch & 361 Huyệt vị"
+          title="Mở danh sách chi tiết 20 Kinh Mạch & 460+ Huyệt vị"
           className="w-16 sm:w-20 shrink-0 flex flex-col items-center justify-center border-r border-slate-300 hover:bg-slate-200/70 text-slate-600 transition-colors cursor-pointer"
         >
           <Menu className="w-7 h-7 stroke-[2]" />
           <span className="text-[10px] font-semibold text-slate-500 mt-0.5">
-            14 Kinh
+            20 Kinh
           </span>
         </button>
 
         {/* Horizontal Scrollable Meridian Code Tabs */}
         <div className="flex-1 flex items-stretch overflow-x-auto scrollbar-thin divide-x divide-slate-200/70">
-          {ACU_ATLAS_BAR_ITEMS.map((item) => {
+          {filteredBarItems.map((item) => {
             const isActive = activeMeridianIds.includes(item.id);
             return (
               <button
                 key={item.id}
                 type="button"
                 onClick={() => handleToggleMeridian(item.id)}
-                className={`min-w-[68px] sm:min-w-[82px] px-2.5 flex flex-col items-center justify-center transition-all cursor-pointer shrink-0 ${
+                className={`min-w-[68px] sm:min-w-[84px] px-2.5 flex flex-col items-center justify-center transition-all cursor-pointer shrink-0 ${
                   isActive
                     ? 'bg-white shadow-inner'
                     : 'bg-[#f5f5f5] hover:bg-white/70'
                 }`}
               >
                 <span
-                  className={`text-2xl sm:text-[28px] font-extrabold tracking-tight leading-none ${
+                  className={`text-xl sm:text-[26px] font-extrabold tracking-tight leading-none ${
                     isActive ? 'text-[#d83427]' : 'text-[#686868]'
                   }`}
                 >
@@ -3140,7 +4029,7 @@ export const Human3DMeridianViewer: React.FC = () => {
                   {item.enName}
                 </span>
                 <span
-                  className={`text-[9px] leading-none mt-0.5 ${
+                  className={`text-[9px] leading-none mt-0.5 whitespace-nowrap ${
                     isActive ? 'text-[#d83427] font-semibold' : 'text-slate-400'
                   }`}
                 >

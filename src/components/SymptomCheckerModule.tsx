@@ -127,18 +127,21 @@ export const SymptomCheckerModule: React.FC<SymptomCheckerModuleProps> = ({ onOp
     }
   };
 
+  const [isAiRefining, setIsAiRefining] = useState(false);
+
   const handleAskAI = async () => {
     if (!symptomText.trim()) {
       return;
     }
 
-    // Instant <15ms clinical diagnosis & prescription from the 65-Book Scientific Medical Engine
+    // Hiển thị nhận định tức thì trong lúc chờ AI chuyên sâu (Gemini 4 Hydrogen) phân tích sát câu chữ
     const instantDiagnosis = generateDynamicSymptomResponse(symptomText);
     setResult(instantDiagnosis);
     setIsLoading(false);
+    setIsAiRefining(true);
 
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 10000);
+    const timeoutId = setTimeout(() => controller.abort(), 45000);
 
     try {
       const response = await fetch('/api/symptom-answer', {
@@ -164,6 +167,8 @@ export const SymptomCheckerModule: React.FC<SymptomCheckerModuleProps> = ({ onOp
       }
     } catch {
       clearTimeout(timeoutId);
+    } finally {
+      setIsAiRefining(false);
     }
   };
 
@@ -768,7 +773,7 @@ export const SymptomCheckerModule: React.FC<SymptomCheckerModuleProps> = ({ onOp
             {isLoading ? (
               <>
                 <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
-                <span>Bác sĩ AI đang đối chiếu 60 cuốn y điển & Nam dược...</span>
+                <span>Bác sĩ AI đang đối chiếu 82+ y điển Đông - Tây Y & phân tích sát câu chữ...</span>
               </>
             ) : (
               <>
@@ -784,6 +789,12 @@ export const SymptomCheckerModule: React.FC<SymptomCheckerModuleProps> = ({ onOp
       {/* AI Response Display */}
       {result && (
         <div className="space-y-6 animate-fadeIn">
+          {isAiRefining && (
+            <div className="flex items-center gap-2.5 px-4 py-2.5 rounded-2xl bg-cyan-50 border border-cyan-200 text-cyan-900 text-xs font-semibold">
+              <span className="w-4 h-4 border-2 border-cyan-600 border-t-transparent rounded-full animate-spin shrink-0"></span>
+              <span>Đang hoàn tất hội chẩn chuyên sâu AI Đông - Tây Y bám sát từng chi tiết câu hỏi của bạn...</span>
+            </div>
+          )}
           {/* Summary Banner */}
           <div className="p-6 rounded-3xl bg-gradient-to-r from-emerald-50 via-teal-50 to-cyan-50 border border-emerald-300 shadow-sm">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
@@ -793,7 +804,7 @@ export const SymptomCheckerModule: React.FC<SymptomCheckerModuleProps> = ({ onOp
                 </div>
                 <div className="space-y-1">
                   <span className="text-xs font-bold text-emerald-800 uppercase tracking-wider block">
-                    Nhận Định Lâm Sàng Của Bác Sĩ AI (60 Y Điển & Nam Dược)
+                    Nhận Định Lâm Sàng Của Bác Sĩ AI (82+ Y Điển Đông - Tây Y & Nam Dược)
                   </span>
                   <h3 className="text-base sm:text-lg font-bold text-slate-900 font-serif leading-relaxed">
                     {result.summary}

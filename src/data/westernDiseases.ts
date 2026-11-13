@@ -607,5 +607,300 @@ export const WESTERN_DISEASES: WesternDisease[] = [
       'Đi ngoài phân đen bóng như nhựa đường (Nghi ngờ xuất huyết rỉ rả đường tiêu hóa)'
     ],
     tcmSyndromeCorrespondence: 'Huyết Hư / Tâm Tỳ Lưỡng Hư (Khí Huyết Lưỡng Hư / Tỳ Vị Hư Nhược)'
+  },
+
+  // 17. Bệnh Thận Mạn Tính (CKD - KDIGO 2024)
+  {
+    id: 'chronic-kidney-disease',
+    nameVi: 'Bệnh Thận Mạn Tính (CKD) & Hội Chứng Thận Hư (KDIGO 2024)',
+    nameEn: 'Chronic Kidney Disease & Nephrotic Syndrome',
+    icd10: 'N18.9 / N04',
+    medicalRoots: [
+      { term: 'Nephr/o', etymology: 'Gốc Hy Lạp: Nephros (Thận)', meaning: 'Đơn vị cầu thận và ống thận' },
+      { term: 'Glomerul/o', etymology: 'Gốc Latin: Glomus (Cuộn mạch)', meaning: 'Búi mao mạch cầu thận' },
+      { term: '-sclerosis', etymology: 'Hậu tố: Xơ cứng', meaning: 'Xơ hóa tổ chức cầu thận' }
+    ],
+    guytonPhysiology: {
+      system: 'Hệ Tiết Niệu & Lọc Cầu Thận (Renal Glomerular Filtration & RAAS)',
+      homeostasisDisruption: 'Suy giảm tiến triển số lượng Nephron hoạt động dẫn đến giảm độ lọc cầu thận (eGFR < 60 mL/phút/1.73m2) hoặc tổn thương màng lọc cầu thận gây tiểu đạm kéo dài > 3 tháng.',
+      cellularHemodynamicMechanism: 'Tăng áp lực nội cầu thận bù trừ kích hoạt hệ Renin-Angiotensin-Aldosterone (RAAS) và yếu tố tăng trưởng TGF-beta gây xơ hóa cầu thận, tích tụ độc chất Urê/Creatinin, rối loạn cân bằng toan-kiềm, giữ Natri-Kali và giảm tổng hợp Erythropoietin gây thiếu máu thận.',
+      clinicalParameters: [
+        { name: 'Độ lọc cầu thận eGFR (CKD-EPI)', normalRange: '>= 90 mL/min/1.73m2', criticalWarning: '< 15 mL/min/1.73m2 (CKD giai đoạn 5 - Cần điều trị thay thế thận)' },
+        { name: 'Tỷ số Albumin/Creatinin niệu (uACR)', normalRange: '< 30 mg/g', criticalWarning: '>= 300 mg/g (Albumin niệu đại lượng - Nguy cơ tiến triển nhanh)' },
+        { name: 'Kali huyết thanh (K+)', normalRange: '3.5 - 5.0 mmol/L', criticalWarning: '>= 6.0 mmol/L (Nguy cơ ngưng tim do loạn nhịp)' }
+      ]
+    },
+    essentialsOfNutrition: {
+      keyNutrients: ['Đạm chất lượng cao liều kiểm soát (0.6-0.8 g/kg/ngày nếu chưa lọc máu)', 'Natri thấp (< 2g/ngày)', 'Acid béo Omega-3', 'Vitamin D hoạt hóa'],
+      foodsToPrioritize: ['Lòng trắng trứng, cá nạc, thịt gia cầm bỏ da (hấp luộc)', 'Bí xanh, cải bắp, súp lơ trắng, táo, lê (ít Kali/Phospho)', 'Dầu ô liu'],
+      foodsToAvoid: ['Muối mặn, dưa cà muối, thực phẩm đóng hộp chứa phụ gia Phosphat', 'Quả khế (gây ngộ độc thần kinh ở người suy thận)', 'Chuối, cam, nước dừa, khoai tây khi Kali máu tăng cao', 'Thuốc lá và thảo dược chứa Aristolochic acid (Mộc thông Quan Mộc Thông)'],
+      drugNutrientInteractions: [
+        'Thuốc SGLT2i (Dapagliflozin/Empagliflozin), ACEi/ARB và Finerenone (theo KDIGO 2024) bảo vệ thận nhưng cần theo dõi Kali máu và Creatinin sau 2-4 tuần khởi trị.',
+        'Tránh tuyệt đối thuốc kháng viêm NSAIDs (Ibuprofen, Meloxicam, Diclofenac) vì gây co tiểu động mạch đến làm suy thận cấp trên nền mạn.'
+      ]
+    },
+    redFlags: [
+      'Thiểu niệu (< 400ml/24h) hoặc vô niệu hoàn toàn, phù to toàn thân, khó thở khi nằm (Phù phổi cấp)',
+      'Buồn nôn dữ dội, lơ mơ, hơi thở mùi amoniac, rung giật cơ (Hội chứng Urê huyết cao)',
+      'Kali máu >= 6.0 mmol/L kèm biến đổi điện tâm đồ sóng T cao nhọn'
+    ],
+    tcmSyndromeCorrespondence: 'Thủy Thũng / Quan Cách / Tỳ Thận Dương Hư / Thấp Trọc Độc Ứ'
+  },
+
+  // 18. Suy Tim & Rung Nhĩ (ESC 2024)
+  {
+    id: 'heart-failure-afib',
+    nameVi: 'Suy Tim Mạn Tính & Rung Nhĩ (Hướng Dẫn ESC 2024)',
+    nameEn: 'Chronic Heart Failure (HFrEF/HFpEF) & Atrial Fibrillation',
+    icd10: 'I50.9 / I48',
+    medicalRoots: [
+      { term: 'Cardi/o', etymology: 'Gốc Hy Lạp: Kardia (Tim)', meaning: 'Cơ tim và buồng tim' },
+      { term: 'Arrhythm-', etymology: 'Gốc từ: A- (không) + Rhythmos (nhịp)', meaning: 'Rối loạn nhịp tim' },
+      { term: 'Fibrill-', etymology: 'Gốc Latin: Fibra (sợi tơ)', meaning: 'Co bóp hỗn loạn các sợi cơ nhĩ' }
+    ],
+    guytonPhysiology: {
+      system: 'Hệ Tuần Hoàn & Dẫn Truyền Điện Học Cơ Tim (Cardiac Output & Electrophysiology)',
+      homeostasisDisruption: 'Tâm thất mất khả năng bơm đủ máu đáp ứng nhu cầu oxy của mô (HFrEF EF <= 40%) hoặc rối loạn thư giãn đổ đầy tâm trương (HFpEF EF >= 50%), thường phối hợp xung điện hỗn loạn từ tĩnh mạch phổi gây Rung nhĩ.',
+      cellularHemodynamicMechanism: 'Giảm cung lượng tim kích hoạt bù trừ thần kinh - thể dịch (RAAS, giao cảm, tăng bài tiết BNP/NT-proBNP), lâu dài gây tái cấu trúc phì đại cơ thất và ứ huyết tĩnh mạch phổi/ngoại biên. Trong rung nhĩ, mất co bóp nhĩ đồng bộ gây ứ máu tại tiểu nhĩ trái hình thành huyết khối nguy cơ đột quỵ thuyên tắc não.',
+      clinicalParameters: [
+        { name: 'Phân suất tống máu thất trái (LVEF)', normalRange: '55 - 70 %', criticalWarning: '<= 40 % (Suy tim phân suất tống máu giảm HFrEF)' },
+        { name: 'NT-proBNP huyết tương', normalRange: '< 125 pg/mL', criticalWarning: '> 450 - 900 pg/mL tùy tuổi (Suy tim mất bù)' },
+        { name: 'Tần số tim khi nghỉ', normalRange: '60 - 90 lần/phút', criticalWarning: '> 120 lần/phút không đều (Rung nhĩ đáp ứng thất nhanh)' }
+      ]
+    },
+    essentialsOfNutrition: {
+      keyNutrients: ['Coenzyme Q10', 'Omega-3 EPA/DHA', 'Magie & Kali cân bằng', 'Thiamin (Vitamin B1)'],
+      foodsToPrioritize: ['Cá biển hấp, rau xanh, ngũ cốc nguyên hạt, dầu ô liu', 'Giới hạn lượng dịch đưa vào cơ thể nếu suy tim nặng có phù (1 - 1.5 lít/ngày)'],
+      foodsToAvoid: ['Muối ăn (< 4g/ngày), đồ muối chua, nước mắm công nghiệp', 'Rượu bia (độc trực tiếp tế bào cơ tim & kích phát cơn rung nhĩ)', 'Cam thảo Bắc liều cao (gây giữ Natri, hạ Kali làm tăng độc tính Digoxin và suy tim nặng hơn)'],
+      drugNutrientInteractions: [
+        'Tứ trụ suy tim ESC: ARNI (Sacubitril/Valsartan) + Chẹn Beta + Kháng Aldosterone (Spironolactone) + SGLT2i (Dapagliflozin/Empagliflozin); tuyệt đối tránh dùng chung ARNI và ACEi (nguy cơ phù mạch).',
+        'Rung nhĩ có điểm CHA2DS2-VASc cao phải dùng thuốc chống đông DOAC (Rivaroxaban, Apixaban, Dabigatran) hoặc Warfarin (tránh phối hợp Đan Sâm/Bạch Quả liều cao không kiểm soát vì tăng nguy cơ xuất huyết).'
+      ]
+    },
+    redFlags: [
+      'Khó thở dữ dội đột ngột, phải ngồi dậy để thở, ho khạc bọt hồng (Phù phổi cấp)',
+      'Đau ngực đè nặng, tụt huyết áp < 90/60 mmHg, ngất xỉu',
+      'Méo miệng, yếu liệt tay chân, nói khó đột ngột ở bệnh nhân rung nhĩ (Đột quỵ nhồi máu não)'
+    ],
+    tcmSyndromeCorrespondence: 'Tâm Quý Chính Xung / Hung Tý / Tâm Dương Khí Hư Thủy Lăng Tâm'
+  },
+
+  // 19. Viêm Loét Dạ Dày HP (Maastricht VI)
+  {
+    id: 'hpylori-gastritis-ulcer',
+    nameVi: 'Viêm Dạ Dày Có Helicobacter Pylori (Đồng Thuận Maastricht VI)',
+    nameEn: 'Helicobacter Pylori Gastritis & Peptic Ulcer',
+    icd10: 'K29.5 / B96.81',
+    medicalRoots: [
+      { term: 'Helico-', etymology: 'Gốc Hy Lạp: Xoắn ốc', meaning: 'Xoắn khuẩn hình xoắn' },
+      { term: 'Pylor/o', etymology: 'Gốc từ: Môn vị dạ dày', meaning: 'Vùng hang - môn vị' },
+      { term: 'Ulcer', etymology: 'Gốc Latin: Vết loét', meaning: 'Tổn thương mất chất vượt qua cơ niêm' }
+    ],
+    guytonPhysiology: {
+      system: 'Niêm Mạc Hang Môn Vị Dạ Dày & Hàng Rào Chất Nhầy',
+      homeostasisDisruption: 'Vi khuẩn H. pylori tiết enzyme Urease phân giải Ure tạo Amoniac (NH3) trung hòa acid quanh mình, kết hợp độc tố VacA/CagA phá hủy hàng rào chất nhầy và gây viêm teo/chuyển sản ruột.',
+      cellularHemodynamicMechanism: 'Xâm nhập lớp tế bào biểu mô hang vị, kích thích giải phóng IL-8 và tế bào G tăng tiết Gastrin làm tăng acid dịch vị thứ phát, gây loét hành tá tràng hoặc viêm teo đa ổ dẫn đến nguy cơ ung thư dạ dày nếu mang chủng CagA(+).',
+      clinicalParameters: [
+        { name: 'Test thở C13 / C14 Urea Breath Test', normalRange: 'Âm tính', criticalWarning: 'Dương tính (Cần ngưng PPI 2 tuần và kháng sinh 4 tuần trước khi test kiểm tra lại)' },
+        { name: 'Nội soi dạ dày & CLO-test / Sinh thiết', normalRange: 'Niêm mạc hồng trơn', criticalWarning: 'Loét bờ cong nhỏ / Dị sản ruột / Nhiễm H. pylori (+)' }
+      ]
+    },
+    essentialsOfNutrition: {
+      keyNutrients: ['Probiotics Lactobacillus reuteri / Saccharomyces boulardii (giảm tác dụng phụ kháng sinh)', 'Curcumin', 'Sulforaphane (mầm bông cải xanh)', 'Kẽm Carnosine'],
+      foodsToPrioritize: ['Bắp cải tươi, mầm súp lơ xanh, nghệ mật ong, sữa chua lên men tự nhiên', 'Ăn đúng giờ, chia nhỏ bữa, thức ăn mềm ấm'],
+      foodsToAvoid: ['Dưa cà muối mặn, thịt hun khói nhiều nitrosamine', 'Rượu bia, thuốc lá (làm giảm hiệu quả tiệt trừ HP và chậm lành ổ loét)', 'Gia vị quá cay chua lúc đói'],
+      drugNutrientInteractions: [
+        'Phác đồ 4 thuốc có Bismuth (PPI + Bismuth Subcitrate + Tetracycline + Metronidazole trong 14 ngày theo Maastricht VI & Hội Tiêu hóa VN): Metronidazole tuyệt đối kiêng rượu bia (phản ứng Disulfiram); Tetracycline tránh uống cùng sữa, Canxi, Sắt.'
+      ]
+    },
+    redFlags: [
+      'Nôn ra máu hoặc đại tiện phân đen mùi khắm',
+      'Sụt cân nhanh > 5kg, chán ăn sợ thịt, thiếu máu không rõ nguyên nhân',
+      'Đau thượng vị đột ngột dữ dội, bụng cứng như gỗ (Thủng ổ loét)'
+    ],
+    tcmSyndromeCorrespondence: 'Vị Quản Thống (Can Vị Bất Hòa / Tỳ Vị Thấp Nhiệt / Vị Âm Bất Túc)'
+  },
+
+  // 20. Viêm Khớp Dạng Thấp (ACR/EULAR)
+  {
+    id: 'rheumatoid-arthritis',
+    nameVi: 'Viêm Khớp Dạng Thấp Tự Miễn (Tiêu Chuẩn ACR/EULAR)',
+    nameEn: 'Rheumatoid Arthritis (RA)',
+    icd10: 'M06.9 / M05',
+    medicalRoots: [
+      { term: 'Rheumat/o', etymology: 'Gốc Hy Lạp: Dòng chảy dịch viêm', meaning: 'Bệnh lý viêm hệ thống màng hoạt dịch' },
+      { term: 'Synovi/o', etymology: 'Gốc từ: Màng hoạt dịch', meaning: 'Màng lót bao khớp' },
+      { term: 'Pannus', etymology: 'Gốc Latin: Mảnh mô hạt', meaning: 'Mô tăng sinh xâm lấn ăn mòn sụn xương' }
+    ],
+    guytonPhysiology: {
+      system: 'Hệ Miễn Dịch Tự Miễn & Màng Hoạt Dịch Khớp Nhỏ Đối Xứng',
+      homeostasisDisruption: 'Tự kháng thể RF và Anti-CCP tấn công màng hoạt dịch các khớp nhỏ bàn tay - bàn chân đối xứng hai bên, gây tăng sinh mô hạt Pannus phá hủy sụn và đầu xương.',
+      cellularHemodynamicMechanism: 'Hoạt hóa tế bào Lympho T CD4+ và đại thực bào giải phóng TNF-alpha, IL-6, IL-1 và kích thích hủy cốt bào qua trục RANK/RANKL gây hẹp khe khớp, dính khớp và biến dạng khớp bàn tay (cổ thiên nga, nút khuy áo) nếu không điều trị sớm bằng DMARDs.',
+      clinicalParameters: [
+        { name: 'Anti-CCP & RF (Yếu tố dạng thấp)', normalRange: 'Anti-CCP < 20 U/mL', criticalWarning: 'Dương tính hiệu giá cao (> 3 lần giới hạn trên - Nguy cơ hủy khớp nặng)' },
+        { name: 'CRP & Tốc độ máu lắng (ESR)', normalRange: 'CRP < 5 mg/L', criticalWarning: 'Tăng cao tương ứng mức độ hoạt động bệnh (DAS28 > 5.1)' }
+      ]
+    },
+    essentialsOfNutrition: {
+      keyNutrients: ['Acid Folic (bắt buộc khi dùng Methotrexate)', 'Omega-3 EPA/DHA liều cao (2-3g/ngày)', 'Vitamin D3 + Canxi', 'Curcumin'],
+      foodsToPrioritize: ['Cá hồi, cá trích, hạt óc chó, dầu ô liu, rau xanh đậm, nghệ tươi, gừng'],
+      foodsToAvoid: ['Thịt đỏ chế biến sẵn, đồ chiên rán giàu Omega-6/Trans-fat, đường tinh luyện, rượu bia (tăng độc gan với Methotrexate)'],
+      drugNutrientInteractions: [
+        'Thuốc nền DMARD đầu tay Methotrexate uống 1 lần/tuần; phải bổ sung Acid Folic (5mg) vào ngày khác trong tuần (không uống cùng ngày dùng Methotrexate) để giảm độc tính niêm mạc và tủy xương.'
+      ]
+    },
+    redFlags: [
+      'Sưng nóng đỏ một khớp đơn độc kèm sốt cao rét run (Nghi nhiễm trùng khớp)',
+      'Đau cổ lan xuống tay chân kèm yếu liệt (Trật khớp đội-trục C1-C2 chèn ép tủy cổ)',
+      'Khó thở tiến triển, ho khan kéo dài (Bệnh phổi mô kẽ liên quan RA hoặc tác dụng phụ thuốc)'
+    ],
+    tcmSyndromeCorrespondence: 'Lịch Tiết Phong / Ngoan Tý (Phong Thấp Nhiệt Tý / Hàn Thấp Ứ Trệ Can Thận Hư)'
+  },
+
+  // 21. Đau Nửa Đầu Migraine & Rối Loạn Tiền Đình
+  {
+    id: 'migraine-vestibular-vertigo',
+    nameVi: 'Đau Nửa Đầu Migraine & Rối Loạn Tiền Đình (AAN/IHS)',
+    nameEn: 'Migraine Headache & Vestibular Vertigo (BPPV / Vestibular Neuritis)',
+    icd10: 'G43.9 / H81.1',
+    medicalRoots: [
+      { term: 'Hemi-', etymology: 'Tiền tố Hy Lạp: Một nửa', meaning: 'Một bên đầu' },
+      { term: 'Crani/o', etymology: 'Gốc từ: Hộp sọ', meaning: 'Vòm sọ' },
+      { term: 'Vertigo', etymology: 'Gốc Latin: Xoay tròn', meaning: 'Ảo giác xoay tròn do tiền đình' }
+    ],
+    guytonPhysiology: {
+      system: 'Hệ Thần Kinh Sinh Ba - Mạch Máu Não & Cơ Quan Tiền Đình Tai Trong',
+      homeostasisDisruption: 'Lan truyền ức chế vỏ não (Cortical Spreading Depression - CSD) và giải phóng neuropeptide CGRP làm giãn mạch màng não và viêm thần kinh vô khuẩn (Migraine); hoặc lạc thạch nhĩ (Otoconia) vào ống bán khuyên sau gây chóng mặt tư thế kịch phát lành tính (BPPV).',
+      cellularHemodynamicMechanism: 'Hoạt hóa hệ thống mạch máu - dây V (Trigeminovascular system) phóng thích CGRP, Substance P gây cơn đau nhói theo nhịp mạch một bên đầu, sợ ánh sáng/tiếng ồn. Ở tai trong, dịch chuyển thạch nhĩ trong nội dịch ống bán khuyên gây xung động sai lệch về dây VIII.',
+      clinicalParameters: [
+        { name: 'Nghiệm pháp Dix-Hallpike (BPPV)', normalRange: 'Không chóng mặt/rung giật nhãn cầu', criticalWarning: 'Rung giật nhãn cầu xoay hướng xuống + chóng mặt ngắn < 60 giây khi ngả đầu' },
+        { name: 'Thang điểm tần suất cơn Migraine', normalRange: '< 4 ngày/tháng', criticalWarning: '>= 8-15 ngày/tháng (Migraine mạn cần dự phòng)' }
+      ]
+    },
+    essentialsOfNutrition: {
+      keyNutrients: ['Magie Glycinate/Oxide (400-500mg/ngày)', 'Vitamin B2 (Riboflavin 200-400mg/ngày)', 'Coenzyme Q10', 'Cúc thơm Feverfew'],
+      foodsToPrioritize: ['Rau chân vịt, hạt bí, cá béo, nước ấm, gừng tươi (giảm buồn nôn tiền đình hiệu quả)'],
+      foodsToAvoid: ['Phô mai lâu năm, thịt nguội, rượu vang đỏ (chứa Tyramine)', 'Mì chính (MSG) liều cao, sô cô la, nhịn đói bỏ bữa'],
+      drugNutrientInteractions: [
+        'Thuốc cắt cơn nhóm Triptan (Sumatriptan) chống chỉ định ở người bệnh mạch vành, tăng huyết áp chưa kiểm soát và không dùng sát lúc dùng ergotamine.'
+      ]
+    },
+    redFlags: [
+      'Đau đầu dữ dội đột ngột như sét đánh ("Thunderclap headache") — nghi xuất huyết dưới nhện',
+      'Đau đầu kèm sốt, cứng gáy, phát ban, yếu liệt nửa người, nhìn đôi hoặc mất thăng bằng không đi đứng được (Đột quỵ thân não/tiểu não)',
+      'Đau đầu mới khởi phát sau tuổi 50 hoặc tăng dần kèm nôn vọt buổi sáng'
+    ],
+    tcmSyndromeCorrespondence: 'Thiên Đầu Thống / Huyễn Vựng (Can Dương Hóa Phong / Đàm Trọc Thượng Nhiễu / Huyết Ứ Đầu Mạch)'
+  },
+
+  // 22. Thoái Hóa Đốt Sống Cổ & Hội Chứng Cổ Vai Gáy
+  {
+    id: 'cervical-spondylosis-radiculopathy',
+    nameVi: 'Thoái Hóa Đốt Sống Cổ & Chèn Ép Rễ Thần Kinh Cổ (C5-C7)',
+    nameEn: 'Cervical Spondylosis & Cervical Radiculopathy',
+    icd10: 'M47.2 / M50.1',
+    medicalRoots: [
+      { term: 'Cervic/o', etymology: 'Gốc Latin: Cổ', meaning: 'Đoạn cột sống cổ C1-C7' },
+      { term: 'Spondyl/o', etymology: 'Gốc Hy Lạp: Đốt sống', meaning: 'Thân đốt sống và khớp liên mấu' },
+      { term: 'Myel/o', etymology: 'Gốc từ: Tủy sống', meaning: 'Chèn ép tủy cổ (Myelopathy)' }
+    ],
+    guytonPhysiology: {
+      system: 'Cột Sống Cổ, Rễ Thần Kinh Cánh Tay & Động Mạch Đốt Sống',
+      homeostasisDisruption: 'Thoái hóa đĩa đệm cổ và mọc gai xương (Osteophytes) gây hẹp lỗ liên hợp chèn ép rễ thần kinh C5-C8, hoặc chèn ép động mạch đốt sống gây thiếu máu hệ sống - nền.',
+      cellularHemodynamicMechanism: 'Tư thế cúi cổ xem điện thoại/máy tính kéo dài tăng tải trọng lên cột sống cổ từ 5kg lên 27kg, gây co thắt cơ thang - cơ nâng vai thiếu máu cục bộ, phù nề rễ thần kinh lan đau tê xuống vai, cánh tay và các ngón tay.',
+      clinicalParameters: [
+        { name: 'Nghiệm pháp Spurling (ép rễ cổ)', normalRange: 'Âm tính', criticalWarning: 'Dương tính (Ép xoay cổ làm đau lan tê xuống cánh tay - bàn tay)' },
+        { name: 'MRI Cột sống cổ (Đường kính ống sống)', normalRange: '>= 13 mm', criticalWarning: '< 10 mm kèm tăng tín hiệu tủy T2 (Chèn ép tủy cổ - Myelopathy)' }
+      ]
+    },
+    essentialsOfNutrition: {
+      keyNutrients: ['Vitamin B1, B6, B12 (Methylcobalamin)', 'Magie thư giãn cơ', 'Collagen Type II', 'Omega-3'],
+      foodsToPrioritize: ['Cá béo, trứng, sữa, rau xanh đậm, nước hầm xương giàu collagen, nghệ gừng ấm'],
+      foodsToAvoid: ['Thức ăn quá ngọt, thuốc lá (làm giảm vi tuần hoàn nuôi đĩa đệm)', 'Bia rượu'],
+      drugNutrientInteractions: [
+        'Thuốc giãn cơ (Eperisone/Tolperisone) và thuốc đau thần kinh (Pregabalin/Gabapentin) có thể gây buồn ngủ, tránh dùng ngay trước khi lái xe.'
+      ]
+    },
+    redFlags: [
+      'Tê yếu cả hai tay và hai chân, đi lại loạng choạng như đi trên bông, vụng về khi cài cúc áo (Chèn ép tủy cổ - Cấp cứu ngoại khoa)',
+      'Sụt cân không rõ nguyên nhân, đau cổ dữ dội về đêm không đỡ khi nghỉ (Nghi di căn xương hoặc lao cột sống)',
+      'Rối loạn cơ tròn (bí tiểu/tiểu không tự chủ)'
+    ],
+    tcmSyndromeCorrespondence: 'Kiên Bối Thống / Hạng Cường (Phong Hàn Thấp Tý / Khí Trệ Huyết Ứ / Can Thận Bất Túc)'
+  },
+
+  // 23. Phì Đại Lành Tính Tuyến Tiền Liệt (BPH)
+  {
+    id: 'bph-prostatitis',
+    nameVi: 'Tăng Sinh Lành Tính Tuyến Tiền Liệt (BPH) & Rối Loạn Tiểu Tiện (EAU/AUA)',
+    nameEn: 'Benign Prostatic Hyperplasia & Lower Urinary Tract Symptoms',
+    icd10: 'N40.1',
+    medicalRoots: [
+      { term: 'Prostat/o', etymology: 'Gốc Hy Lạp: Tuyến đứng trước cổ bàng quang', meaning: 'Tuyến tiền liệt' },
+      { term: 'Hyper-', etymology: 'Tiền tố: Quá mức', meaning: 'Tăng sinh quá mức' },
+      { term: '-plasia', etymology: 'Hậu tố: Tăng sinh số lượng tế bào', meaning: 'Phát triển mô lành tính' }
+    ],
+    guytonPhysiology: {
+      system: 'Tuyến Tiền Liệt, Niệu Đạo Sau & Cơ Chóp Bàng Quang',
+      homeostasisDisruption: 'Enzyme 5-alpha-reductase chuyển Testosterone thành Dihydrotestosterone (DHT) kích thích tăng sinh mô đệm và biểu mô vùng chuyển tiếp tuyến tiền liệt gây bít tắc đường ra bàng quang.',
+      cellularHemodynamicMechanism: 'Gồm hai thành phần: (1) Thành phần tĩnh do khối u xơ chèn ép cơ học niệu đạo; (2) Thành phần động do tăng trương lực thụ thể alpha-1 adrenergic ở cơ trơn tuyến tiền liệt và cổ bàng quang gây tiểu đêm, tia tiểu yếu, tiểu ngập ngừng, tồn dư nước tiểu.',
+      clinicalParameters: [
+        { name: 'Kháng nguyên đặc hiệu tuyến tiền liệt (PSA)', normalRange: '< 4.0 ng/mL', criticalWarning: '> 4.0 - 10.0 ng/mL (Cần thăm trực tràng DRE/MRI loại trừ ung thư tiền liệt tuyến)' },
+        { name: 'Thể tích tuyến tiền liệt & Nước tiểu tồn dư (PVR)', normalRange: '< 25-30 mL; PVR < 50 mL', criticalWarning: 'PVR > 150-200 mL (Nguy cơ bí tiểu cấp và suy thận ngược dòng)' }
+      ]
+    },
+    essentialsOfNutrition: {
+      keyNutrients: ['Lycopene (cà chua nấu chín)', 'Kẽm (Zinc)', 'Chiết xuất Cọ Lùn (Saw Palmetto) & Hạt Bí Ngô (Beta-sitosterol)'],
+      foodsToPrioritize: ['Cà chua nấu chín dầu ô liu, hạt bí ngô, bông cải xanh, trà xanh, cá béo'],
+      foodsToAvoid: ['Rượu bia, cà phê buổi tối (kích thích cổ bàng quang và lợi tiểu ban đêm)', 'Đồ cay nóng gây sung huyết vùng chậu', 'Uống quá nhiều nước sau 19h'],
+      drugNutrientInteractions: [
+        'Thuốc chẹn Alpha-1 (Tamsulosin, Alfuzosin) dễ gây hạ huyết áp tư thế đứng khi mới khởi trị -> nên uống sau ăn tối 30 phút và đứng dậy từ từ.',
+        'Thuốc ức chế 5-alpha-reductase (Finasteride, Dutasteride) làm giảm giả chỉ số PSA khoảng 50% sau 6 tháng -> phải nhân đôi giá trị PSA khi tầm soát ung thư.'
+      ]
+    },
+    redFlags: [
+      'Bí tiểu cấp tính hoàn toàn (căng tức đau dữ dội vùng hạ vị không tiểu được 1 giọt)',
+      'Tiểu ra máu đại thể kèm sốt cao rét run',
+      'Suy thận cấp (tăng Creatinin) do ứ nước thận hai bên'
+    ],
+    tcmSyndromeCorrespondence: 'Long Bế / Tinh Long (Thấp Nhiệt Hạ Chú / Thận Dương Khí Hư / Khí Trệ Huyết Ứ)'
+  },
+
+  // 24. Hội Chứng Buồng Trứng Đa Nang (PCOS) & Thống Kinh
+  {
+    id: 'pcos-dysmenorrhea',
+    nameVi: 'Hội Chứng Buồng Trứng Đa Nang (PCOS) & Thống Kinh (Đồng Thuận Quốc Tế)',
+    nameEn: 'Polycystic Ovary Syndrome & Primary/Secondary Dysmenorrhea',
+    icd10: 'E28.2 / N94.6',
+    medicalRoots: [
+      { term: 'Poly-', etymology: 'Tiền tố: Nhiều', meaning: 'Nhiều nang nhỏ ngoại vi' },
+      { term: 'Oophor/o', etymology: 'Gốc Hy Lạp: Buồng trứng', meaning: 'Tuyến sinh dục nữ' },
+      { term: 'Dysmenorrhea', etymology: 'Gốc từ: Dys (khó đau) + Men (kinh) + Rhoea (chảy)', meaning: 'Đau bụng khi hành kinh' }
+    ],
+    guytonPhysiology: {
+      system: 'Trục Nội Tiết HPO (Hạ Đồi - Tuyến Yên - Buồng Trứng) & Độ Nhạy Insulin',
+      homeostasisDisruption: 'Kháng Insulin bù trừ tăng Insulin máu kích thích tế bào vỏ buồng trứng tăng tiết Androgen và tăng tỷ lệ LH/FSH, làm nang noãn ngừng phát triển thành nhiều nang nhỏ không rụng trứng (PCOS). Trong thống kinh, tăng Prostaglandin F2-alpha làm co thắt cơ tử cung quá mức gây thiếu máu cục bộ.',
+      cellularHemodynamicMechanism: 'Tiêu chuẩn Rotterdam PCOS (2/3 tiêu chí): Rối loạn phóng noãn (kinh thưa/vô kinh), cường Androgen lâm sàng/sinh hóa (mụn trứng cá, rậm lông), hình ảnh buồng trứng đa nang trên siêu âm (>= 20 nang nhỏ 2-9mm).',
+      clinicalParameters: [
+        { name: 'Chỉ số HOMA-IR / Đường huyết & HbA1c', normalRange: 'HOMA-IR < 2.0', criticalWarning: 'Kháng insulin nặng kèm rối loạn dung nạp đường' },
+        { name: 'Nội tiết ngày 2-3 vòng kinh (LH, FSH, Testosterone toàn phần)', normalRange: 'LH/FSH ~ 1:1', criticalWarning: 'LH/FSH >= 2:1 và tăng Testosterone tự do' }
+      ]
+    },
+    essentialsOfNutrition: {
+      keyNutrients: ['Myo-Inositol & D-Chiro-Inositol (tỷ lệ 40:1 cải thiện nhạy Insulin & phóng noãn)', 'Omega-3', 'Magie + Vitamin B6 (giảm co thắt thống kinh)', 'Vitamin D3'],
+      foodsToPrioritize: ['Thực phẩm chỉ số đường huyết thấp (Low-GI): yến mạch, gạo lứt, các loại đậu, rau xanh, cá hồi, gừng ấm trong kỳ kinh'],
+      foodsToAvoid: ['Đường tinh luyện, trà sữa, bánh ngọt, nước có ga (làm tăng vọt Insulin và Androgen)', 'Đồ ăn lạnh sống trong kỳ hành kinh (gây hàn ngưng huyết ứ tăng đau bụng kinh)'],
+      drugNutrientInteractions: [
+        'Metformin hỗ trợ cải thiện đề kháng Insulin trong PCOS cần bổ sung Vitamin B12 nếu dùng dài ngày.',
+        'NSAIDs (Mefenamic acid/Ibuprofen) điều trị thống kinh hiệu quả nhất khi uống ngay khi vừa có dấu hiệu đau hoặc bắt đầu ra máu kinh để ức chế sớm COX.'
+      ]
+    },
+    redFlags: [
+      'Đau bụng dưới dữ dội đột ngột một bên kèm trễ kinh hoặc rong huyết (Loại trừ chửa ngoài tử cung vỡ / xoắn u nang buồng trứng)',
+      'Băng huyết kinh nguyệt ướt đẫm > 1 băng vệ sinh mỗi giờ liên tục gây chóng mặt ngất',
+      'Sốt cao kèm khí hư hôi thối đau vùng chậu cấp'
+    ],
+    tcmSyndromeCorrespondence: 'Kinh Nguyệt Bất Điều / Thống Kinh / Bế Kinh (Thận Hư Đàm Thấp / Can Uất Huyết Ứ / Hàn Ngưng Bào Cung)'
   }
 ];
+

@@ -21,7 +21,7 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(express.json({ limit: '20mb' }));
+app.use(express.json({ limit: '35mb' }));
 
 // Khởi tạo Gemini client server-side chuẩn hướng dẫn AI Studio
 const getGeminiClient = () => {
@@ -39,10 +39,15 @@ const getGeminiClient = () => {
   });
 };
 
-// Danh sách các mô hình Gemini hỗ trợ tạo nội dung theo thứ tự ưu tiên chuẩn hướng dẫn SDK
-const CANDIDATE_MODELS = ['gemini-3.8-flash', 'gemini-3.1-flash-lite', 'gemini-flash-latest'];
+// Danh sách các mô hình Gemini chính thức hỗ trợ chuẩn AI Studio SDK
+const CANDIDATE_MODELS = ['gemini-4-hydrogen', 'gemini-3.1-flash-lite'];
 
-async function callGeminiWithModelFallback(ai: GoogleGenAI, params: any, timeoutMs = 45000) {
+async function callGeminiWithModelFallback(
+  ai: GoogleGenAI,
+  params: any,
+  timeoutMs = 45000,
+  thinkingLevel: ThinkingLevel = ThinkingLevel.HIGH
+) {
   let lastError: any = null;
 
   for (const model of CANDIDATE_MODELS) {
@@ -51,10 +56,10 @@ async function callGeminiWithModelFallback(ai: GoogleGenAI, params: any, timeout
         setTimeout(() => reject(new Error(`Gemini API timeout (${model})`)), timeoutMs)
       );
 
-      // Cấu hình thinkingLevel tối ưu hóa tốc độ theo khuyến nghị gemini-api SKILL
+      // Giữ ThinkingLevel.HIGH (hoặc mức truyền vào) cho Gemini 4 Hydrogen để luận bệnh Đông - Tây Y chuyên sâu chuẩn xác
       const callConfig = { ...(params.config || {}) };
-      if (model === 'gemini-3.8-flash' && !callConfig.thinkingConfig) {
-        callConfig.thinkingConfig = { thinkingLevel: ThinkingLevel.LOW };
+      if (model === 'gemini-4-hydrogen' && !callConfig.thinkingConfig) {
+        callConfig.thinkingConfig = { thinkingLevel };
       }
 
       const callParams = { ...params, model, config: callConfig };
@@ -85,8 +90,8 @@ async function callGeminiWithModelFallback(ai: GoogleGenAI, params: any, timeout
             }
           }
           const callConfigRetry = { ...params.config, systemInstruction: undefined };
-          if (model === 'gemini-3.8-flash' && !callConfigRetry.thinkingConfig) {
-            callConfigRetry.thinkingConfig = { thinkingLevel: ThinkingLevel.LOW };
+          if (model === 'gemini-4-hydrogen' && !callConfigRetry.thinkingConfig) {
+            callConfigRetry.thinkingConfig = { thinkingLevel };
           }
           const callParamsNoSys = {
             ...params,
@@ -114,21 +119,24 @@ async function callGeminiWithModelFallback(ai: GoogleGenAI, params: any, timeout
 }
 
 const MASTER_MEDICAL_PROMPT = `
-BẠN LÀ GIÁO SƯ - BÁC SĨ CHUYÊN KHOA ĐẦU NGÀNH ĐÔNG - TÂY Y KẾT HỢP (HỘI CHẨN Y ĐẠO TOÀN THƯ).
-Bạn nắm vững toàn bộ kiến thức chuyên sâu từ 65 cuốn sách y điển kinh điển và các bộ sách chuyên khảo đã tải lên hệ thống (Sổ Tay Đổng Thị Kỳ Huyệt 239 huyệt & 295 phác đồ, Châm Cứu Chữa Bệnh GS. Nguyễn Tài Thu, Cẩm Nang Thực Hành Châm Cứu Lưu Viêm, Một Số Huyệt Ngoài Kinh WHO 1991, Dan Bensky Materia Medica, Giovanni Maciocia, Guyton & Hall Physiology, DiPiro Pharmacotherapy, Katzung Pharmacology, Dược thư Quốc gia Việt Nam, Nam Dược Thần Hiệu Tuệ Tĩnh & Đỗ Tất Lợi).
+BẠN LÀ HỘI ĐỒNG GIÁO SƯ - BÁC SĨ CHUYÊN KHOA ĐẦU NGÀNH ĐÔNG - TÂY Y KẾT HỢP (HỘI CHẨN Y ĐẠO TOÀN THƯ).
+Bạn tinh thông toàn bộ 82+ tác phẩm Y điển kinh điển & hiện đại tích hợp trong hệ thống:
+• ĐÔNG Y KINH ĐIỂN & HIỆN ĐẠI: Hoàng Đế Nội Kinh (Tố Vấn & Linh Khu), Thương Hàn Luận & Kim Quỹ Yếu Lược (Trương Trọng Cảnh - Lục Kinh Biện Chứng), Ôn Bệnh Điều Biện (Ngô Cúc Thông - Vệ Khí Dinh Huyết & Tam Tiêu), Hải Thượng Y Tông Tâm Lĩnh (Lê Hữu Trác - Bổ Chân Âm / Chân Hỏa), Tỳ Vị Luận (Lý Đông Viên), Cảnh Nhạc Toàn Thư, Bản Thảo Cương Mục (Lý Thời Trân), Nam Dược Thần Hiệu (Tuệ Tĩnh), Những Cây Thuốc Và Vị Thuốc Việt Nam (GS. Đỗ Tất Lợi), Giovanni Maciocia, Dan Bensky (Materia Medica & Formulas), Sổ Tay Đổng Thị Kỳ Huyệt (239 huyệt & 295 phác đồ), Châm Cứu Chữa Bệnh (GS. Nguyễn Tài Thu - Mãng châm/Thấu huyệt), Lưu Viêm, 58 Kỳ Huyệt Ngoài Kinh WHO 1991.
+• TÂY Y KINH ĐIỂN & HƯỚNG DẪN CẬP NHẬT 2024-2025: Harrison's Principles of Internal Medicine (21st Ed.), UpToDate & BMJ Best Practice, Guyton & Hall Textbook of Medical Physiology, ESC Guidelines 2024 (Tăng huyết áp, Suy tim, Rung nhĩ, Mạch vành mạn), ADA Standards of Care 2025 (Đái tháo đường), KDIGO 2024 (Bệnh thận mạn), GOLD 2025 & GINA 2024 (COPD & Hen phế quản), ACR/EULAR (Gout & Viêm khớp dạng thấp), Đồng thuận Maastricht VI & Rome IV (H. pylori, GERD, IBS), DiPiro Pharmacotherapy, Katzung Pharmacology, Dược thư Quốc gia & Dược điển Việt Nam V.
 
-QUY TẮC TỐI THƯỢNG CỦA BÁC SĨ HỘI CHẨN (TRẢ LỜI SÁT CÂU HỎI 100% - KHOA HỌC - KHÔNG LẠC ĐỀ):
-1. MỞ ĐẦU BẰNG MỤC "1. TRẢ LỜI TRỰC TIẾP CÂU HỎI CỦA BẠN":
-   - Ngay từ đoạn đầu tiên, bạn BẮT BUỘC phải trả lời thẳng vào câu hỏi cụ thể của người dùng (Ví dụ: Nếu người bệnh hỏi "Tôi xem điện thoại ban đêm nhiều quá khiến mắt bị lồi, có thể chữa được không?", bạn phải giải thích ngay vì sao xem điện thoại ban đêm gây lồi mắt — do co quắp cơ thể mi/phù nề cơ vận nhãn hay do tăng trục trước-sau nhãn cầu trong cận thị trục, phân biệt với lồi mắt Basedow — và khẳng định rõ trường hợp nào hồi phục được hoàn toàn, trường hợp nào chặn đứng tiến triển và giảm độ lồi bằng cách nào).
-   - Nếu người dùng hỏi nhiều ý trong cùng một câu, phải chia mục trả lời LẦN LƯỢT TỪNG Ý MỘT.
-   - TUYỆT ĐỐI KHÔNG trả lời lạc sang bệnh khác (ví dụ: người dùng hỏi về mắt bị lồi do xem điện thoại ban đêm thì tuyệt đối không được trả lời bài chữa mất ngủ). Nếu phần dữ liệu tham khảo (RAG) đính kèm có mục không khớp với câu hỏi chính của người dùng, hãy BỎ QUA hoàn toàn mục không khớp đó và chỉ trả lời đúng câu hỏi của người dùng.
-2. CHÍNH XÁC TUYỆT ĐỐI VỀ CHUYÊN MÔN ĐÔNG - TÂY Y KẾT HỢP:
-   - Mục 2: Giải thích Nguyên nhân & Cơ chế sinh lý bệnh học Tây Y (Guyton & Hall) + Biện chứng Đông Y (Tạng phủ, Khí huyết).
-   - Mục 3: Phác đồ điều trị Tây Y & Chuyên khoa (Thuốc đặc hiệu, liều dùng, cơ chế phân tử, phương pháp can thiệp).
-   - Mục 4: Bài thuốc Đông Y / Nam Dược đặc trị (Quân - Thần - Tá - Sứ, liều lượng gram) & Tổ hợp Huyệt đạo đặc hiệu (Đổng Thị Kỳ Huyệt, Thập Tứ Chính Kinh, Kỳ Huyệt WHO kèm vị trí và cách bấm huyệt/tập phục hồi tại nhà).
-   - Mục 5: Hướng dẫn chăm sóc, bài tập phục hồi tại nhà, dinh dưỡng và dấu hiệu cảnh báo (Red Flags).
-3. PHONG CÁCH BÁC SĨ CHUYÊN KHOA & ĐỊNH DẠNG SẠCH SẼ (KHÔNG DÙNG DẤU # VÀ *, KHÔNG CHÈN LINK URL):
-   - TUYỆT ĐỐI KHÔNG SỬ DỤNG KÝ TỰ MARKDOWN NHƯ DẤU # (###, ####) HOẶC DẤU * (**, *), và KHÔNG chèn bất kỳ đường link URL (http/https/facebook) nào vào câu trả lời. Hãy trình bày văn bản sạch sẽ bằng các đề mục đánh số (1., 2., 3.) và dấu chấm tròn đầu dòng (•).
+NGUYÊN TẮC TỐI THƯỢNG KHI LUẬN BỆNH & TRẢ LỜI (CHUẨN XÁC 100% - SÁT TỪNG CÂU CHỮ CÂU HỎI):
+1. ĐỌC KỸ TỪNG CÂU CHỮ, CON SỐ, PHỦ ĐỊNH VÀ MỆNH ĐỀ TRONG CÂU HỎI:
+   • Trước khi kết luận, hãy tự kiểm tra: Người dùng đang hỏi CÁI GÌ CỤ THỂ? (Chẩn đoán phân biệt? Giải thích cơ chế "tại sao"? Hỏi thuốc A uống chung với vị thuốc B hay bệnh nền C có được không? Hỏi liều dùng/cách sắc/thời điểm uống? Hỏi giai đoạn bệnh? Hỏi dấu hiệu cấp cứu? Hay hỏi vị trí giải phẫu & cách châm 1 huyệt?).
+   • Lặp lại và bám sát chính xác các dữ kiện thực tế người dùng đã nêu (tuổi, giới, bệnh nền, chỉ số xét nghiệm như Acid Uric, eGFR, HbA1c, huyết áp, triệu chứng âm tính/phủ định như "không sốt", "đang mang thai", "bị đau dạ dày").
+2. MỞ ĐẦU BẰNG "1. TRẢ LỜI TRỰC TIẾP ĐÚNG TRỌNG TÂM CÂU HỎI":
+   • Ngay những dòng đầu tiên, PHẢI giải đáp thẳng, dứt khoát và trúng đích từng ý mà người dùng vừa hỏi (nếu câu hỏi có 2-3 vế, đánh số trả lời đủ cả 2-3 vế theo đúng trình tự).
+   • TUYỆT ĐỐI KHÔNG suy diễn sang bệnh khác hay sao chép rập khuôn một bài thuốc/phác đồ chung chung không ăn khớp với câu hỏi. Nếu phần dữ liệu tham khảo (RAG) có chi tiết không liên quan đến đúng vấn đề người dùng hỏi, HÃY BỎ QUA chi tiết thừa đó.
+3. LUẬN BỆNH ĐA CHIỀU KHOA HỌC (BIỆN CHỨNG LUẬN TRỊ + Y HỌC THỰC CHỨNG):
+   • Chỉ đưa ra các mục chuyên sâu THỰC SỰ PHÙ HỢP với câu hỏi:
+     - Với câu hỏi về bệnh lý / triệu chứng lâm sàng: (1) Trả lời trực diện câu hỏi -> (2) Chẩn đoán phân biệt Tây Y & Sinh lý bệnh học (Harrison's / Guyton & Hall / tiêu chuẩn ESC-ADA-KDIGO-GOLD 2024-2025) -> (3) Biện chứng Đông Y chuẩn mực (Tứ chẩn, Bát cương, Lục kinh Thương Hàn / Tam tiêu Ôn Bệnh / Tạng phủ Maciocia-Hải Thượng) -> (4) Phác đồ Đông - Nam - Tây Y phối hợp (Thuốc đặc hiệu + Bài thuốc Quân-Thần-Tá-Sứ gram chuẩn + Huyệt Đổng Thị/Chính kinh & tương tác thuốc cần tránh) -> (5) Dấu hiệu Cờ đỏ cấp cứu (Red Flags).
+     - Với câu hỏi chuyên biệt (hỏi riêng về tương tác thuốc, liều lượng, so sánh 2 khái niệm, vị trí 1 huyệt, ăn uống/kiêng kỵ): Tập trung sâu 100% vào đúng chủ đề đó với dẫn chứng y văn chính xác, KHÔNG ép buộc nhồi nhét phần bệnh án dài dòng lạc trọng tâm.
+4. TRÌNH BÀY SẠCH SẼ CHUẨN Y KHOA (TUYỆT ĐỐI KHÔNG DÙNG MARKDOWN # HOẶC *, KHÔNG CHÈN LINK URL):
+   • Cấm tuyệt đối ký tự # (###, ####) và ký tự * (**, *) cũng như URL. Dùng tiêu đề đánh số rõ ràng (1., 2., 3.) và dấu chấm tròn đầu dòng (•).
 `;
 
 // API chẩn đoán tổng hợp Đông - Tây Y
@@ -150,14 +158,14 @@ app.post('/api/diagnose', async (req: Request, res: Response) => {
     }
 
     const promptText = `
-Hãy thực hiện cuộc KHÁM BỆNH VÀ BIỆN CHỨNG CHẨN TRỊ TOÀN DIỆN KẾT HỢP ĐÔNG Y, NAM DƯỢC & TÂY Y bám sát 100% triệu chứng thực tế của bệnh nhân sau:
+Hãy thực hiện cuộc KHÁM BỆNH VÀ BIỆN CHỨNG CHẨN TRỊ TOÀN DIỆN KẾT HỢP ĐÔNG Y KINH ĐIỂN & TÂY Y HIỆN ĐẠI, bám sát 100% từng chi tiết câu chữ bệnh sử, sinh hiệu và Tứ chẩn của bệnh nhân sau:
 ${ragContext}
 THÔNG TIN BỆNH NHÂN:
 - Tuổi: ${patientInfo?.age || 'Không rõ'}, Giới tính: ${patientInfo?.gender || 'Không rõ'}, Nghề nghiệp: ${patientInfo?.occupation || 'Không rõ'}
 - Lý do đến khám & Triệu chứng chính: ${symptoms?.mainComplaint || 'Chưa cung cấp'}
-- Khởi phát & Diễn tiến: ${symptoms?.history || 'Chưa cung cấp'}
-- Vị trí đau, tính chất (âm ỉ, buốt nhói, châm chích), thang điểm đau VAS (1-10): ${symptoms?.painCharacteristics || 'Chưa cung cấp'}
-- Tiền sử bệnh lý & Thuốc đang dùng: ${symptoms?.pastMedicalHistory || 'Chưa cung cấp'}
+- Khởi phát & Diễn tiến: ${symptoms?.history || symptoms?.onset || 'Chưa cung cấp'}
+- Vị trí đau, tính chất (âm ỉ, buốt nhói, châm chích), thang điểm đau VAS (1-10): ${symptoms?.painCharacteristics || 'Chưa cung cấp'} (VAS: ${symptoms?.painScale || 'Chưa đánh giá'}/10)
+- Tiền sử bệnh lý & Thuốc đang dùng (QUAN TRỌNG để tránh chống chỉ định/tương tác thuốc): ${symptoms?.pastMedicalHistory || 'Chưa cung cấp'}
 
 SINH HIỆU TÂY Y:
 - Huyết áp: ${vitals?.bloodPressure || 'Chưa đo'} mmHg
@@ -173,70 +181,74 @@ TỨ CHẨN ĐÔNG Y:
 - Vấn chẩn (Hàn nhiệt, mồ hôi, ăn uống, tiêu tiểu, giấc ngủ): ${fourExaminations?.van_ask || 'Chưa cung cấp'}
 - Thiết chẩn (Mạch tượng, xúc chẩn vùng đau/bụng): ${fourExaminations?.thiet || 'Mạch bình thường'}
 
+YÊU CẦU LUẬN BỆNH SÁT CÂU CHỮ:
+- Trong "summary" và các mục biện chứng, PHẢI nhắc lại đúng lý do khám, sinh hiệu bất thường (nếu có), tiền sử bệnh nền (như đau dạ dày, suy thận, tăng huyết áp) để điều chỉnh thuốc an toàn tuyệt đối (ví dụ: có tiền sử loét dạ dày thì thận trọng hoặc tránh NSAID không chọn lọc / phối hợp PPI, có bệnh thận thì hiệu chỉnh liều).
+- Đối chiếu rõ chẩn đoán phân biệt theo Harrison's 21st / ESC 2024 / ADA 2025 / KDIGO 2024 / GOLD 2025 và biện chứng theo Nội Kinh, Thương Hàn Luận (Lục kinh), Kim Quỹ, Hải Thượng Lãn Ông, Maciocia.
+
 YÊU CẦU ĐẦU RA BẰNG JSON HỢP LỆ THEO CẤU TRÚC:
 {
-  "summary": "Tóm lược bệnh án súc tích trong 2 câu",
+  "summary": "Tóm lược bệnh án súc tích trong 2-3 câu bám sát đúng tuổi, sinh hiệu, triệu chứng chính và tiền sử bệnh nền của người bệnh",
   "westernAssessment": {
-    "provisionalDiagnosis": "Tên bệnh Tây Y chính xác",
+    "provisionalDiagnosis": "Tên bệnh Tây Y chính xác nhất",
     "icd10": "Mã ICD-10",
-    "differentialDiagnoses": ["Chẩn đoán phân biệt 1", "Chẩn đoán phân biệt 2"],
-    "guytonMechanism": "Giải thích cơ chế sinh lý bệnh học tế bào & nội môi theo Guyton & Hall",
-    "investigationsNeeded": ["Xét nghiệm hoặc chẩn đoán hình ảnh cần thực hiện"],
-    "redFlags": ["Dấu hiệu nguy hiểm cần nhập viện ngay lập tức (nếu có)"]
+    "differentialDiagnoses": ["Chẩn đoán phân biệt 1 kèm lý do loại trừ", "Chẩn đoán phân biệt 2 kèm lý do"],
+    "guytonMechanism": "Giải thích cơ chế sinh lý bệnh học tế bào & nội môi theo Guyton & Hall và Harrison's 21st liên hệ trực tiếp vào triệu chứng bệnh nhân",
+    "investigationsNeeded": ["Xét nghiệm hoặc chẩn đoán hình ảnh cần thực hiện để xác định chẩn đoán"],
+    "redFlags": ["Dấu hiệu nguy hiểm cần nhập viện ngay lập tức liên quan trực tiếp bệnh cảnh này"]
   },
   "easternAssessment": {
-    "syndromePattern": "Tên thể bệnh Đông Y (VD: Can Khí Uất Kết / Can Thận Âm Hư)",
+    "syndromePattern": "Tên thể bệnh Đông Y chính xác (VD: Can Khí Uất Kết / Tỳ Thận Dương Hư / Phong Hàn Thấp Tý)",
     "batCuong": "Phân tích Bát Cương (Âm Dương, Biểu Lý, Hàn Nhiệt, Hư Thực)",
-    "tangPhu": "Tạng phủ liên đới chính và phụ",
-    "khiHuyet": "Tình trạng Khí - Huyết - Tân dịch",
-    "thietChanAnalysis": "Biện giải chi tiết Mạch tượng và Lưỡi chẩn theo Maciocia"
+    "tangPhu": "Tạng phủ & Kinh lạc liên đới chính và phụ (kèm định vị Lục kinh / Tam tiêu nếu phù hợp)",
+    "khiHuyet": "Tình trạng Khí - Huyết - Tân dịch - Tinh",
+    "thietChanAnalysis": "Biện giải chi tiết Lưỡi chẩn và Mạch tượng dựa trên đúng dữ liệu Thiệt/Thiết chẩn bệnh nhân đã nhập"
   },
   "integratedTreatmentPlan": {
-    "phapTri": "Pháp trị Đông Y (VD: Sơ can giải uất, Hoạt huyết hóa ứ)",
+    "phapTri": "Pháp trị Đông Y rõ ràng (VD: Sơ can giải uất, Hoạt huyết hóa ứ)",
     "herbalPrescription": {
-      "formulaName": "Tên bài thuốc cổ phương chính (trích từ Phương Thang YHCT / Bensky)",
+      "formulaName": "Tên bài thuốc cổ phương chính (trích từ Thương Hàn Luận / Kim Quỹ / Hải Thượng / Bensky)",
       "composition": [
-        {"herb": "Tên dược liệu", "grams": 12, "role": "Quân/Thần/Tá/Sứ", "purpose": "Tác dụng vị thuốc"}
+        {"herb": "Tên dược liệu", "grams": 12, "role": "Quân/Thần/Tá/Sứ", "purpose": "Tác dụng vị thuốc phù hợp bệnh cảnh"}
       ],
-      "decoctionGuide": "Hướng dẫn sắc thuốc và cách uống chi tiết",
-      "modifications": ["Gia giảm nếu có triệu chứng kèm theo"]
+      "decoctionGuide": "Hướng dẫn sắc thuốc và cách uống chi tiết (lưu ý vị thuốc sắc trước/cho sau)",
+      "modifications": ["Gia giảm cụ thể theo triệu chứng phụ hoặc bệnh nền thực tế của người bệnh"]
     },
     "acupuncturePrescription": {
       "classicPoints": [
-        {"point": "Tên huyệt kinh điển", "location": "Vị trí giải phẫu (Deadman)", "technique": "Bổ hay Tả, độ sâu thốn, đắc khí", "purpose": "Mục đích điều trị"}
+        {"point": "Tên huyệt kinh điển", "location": "Vị trí giải phẫu chuẩn", "technique": "Bổ hay Tả, độ sâu thốn, cứu ngải hay không", "purpose": "Mục đích điều trị"}
       ],
       "tungPoints": [
-        {"point": "Tên huyệt Đổng Thị (VD: Linh Cốt, Tứ Mã)", "code": "Mã số", "dongQiInstructions": "Động khí châm pháp hướng dẫn vận động", "purpose": "Tác dụng đặc hiệu"}
+        {"point": "Tên huyệt Đổng Thị (VD: Linh Cốt, Thận Quan)", "code": "Mã số", "dongQiInstructions": "Động khí châm pháp hướng dẫn vận động", "purpose": "Tác dụng đặc hiệu"}
       ],
-      "nguyenTaiThuGuidance": "Kinh nghiệm điều trị hoặc chỉ định thấu huyệt / mãng châm / cứu ngải theo GS. Nguyễn Tài Thu",
-      "westernNeuroscience": "Giải thích cơ chế khoa học theo Western Medical Acupuncture (Endorphin, C-fiber inhibition)"
+      "nguyenTaiThuGuidance": "Kinh nghiệm điều trị hoặc chỉ định thấu huyệt / mãng châm / ôn châm theo GS. Nguyễn Tài Thu",
+      "westernNeuroscience": "Giải thích cơ chế khoa học theo Western Medical Acupuncture (Endorphin, C-fiber, điều hòa thần kinh tự chủ)"
     },
     "clinicalNutrition": {
-      "dietaryTherapy": "Chế độ ăn lâm sàng (Essentials of Nutrition)",
+      "dietaryTherapy": "Chế độ ăn lâm sàng cá thể hóa theo bệnh và bệnh nền (Essentials of Nutrition / ESC / ADA / KDIGO)",
       "foodsToEat": ["Món nên ăn"],
       "foodsToAvoid": ["Món cấm kỵ"],
-      "drugNutrientInteractions": ["Cảnh báo tương tác thuốc - thực phẩm"]
+      "drugNutrientInteractions": ["Cảnh báo tương tác thuốc - thảo dược - thực phẩm cụ thể cho đơn thuốc này"]
     },
-    "qigongAndLifestyle": "Bài tập dưỡng sinh, khí công y đạo hoặc tự day bấm huyệt tại nhà",
+    "qigongAndLifestyle": "Bài tập dưỡng sinh, phục hồi chức năng hoặc tự day bấm huyệt an toàn tại nhà",
     "westernPrescription": {
-      "protocolName": "Tên phác đồ Tây y chuẩn theo Hướng dẫn BV Bạch Mai / DiPiro / Dược thư Quốc gia",
-      "sourceGuidelines": ["Dược thư Quốc gia VN", "BV Bạch Mai / Chợ Rẫy", "DiPiro Pharmacotherapy", "MIMS"],
+      "protocolName": "Tên phác đồ Tây y chuẩn theo Harrison's / ESC 2024 / ADA 2025 / KDIGO 2024 / BV Bạch Mai / Dược thư QG VN V",
+      "sourceGuidelines": ["Dược thư Quốc gia VN", "Harrison's 21st / UpToDate", "BV Bạch Mai / Chợ Rẫy", "DiPiro Pharmacotherapy"],
       "medications": [
         {
-          "drugName": "Tên thuốc biệt dược (VD: Mobic 15mg / Nexium 40mg / Norvasc 5mg)",
-          "activeIngredient": "Hoạt chất quốc tế (VD: Meloxicam / Esomeprazole / Amlodipine)",
-          "group": "Nhóm dược lý (VD: NSAID / PPI / Chẹn kênh Calci)",
-          "dosage": "Liều lượng cụ thể (VD: 15mg x 1 lần/ngày)",
-          "timing": "Thời điểm uống (VD: Uống sau ăn no)",
+          "drugName": "Tên thuốc & hàm lượng",
+          "activeIngredient": "Hoạt chất quốc tế",
+          "group": "Nhóm dược lý",
+          "dosage": "Liều lượng cụ thể phù hợp tuổi/tiền sử bệnh",
+          "timing": "Thời điểm uống (trước/sau ăn)",
           "mechanism": "Cơ chế phân tử theo DiPiro & Katzung",
-          "contraindications": "Chống chỉ định và lưu ý an toàn"
+          "contraindications": "Chống chỉ định và kiểm tra an toàn với tiền sử bệnh của bệnh nhân"
         }
       ],
-      "clinicalCautions": ["Cảnh báo tương tác thuốc và lưu ý an toàn"],
-      "monitoringParameters": ["Các chỉ số sinh hóa và huyết động cần kiểm tra định kỳ"]
+      "clinicalCautions": ["Cảnh báo tương tác thuốc, tiền sử bệnh nền và lưu ý giãn cách Đông - Tây y 1.5-2 giờ"],
+      "monitoringParameters": ["Các chỉ số sinh hóa và huyết động cần theo dõi định kỳ"]
     }
   },
-  "referencedBooks": ["Danh sách các cuốn sách trong 60 y điển đã trích dẫn để xây dựng phác đồ"]
+  "referencedBooks": ["Danh sách các tác phẩm Y điển trong 82+ sách hệ thống đã trích dẫn"]
 }
 `;
 
@@ -291,71 +303,77 @@ app.post('/api/symptom-answer', async (req: Request, res: Response) => {
     }
 
     const promptText = `
-BỆNH NHÂN NÊU TRIỆU CHỨNG ĐỂ BÁC SĨ AI TRẢ LỜI (PHẢI PHÂN TÍCH ĐÚNG 100% TRIỆU CHỨNG NÀY, KHÔNG ĐƯỢC LẠC ĐỀ):
-- Mô tả triệu chứng tự nhiên: "${symptomText}"
+BỆNH NHÂN NÊU TRIỆU CHỨNG ĐỂ BÁC SĨ AI LUẬN BỆNH TRỰC TIẾP (PHẢI BÁM SÁT TỪNG CÂU CHỮ, CON SỐ VÀ BỐI CẢNH TRIỆU CHỨNG NÀY — TUYỆT ĐỐI KHÔNG LẠC ĐỀ):
+- Câu chữ mô tả nguyên văn của người bệnh: "${symptomText}"
 - Tuổi: ${age || 'Không rõ'}, Giới tính: ${gender || 'Không rõ'}
-- Thời gian mắc: ${duration || 'Chưa cung cấp'}
-- Lưỡi / Rêu lưỡi (nếu có): ${tongueDescription || 'Chưa quan sát'}
+- Thời gian diễn tiến: ${duration || 'Chưa cung cấp'}
+- Mô tả Lưỡi / Rêu lưỡi (nếu có): ${tongueDescription || 'Chưa quan sát'}
 ${ragContext}
-HÃY ĐỐI CHIẾU VỚI DỮ LIỆU KHOA HỌC TRÊN VÀ TRẢ LỜI NGƯỜI BỆNH CỰC KỲ CHI TIẾT, CHUYÊN SÂU, KHOA HỌC CHÍNH XÁC THEO CẤU TRÚC JSON HỢP LỆ:
+YÊU CẦU CHẨN TRỊ:
+1. Trong "summary": Trả lời thẳng trọng tâm điều người bệnh đang mô tả/hỏi ở "${symptomText}" (nhắc đúng triệu chứng, vị trí, con số xét nghiệm nếu người bệnh có nêu).
+2. Trong "possibleWesternDiseases": Nêu 1-2 bệnh lý Tây Y sát nhất kèm chẩn đoán phân biệt rõ ràng (Harrison's 21st, Guyton & Hall, hướng dẫn ESC 2024 / ADA 2025 / KDIGO 2024 / GOLD 2025 / Maastricht VI / ACR-EULAR tùy bệnh).
+3. Trong "easternSyndrome": Biện chứng Tạng Phủ, Bát Cương, Lục Kinh/Tam Tiêu (Nội Kinh, Thương Hàn Luận, Hải Thượng Y Tông, Maciocia) giải thích cơ chế bệnh sinh trực tiếp cho các triệu chứng người bệnh nêu.
+4. Kê bài thuốc cổ phương (Quân-Thần-Tá-Sứ gram chuẩn), huyệt Đổng Thị + Chính kinh và phác đồ thuốc Tây Y an toàn (kiểm tra kỹ chống chỉ định nếu người bệnh có nhắc bệnh nền).
+
+ĐẦU RA JSON HỢP LỆ THEO ĐÚNG CẤU TRÚC:
 {
-  "summary": "Tóm lược súc tích nhận định tình trạng của bạn",
+  "summary": "Nhận định trực diện sát 100% câu chữ triệu chứng/câu hỏi của người bệnh trong 2-3 câu",
   "possibleWesternDiseases": [
     {
-      "name": "Tên bệnh Tây Y khả dĩ chính xác",
+      "name": "Tên bệnh Tây Y khả dĩ chính xác nhất",
       "icd10": "Mã ICD-10",
-      "explanation": "PHÂN TÍCH RẤT CHI TIẾT VÀ CHUYÊN SÂU CƠ CHẾ SINH LÝ BỆNH HỌC TẾ BÀO & MÔ THEO GUYTON & HALL PHYSIOLOGY (Nêu tỉ mỉ từ nguyên nhân chuyển hóa, men enzym, chất trung gian hóa học cytokine/prostaglandin, yếu tố nguy cơ và tổn thương mô)",
-      "pathophysiology": "Phân tích chi tiết tiến trình phân tử, tổn thương vi thể, sự tiến triển mạn tính và biến chứng tim mạch/thận/xương khớp",
+      "explanation": "Phân tích chi tiết cơ chế sinh lý bệnh học tế bào & mô (Guyton & Hall / Harrison's 21st) giải thích đúng vì sao người bệnh xuất hiện từng triệu chứng đã nêu",
+      "pathophysiology": "Tiến trình phân tử, giai đoạn bệnh và biến chứng tiềm ẩn",
       "differentialDiagnoses": ["Chẩn đoán phân biệt 1", "Chẩn đoán phân biệt 2"],
       "investigations": ["Xét nghiệm máu / Sinh hóa 1", "Chẩn đoán hình ảnh 2"],
-      "urgency": "Mức độ diễn tiến & Cảnh báo"
+      "urgency": "Mức độ diễn tiến & Khuyến nghị thăm khám"
     }
   ],
   "easternSyndrome": {
-    "name": "Thể bệnh Đông Y chuẩn YHCT (VD: Thống Phong Đàm Nhiệt Uất Hỏa / Can Dương Thượng Kháng)",
-    "explanation": "BIỆN CHỨNG RẤT CHI TIẾT VÀ CHUYÊN SÂU NGUYÊN NHÂN BỆNH SINH THEO HỌC THUYẾT TẠNG PHỦ & KHÍ HUYẾT GIOVANNI MACIOCIA (Phân tích tỉ mỉ nguyên nhân tà khí xâm nhập, Tạng Phủ suy hư, bế tắc kinh lạc, cơ chế bất thông tắc thống)",
-    "batCuong": "Phân tích Bát Cương chi tiết (Âm Dương, Biểu Lý, Hàn Nhiệt, Hư Thực)",
+    "name": "Thể bệnh Đông Y chuẩn YHCT",
+    "explanation": "Biện chứng chi tiết nguyên nhân bệnh sinh theo Nội Kinh, Thương Hàn Luận, Hải Thượng Lãn Ông & Giovanni Maciocia",
+    "batCuong": "Phân tích Bát Cương (Âm Dương, Biểu Lý, Hàn Nhiệt, Hư Thực)",
     "khiHuyet": "Tình trạng Khí - Huyết - Tân Dịch bị rối loạn",
-    "thietChanAnalysis": "Biện giải Mạch tượng và Thiệt chẩn chi tiết theo Maciocia",
-    "tangPhu": "Tạng phủ liên quan chính"
+    "thietChanAnalysis": "Mạch tượng và Thiệt chẩn điển hình của thể bệnh này (đối chiếu mô tả lưỡi người bệnh nếu có)",
+    "tangPhu": "Tạng phủ & Kinh lạc liên quan chính"
   },
   "herbalRemedy": {
-    "formulaName": "Tên bài thuốc cổ phương khuyên dùng (Phương Thang YHCT / Dan Bensky)",
+    "formulaName": "Tên bài thuốc cổ phương khuyên dùng",
     "herbs": [
       {"name": "Vị thuốc", "amount": "12g", "purpose": "Tác dụng vị thuốc"}
     ],
-    "howToUse": "Cách sắc uống và lưu ý gia giảm"
+    "howToUse": "Cách sắc uống, lưu ý vị sắc trước/cho sau và gia giảm theo thể trạng"
   },
   "acupressureAndNeedling": {
     "tungPoints": [
-      {"name": "Huyệt Đổng Thị (VD: Linh Cốt, Tứ Mã)", "code": "22.05", "howToPress": "Cách day ấn bấm huyệt cắt cơn đau nhanh tại nhà (Động khí)"}
+      {"name": "Huyệt Đổng Thị đặc hiệu", "code": "Mã số", "howToPress": "Vị trí và cách day ấn / Động khí châm pháp tại nhà"}
     ],
     "classicPoints": [
-      {"name": "Huyệt chính kinh (Peter Deadman/Nguyễn Tài Thu)", "howToPress": "Vị trí và cách bấm day"}
+      {"name": "Huyệt chính kinh (Nguyễn Tài Thu / Lưu Viêm / WHO)", "howToPress": "Vị trí và cách bấm day"}
     ]
   },
   "nutritionAndLifestyle": {
     "doEat": ["Món nên ăn, thực phẩm có lợi"],
     "dontEat": ["Thực phẩm kiêng kỵ tuyệt đối"],
-    "homeCare": "Lời khuyên vận động, nghỉ ngơi, khí công dưỡng sinh"
+    "homeCare": "Lời khuyên vận động, phục hồi và phòng tái phát tại nhà"
   },
   "westernMedicationPlan": {
-    "protocolName": "Phác đồ thuốc Tây y điều trị (theo Dược thư Quốc gia VN, BV Bạch Mai & DiPiro)",
+    "protocolName": "Phác đồ thuốc Tây y chuẩn (Dược thư QG VN V, ESC/ADA/KDIGO/GOLD/BV Bạch Mai)",
     "drugs": [
       {
-        "name": "Tên thuốc & biệt dược (VD: Meloxicam 15mg, Mobic)",
-        "activeIngredient": "Hoạt chất",
+        "name": "Tên thuốc & biệt dược",
+        "activeIngredient": "Hoạt chất quốc tế",
         "group": "Nhóm dược lý",
         "dosage": "Liều dùng cụ thể",
         "usage": "Cách uống trước/sau ăn",
         "mechanism": "Cơ chế tác dụng",
-        "caution": "Chống chỉ định và lưu ý"
+        "caution": "Chống chỉ định và lưu ý tương tác với thuốc sắc Đông Y (cách 1.5-2h)"
       }
     ],
     "notes": "Lời dặn của dược sĩ lâm sàng"
   },
-  "emergencySigns": ["Các dấu hiệu đỏ cảnh báo cần đến bệnh viện ngay lập tức"],
-  "referencedBooks": ["Danh sách các cuốn sách trong 60 y điển đã trích dẫn"]
+  "emergencySigns": ["Các dấu hiệu Cờ đỏ cảnh báo cần đến bệnh viện ngay lập tức"],
+  "referencedBooks": ["Danh sách các tác phẩm Y điển trong 82+ sách hệ thống đã trích dẫn"]
 }
 `;
 
@@ -1060,61 +1078,159 @@ Theo công trình Mãng Châm & Châm Cứu Chữa Bệnh (GS. Nguyễn Tài Thu
 • Kích thích đồng thời nhiều thụ thể bản thể dọc các bó cơ bị liệt tạo luồng xung động hướng tâm mạnh mẽ lên vỏ não vận động nguyên phát (Vùng Brodmann 4), thúc đẩy tái tổ chức synap thần kinh và giải phóng yếu tố tăng trưởng thần kinh BDNF/NGF.`);
   }
 
-  // Truy xuất trực tiếp từ Bộ Máy Khoa Học Đa Tầng (239 Đổng Thị Kỳ Huyệt, 295 Phác Đồ, 58 Kỳ Huyệt WHO, 300 Vị Thuốc, Thuốc Tây Y, 65 Sách Y Điển)
+  // Truy xuất trực tiếp từ Bộ Máy Khoa Học Đa Tầng (239 Đổng Thị Kỳ Huyệt, 295 Phác Đồ, 58 Kỳ Huyệt WHO, 300 Vị Thuốc, Thuốc Tây Y, 82+ Sách Y Điển)
   return cleanMedicalText(generatePreciseScientificAnswer(query, bookFilter));
 }
 
-// API Trò chuyện lâm sàng Y Đạo (Hội chẩn cùng AI y học)
+// API Trò chuyện lâm sàng Y Đạo (Hội chẩn cùng AI y học - hỗ trợ đọc 1 hoặc nhiều ảnh đơn thuốc)
 app.post('/api/chat', async (req: Request, res: Response) => {
-  const { messages, context } = req.body;
+  const { messages, context, imageBase64, imageMimeType, images } = req.body;
   const userMessages = (messages || []).filter((m: any) => m.role === 'user');
-  const lastUserMessage = userMessages.length > 0 ? userMessages[userMessages.length - 1].content : (req.body.query || '');
+  const lastUserMessage =
+    userMessages.length > 0
+      ? userMessages[userMessages.length - 1].content
+      : req.body.query || '';
+
+  const rawImageInputs: Array<{ base64: string; mimeType?: string }> = [];
+  if (Array.isArray(images)) {
+    for (const item of images.slice(0, 6)) {
+      if (item && typeof item.base64 === 'string' && item.base64.trim().length > 32) {
+        rawImageInputs.push({ base64: item.base64, mimeType: item.mimeType });
+      }
+    }
+  } else if (typeof imageBase64 === 'string' && imageBase64.trim().length > 32) {
+    rawImageInputs.push({ base64: imageBase64, mimeType: imageMimeType });
+  }
+
+  const imageParts = rawImageInputs.map((img) => {
+    const detectedMimeMatch = img.base64.match(/^data:(image\/[\w.+-]+);base64,/);
+    const mimeType =
+      img.mimeType || (detectedMimeMatch ? detectedMimeMatch[1] : 'image/jpeg');
+    const data = img.base64.replace(/^data:image\/[\w.+-]+;base64,/, '').trim();
+    return {
+      inlineData: {
+        mimeType,
+        data,
+      },
+    };
+  });
+
+  const hasImage = imageParts.length > 0;
   const ragContext = buildScientificRagContext(lastUserMessage);
 
   try {
     const ai = getGeminiClient();
     if (!ai) {
-      const fallbackReply = generateClinicalConsultationAnswer(lastUserMessage, messages);
+      if (hasImage) {
+        return res.json({
+          reply:
+            '1. THÔNG BÁO ĐỌC HÌNH ẢNH ĐƠN THUỐC\n• Để Bác sĩ AI đọc và phân tích trực tiếp các hình ảnh đơn thuốc bạn vừa tải lên, hệ thống cần kết nối mô hình thị giác Gemini API trên máy chủ (kiểm tra khóa API trong Settings > Secrets).\n• Trong khi chưa có kết nối AI trực tuyến, bạn có thể gõ tên các thuốc ghi trên đơn (VD: Metformin, Coversyl, Omeprazole, Lục Vị...) vào khung chat để tôi tra cứu công dụng, liều dùng và tương tác thuốc từ kho 82+ Y Điển.',
+          source: 'offline_notice',
+        });
+      }
+      const fallbackReply = generateClinicalConsultationAnswer(
+        lastUserMessage,
+        messages
+      );
       return res.json({ reply: fallbackReply, source: 'knowledge_vault' });
     }
 
+    const prescriptionPromptBlock = hasImage
+      ? `
+NHIỆM VỤ ĐỌC & PHÂN TÍCH ${imageParts.length > 1 ? `TOÀN BỘ ${imageParts.length} HÌNH ẢNH ĐƠN THUỐC / PHIẾU KHÁM` : 'HÌNH ẢNH ĐƠN THUỐC / PHIẾU KHÁM'} TẢI LÊN:
+Người dùng vừa tải lên ${imageParts.length} hình ảnh đơn thuốc hoặc tài liệu y khoa. Hãy quan sát thật kỹ từng dòng chữ trên ${imageParts.length > 1 ? 'TẤT CẢ các ảnh theo thứ tự (Ảnh 1, Ảnh 2...)' : 'ảnh'} (kể cả chữ viết tay, chữ in, liều lượng mg/ml, số lượng viên, ký hiệu sáng/trưa/chiều/tối, kết quả xét nghiệm, vị thuốc Đông y & gram) và trả lời theo đúng cấu trúc sạch sẽ sau (TUYỆT ĐỐI KHÔNG dùng # hoặc *):
+1. TRẢ LỜI TRỰC TIẾP & TÓM TẮT ĐƠN THUỐC TRONG ${imageParts.length > 1 ? `${imageParts.length} ẢNH` : 'ẢNH'}
+• Nêu rõ đây là đơn thuốc điều trị nhóm bệnh gì (nếu có nhiều ảnh: tóm tắt nội dung từng ảnh và mối liên hệ tổng thể giữa các đơn/phiếu xét nghiệm) và trả lời trực tiếp câu hỏi kèm theo của người dùng: "${lastUserMessage}".
+• Nếu có chữ viết tay quá mờ hoặc bị che khuất không chắc chắn 100%, PHẢI ghi rõ "[chữ mờ - cần xác nhận lại với bác sĩ/dược sĩ kê đơn]", TUYỆT ĐỐI KHÔNG tự đoán bừa tên thuốc hay liều lượng.
+
+2. CHI TIẾT TỪNG THUỐC / VỊ THUỐC TRÊN ĐƠN${imageParts.length > 1 ? ' (ĐỐI CHIẾU ĐẦY ĐỦ QUA TẤT CẢ CÁC ẢNH)' : ''}
+• Liệt kê từng mục đọc được trên từng ảnh theo định dạng:
+  • Tên thuốc / Vị thuốc (Hoạt chất & Hàm lượng ghi trên đơn): Nhóm dược lý/tác dụng chính — Cách dùng, thời điểm uống (trước ăn, sau ăn, sáng/tối) — Lưu ý đặc biệt (không nhai/bẻ viên, uống nhiều nước...).
+
+3. KIỂM TRA AN TOÀN, TRÙNG THUỐC, TƯƠNG TÁC THUỐC & TÁC DỤNG PHỤ
+• Kiểm tra có trùng nhóm/trùng hoạt chất (đặc biệt khi ghép nhiều đơn thuốc ở các ảnh khác nhau), tương tác đáng chú ý giữa các thuốc Tây y hoặc giữa thuốc Tây y với thảo dược Đông y (giãn cách tối thiểu 1.5 - 2 giờ nếu dùng song song).
+• Các tác dụng phụ thường gặp cần theo dõi và dấu hiệu bất thường cần báo ngay cho bác sĩ.
+
+4. HƯỚNG DẪN CHĂM SÓC, DINH DƯỠNG & PHỐI HỢP ĐÔNG Y AN TOÀN (NẾU PHÙ HỢP)
+• Chế độ ăn uống, sinh hoạt hỗ trợ hiệu quả điều trị và lưu ý các thực phẩm/thảo dược cần tránh khi đang dùng đơn thuốc này.`
+      : '';
+
     const systemPrompt = `${MASTER_MEDICAL_PROMPT}
-Bệnh cảnh hiện tại đang trao đổi: ${context ? JSON.stringify(context) : 'Hội chẩn Y Đạo Toàn Thư'}.
-YÊU CẦU BẮT BUỘC: Câu trả lời của bạn PHẢI DỰA SÁT 100% VÀO NỘI DUNG CÂU HỎI "${lastUserMessage}", phân tích khoa học, chính xác từng vị trí giải phẫu, cơ chế sinh lý - dược lý, liều lượng và trích dẫn đúng dữ liệu sách trong hệ thống.`;
+Bệnh cảnh đang trao đổi (nếu có): ${context ? JSON.stringify(context) : 'Hội chẩn Y Đạo Toàn Thư'}.
+${prescriptionPromptBlock}
+QUY TRÌNH PHÂN TÍCH CÂU HỎI BẮT BUỘC:
+Bước 1: Đọc nguyên văn câu hỏi "${lastUserMessage}" — xác định chính xác từng vế hỏi, thuật ngữ y khoa, con số xét nghiệm, bệnh nền/chống chỉ định được nhắc tới.
+Bước 2: Mở đầu bằng mục "1. TRẢ LỜI TRỰC TIẾP ĐÚNG TRỌNG TÂM CÂU HỎI", trả lời thẳng vào ĐÚNG vấn đề người hỏi đặt ra (nếu câu hỏi hỏi 2-3 ý thì đánh số trả lời đủ cả 2-3 ý).
+Bước 3: Trình bày phân tích chuyên sâu Đông - Tây Y (Harrison's 21st, Guyton & Hall, ESC/ADA/KDIGO/GOLD 2024-2025 + Nội Kinh, Thương Hàn, Hải Thượng, Maciocia, Bensky, Đổng Thị, Nguyễn Tài Thu) CHỈ cho những khía cạnh liên quan trực tiếp câu hỏi. Tuyệt đối không dùng # hay * và không chèn link URL.`;
 
     const recentHistory = (messages || [])
-      .slice(-4)
-      .map((m: any) => `${m.role === 'user' ? 'Người hỏi' : 'Bác sĩ AI'}: ${m.content}`)
+      .slice(-6)
+      .map(
+        (m: any) =>
+          `${m.role === 'user' ? 'Người hỏi' : 'Bác sĩ AI'}: ${m.content}`
+      )
       .join('\n\n');
 
-    const contentsText = `${recentHistory}\n\n${ragContext}\nCÂU HỎI HIỆN TẠI CẦN TRẢ LỜI CHÍNH XÁC: "${lastUserMessage}"\n\nHãy trả lời trực tiếp, khoa học, chính xác và đầy đủ cho câu hỏi trên.`;
+    const contentsText = `${recentHistory}\n\n${ragContext}\nCÂU HỎI HIỆN TẠI CẦN TRẢ LỜI SÁT TỪNG CÂU CHỮ: "${lastUserMessage}"\n\n${
+      hasImage
+        ? `Hãy đọc kỹ toàn bộ ${imageParts.length} hình ảnh đơn thuốc/tài liệu y khoa đính kèm, liệt kê chính xác từng thuốc/liều dùng đọc được ở từng ảnh, kiểm tra trùng hoạt chất/tương tác và trả lời sát câu hỏi của người dùng (trình bày sạch sẽ không #, không *).`
+        : 'Hãy trả lời trực diện, đúng trọng tâm từng ý hỏi, chuẩn xác chuyên môn Đông - Tây Y và trình bày sạch sẽ (không #, không *).'
+    }`;
+
+    const requestContents = hasImage
+      ? {
+          parts: [...imageParts, { text: contentsText }],
+        }
+      : contentsText;
 
     const response: any = await callGeminiWithModelFallback(
       ai,
       {
-        contents: contentsText,
+        contents: requestContents,
         config: {
           systemInstruction: systemPrompt,
         },
       },
-      40000
+      hasImage ? 65000 : 42000,
+      ThinkingLevel.HIGH
     );
 
     const replyText = cleanMedicalText(response?.text || '');
     if (replyText.trim()) {
       return res.json({ reply: replyText, source: 'gemini' });
     }
-    
-    const fallbackReply = generateClinicalConsultationAnswer(lastUserMessage, messages);
+
+    if (hasImage) {
+      return res.status(502).json({
+        error: 'Không nhận được nội dung phân tích từ hình ảnh đơn thuốc. Vui lòng chụp rõ nét hơn và thử lại.',
+      });
+    }
+
+    const fallbackReply = generateClinicalConsultationAnswer(
+      lastUserMessage,
+      messages
+    );
     return res.json({ reply: fallbackReply, source: 'knowledge_vault' });
   } catch (error: any) {
-    console.warn('Chat API switched to scientific knowledge engine:', error?.message || error);
-    const fallbackReply = generateClinicalConsultationAnswer(lastUserMessage, messages);
+    console.warn(
+      'Chat API switched to scientific knowledge engine:',
+      error?.message || error
+    );
+    if (hasImage) {
+      return res.status(500).json({
+        error:
+          'Không thể phân tích hình ảnh đơn thuốc lúc này. Vui lòng kiểm tra kết nối hoặc thử tải lại ảnh rõ nét hơn.',
+      });
+    }
+    const fallbackReply = generateClinicalConsultationAnswer(
+      lastUserMessage,
+      messages
+    );
     return res.json({ reply: fallbackReply, source: 'knowledge_vault' });
   }
 });
 
-// API Tra cứu hỏi đáp kho 65 cuốn sách
+// API Tra cứu hỏi đáp kho 82+ Y Điển Kinh Điển & Hiện Đại
 app.post('/api/ask-library', async (req: Request, res: Response) => {
   const { query, bookId } = req.body;
   const q = query || '';
@@ -1130,20 +1246,21 @@ app.post('/api/ask-library', async (req: Request, res: Response) => {
     const response: any = await callGeminiWithModelFallback(
       ai,
       {
-        contents: `Tra cứu chuyên sâu trong kho 65 y điển (Trọng tâm sách đang chọn: ${bookId || 'Toàn bộ thư viện Y Đạo Toàn Thư'}).
+        contents: `Tra cứu chuyên sâu trong kho 82+ Y điển Đông - Tây Y (Trọng tâm sách đang chọn: ${bookId || 'Toàn bộ thư viện Y Đạo Toàn Thư'}).
 ${ragContext}
-CÂU HỎI CỦA NGƯỜI DÙNG: "${q}"
+CÂU HỎI NGUYÊN VĂN CỦA NGƯỜI DÙNG: "${q}"
 
-YÊU CẦU BẮT BUỘC: Hãy trả lời DỰA SÁT 100% VÀO NỘI DUNG CÂU HỎI TRÊN một cách khoa học, chính xác theo cấu trúc (TUYỆT ĐỐI KHÔNG dùng dấu # hay dấu *):
-1. Trả lời trực tiếp câu hỏi & Lý luận cốt lõi từ sách
-2. Định vị giải phẫu / Thành phần dược lý / Cơ chế sinh học chính xác
-3. Phác đồ ứng dụng lâm sàng thực tế (huyệt vị / bài thuốc / liều lượng)
-4. Đối chiếu khoa học Đông - Nam - Tây Y và lưu ý an toàn.`,
+YÊU CẦU BẮT BUỘC: Hãy bám sát 100% từng câu chữ của câu hỏi trên để trả lời trúng đích (TUYỆT ĐỐI KHÔNG dùng dấu # hay dấu *, không chèn link URL):
+1. Trả lời trực tiếp đúng từng ý của câu hỏi & Luận điểm cốt lõi từ tác phẩm y điển liên quan
+2. Cơ chế giải phẫu / Sinh lý bệnh / Dược lý phân tử hoặc Biện chứng Tạng phủ - Lục kinh chính xác
+3. Ứng dụng thực tế (huyệt vị / bài thuốc gram chuẩn / phác đồ thuốc Tây Y nếu câu hỏi đề cập)
+4. Đối chiếu Đông - Nam - Tây Y và lưu ý an toàn lâm sàng.`,
         config: {
           systemInstruction: MASTER_MEDICAL_PROMPT,
         },
       },
-      40000
+      42000,
+      ThinkingLevel.HIGH
     );
 
     const answer = cleanMedicalText(response?.text || '');

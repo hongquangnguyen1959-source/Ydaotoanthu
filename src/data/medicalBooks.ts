@@ -1150,6 +1150,290 @@ export const MEDICAL_BOOKS: MedicalBook[] = [
     clinicalValue: 'Giúp người dân nhận diện giá trị chữa bệnh vô giá của các loài cây cỏ tự nhiên xung quanh.',
     coverImage: '/assets/aistudio/Screenshot_20261108_225741_Google_7058ea3a.jpg',
     keyTopics: ['Cây Cỏ Quanh Ta', 'Cỏ Nhọ Nồi', 'Diệp Hạ Châu', 'Giải Độc Dân Gian']
+  },
+
+  // --- NHÓM 8: TỨ ĐẠI KINH ĐIỂN ĐÔNG Y, Y TÔNG VIỆT NAM & HƯỚNG DẪN TÂY Y HIỆN ĐẠI CẬP NHẬT ---
+  {
+    id: 'hoang-de-noi-kinh-to-van-linh-khu',
+    title: 'Hoàng Đế Nội Kinh (Tố Vấn & Linh Khu)',
+    originalTitle: 'Huangdi Neijing (Suwen & Lingshu)',
+    author: 'Y Gia Cổ Đại (Kỳ Bá - Hoàng Đế)',
+    publisherYear: 'Kinh Điển Tối Thượng YHCT',
+    category: 'dong_y_ly_luan',
+    categoryLabel: 'Đông Y Kinh Điển & Lý Luận',
+    summary: 'Bộ sách gốc rễ lâu đời và uyên thâm nhất của Y Học Cổ Truyền: Hệ thống hóa học thuyết Âm Dương, Ngũ Hành, Tạng Tượng, Kinh Lạc, Khí Huyết - Tân Dịch, Vận Khí, Chẩn Mạch và Cửu Châm.',
+    coreConcepts: [
+      'Âm bình dương bí, tinh thần nãi trị (Cân bằng Âm Dương là gốc của sự sống)',
+      'Trị vị bệnh (Phòng bệnh trước khi phát, trị bệnh khi mới manh nha)',
+      'Tạng tượng học thuyết: Tâm chủ thần minh, Can tàng huyết, Tỳ chủ vận hóa, Phế chủ khí, Thận tàng tinh',
+      'Linh Khu: Căn kết kinh mạch, Bổ tả châm pháp, Doanh Vệ khí hành'
+    ],
+    clinicalValue: 'Mọi biện chứng luận trị Tạng Phủ và Châm Cứu đều phải quy chiếu về nguyên lý gốc của Nội Kinh.',
+    featuredQuote: 'Thánh nhân bất trị dĩ bệnh trị vị bệnh, bất trị dĩ loạn trị vị loạn.',
+    keyTopics: ['Hoàng Đế Nội Kinh', 'Tố Vấn', 'Linh Khu', 'Trị Vị Bệnh', 'Tạng Tượng Kinh Lạc']
+  },
+  {
+    id: 'thuong-han-luan-truong-trong-canh',
+    title: 'Thương Hàn Luận (Biện Chứng Lục Kinh)',
+    originalTitle: 'Shang Han Lun (Treatise on Cold Damage Disorders)',
+    author: 'Y Thánh Trương Trọng Cảnh (Đời Đông Hán)',
+    publisherYear: 'Kinh Điển Phương Tễ YHCT',
+    category: 'dong_y_ly_luan',
+    categoryLabel: 'Đông Y Kinh Điển & Lý Luận',
+    summary: 'Tác phẩm đặt nền móng cho Biện Chứng Luận Trị lâm sàng với Hệ thống Lục Kinh Biện Chứng (Thái Dương, Dương Minh, Thiếu Dương, Thái Âm, Thiếu Âm, Quyết Âm) và 113 cổ phương tinh diệu (Kinh Phương).',
+    coreConcepts: [
+      'Lục Kinh Biện Chứng: Phản ánh 6 tầng nông sâu, hàn nhiệt, hư thực của bệnh biến ngoại cảm và nội thương',
+      'Kinh phương mẫu mực: Quế Chi Thang, Ma Hoàng Thang, Tiểu Sài Hồ Thang, Bạch Hổ Thang, Thừa Khí Thang, Lý Trung Thang, Tứ Nghịch Thang',
+      'Quy tắc "Hữu thị chứng, dụng thị phương" (Có chứng này tất dùng bài thuốc này — Sát từng triệu chứng)',
+      'Ngăn chặn truyền kinh và nhận biết hoại bệnh do chẩn trị sai (ngộ hãn, ngộ hạ)'
+    ],
+    clinicalValue: 'Cung cấp tư duy chẩn đoán sắc bén theo từng triệu chứng vi tế (ố phong vs ố hàn, hữu hãn vs vô hãn, khát vs bất khát) để chọn đúng 1 bài thuốc trúng đích.',
+    featuredQuote: 'Quan kỳ mạch chứng, tri phạm hà nghịch, tùy chứng trị chi.',
+    keyTopics: ['Thương Hàn Luận', 'Trương Trọng Cảnh', 'Lục Kinh Biện Chứng', 'Kinh Phương', 'Quế Chi Thang']
+  },
+  {
+    id: 'kim-quy-yeu-luoc',
+    title: 'Kim Quỹ Yếu Lược (Tạp Bệnh Nội Khoa)',
+    originalTitle: 'Jin Gui Yao Lue (Essential Prescriptions from the Golden Cabinet)',
+    author: 'Y Thánh Trương Trọng Cảnh',
+    publisherYear: 'Kinh Điển Nội Khoa YHCT',
+    category: 'dong_y_ly_luan',
+    categoryLabel: 'Đông Y Kinh Điển & Lý Luận',
+    summary: 'Kiệt tác đầu tiên về Biện chứng Tạp bệnh Nội khoa mạn tính, Phụ khoa và cấp cứu: Hung Tý Tâm Thống (mạch vành), Thống Phong - Lịch Tiết (Gout/viêm khớp), Tiêu Khát (tiểu đường), Thủy Thũng (bệnh thận), Đàm Ẩm, Huyết Tý.',
+    coreConcepts: [
+      'Biện chứng tạp bệnh lấy Tạng Phủ - Kinh Lạc làm trục cốt lõi',
+      'Bài thuốc đặc trị mạn tính: Thận Khí Hoàn (Bát Vị), Quế Chi Phục Linh Hoàn, Đương Quy Thược Dược Tán, Bán Hạ Hậu Phác Thang',
+      'Phác đồ Hung tý (Qua lâu giới bạch bán hạ thang) trị đau thắt ngực',
+      'Phác đồ Thận khí hoàn trị Tiêu khát, tiểu đêm, suy giảm chức năng thận'
+    ],
+    clinicalValue: 'Khuôn vàng thước ngọc cho điều trị các bệnh mạn tính nội khoa, tim mạch, chuyển hóa và khớp.',
+    keyTopics: ['Kim Quỹ Yếu Lược', 'Tạp Bệnh Nội Khoa', 'Hung Tý', 'Thận Khí Hoàn', 'Lịch Tiết Phong']
+  },
+  {
+    id: 'on-benh-dieu-bien-ngo-cuc-thong',
+    title: 'Ôn Bệnh Điều Biện (Vệ Khí Dinh Huyết & Tam Tiêu)',
+    originalTitle: 'Wen Bing Tiao Bian',
+    author: 'Ngô Cúc Thông (Đời Thanh)',
+    publisherYear: 'Kinh Điển Ôn Bệnh Học',
+    category: 'dong_y_ly_luan',
+    categoryLabel: 'Đông Y Kinh Điển & Lý Luận',
+    summary: 'Đỉnh cao lý luận điều trị các bệnh nhiễm trùng cấp tính, sốt cao, viêm phổi, sốt xuất huyết và dịch bệnh theo hệ thống Tam Tiêu (Thượng - Trung - Hạ tiêu) và 4 tầng Vệ - Khí - Dinh - Huyết.',
+    coreConcepts: [
+      'Biện chứng Vệ - Khí - Dinh - Huyết theo mức độ xâm nhập từ nông đến sâu của nhiệt độc',
+      'Tân lương giải biểu (Ngân Kiều Tán, Tang Cúc Ẩm) cho giai đoạn Vệ phần (cảm cúm nhiệt, viêm họng cấp)',
+      'Thanh dinh lương huyết (Thanh Dinh Thang, Tê Giác Địa Hoàng Thang) bảo vệ tân dịch và huyết mạch trong sốt cao xuất huyết',
+      'Bảo tồn Âm dịch (Tăng Dịch Thang) trong hồi phục sau sốt nhiễm khuẩn'
+    ],
+    clinicalValue: 'Bổ khuyết hoàn hảo cho Thương Hàn Luận trong điều trị các bệnh lý nhiễm trùng - viêm cấp có sốt cao, nhiễm độc.',
+    keyTopics: ['Ôn Bệnh Điều Biện', 'Ngô Cúc Thông', 'Vệ Khí Dinh Huyết', 'Ngân Kiều Tán', 'Tam Tiêu Biện Chứng']
+  },
+  {
+    id: 'hai-thuong-y-tong-tam-linh',
+    title: 'Hải Thượng Y Tông Tâm Lĩnh (28 Tập, 66 Quyển)',
+    originalTitle: 'Hải Thượng Y Tông Tâm Lĩnh Toàn Thư',
+    author: 'Đại Danh Y Hải Thượng Lãn Ông Lê Hữu Trác',
+    publisherYear: 'NXB Y Học Việt Nam',
+    category: 'nam_duoc_vn',
+    categoryLabel: 'Nam Dược & Thuốc Nam Việt Nam',
+    summary: 'Bộ bách khoa toàn thư vĩ đại nhất của nền Y học Cổ truyền Việt Nam: Đúc kết hơn 30 năm thực nghiệm lâm sàng trên cơ địa người Việt với Nội kinh yếu chỉ, Y gia quan niệm, Ngoại cảm thông trị, Y dương án, Y âm án và Bách gia trân tàng.',
+    coreConcepts: [
+      'Học thuyết coi trọng Thủy - Hỏa Chân Âm (Lục Vị) và Mệnh Môn Chân Dương (Bát Vị) trên thể trạng người Việt',
+      'Y Dương Án & Y Âm Án: 120 bệnh án ghi chép chân thực từng lần gia giảm thuốc và kinh nghiệm cứu chữa ca nan y',
+      'Lĩnh Nam Bản Thảo: 496 vị thuốc Nam bản địa và tính vị quy kinh theo thực tế khí hậu nhiệt đới Việt Nam',
+      'Y Huấn Cách Ngôn: 9 điều răn y đức bất hủ của người thầy thuốc'
+    ],
+    clinicalValue: 'Chỉnh lý lý luận Đông y phù hợp hoàn toàn với khí hậu nóng ẩm và thể chất người Việt Nam.',
+    featuredQuote: 'Không có thuốc gì quý bằng giữ cho Chân Âm và Chân Dương điều hòa.',
+    keyTopics: ['Hải Thượng Lãn Ông', 'Y Dương Án', 'Y Âm Án', 'Lĩnh Nam Bản Thảo', 'Thủy Hỏa Mệnh Môn']
+  },
+  {
+    id: 'ty-vi-luan-ly-dong-vien',
+    title: 'Tỳ Vị Luận (Học Thuyết Thổ Mạch Hậu Thiên)',
+    originalTitle: 'Pi Wei Lun (Treatise on the Spleen and Stomach)',
+    author: 'Lý Đông Viên (Kim Nguyên Tứ Đại Gia)',
+    publisherYear: 'Kinh Điển Tiêu Hóa & Miễn Dịch YHCT',
+    category: 'dong_y_ly_luan',
+    categoryLabel: 'Đông Y Kinh Điển & Lý Luận',
+    summary: 'Tác phẩm sáng lập Bổ Thổ Phái với luận điểm nổi tiếng "Nội thương Tỳ Vị, bách bệnh do sinh". Khai sinh pháp trị Cam Ôn Trừ Đại Nhiệt và danh phương Bổ Trung Ích Khí Thang.',
+    coreConcepts: [
+      'Tỳ Vị là cội nguồn hậu thiên sinh hóa Khí Huyết và Chính Khí (tương ứng hệ miễn dịch niêm mạc ruột & chuyển hóa)',
+      'Cơ chế "Âm Hỏa" sinh ra do Tỳ Khí hư hãm xuống hạ tiêu làm sinh nhiệt giả (khác thực nhiệt)',
+      'Phương thang chủ lực: Bổ Trung Ích Khí Thang (Hoàng kỳ, Nhân sâm, Bạch truật, Sài hồ, Thăng ma)'
+    ],
+    clinicalValue: 'Chìa khóa điều trị các chứng mệt mỏi mạn tính, sa tạng phủ, suy nhược, tiêu chảy mạn và sốt kéo dài do khí hư.',
+    keyTopics: ['Lý Đông Viên', 'Tỳ Vị Luận', 'Bổ Trung Ích Khí', 'Âm Hỏa', 'Thăng Dương Ích Khí']
+  },
+  {
+    id: 'canh-nhac-toan-thu',
+    title: 'Cảnh Nhạc Toàn Thư (Bát Cương & Chân Âm Chân Dương)',
+    originalTitle: 'Jing Yue Quan Shu',
+    author: 'Trương Cảnh Nhạc (Đời Minh)',
+    publisherYear: 'Kinh Điển Biện Chứng YHCT',
+    category: 'dong_y_ly_luan',
+    categoryLabel: 'Đông Y Kinh Điển & Lý Luận',
+    summary: 'Bộ toàn thư hoàn chỉnh hệ thống Bát Cương (Âm Dương - Biểu Lý - Hàn Nhiệt - Hư Thực) thành chuẩn mực chẩn đoán Đông Y và sáng tạo Tả Quy Hoàn, Hữu Quy Hoàn, Thập Toàn Đại Bổ gia giảm.',
+    coreConcepts: [
+      'Chuẩn hóa Lục Biến trong Biện chứng: Biểu, Lý, Hàn, Nhiệt, Hư, Thực dưới thống lĩnh của Âm Dương',
+      'Ôn Bổ Phái: Bảo vệ Mệnh môn Hỏa (Dương khí) và Thận Thủy (Chân Âm)',
+      'Tả Quy Hoàn (bổ chân âm không tiết tả) và Hữu Quy Hoàn (ôn bổ thận dương không táo)'
+    ],
+    clinicalValue: 'Nâng tầm khả năng phân biệt "Chân Hàn Giả Nhiệt" và "Chân Nhiệt Giả Hàn" tránh sai lầm chết người khi kê đơn.',
+    keyTopics: ['Trương Cảnh Nhạc', 'Bát Cương Biện Chứng', 'Tả Quy Hoàn', 'Hữu Quy Hoàn', 'Chân Hàn Giả Nhiệt']
+  },
+  {
+    id: 'ban-thao-cuong-muc-ly-thoi-tran',
+    title: 'Bản Thảo Cương Mục (Dược Thực Vật Học Kinh Điển)',
+    originalTitle: 'Ben Cao Gang Mu (Compendium of Materia Medica)',
+    author: 'Lý Thời Trân (Đời Minh)',
+    publisherYear: 'Di Sản Ký Ức Thế Giới UNESCO',
+    category: 'dong_y_ly_luan',
+    categoryLabel: 'Dược Học Cổ Truyền Kinh Điển',
+    summary: 'Tác phẩm dược học vĩ đại nhất phương Đông ghi chép 1.892 vị thuốc thảo mộc, khoáng vật, động vật và 11.096 phương thuốc kèm quy trình bào chế, khử độc và nhận diện dược liệu thật giả.',
+    coreConcepts: [
+      'Phân loại 16 bộ 60 loại từ Thủy, Hỏa, Thổ, Kim Thạch đến Thảo, Mộc, Cầm, Thú',
+      'Kỹ thuật bào chế (Pao Zhi) thay đổi tính vị quy kinh: Sao đen chỉ huyết, chích mật nhuận phế, sao rượu dẫn kinh lên trên',
+      'Nhận diện tính độc và giải độc dược liệu chính xác'
+    ],
+    clinicalValue: 'Cơ sở đối chiếu cảm quan thực vật học và quy trình bào chế giảm độc tính trong Dược điển hiện đại.',
+    keyTopics: ['Lý Thời Trân', 'Bản Thảo Cương Mục', '1.892 Vị Thuốc', 'Kỹ Thuật Bào Chế']
+  },
+  {
+    id: 'harrisons-principles-internal-medicine',
+    title: "Harrison's Principles of Internal Medicine (21st Edition)",
+    originalTitle: "Harrison's Principles of Internal Medicine (21st Ed.)",
+    author: 'Joseph Loscalzo, Anthony S. Fauci, Dennis L. Kasper, Stephen L. Hauser, Dan L. Longo',
+    publisherYear: 'McGraw Hill Medical',
+    category: 'tay_y_co_so',
+    categoryLabel: 'Tây Y & Sinh Lý Học Lâm Sàng',
+    summary: 'Sách giáo khoa Nội khoa uy tín và toàn diện nhất thế giới: Hệ thống hóa tiếp cận triệu chứng học, chẩn đoán phân biệt đa cơ quan, cơ chế sinh lý bệnh phân tử - miễn dịch - di truyền và tiêu chuẩn điều trị nội khoa hiện đại.',
+    coreConcepts: [
+      'Sơ đồ tiếp cận chẩn đoán phân biệt từ từng triệu chứng than phiền (Differential Diagnosis Algorithms)',
+      'Sinh lý bệnh học phân tử các bệnh lý Tim mạch, Hô hấp, Tiêu hóa, Thận, Nội tiết, Khớp và Thần kinh',
+      'Ngưỡng chỉ định cận lâm sàng chính xác (Lab values, Imaging, Biomarkers)',
+      'Y học thực chứng (Evidence-Based Medicine) và nhận diện Red Flags cấp cứu'
+    ],
+    clinicalValue: 'Tiêu chuẩn vàng toàn cầu để bác sĩ không bao giờ bỏ sót chẩn đoán phân biệt nguy hiểm khi luận bệnh.',
+    keyTopics: ['Harrison 21st Ed', 'Nội Khoa Tổng Hợp', 'Chẩn Đoán Phân Biệt', 'Cơ Chế Phân Tử']
+  },
+  {
+    id: 'uptodate-bmj-clinical-guidelines',
+    title: 'UpToDate & BMJ Best Practice Clinical Decision Guidelines',
+    originalTitle: 'UpToDate Evidence-Based Clinical Decision Support (2024-2025)',
+    author: 'Wolters Kluwer / British Medical Journal Group',
+    publisherYear: 'Cập Nhật Liên Tục 2024–2025',
+    category: 'duoc_lam_sang_qt',
+    categoryLabel: 'Sách Thuốc Tây Y Quốc Tế',
+    summary: 'Hệ thống hướng dẫn ra quyết định lâm sàng dựa trên bằng chứng cập nhật nhất (Grade 1A/1B): Cung cấp phác đồ điều trị bước 1 - bước 2, tiêu chuẩn chẩn đoán mới nhất và bảng chỉnh liều theo độ lọc cầu thận eGFR & Child-Pugh.',
+    coreConcepts: [
+      'Khuyến cáo điều trị phân bậc theo mức độ bằng chứng khoa học (GRADE System)',
+      'Lựa chọn phác đồ đầu tay (First-line) vs thay thế (Second-line) khi thất bại điều trị',
+      'Tiêu chuẩn chuyển tuyến chuyên khoa và chỉ định nhập viện khẩn cấp'
+    ],
+    clinicalValue: 'Đảm bảo phác đồ Tây Y luôn bám sát khuyến cáo mới nhất đang áp dụng tại các bệnh viện tuyến đầu.',
+    keyTopics: ['UpToDate', 'BMJ Best Practice', 'Evidence-Based Medicine', 'Phác Đồ Bước 1-2']
+  },
+  {
+    id: 'esc-cardiovascular-guidelines-2024',
+    title: 'ESC Guidelines on Cardiovascular Diseases (2024 Update)',
+    originalTitle: 'European Society of Cardiology Guidelines 2023–2024',
+    author: 'European Society of Cardiology (ESC) / Hội Tim Mạch Học VN (VNHA)',
+    publisherYear: 'European Heart Journal (2024)',
+    category: 'duoc_lam_sang_qt',
+    categoryLabel: 'Sách Thuốc Tây Y Quốc Tế',
+    summary: 'Bộ khuyến cáo Tim mạch mới nhất của Hội Tim mạch Châu Âu & Việt Nam: Phân loại Huyết áp mới (Elevated BP 120-139/70-89 mmHg), 4 trụ cột điều trị Suy tim HFrEF/HFpEF, Rung nhĩ (thang điểm CHA2DS2-VA) và Hội chứng vành mạn.',
+    coreConcepts: [
+      'Hướng dẫn Tăng huyết áp 2024: Mục tiêu huyết áp tâm thu 120–129 mmHg nếu dung nạp tốt, ưu tiên phối hợp viên cố định liều sớm',
+      '4 Trụ cột vàng điều trị Suy tim HFrEF: ARNI/ACEi + Chẹn Beta chọn lọc + Kháng Aldosterone (MRA) + Ức chế SGLT2 (Dapagliflozin/Empagliflozin)',
+      'Đánh giá nguy cơ đột quỵ ở bệnh nhân Rung nhĩ bằng thang điểm CHA2DS2-VA và thuốc kháng đông đường uống NOACs'
+    ],
+    clinicalValue: 'Chuẩn hóa phác đồ Tim mạch giúp giảm tử vong và nhập viện tái phát vượt trội.',
+    keyTopics: ['ESC 2024', 'Tăng Huyết Áp', 'Suy Tim 4 Trụ Cột', 'SGLT2i', 'Rung Nhĩ']
+  },
+  {
+    id: 'ada-diabetes-standards-2025',
+    title: 'ADA Standards of Care in Diabetes (2025 Update)',
+    originalTitle: 'American Diabetes Association Standards of Care 2025',
+    author: 'American Diabetes Association (ADA)',
+    publisherYear: 'Diabetes Care (2025)',
+    category: 'duoc_lam_sang_qt',
+    categoryLabel: 'Sách Thuốc Tây Y Quốc Tế',
+    summary: 'Tiêu chuẩn vàng cập nhật 2025 về chẩn đoán và điều trị Đái tháo đường: Cá thể hóa mục tiêu HbA1c (<7.0%) & TIR (>70%), ưu tiên SGLT2i và GLP-1 RA bảo vệ tim-thận sớm độc lập với HbA1c, và kiểm soát Gan nhiễm mỡ chuyển hóa (MASLD).',
+    coreConcepts: [
+      'Bảo vệ cơ quan đích tim-thận-gan (Cardiorenal-Metabolic approach) bên cạnh hạ đường huyết',
+      'Thuốc chủ lực thế hệ mới: Metformin + SGLT2i (Empagliflozin, Dapagliflozin) + GLP-1 RA (Semaglutide, Liraglutide)',
+      'Theo dõi biến chứng thần kinh ngoại biên, võng mạc và Albumin/Creatinine niệu (uACR) định kỳ'
+    ],
+    clinicalValue: 'Giúp người bệnh tiểu đường không chỉ đẹp chỉ số đường huyết mà còn bảo vệ toàn vẹn tim, thận, mắt và bàn chân.',
+    keyTopics: ['ADA 2025', 'Tiểu Đường Type 2', 'HbA1c & TIR', 'SGLT2i & GLP-1 RA', 'MASLD']
+  },
+  {
+    id: 'kdigo-2024-ckd-guidelines',
+    title: 'KDIGO 2024 Clinical Practice Guideline for Chronic Kidney Disease',
+    originalTitle: 'KDIGO 2024 CKD Evaluation and Management Guideline',
+    author: 'Kidney Disease: Improving Global Outcomes (KDIGO)',
+    publisherYear: 'Kidney International (2024)',
+    category: 'duoc_lam_sang_qt',
+    categoryLabel: 'Sách Thuốc Tây Y Quốc Tế',
+    summary: 'Hướng dẫn thực hành Thận học quốc tế 2024 về phân tầng nguy cơ Bệnh thận mạn (G1–G5 theo eGFR và A1–A3 theo uACR), bảo vệ cầu thận 4 lớp (ACEi/ARB, SGLT2i, Finerenone, Statin) và cảnh báo thuốc/thảo dược độc thận.',
+    coreConcepts: [
+      'Đánh giá kép bắt buộc: eGFR (mL/phút/1.73m²) + Tỷ số Albumin/Creatinine niệu (uACR)',
+      'Bộ khung bảo vệ thận mới: Ức chế hệ RAAS + SGLT2i (giảm áp lực lọc cầu thận) + Finerenone (nếu kèm ĐTĐ)',
+      'Cảnh báo an toàn: Tránh NSAIDs, thuốc cản quang và thảo dược chứa Aristolochic acid gây suy thận cấp/mạn'
+    ],
+    clinicalValue: 'Ngăn ngừa tiến triển suy thận mạn giai đoạn cuối phải chạy thận nhân tạo.',
+    keyTopics: ['KDIGO 2024', 'Bệnh Thận Mạn CKD', 'eGFR & uACR', 'Bảo Vệ Cầu Thận']
+  },
+  {
+    id: 'gold-2025-gina-2024-respiratory',
+    title: 'GOLD 2025 (COPD) & GINA 2024 (Hen Phế Quản) Guidelines',
+    originalTitle: 'Global Strategy for Diagnosis, Management & Prevention of COPD / Asthma',
+    author: 'GOLD Science Committee & GINA Global Initiative',
+    publisherYear: '2024–2025 Update',
+    category: 'duoc_lam_sang_qt',
+    categoryLabel: 'Sách Thuốc Tây Y Quốc Tế',
+    summary: 'Hướng dẫn hô hấp toàn cầu mới nhất: Phân nhóm COPD theo A-B-E dựa trên đợt cấp và điểm mMRC/CAT, liệu pháp hít LABA+LAMA/Triple ICS, và chiến lược Track 1 (ICS-Formoterol cắt cơn & duy trì MART) trong Hen phế quản.',
+    coreConcepts: [
+      'COPD: Chẩn đoán xác định bằng Hô hấp ký (FEV1/FVC < 0.7 sau test giãn phế quản) và phân tầng ABE',
+      'Hen phế quản (GINA 2024): Khuyến cáo KHÔNG dùng SABA đơn độc (Salbutamol) để cắt cơn vì tăng nguy cơ đợt cấp nặng; ưu tiên ICS-Formoterol (Symbicort)',
+      'Kỹ thuật sử dụng bình hít định liều, bình hít bột khô và phục hồi chức năng hô hấp'
+    ],
+    clinicalValue: 'Cập nhật thay đổi mang tính cách mạng trong xử trí Hen phế quản và COPD, giảm tỷ lệ nhập viện vì suy hô hấp.',
+    keyTopics: ['GOLD 2025', 'GINA 2024', 'COPD Nhóm ABE', 'ICS-Formoterol', 'Hô Hấp Ký']
+  },
+  {
+    id: 'acr-eular-acg-specialty-guidelines',
+    title: 'ACR/EULAR (Cơ Xương Khớp) & ACG/Maastricht VI (Tiêu Hóa)',
+    originalTitle: 'ACR/EULAR Rheumatology & Maastricht VI H. pylori / Rome IV Guidelines',
+    author: 'ACR, EULAR, ACG & European Helicobacter Study Group',
+    publisherYear: '2022–2025 Guidelines',
+    category: 'duoc_lam_sang_qt',
+    categoryLabel: 'Sách Thuốc Tây Y Quốc Tế',
+    summary: 'Chuẩn mực quốc tế mới nhất về Cơ xương khớp (Gout Treat-to-Target Uric < 360 µmol/L, Viêm khớp dạng thấp sớm dùng Methotrexate/DMARDs) và Tiêu hóa (Đồng thuận Maastricht VI tiệt trừ H. pylori phác đồ 4 thuốc có Bismuth 14 ngày & tiêu chuẩn Rome IV chẩn đoán IBS).',
+    coreConcepts: [
+      'Maastricht VI: Khuyến cáo phác đồ 4 thuốc có Bismuth (PPI + Bismuth + Tetracycline + Metronidazole) trong 14 ngày tại vùng kháng Clarithromycin cao như Việt Nam',
+      'Rome IV: Tiêu chuẩn phân biệt IBS-D, IBS-C, IBS-M với Bệnh viêm ruột mạn (IBD)',
+      'ACR/EULAR Gout: Chiến lược "Treat-to-Target" duy trì Acid Uric < 360 µmol/L (hoặc < 300 µmol/L nếu có hạt Tophi)'
+    ],
+    clinicalValue: 'Khắc phục tình trạng kháng kháng sinh diệt HP và tái phát cơn Gout dai dẳng tại Việt Nam.',
+    keyTopics: ['Maastricht VI', 'Tiệt Trừ H. pylori', 'Rome IV IBS', 'ACR/EULAR Gout & RA']
+  },
+  {
+    id: 'duoc-dien-viet-nam-v-byt',
+    title: 'Dược Điển Việt Nam V & Phác Đồ Bộ Y Tế Cập Nhật',
+    originalTitle: 'Pharmacopoeia Vietnamica V (2 Tập)',
+    author: 'Hội Đồng Dược Điển Việt Nam - Bộ Y Tế',
+    publisherYear: 'Bộ Y Tế (Xuất Bản Lần Thứ 5)',
+    category: 'duoc_thu_vn',
+    categoryLabel: 'Dược Thư & Điều Trị VN',
+    summary: 'Bộ tiêu chuẩn quốc gia cao nhất về chất lượng thuốc Tân dược và Dược liệu Đông y (300+ chuyên luận dược liệu, phương pháp định lượng hoạt chất HPLC, giới hạn kim loại nặng/độc tố Aflatoxin và tiêu chuẩn bào chế).',
+    coreConcepts: [
+      'Tiêu chuẩn kiểm nghiệm định tính - định lượng hoạt chất sinh học trong dược liệu Việt Nam',
+      'Quy chuẩn chế biến cổ truyền (Sao tẩm, Chưng, Thủy phi, Khử độc Phụ tử/Bán hạ/Mã tiền)',
+      'Giới hạn an toàn kim loại nặng, dư lượng thuốc bảo vệ thực vật và vi sinh vật'
+    ],
+    clinicalValue: 'Bảo chứng chất lượng, độ tinh khiết và hiệu lực dược lý chuẩn xác của mọi vị thuốc Đông - Nam Y và Tân dược.',
+    keyTopics: ['Dược Điển Việt Nam V', 'Kiểm Nghiệm Dược Liệu', 'Tiêu Chuẩn Bào Chế', 'Bộ Y Tế']
   }
 ];
+
 

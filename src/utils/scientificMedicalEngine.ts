@@ -286,27 +286,29 @@ export function retrieveMedicalKnowledge(query: string, bookFilter?: string): Ma
     .slice(0, 5)
     .map(x => x.item);
 
-  // 7. Score Western Diseases
+  // 7. Score Western Diseases (Classic + Modern Guidelines 2024-2025)
   const scoredDiseases = WESTERN_DISEASES.map(ds => {
     let score = 0;
     const viNorm = normalizeVi(ds.nameVi);
     const enNorm = normalizeVi(ds.nameEn);
     const icdNorm = normalizeVi(ds.icd10);
-    const mechNorm = normalizeVi(ds.guytonPhysiology.cellularHemodynamicMechanism);
+    const mechNorm = normalizeVi(
+      `${ds.guytonPhysiology.homeostasisDisruption} ${ds.guytonPhysiology.cellularHemodynamicMechanism} ${ds.essentialsOfNutrition.drugNutrientInteractions.join(' ')} ${ds.tcmSyndromeCorrespondence}`
+    );
 
-    if (viNorm.length >= 4 && norm.includes(viNorm)) score += 50;
-    if (enNorm.length >= 4 && norm.includes(enNorm)) score += 45;
+    if (viNorm.length >= 4 && norm.includes(viNorm)) score += 55;
+    if (enNorm.length >= 4 && norm.includes(enNorm)) score += 50;
     if (icdNorm.length >= 3 && norm.includes(icdNorm)) score += 45;
 
     for (const bg of bigrams) {
       if (bg.length >= 5) {
-        if (viNorm.includes(bg)) score += 22;
-        if (mechNorm.includes(bg)) score += 8;
+        if (viNorm.includes(bg) || enNorm.includes(bg)) score += 24;
+        if (mechNorm.includes(bg)) score += 10;
       }
     }
     for (const tk of tokens) {
       if (tk.length >= 3) {
-        if (viNorm.includes(tk)) score += 8;
+        if (viNorm.includes(tk) || enNorm.includes(tk)) score += 9;
         if (mechNorm.includes(tk)) score += 3;
       }
     }
@@ -314,32 +316,32 @@ export function retrieveMedicalKnowledge(query: string, bookFilter?: string): Ma
   })
     .filter(x => x.score >= 10)
     .sort((a, b) => b.score - a.score)
-    .slice(0, 3)
+    .slice(0, 4)
     .map(x => x.item);
 
-  // 8. Score TCM Syndromes
+  // 8. Score TCM Syndromes (Nội Kinh, Thương Hàn, Kim Quỹ, Ôn Bệnh, Hải Thượng, Maciocia, Bensky)
   const scoredSyndromes = TCM_SYNDROMES.map(syn => {
     let score = 0;
     const nameNorm = normalizeVi(syn.name);
     const sinoNorm = normalizeVi(syn.sinoVietnamese);
     const formulaNorm = normalizeVi(syn.primaryHerbalFormula.name);
     const sympNorm = normalizeVi(
-      `${syn.fourExaminations.vong} ${syn.fourExaminations.van_ask} ${syn.westernCorrelations.diseases.join(' ')}`
+      `${syn.keyEtiology} ${syn.fourExaminations.vong} ${syn.fourExaminations.van_ask} ${syn.fourExaminations.thiet} ${syn.westernCorrelations.diseases.join(' ')}`
     );
 
-    if (nameNorm.length >= 4 && norm.includes(nameNorm)) score += 50;
-    if (sinoNorm.length >= 4 && norm.includes(sinoNorm)) score += 50;
+    if (nameNorm.length >= 4 && norm.includes(nameNorm)) score += 55;
+    if (sinoNorm.length >= 4 && norm.includes(sinoNorm)) score += 55;
     if (formulaNorm.length >= 4 && norm.includes(formulaNorm)) score += 45;
 
     for (const bg of bigrams) {
       if (bg.length >= 5) {
-        if (nameNorm.includes(bg) || sinoNorm.includes(bg)) score += 22;
+        if (nameNorm.includes(bg) || sinoNorm.includes(bg) || formulaNorm.includes(bg)) score += 24;
         if (sympNorm.includes(bg)) score += 12;
       }
     }
     for (const tk of tokens) {
       if (tk.length >= 3) {
-        if (nameNorm.includes(tk) || sinoNorm.includes(tk)) score += 8;
+        if (nameNorm.includes(tk) || sinoNorm.includes(tk)) score += 9;
         if (sympNorm.includes(tk)) score += 4;
       }
     }
@@ -347,26 +349,26 @@ export function retrieveMedicalKnowledge(query: string, bookFilter?: string): Ma
   })
     .filter(x => x.score >= 10)
     .sort((a, b) => b.score - a.score)
-    .slice(0, 3)
+    .slice(0, 4)
     .map(x => x.item);
 
-  // 9. Score Medical Books
+  // 9. Score Medical Books (82+ Classic & Modern Works)
   const filterNorm = bookFilter ? normalizeVi(bookFilter) : '';
   const scoredBooks = MEDICAL_BOOKS.map(bk => {
     let score = 0;
     const titleNorm = normalizeVi(bk.title);
     const authorNorm = normalizeVi(bk.author);
-    const topicsNorm = normalizeVi(bk.keyTopics.join(' ') + ' ' + bk.coreConcepts.join(' '));
+    const topicsNorm = normalizeVi(`${bk.summary} ${bk.keyTopics.join(' ')} ${bk.coreConcepts.join(' ')}`);
 
     if (filterNorm && (titleNorm.includes(filterNorm) || filterNorm.includes(titleNorm))) {
       score += 100;
     }
-    if (titleNorm.length >= 5 && norm.includes(titleNorm)) score += 50;
-    if (authorNorm.length >= 4 && norm.includes(authorNorm)) score += 40;
+    if (titleNorm.length >= 5 && norm.includes(titleNorm)) score += 55;
+    if (authorNorm.length >= 4 && norm.includes(authorNorm)) score += 45;
 
     for (const bg of bigrams) {
       if (bg.length >= 5 && (titleNorm.includes(bg) || topicsNorm.includes(bg))) {
-        score += 15;
+        score += 16;
       }
     }
     for (const tk of tokens) {
@@ -378,7 +380,7 @@ export function retrieveMedicalKnowledge(query: string, bookFilter?: string): Ma
   })
     .filter(x => x.score >= 10)
     .sort((a, b) => b.score - a.score)
-    .slice(0, 3)
+    .slice(0, 5)
     .map(x => x.item);
 
   return {
@@ -488,11 +490,11 @@ export function buildScientificRagContext(query: string, bookFilter?: string): s
 
   if (matched.westernDiseases.length > 0) {
     sections.push(
-      `[BỆNH HỌC & SINH LÝ HỌC TÂY Y (GUYTON & HALL / ICD-10)]:\n` +
+      `[BỆNH HỌC & SINH LÝ HỌC TÂY Y HIỆN ĐẠI (HARRISON'S 21ST, GUYTON & HALL, ESC/ADA/KDIGO/GOLD)]:\n` +
         matched.westernDiseases
           .map(
             ds =>
-              `- ${ds.nameVi} (${ds.nameEn}, ICD-10: ${ds.icd10}): Rối loạn nội môi: ${ds.guytonPhysiology.homeostasisDisruption}. Cơ chế tế bào/huyết động: ${ds.guytonPhysiology.cellularHemodynamicMechanism}. Tương ứng Đông y: ${ds.tcmSyndromeCorrespondence}. Cờ đỏ cấp cứu: ${ds.redFlags.join('; ')}.`
+              `- ${ds.nameVi} (${ds.nameEn}, ICD-10: ${ds.icd10}): Rối loạn nội môi: ${ds.guytonPhysiology.homeostasisDisruption}. Cơ chế tế bào/huyết động: ${ds.guytonPhysiology.cellularHemodynamicMechanism}. Thông số chuẩn: ${ds.guytonPhysiology.clinicalParameters.map(p => `${p.name} [${p.normalRange}; Cảnh báo: ${p.criticalWarning}]`).join('; ')}. Dinh dưỡng & Tương tác thuốc: ${ds.essentialsOfNutrition.drugNutrientInteractions.join(' | ')}. Tương ứng Đông y: ${ds.tcmSyndromeCorrespondence}. Cờ đỏ cấp cứu: ${ds.redFlags.join('; ')}.`
           )
           .join('\n')
     );
@@ -500,11 +502,11 @@ export function buildScientificRagContext(query: string, bookFilter?: string): s
 
   if (matched.tcmSyndromes.length > 0) {
     sections.push(
-      `[HỘI CHỨNG BIỆN CHỨNG ĐÔNG Y (MACIOCIA)]:\n` +
+      `[BIỆN CHỨNG TẠNG PHỦ, LỤC KINH & CỔ PHƯƠNG ĐÔNG Y KINH ĐIỂN (NỘI KINH, THƯƠNG HÀN, HẢI THƯỢNG, MACIOCIA)]:\n` +
         matched.tcmSyndromes
           .map(
             s =>
-              `- Thể ${s.name} (${s.sinoVietnamese}): Pháp trị: ${s.treatmentPrinciple}. Cổ phương: ${s.primaryHerbalFormula.name} (${s.primaryHerbalFormula.composition.map(c => `${c.herb} ${c.grams}g`).join(', ')}). Huyệt vị: ${s.acupuncturePrescription.classicalPoints.join(', ')} | Đổng Thị: ${s.acupuncturePrescription.tungPoints.join(', ')}.`
+              `- Thể ${s.name} (${s.sinoVietnamese}): Bệnh cơ: ${s.keyEtiology}. Tứ chẩn (Vọng: ${s.fourExaminations.vong} | Vấn: ${s.fourExaminations.van_ask} | Lưỡi: ${s.tongueSigns.body}, ${s.tongueSigns.color}, ${s.tongueSigns.coating} | Mạch: ${s.pulseSigns.type}). Pháp trị: ${s.treatmentPrinciple}. Cổ phương (${s.primaryHerbalFormula.sourceBook}): ${s.primaryHerbalFormula.name} (${s.primaryHerbalFormula.composition.map(c => `${c.herb} ${c.grams}g [${c.role}]`).join(', ')}); Gia giảm: ${s.primaryHerbalFormula.modifications.join(' ; ')}. Huyệt vị: ${s.acupuncturePrescription.classicalPoints.join(', ')} | Đổng Thị: ${s.acupuncturePrescription.tungPoints.join(', ')}. Sinh lý Tây Y đối chiếu: ${s.westernCorrelations.guytonPhysiology}.`
           )
           .join('\n')
     );
@@ -514,7 +516,7 @@ export function buildScientificRagContext(query: string, bookFilter?: string): s
     return '';
   }
 
-  return `\n=== DỮ LIỆU KHOA HỌC TRÍCH XUẤT TRỰC TIẾP TỪ CƠ SỞ DỮ LIỆU Y ĐIỂN CỦA HỆ THỐNG ===\n${sections.join('\n\n')}\n========================================================================\n`;
+  return `\n=== DỮ LIỆU KHOA HỌC TRÍCH XUẤT TỪ ${MEDICAL_BOOKS.length} TÁC PHẨM Y ĐIỂN ĐÔNG - TÂY Y CỦA HỆ THỐNG ===\n${sections.join('\n\n')}\n========================================================================\n`;
 }
 
 const DISEASE_QUERY_KEYWORDS = [
@@ -666,6 +668,65 @@ const MEDICAL_ANSWER_CACHE = new Map<string, string>();
  * directly answering the user's exact question using matched database entries
  * and structured medical knowledge.
  */
+function buildQuestionFocusedLead(query: string, norm: string, matched: MatchedMedicalKnowledge): string {
+  const intents: string[] = [];
+  if (norm.includes('phan biet') || norm.includes('khac nhau') || norm.includes('so sanh')) {
+    intents.push('So sánh & Phân biệt trực diện giữa các thực thể/thể bệnh được nêu trong câu hỏi');
+  }
+  if (norm.includes('tai sao') || norm.includes('vi sao') || norm.includes('nguyen nhan') || norm.includes('co che')) {
+    intents.push('Giải thích rõ nguyên nhân & cơ chế sinh lý bệnh học theo đúng bối cảnh người hỏi');
+  }
+  if (norm.includes('uong chung') || norm.includes('tuong tac') || norm.includes('kieng') || norm.includes('chong chi dinh') || norm.includes('dung duoc khong') || norm.includes('co an toan')) {
+    intents.push('Đánh giá an toàn, tương tác dược lý & chống chỉ định cụ thể cho từng đối tượng/thuốc được hỏi');
+  }
+  if (norm.includes('lieu luong') || norm.includes('lieu dung') || norm.includes('bao nhieu') || norm.includes('cach dung') || norm.includes('uong luc nao')) {
+    intents.push('Nêu chính xác liều lượng tiêu chuẩn, thời điểm uống và lưu ý chỉnh liều theo độ tuổi/chức năng gan thận');
+  }
+  if (norm.includes('giai doan') || norm.includes('cap do') || norm.includes('muc do')) {
+    intents.push('Phân tầng giai đoạn lâm sàng theo tiêu chuẩn hiện hành');
+  }
+  if (norm.includes('cham') || norm.includes('bam huyet') || norm.includes('vi tri')) {
+    intents.push('Định vị giải phẫu, độ sâu hướng kim, thủ pháp bổ tả và nguyên tắc Động khí');
+  }
+
+  const matchedLabels = [
+    ...matched.westernDiseases.map(d => d.nameVi),
+    ...matched.tcmSyndromes.map(s => s.name),
+    ...matched.herbs.map(h => h.vietnameseName),
+    ...matched.westernDrugs.map(dr => dr.activeIngredient),
+    ...matched.tungPoints.map(tp => `${tp.name} (${tp.code})`)
+  ].slice(0, 5);
+
+  const lines: string[] = [];
+  lines.push(`TRẢ LỜI TRỰC TIẾP ĐÚNG CÂU CHỮ CÂU HỎI: "${query.trim()}"`);
+  if (intents.length > 0) {
+    lines.push(`• Trọng tâm giải đáp: ${intents.join('; ')}.`);
+  }
+  if (matchedLabels.length > 0) {
+    lines.push(`• Thực thể y khoa khớp trực tiếp trong kho ${MEDICAL_BOOKS.length} Y Điển: ${matchedLabels.join(' · ')}.`);
+  }
+  if (matched.westernDrugs.length > 0) {
+    const topDr = matched.westernDrugs[0];
+    lines.push(`• Kết luận dược lý trọng điểm (${topDr.activeIngredient}): ${topDr.mechanismOfAction} Liều chuẩn: ${topDr.standardDosage} (${topDr.administration}). Chống chỉ định cần lưu ý: ${topDr.contraindications.join('; ')}.`);
+  }
+  if (matched.herbs.length > 0) {
+    const topHb = matched.herbs[0];
+    lines.push(`• Kết luận Đông dược trọng điểm (${topHb.vietnameseName}): Tính ${topHb.properties.nature}, vị ${topHb.properties.flavors.join(', ')}, quy kinh ${topHb.properties.channels.join(', ')}. Công năng: ${topHb.actions.join('; ')}. Liều dùng: ${topHb.dosageGram}. Thận trọng: ${topHb.contraindications}.`);
+  }
+  if (matched.tcmSyndromes.length > 0 && matched.westernDiseases.length > 0) {
+    const syn = matched.tcmSyndromes[0];
+    const wd = matched.westernDiseases[0];
+    lines.push(`• Đối chiếu biện chứng Đông - Tây Y: Tây Y hướng đến ${wd.nameVi} (ICD-10: ${wd.icd10}) do ${wd.guytonPhysiology.homeostasisDisruption} Đông Y biện chứng thuộc thể ${syn.name} (${syn.sinoVietnamese}) — Lưỡi: ${syn.tongueSigns.body}, ${syn.tongueSigns.coating}; Mạch: ${syn.pulseSigns.type}; Pháp trị: ${syn.treatmentPrinciple}.`);
+  } else if (matched.tcmSyndromes.length > 0) {
+    const syn = matched.tcmSyndromes[0];
+    lines.push(`• Biện chứng Đông Y sát triệu chứng: Thể ${syn.name} (${syn.sinoVietnamese}) — Pháp trị: ${syn.treatmentPrinciple}. Cổ phương chủ đạo: ${syn.primaryHerbalFormula.name}.`);
+  } else if (matched.westernDiseases.length > 0) {
+    const wd = matched.westernDiseases[0];
+    lines.push(`• Chẩn đoán Tây Y sát câu hỏi: ${wd.nameVi} (ICD-10: ${wd.icd10}) — ${wd.guytonPhysiology.homeostasisDisruption}`);
+  }
+  return lines.join('\n');
+}
+
 export function generatePreciseScientificAnswer(query: string, bookFilter?: string): string {
   const norm = normalizeVi(query);
   const cacheKey = `${norm}::${bookFilter || ''}`;
@@ -677,7 +738,11 @@ export function generatePreciseScientificAnswer(query: string, bookFilter?: stri
   // Priority 1: If the user is asking about a clinical disease, its definition, causes, stages, or treatment
   if (isClinicalDiseaseQuery(norm) && !bookFilter) {
     const spec = matchClinicalDomain(norm, query);
-    const out = cleanMedicalText(formatDoctorDiseaseConsultation(spec, query, bookFilter));
+    const questionLead = buildQuestionFocusedLead(query, norm, matched);
+    const enrichedSpec = spec.directAnswer
+      ? spec
+      : { ...spec, directAnswer: questionLead.split('\n').slice(1).join('\n') };
+    const out = cleanMedicalText(formatDoctorDiseaseConsultation(enrichedSpec, query, bookFilter));
     MEDICAL_ANSWER_CACHE.set(cacheKey, out);
     return out;
   }
@@ -703,12 +768,19 @@ export function generatePreciseScientificAnswer(query: string, bookFilter?: stri
 
   if (hasExactMatches) {
     const blocks: string[] = [];
-    blocks.push(`BÁC SĨ HỘI CHẨN & TRA CỨU Y ĐIỂN TRỰC TIẾP: "${query.trim()}"`);
+    blocks.push(buildQuestionFocusedLead(query, norm, matched));
 
     if (bookFilter && matched.books.length > 0) {
       const b = matched.books[0];
       blocks.push(
-        `Tài liệu tham chiếu chính: ${b.title} — Tác giả: ${b.author} (${b.categoryLabel})\nTrọng tâm học thuật: ${b.summary}`
+        `Tài liệu tham chiếu chính: ${b.title} — Tác giả: ${b.author} (${b.categoryLabel})\nTrọng tâm học thuật: ${b.summary}\nLuận điểm cốt lõi: ${b.coreConcepts.join(' • ')}`
+      );
+    } else if (matched.books.length > 0) {
+      blocks.push(
+        `Tài liệu y điển đối chiếu (${matched.books.length} tác phẩm khớp trọng tâm):\n` +
+          matched.books
+            .map(b => `• ${b.title} (${b.author}): ${b.coreConcepts.slice(0, 2).join('; ')}.`)
+            .join('\n')
       );
     }
 

@@ -16,6 +16,25 @@ export interface Acupoint3D {
   specialRole: string; // e.g., 'Huyệt Nguyên', 'Huyệt Hợp', 'Huyệt Lạc', 'Khích Huyệt', 'Mộ Huyệt', 'Du Huyệt'
 }
 
+export interface MeridianFlowMeta {
+  id: string;
+  category: 'chinh_kinh' | 'ky_kinh';
+  cycleOrder?: number; // 1..12 in the 24-hour Tử Ngọ Lưu Chú organ clock
+  prevMeridianId?: string;
+  nextMeridianId?: string;
+  flowTime: string;
+  yinYang: 'Âm' | 'Dương';
+  element: 'Kim' | 'Mộc' | 'Thủy' | 'Hỏa' | 'Thổ' | 'Âm Dương';
+  flowDirectionType: 'Ngực → Tay (Ly tâm)' | 'Tay → Đầu (Hướng tâm)' | 'Đầu → Chân (Ly tâm)' | 'Chân → Ngực (Hướng tâm)' | 'Đáy chậu → Đầu mặt (Thăng dương)' | 'Đáy chậu → Ngực mặt (Nhâm mạch)' | 'Kỳ Kinh Bát Mạch';
+  originPointName: string;
+  terminalPointName: string;
+  flowDirectionSummary: string;
+  pairedZangFu: string;
+  openingPointCode?: string;
+  openingPointName?: string;
+  memberPointCodes?: string[];
+}
+
 export interface Meridian3D {
   id: string;
   code: string;
@@ -1156,3 +1175,442 @@ export const MERIDIANS_3D_DATA: Meridian3D[] = [
     ]
   }
 ];
+
+/**
+ * Chuẩn hóa vòng tuần hoàn khí huyết 12 Chính Kinh (Tử Ngọ Lưu Chú) & 8 Kỳ Kinh Bát Mạch:
+ * Phế -> Đại Trường -> Vị -> Tỳ -> Tâm -> Tiểu Trường -> Bàng Quang -> Thận -> Tâm Bào -> Tam Tiêu -> Đởm -> Can -> (quay lại Phế)
+ */
+export const MERIDIAN_FLOW_META: Record<string, MeridianFlowMeta> = {
+  LU: {
+    id: 'LU',
+    category: 'chinh_kinh',
+    cycleOrder: 1,
+    prevMeridianId: 'LR',
+    nextMeridianId: 'LI',
+    flowTime: '3h - 5h (Giờ Dần)',
+    yinYang: 'Âm',
+    element: 'Kim',
+    flowDirectionType: 'Ngực → Tay (Ly tâm)',
+    originPointName: 'LU-1 Trung Phủ (Vùng ngực trên)',
+    terminalPointName: 'LU-11 Thiếu Thương (Đầu ngón tay cái)',
+    flowDirectionSummary: 'Ngực (Trung Phủ) → Mặt trước ngoài cánh tay, cẳng tay → Cổ tay → Đầu ngón cái (Thiếu Thương), giao tiếp sang Kinh Đại Trường.',
+    pairedZangFu: 'Tạng Phế (Biểu lý với Đại Trường)',
+  },
+  LI: {
+    id: 'LI',
+    category: 'chinh_kinh',
+    cycleOrder: 2,
+    prevMeridianId: 'LU',
+    nextMeridianId: 'ST',
+    flowTime: '5h - 7h (Giờ Mão)',
+    yinYang: 'Dương',
+    element: 'Kim',
+    flowDirectionType: 'Tay → Đầu (Hướng tâm)',
+    originPointName: 'LI-1 Thương Dương (Góc móng ngón trỏ)',
+    terminalPointName: 'LI-20 Nghênh Hương (Cạnh cánh mũi)',
+    flowDirectionSummary: 'Ngón trỏ (Thương Dương) → Hợp Cốc → Dọc bờ ngoài cẳng tay, cánh tay → Vai, cổ → Bắt chéo nhân trung sang cạnh mũi đối diện (Nghênh Hương), nối sang Kinh Vị.',
+    pairedZangFu: 'Phủ Đại Trường (Biểu lý với Phế)',
+  },
+  ST: {
+    id: 'ST',
+    category: 'chinh_kinh',
+    cycleOrder: 3,
+    prevMeridianId: 'LI',
+    nextMeridianId: 'SP',
+    flowTime: '7h - 9h (Giờ Thìn)',
+    yinYang: 'Dương',
+    element: 'Thổ',
+    flowDirectionType: 'Đầu → Chân (Ly tâm)',
+    originPointName: 'ST-1 Thừa Khấp (Dưới bờ mi mắt)',
+    terminalPointName: 'ST-45 Lệ Đoái (Đầu ngón chân thứ 2)',
+    flowDirectionSummary: 'Vùng mặt (Thừa Khấp) → Quanh hàm, lên góc trán (Đầu Duy) & đi xuống cổ, ngực, bụng → Mặt trước ngoài đùi, cẳng chân (Túc Tam Lý) → Ngón chân thứ 2 (Lệ Đoái).',
+    pairedZangFu: 'Phủ Vị (Biểu lý với Tỳ)',
+  },
+  SP: {
+    id: 'SP',
+    category: 'chinh_kinh',
+    cycleOrder: 4,
+    prevMeridianId: 'ST',
+    nextMeridianId: 'HT',
+    flowTime: '9h - 11h (Giờ Tỵ)',
+    yinYang: 'Âm',
+    element: 'Thổ',
+    flowDirectionType: 'Chân → Ngực (Hướng tâm)',
+    originPointName: 'SP-1 Ẩn Bạch (Góc trong ngón chân cái)',
+    terminalPointName: 'SP-21 Đại Bao (Thành ngực bên liên sườn 6)',
+    flowDirectionSummary: 'Ngón chân cái (Ẩn Bạch) → Trước mắt cá trong → Mặt trong cẳng chân (Tam Âm Giao), đùi → Bụng, ngực → Tận cùng ở Đại Bao (nách/liên sườn 6), nối sang Kinh Tâm.',
+    pairedZangFu: 'Tạng Tỳ (Biểu lý với Vị)',
+  },
+  HT: {
+    id: 'HT',
+    category: 'chinh_kinh',
+    cycleOrder: 5,
+    prevMeridianId: 'SP',
+    nextMeridianId: 'SI',
+    flowTime: '11h - 13h (Giờ Ngọ)',
+    yinYang: 'Âm',
+    element: 'Hỏa',
+    flowDirectionType: 'Ngực → Tay (Ly tâm)',
+    originPointName: 'HT-1 Cực Tuyền (Chính giữa hố nách)',
+    terminalPointName: 'HT-9 Thiếu Xung (Đầu ngón tay út)',
+    flowDirectionSummary: 'Hố nách (Cực Tuyền) → Dọc bờ trong mặt trước cánh tay, cẳng tay → Cổ tay (Thần Môn) → Góc trong móng ngón út (Thiếu Xung), giao tiếp Kinh Tiểu Trường.',
+    pairedZangFu: 'Tạng Tâm (Biểu lý với Tiểu Trường)',
+  },
+  SI: {
+    id: 'SI',
+    category: 'chinh_kinh',
+    cycleOrder: 6,
+    prevMeridianId: 'HT',
+    nextMeridianId: 'BL',
+    flowTime: '13h - 15h (Giờ Mùi)',
+    yinYang: 'Dương',
+    element: 'Hỏa',
+    flowDirectionType: 'Tay → Đầu (Hướng tâm)',
+    originPointName: 'SI-1 Thiếu Trạch (Góc ngoài ngón út)',
+    terminalPointName: 'SI-19 Thính Cung (Trước nắp bình tai)',
+    flowDirectionSummary: 'Ngón út (Thiếu Trạch) → Bờ trụ bàn tay (Hậu Khê) → Mặt sau ngoài cẳng tay, cánh tay → Bả vai (Thiên Tông) → Cổ, gò má → Trước tai (Thính Cung), nối sang Kinh Bàng Quang.',
+    pairedZangFu: 'Phủ Tiểu Trường (Biểu lý với Tâm)',
+  },
+  BL: {
+    id: 'BL',
+    category: 'chinh_kinh',
+    cycleOrder: 7,
+    prevMeridianId: 'SI',
+    nextMeridianId: 'KI',
+    flowTime: '15h - 17h (Giờ Thân)',
+    yinYang: 'Dương',
+    element: 'Thủy',
+    flowDirectionType: 'Đầu → Chân (Ly tâm)',
+    originPointName: 'BL-1 Tình Minh (Khóe mắt trong)',
+    terminalPointName: 'BL-67 Chí Âm (Đầu ngón chân út)',
+    flowDirectionSummary: 'Khóe mắt trong (Tình Minh) → Trán, đỉnh đầu ra sau gáy → Chia 2 nhánh song song dọc cột sống (hệ Du huyệt tạng phủ) → Mông, sau đùi, khoeo chân (Ủy Trung), bắp chân → Sau mắt cá ngoài → Ngón chân út (Chí Âm).',
+    pairedZangFu: 'Phủ Bàng Quang (Biểu lý với Thận)',
+  },
+  KI: {
+    id: 'KI',
+    category: 'chinh_kinh',
+    cycleOrder: 8,
+    prevMeridianId: 'BL',
+    nextMeridianId: 'PC',
+    flowTime: '17h - 19h (Giờ Dậu)',
+    yinYang: 'Âm',
+    element: 'Thủy',
+    flowDirectionType: 'Chân → Ngực (Hướng tâm)',
+    originPointName: 'KI-1 Dũng Tuyền (Giữa gan bàn chân)',
+    terminalPointName: 'KI-27 Du Phủ (Dưới xương đòn)',
+    flowDirectionSummary: 'Gan bàn chân (Dũng Tuyền) → Vòng sau mắt cá trong (Thái Khê) → Mặt sau trong cẳng chân, đùi → Bụng, ngực sát đường giữa → Dưới xương đòn (Du Phủ), nối sang Kinh Tâm Bào.',
+    pairedZangFu: 'Tạng Thận (Biểu lý với Bàng Quang)',
+  },
+  PC: {
+    id: 'PC',
+    category: 'chinh_kinh',
+    cycleOrder: 9,
+    prevMeridianId: 'KI',
+    nextMeridianId: 'TE',
+    flowTime: '19h - 21h (Giờ Tuất)',
+    yinYang: 'Âm',
+    element: 'Hỏa',
+    flowDirectionType: 'Ngực → Tay (Ly tâm)',
+    originPointName: 'PC-1 Thiên Trì (Ngực ngoài núm vú)',
+    terminalPointName: 'PC-9 Trung Xung (Đầu ngón tay giữa)',
+    flowDirectionSummary: 'Thành ngực (Thiên Trì) → Đường giữa mặt trước cánh tay, nếp khuỷu (Khúc Trạch), giữa 2 gân cẳng tay (Nội Quan) → Gan bàn tay (Lao Cung) → Đầu ngón giữa (Trung Xung).',
+    pairedZangFu: 'Tâm Bào Lạc (Biểu lý với Tam Tiêu)',
+  },
+  TE: {
+    id: 'TE',
+    category: 'chinh_kinh',
+    cycleOrder: 10,
+    prevMeridianId: 'PC',
+    nextMeridianId: 'GB',
+    flowTime: '21h - 23h (Giờ Hợi)',
+    yinYang: 'Dương',
+    element: 'Hỏa',
+    flowDirectionType: 'Tay → Đầu (Hướng tâm)',
+    originPointName: 'TE-1 Quan Xung (Góc ngón áp út)',
+    terminalPointName: 'TE-23 Ty Trúc Không (Đuôi lông mày)',
+    flowDirectionSummary: 'Ngón áp út (Quan Xung) → Mu bàn tay, giữa 2 xương cẳng tay sau (Ngoại Quan) → Khuỷu, mặt ngoài vai → Cổ → Vòng quanh vành tai (Ế Phong) → Đuôi lông mày (Ty Trúc Không), nối Kinh Đởm.',
+    pairedZangFu: 'Phủ Tam Tiêu (Biểu lý với Tâm Bào)',
+  },
+  GB: {
+    id: 'GB',
+    category: 'chinh_kinh',
+    cycleOrder: 11,
+    prevMeridianId: 'TE',
+    nextMeridianId: 'LR',
+    flowTime: '23h - 1h (Giờ Tý)',
+    yinYang: 'Dương',
+    element: 'Mộc',
+    flowDirectionType: 'Đầu → Chân (Ly tâm)',
+    originPointName: 'GB-1 Đồng Tử Liêu (Khóe mắt ngoài)',
+    terminalPointName: 'GB-44 Túc Khiếu Âm (Ngón chân thứ 4)',
+    flowDirectionSummary: 'Khóe mắt ngoài → Ziczac vùng thái dương, sau tai → Vai (Kiên Tỉnh) → Dọc mạn sườn, hông (Hoàn Khiêu) → Mặt ngoài đùi, cẳng chân (Dương Lăng Tuyền) → Trước mắt cá ngoài → Ngón chân thứ 4 (Túc Khiếu Âm).',
+    pairedZangFu: 'Phủ Đởm (Biểu lý với Can)',
+  },
+  LR: {
+    id: 'LR',
+    category: 'chinh_kinh',
+    cycleOrder: 12,
+    prevMeridianId: 'GB',
+    nextMeridianId: 'LU',
+    flowTime: '1h - 3h (Giờ Sửu)',
+    yinYang: 'Âm',
+    element: 'Mộc',
+    flowDirectionType: 'Chân → Ngực (Hướng tâm)',
+    originPointName: 'LR-1 Đại Đôn (Góc ngoài ngón chân cái)',
+    terminalPointName: 'LR-14 Kỳ Môn (Khoang liên sườn 6)',
+    flowDirectionSummary: 'Ngón chân cái (Đại Đôn) → Mu bàn chân (Thái Xung) → Bắt chéo phía trong cẳng chân (Tam Âm Giao), đùi → Bộ phận sinh dục ngoài → Hạ sườn (Chương Môn, Kỳ Môn), kết thúc vòng tuần hoàn quay về Phế.',
+    pairedZangFu: 'Tạng Can (Biểu lý với Đởm)',
+  },
+  GV: {
+    id: 'GV',
+    category: 'ky_kinh',
+    flowTime: 'Tổng quản Dương khí 6 kinh Dương',
+    yinYang: 'Dương',
+    element: 'Âm Dương',
+    flowDirectionType: 'Đáy chậu → Đầu mặt (Thăng dương)',
+    originPointName: 'GV-1 Trường Cường (Đầu chóp xương cụt)',
+    terminalPointName: 'GV-28 Ngân Giao / GV-29 Ấn Đường',
+    flowDirectionSummary: 'Đáy chậu xương cụt (Trường Cường) → Chạy ngược thẳng lên dọc chính giữa cột sống (Mệnh Môn, Đại Chùy) → Gáy (Phong Phủ) → Đỉnh đầu (Bách Hội) → Trán, mũi, nhân trung xuống lợi trên.',
+    pairedZangFu: 'Não Tủy & Cột Sống (Dương Mạch Chi Hải)',
+    openingPointCode: 'SI3',
+    openingPointName: 'Hậu Khê (Thông Đốc Mạch)',
+  },
+  CV: {
+    id: 'CV',
+    category: 'ky_kinh',
+    flowTime: 'Tổng quản Âm huyết 6 kinh Âm & Thai sản',
+    yinYang: 'Âm',
+    element: 'Âm Dương',
+    flowDirectionType: 'Đáy chậu → Ngực mặt (Nhâm mạch)',
+    originPointName: 'CV-1 Hội Âm (Đáy chậu)',
+    terminalPointName: 'CV-24 Thừa Tương (Hõm dưới môi dưới)',
+    flowDirectionSummary: 'Hội Âm → Vượt bờ trên xương mu → Dọc đường trắng giữa bụng (Quan Nguyên, Khí Hải, Thần Khuyết, Trung Quản) → Xương ức (Đản Trung) → Hõm cổ (Thiên Đột) → Tận ở môi dưới (Thừa Tương).',
+    pairedZangFu: 'Bào Cung & Tam Tiêu (Âm Mạch Chi Hải)',
+    openingPointCode: 'LU7',
+    openingPointName: 'Liệt Khuyết (Thông Nhâm Mạch)',
+  },
+  CHONG: {
+    id: 'CHONG',
+    category: 'ky_kinh',
+    flowTime: 'Thập Nhị Kinh Chi Hải (Biển của 12 Kinh & Huyết Hải)',
+    yinYang: 'Âm',
+    element: 'Âm Dương',
+    flowDirectionType: 'Kỳ Kinh Bát Mạch',
+    originPointName: 'CV-1 Hội Âm / ST-30 Khí Xung',
+    terminalPointName: 'KI-21 U Môn & Lên Họng Miệng',
+    flowDirectionSummary: 'Từ bào cung xuống Hội Âm, ra Khí Xung rồi nhập vào Kinh Thận chạy thẳng lên hai bên rốn tới ngực (KI-11 → KI-21); nhánh xuống đi vào mặt trong đùi và bàn chân.',
+    pairedZangFu: 'Thận - Tỳ Vị & Bào Cung (Huyết Hải)',
+    openingPointCode: 'SP4',
+    openingPointName: 'Công Tôn (Thông Xung Mạch)',
+    memberPointCodes: ['CV1', 'ST30', 'KI11', 'KI12', 'KI13', 'KI14', 'KI15', 'KI16', 'KI17', 'KI18', 'KI19', 'KI20', 'KI21', 'SP4'],
+  },
+  DAI: {
+    id: 'DAI',
+    category: 'ky_kinh',
+    flowTime: 'Ước thúc các kinh dọc chạy quanh thắt lưng',
+    yinYang: 'Dương',
+    element: 'Âm Dương',
+    flowDirectionType: 'Kỳ Kinh Bát Mạch',
+    originPointName: 'LR-13 Chương Môn (Dưới sườn cụt)',
+    terminalPointName: 'Vòng quanh eo lưng (GB-26, GB-27, GB-28)',
+    flowDirectionSummary: 'Khởi từ dưới sườn cụt vùng Can-Đởm (Chương Môn), chạy nghiêng xuống huyệt Đới Mạch (GB-26), Ngũ Khu, Duy Đạo rồi thắt vòng ngang quanh thắt lưng như chiếc đai.',
+    pairedZangFu: 'Can Đởm & Hạ Tiêu Đới Hạ',
+    openingPointCode: 'GB41',
+    openingPointName: 'Túc Lâm Khấp (Thông Đới Mạch)',
+    memberPointCodes: ['LR13', 'GB26', 'GB27', 'GB28', 'GB41'],
+  },
+  YINQIAO: {
+    id: 'YINQIAO',
+    category: 'ky_kinh',
+    flowTime: 'Điều tiết Âm khí hai chi dưới & giấc ngủ (Khép mi)',
+    yinYang: 'Âm',
+    element: 'Âm Dương',
+    flowDirectionType: 'Kỳ Kinh Bát Mạch',
+    originPointName: 'KI-6 Chiếu Hải / KI-2 Nhiên Cốc',
+    terminalPointName: 'BL-1 Tình Minh (Khóe mắt trong)',
+    flowDirectionSummary: 'Từ dưới mắt cá trong (Chiếu Hải), lên Giao Tín, chạy dọc mặt trong đùi qua sinh dục, lên ngực vào Khuyết Bồn, lên cổ qua Nhân Nghênh và tận ở khóe mắt trong (Tình Minh).',
+    pairedZangFu: 'Thận & Nhãn Cầu (Hợp mi ngủ)',
+    openingPointCode: 'KI6',
+    openingPointName: 'Chiếu Hải (Thông Âm Kiều)',
+    memberPointCodes: ['KI2', 'KI6', 'KI8', 'ST12', 'ST9', 'BL1'],
+  },
+  YANGQIAO: {
+    id: 'YANGQIAO',
+    category: 'ky_kinh',
+    flowTime: 'Điều tiết Dương khí vận động chi dưới & tỉnh táo (Mở mi)',
+    yinYang: 'Dương',
+    element: 'Âm Dương',
+    flowDirectionType: 'Kỳ Kinh Bát Mạch',
+    originPointName: 'BL-62 Thân Mạch (Dưới mắt cá ngoài)',
+    terminalPointName: 'BL-1 Tình Minh → GB-20 Phong Trì',
+    flowDirectionSummary: 'Từ mắt cá ngoài (Thân Mạch, Bộc Tham), dọc mặt ngoài chân qua Cự Liêu đùi lên sườn, vai (Nhu Du, Kiên Ngung, Cự Cốt), qua khóe miệng lên khóe mắt trong (Tình Minh) và vòng ra gáy (Phong Trì).',
+    pairedZangFu: 'Bàng Quang & Cân Cơ Chi Dưới',
+    openingPointCode: 'BL62',
+    openingPointName: 'Thân Mạch (Thông Dương Kiều)',
+    memberPointCodes: ['BL62', 'BL61', 'BL59', 'GB29', 'SI10', 'LI15', 'LI16', 'ST4', 'ST3', 'ST1', 'BL1', 'GB20'],
+  },
+  YINWEI: {
+    id: 'YINWEI',
+    category: 'ky_kinh',
+    flowTime: 'Liên kết toàn bộ các Kinh Âm (Chủ vùng Tâm - Ngực - Vị)',
+    yinYang: 'Âm',
+    element: 'Âm Dương',
+    flowDirectionType: 'Kỳ Kinh Bát Mạch',
+    originPointName: 'KI-9 Trúc Tân (Mặt trong cẳng chân)',
+    terminalPointName: 'CV-22 Thiên Đột → CV-23 Liêm Tuyền',
+    flowDirectionSummary: 'Khởi từ hội của tam âm ở cẳng chân (Trúc Tân KI-9), lên mặt trong đùi vào bụng dưới (Phủ Xá, Đại Hoành, Phúc Ai), lên hông sườn (Kỳ Môn) rồi nhập Nhâm Mạch tới yết hầu (Thiên Đột, Liêm Tuyền).',
+    pairedZangFu: 'Tâm - Tâm Bào & Các Kinh Âm',
+    openingPointCode: 'PC6',
+    openingPointName: 'Nội Quan (Thông Âm Duy)',
+    memberPointCodes: ['KI9', 'SP13', 'SP15', 'SP16', 'LR14', 'CV22', 'CV23', 'PC6'],
+  },
+  YANGWEI: {
+    id: 'YANGWEI',
+    category: 'ky_kinh',
+    flowTime: 'Liên kết toàn bộ các Kinh Dương (Chủ biểu hàn nhiệt)',
+    yinYang: 'Dương',
+    element: 'Âm Dương',
+    flowDirectionType: 'Kỳ Kinh Bát Mạch',
+    originPointName: 'BL-63 Kim Môn (Bờ ngoài bàn chân)',
+    terminalPointName: 'GV-16 Phong Phủ → GV-15 Á Môn',
+    flowDirectionSummary: 'Từ Kim Môn (BL-63) dọc mặt ngoài chân qua Dương Giao (GB-35), lên hông vai (Nhu Du, Thiên Liêu, Kiên Tỉnh), vòng lên trán đầu (Bản Thần, Dương Bạch → Phong Trì) rồi nhập Đốc Mạch tại Phong Phủ, Á Môn.',
+    pairedZangFu: 'Biểu Phận & 6 Kinh Dương',
+    openingPointCode: 'TE5',
+    openingPointName: 'Ngoại Quan (Thông Dương Duy)',
+    memberPointCodes: ['BL63', 'GB35', 'SI10', 'TE15', 'GB21', 'GB13', 'GB14', 'GB15', 'GB16', 'GB17', 'GB18', 'GB19', 'GB20', 'GV16', 'GV15', 'TE5'],
+  },
+};
+
+export interface ExtraordinaryVesselCardInfo {
+  id: 'CHONG' | 'DAI' | 'YINQIAO' | 'YANGQIAO' | 'YINWEI' | 'YANGWEI';
+  shortLabel: string;
+  enName: string;
+  viShort: string;
+  name: string;
+  lineColor: string;
+  description: string;
+}
+
+export const EXTRAORDINARY_VESSELS_META: ExtraordinaryVesselCardInfo[] = [
+  {
+    id: 'CHONG',
+    shortLabel: 'Xung',
+    enName: 'Chong Mai',
+    viShort: 'Xung Mạch',
+    name: 'Xung Mạch (Huyết Hải)',
+    lineColor: '#be123c',
+    description: 'Biển của 12 kinh mạch và huyết dịch; thông với huyệt Công Tôn (SP-4).',
+  },
+  {
+    id: 'DAI',
+    shortLabel: 'Đới',
+    enName: 'Dai Mai',
+    viShort: 'Đới Mạch',
+    name: 'Đới Mạch (Thắt Lưng)',
+    lineColor: '#0d9488',
+    description: 'Đường kinh duy nhất chạy ngang thắt lưng ước thúc các kinh dọc; thông Túc Lâm Khấp (GB-41).',
+  },
+  {
+    id: 'YINQIAO',
+    shortLabel: 'Â.Kiều',
+    enName: 'Yin Qiao',
+    viShort: 'Âm Kiều',
+    name: 'Âm Kiều Mạch',
+    lineColor: '#6d28d9',
+    description: 'Chủ điều hòa vận động bên trong chi dưới và đóng mở mi mắt (ngủ ngon); thông Chiếu Hải (KI-6).',
+  },
+  {
+    id: 'YANGQIAO',
+    shortLabel: 'D.Kiều',
+    enName: 'Yang Qiao',
+    viShort: 'Dương Kiều',
+    name: 'Dương Kiều Mạch',
+    lineColor: '#0369a1',
+    description: 'Chủ vận động bên ngoài chi dưới và sự tỉnh táo; thông Thân Mạch (BL-62).',
+  },
+  {
+    id: 'YINWEI',
+    shortLabel: 'Â.Duy',
+    enName: 'Yin Wei',
+    viShort: 'Âm Duy',
+    name: 'Âm Duy Mạch',
+    lineColor: '#9d174d',
+    description: 'Kết nối toàn bộ kinh Âm, đặc trị vùng ngực tim vị quản; thông Nội Quan (PC-6).',
+  },
+  {
+    id: 'YANGWEI',
+    shortLabel: 'D.Duy',
+    enName: 'Yang Wei',
+    viShort: 'Dương Duy',
+    name: 'Dương Duy Mạch',
+    lineColor: '#b45309',
+    description: 'Kết nối toàn bộ kinh Dương, chủ chứng biểu hàn nhiệt phát sốt; thông Ngoại Quan (TE-5).',
+  },
+];
+
+export interface Tung3DAnchorSpec {
+  code: string;
+  anchor: [number, number, number]; // Snap-refined onto human-learning.glb at runtime
+  isBilateral: boolean;
+}
+
+/**
+ * 36 Huyệt Đổng Thị Kỳ Huyệt Kinh Điển nhất định vị trực tiếp trên lưới giải phẫu người 3D
+ * (kết hợp dữ liệu chi tiết từ 239 huyệt Đổng Thị trong TUNG_POINTS).
+ */
+export const TUNG_3D_ANCHOR_SPECS: Tung3DAnchorSpec[] = [
+  // Khu 11 (Ngón tay)
+  { code: '11.01', anchor: [0.614, 1.028, 0.045], isBilateral: true }, // Đại Gian
+  { code: '11.06', anchor: [0.578, 0.990, 0.052], isBilateral: true }, // Hoàn Sào
+  { code: '11.10', anchor: [0.620, 0.968, 0.064], isBilateral: true }, // 4 Mộc Hỏa
+  { code: '11.17', anchor: [0.606, 1.024, 0.048], isBilateral: true }, // Mộc
+
+  // Khu 22 (Bàn tay)
+  { code: '22.01', anchor: [0.556, 1.076, 0.044], isBilateral: true }, // Trọng Tử
+  { code: '22.02', anchor: [0.541, 1.084, 0.043], isBilateral: true }, // Trọng Tiên
+  { code: '22.04', anchor: [0.592, 1.056, 0.021], isBilateral: true }, // Đại Bạch
+  { code: '22.05', anchor: [0.552, 1.088, 0.008], isBilateral: true }, // Linh Cốt
+  { code: '22.06', anchor: [0.532, 1.042, 0.014], isBilateral: true }, // Trung Bạch
+  { code: '22.07', anchor: [0.524, 1.058, 0.009], isBilateral: true }, // Hạ Bạch
+  { code: '22.08', anchor: [0.520, 1.044, 0.015], isBilateral: true }, // Uyển Thuận 1
+  { code: '22.10', anchor: [0.538, 1.032, 0.052], isBilateral: true }, // Thủ Giải
+
+  // Khu 33 (Cẳng tay)
+  { code: '33.04', anchor: [0.465, 1.152, -0.012], isBilateral: true }, // Hỏa Xuyến
+  { code: '33.12', anchor: [0.402, 1.275, -0.028], isBilateral: true }, // Tâm Môn
+  { code: '33.13', anchor: [0.478, 1.174, 0.040], isBilateral: true }, // Nhân Sĩ
+  { code: '33.14', anchor: [0.444, 1.224, 0.045], isBilateral: true }, // Địa Sĩ
+  { code: '33.15', anchor: [0.410, 1.272, 0.044], isBilateral: true }, // Thiên Sĩ
+
+  // Khu 66 (Mu bàn chân)
+  { code: '66.03', anchor: [0.230, 0.038, 0.165], isBilateral: true }, // Hỏa Ngạnh
+  { code: '66.04', anchor: [0.224, 0.046, 0.141], isBilateral: true }, // Hỏa Chủ
+  { code: '66.05', anchor: [0.256, 0.038, 0.138], isBilateral: true }, // Môn Kim
+
+  // Khu 77 (Cẳng chân)
+  { code: '77.01', anchor: [0.244, 0.105, -0.032], isBilateral: true }, // Chính Cân
+  { code: '77.02', anchor: [0.235, 0.148, -0.042], isBilateral: true }, // Chính Tông
+  { code: '77.05', anchor: [0.270, 0.150, 0.025], isBilateral: true }, // Tam Trọng 1
+  { code: '77.06', anchor: [0.264, 0.205, 0.028], isBilateral: true }, // Tam Trọng 2
+  { code: '77.07', anchor: [0.258, 0.260, 0.031], isBilateral: true }, // Tam Trọng 3
+  { code: '77.08', anchor: [0.205, 0.416, 0.067], isBilateral: true }, // Tứ Hoa Thượng
+  { code: '77.09', anchor: [0.224, 0.295, 0.052], isBilateral: true }, // Tứ Hoa Trung
+  { code: '77.11', anchor: [0.235, 0.218, 0.042], isBilateral: true }, // Tứ Hoa Hạ
+  { code: '77.18', anchor: [0.141, 0.408, 0.028], isBilateral: true }, // Thận Quan
+  { code: '77.19', anchor: [0.182, 0.275, 0.016], isBilateral: true }, // Địa Hoàng
+  { code: '77.21', anchor: [0.202, 0.175, 0.008], isBilateral: true }, // Nhân Hoàng
+
+  // Khu 88 (Đùi)
+  { code: '88.01', anchor: [0.145, 0.652, 0.115], isBilateral: true }, // Thông Quan
+  { code: '88.02', anchor: [0.136, 0.706, 0.118], isBilateral: true }, // Thông Sơn
+  { code: '88.03', anchor: [0.128, 0.760, 0.120], isBilateral: true }, // Thông Thiên
+  { code: '88.12', anchor: [0.108, 0.715, 0.055], isBilateral: true }, // Minh Hoàng
+  { code: '88.13', anchor: [0.100, 0.790, 0.055], isBilateral: true }, // Thiên Hoàng
+  { code: '88.14', anchor: [0.118, 0.640, 0.055], isBilateral: true }, // Kỳ Hoàng
+  { code: '88.17', anchor: [0.205, 0.718, 0.072], isBilateral: true }, // Tứ Mã Trung
+
+  // Khu 1010 (Đầu mặt)
+  { code: '1010.01', anchor: [0.0, 1.843, 0.015], isBilateral: false }, // Chính Hội
+  { code: '1010.07', anchor: [0.0, 1.612, -0.014], isBilateral: false }, // Tổng Khu
+];
+
