@@ -65,9 +65,18 @@ const STOP_WORDS = new Set([
   'nhieu', 'lieu', 'luong', 'cach', 'lay', 'vi', 'tri', 'giai', 'phau', 'co', 'che',
   'tai', 'sao', 'vi', 'sao', 'phan', 'biet', 'so', 'sanh', 'voi', 'trong', 'sach',
   'theo', 'dong', 'tay', 'nam', 'y', 'hoc', 'co', 'truyen', 'hien', 'dai', 'hoi',
-  'bac', 'si', 'em', 'toi', 'minh', 'anh', 'chi', 'ong', 'ba', 'hay', 'xin', 'cho',
-  'biet', 've', 'van', 'de', 'trieu', 'chung', 'dau', 'moi', 'met', 'ngay', 'thang'
+  'bac', 'si', 'bsi', 'chao', 'em', 'toi', 'minh', 'anh', 'chi', 'ong', 'ba', 'hay',
+  'xin', 'cho', 'biet', 've', 'van', 'de', 'trieu', 'chung', 'moi', 'met', 'ngay',
+  'thang', 'ko', 'khong', 'dc', 'duoc', 'a', 'chu', 'roi', 'nha', 'nhe', 'qua', 'rat',
+  'lam', 'thi', 'ma', 'sau', 'truoc', 'luc', 'bo', 'tang', 'giam', 'huyet', 'sinh',
+  'tu', 'giup', 'xem', 'ra', 'vao', 'len', 'xuong', 'hon', 'nhat', 'it'
 ]);
+
+function hasWord(norm: string, word: string): boolean {
+  if (!word) return false;
+  const escaped = word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return new RegExp(`(?:^|\\s)${escaped}(?:\\s|$)`).test(norm);
+}
 
 export function extractKeywords(query: string): { rawLower: string; norm: string; tokens: string[]; bigrams: string[] } {
   const rawLower = (query || '').toLowerCase().trim();
@@ -239,18 +248,18 @@ export function retrieveMedicalKnowledge(query: string, bookFilter?: string): Ma
     for (const bg of bigrams) {
       if (bg.length >= 5) {
         if (vnNorm.includes(bg)) score += 25;
-        if (indNorm.includes(bg) || actNorm.includes(bg)) score += 10;
+        if (indNorm.includes(bg) || actNorm.includes(bg)) score += 12;
       }
     }
     for (const tk of tokens) {
-      if (tk.length >= 3) {
-        if (vnNorm.split(' ').includes(tk)) score += 10;
-        if (indNorm.includes(tk) || actNorm.includes(tk)) score += 3;
+      if (tk.length >= 4) {
+        if (hasWord(vnNorm, tk)) score += 12;
+        if (hasWord(indNorm, tk) || hasWord(actNorm, tk)) score += 3;
       }
     }
     return { item: hb, score };
   })
-    .filter(x => x.score >= 12)
+    .filter(x => x.score >= 22)
     .sort((a, b) => b.score - a.score)
     .slice(0, 5)
     .map(x => x.item);
@@ -263,25 +272,26 @@ export function retrieveMedicalKnowledge(query: string, bookFilter?: string): Ma
     const indNorm = normalizeVi(dr.indications.join(' '));
     const grpNorm = normalizeVi(dr.groupName);
 
-    if (actIngNorm.length >= 4 && norm.includes(actIngNorm.split(' ')[0])) score += 55;
+    const firstIng = actIngNorm.split(' ')[0];
+    if (firstIng.length >= 4 && hasWord(norm, firstIng)) score += 60;
     for (const b of dr.commonBrandNames) {
       const bNorm = normalizeVi(b);
-      if (bNorm.length >= 4 && norm.includes(bNorm)) score += 55;
+      if (bNorm.length >= 4 && hasWord(norm, bNorm)) score += 55;
     }
     for (const bg of bigrams) {
-      if (bg.length >= 5) {
-        if (indNorm.includes(bg) || grpNorm.includes(bg)) score += 14;
+      if (bg.length >= 6) {
+        if (indNorm.includes(bg) || grpNorm.includes(bg)) score += 16;
       }
     }
     for (const tk of tokens) {
-      if (tk.length >= 3) {
-        if (actIngNorm.includes(tk) || brandsNorm.includes(tk)) score += 15;
-        if (indNorm.includes(tk)) score += 4;
+      if (tk.length >= 4) {
+        if (hasWord(actIngNorm, tk) || hasWord(brandsNorm, tk)) score += 20;
+        if (hasWord(indNorm, tk)) score += 4;
       }
     }
     return { item: dr, score };
   })
-    .filter(x => x.score >= 12)
+    .filter(x => x.score >= 24)
     .sort((a, b) => b.score - a.score)
     .slice(0, 5)
     .map(x => x.item);
@@ -296,25 +306,25 @@ export function retrieveMedicalKnowledge(query: string, bookFilter?: string): Ma
       `${ds.guytonPhysiology.homeostasisDisruption} ${ds.guytonPhysiology.cellularHemodynamicMechanism} ${ds.essentialsOfNutrition.drugNutrientInteractions.join(' ')} ${ds.tcmSyndromeCorrespondence}`
     );
 
-    if (viNorm.length >= 4 && norm.includes(viNorm)) score += 55;
-    if (enNorm.length >= 4 && norm.includes(enNorm)) score += 50;
-    if (icdNorm.length >= 3 && norm.includes(icdNorm)) score += 45;
+    if (viNorm.length >= 4 && norm.includes(viNorm)) score += 60;
+    if (enNorm.length >= 4 && norm.includes(enNorm)) score += 55;
+    if (icdNorm.length >= 3 && hasWord(norm, icdNorm)) score += 45;
 
     for (const bg of bigrams) {
-      if (bg.length >= 5) {
-        if (viNorm.includes(bg) || enNorm.includes(bg)) score += 24;
+      if (bg.length >= 6) {
+        if (viNorm.includes(bg) || enNorm.includes(bg)) score += 26;
         if (mechNorm.includes(bg)) score += 10;
       }
     }
     for (const tk of tokens) {
-      if (tk.length >= 3) {
-        if (viNorm.includes(tk) || enNorm.includes(tk)) score += 9;
-        if (mechNorm.includes(tk)) score += 3;
+      if (tk.length >= 5) {
+        if (hasWord(viNorm, tk) || hasWord(enNorm, tk)) score += 12;
+        if (hasWord(mechNorm, tk)) score += 4;
       }
     }
     return { item: ds, score };
   })
-    .filter(x => x.score >= 10)
+    .filter(x => x.score >= 26)
     .sort((a, b) => b.score - a.score)
     .slice(0, 4)
     .map(x => x.item);
@@ -329,25 +339,25 @@ export function retrieveMedicalKnowledge(query: string, bookFilter?: string): Ma
       `${syn.keyEtiology} ${syn.fourExaminations.vong} ${syn.fourExaminations.van_ask} ${syn.fourExaminations.thiet} ${syn.westernCorrelations.diseases.join(' ')}`
     );
 
-    if (nameNorm.length >= 4 && norm.includes(nameNorm)) score += 55;
-    if (sinoNorm.length >= 4 && norm.includes(sinoNorm)) score += 55;
-    if (formulaNorm.length >= 4 && norm.includes(formulaNorm)) score += 45;
+    if (nameNorm.length >= 4 && norm.includes(nameNorm)) score += 60;
+    if (sinoNorm.length >= 4 && norm.includes(sinoNorm)) score += 60;
+    if (formulaNorm.length >= 4 && norm.includes(formulaNorm)) score += 50;
 
     for (const bg of bigrams) {
-      if (bg.length >= 5) {
-        if (nameNorm.includes(bg) || sinoNorm.includes(bg) || formulaNorm.includes(bg)) score += 24;
+      if (bg.length >= 6) {
+        if (nameNorm.includes(bg) || sinoNorm.includes(bg) || formulaNorm.includes(bg)) score += 26;
         if (sympNorm.includes(bg)) score += 12;
       }
     }
     for (const tk of tokens) {
-      if (tk.length >= 3) {
-        if (nameNorm.includes(tk) || sinoNorm.includes(tk)) score += 9;
-        if (sympNorm.includes(tk)) score += 4;
+      if (tk.length >= 5) {
+        if (hasWord(nameNorm, tk) || hasWord(sinoNorm, tk)) score += 12;
+        if (hasWord(sympNorm, tk)) score += 4;
       }
     }
     return { item: syn, score };
   })
-    .filter(x => x.score >= 10)
+    .filter(x => x.score >= 24)
     .sort((a, b) => b.score - a.score)
     .slice(0, 4)
     .map(x => x.item);
@@ -537,7 +547,8 @@ const DISEASE_QUERY_KEYWORDS = [
   'dau rang', 'nha chu', 'day than kinh so v', 'liet mat', 'day vii',
   'tuyen giap', 'cuong giap', 'suy giap', 'basedow', 'buou co', 'nhan tuyen giap',
   'mo mau', 'cholesterol', 'triglyceride', 'mach vanh', 'suy tim', 'dau that nguc', 'tim dap nhanh',
-  'sot xuat huyet', 'cam cum', 'sot sieu vi', 'u tai', 'diec tai', 'viem tai'
+  'sot xuat huyet', 'cam cum', 'sot sieu vi', 'u tai', 'diec tai', 'viem tai',
+  'rung toc', 'toc rung', 'hoi dau', 'thua toc', 'bac toc', 'bo khi huyet', 'sau sinh', 'thieu mau'
 ];
 
 function isClinicalDiseaseQuery(norm: string, matched?: MatchedMedicalKnowledge): boolean {
@@ -1009,11 +1020,8 @@ type ClinicalDomainKey =
   | 'thyroid'
   | 'cardiac'
   | 'migraine_hypertension'
+  | 'hair_loss_postpartum'
   | 'default';
-
-function hasWord(norm: string, word: string): boolean {
-  return new RegExp(`(?:^|\\s)${word}(?:\\s|$)`).test(norm);
-}
 
 function pickBestClinicalDomain(norm: string): ClinicalDomainKey {
   const scores: Record<Exclude<ClinicalDomainKey, 'default'>, number> = {
@@ -1033,7 +1041,8 @@ function pickBestClinicalDomain(norm: string): ClinicalDomainKey {
     sciatica: 0,
     thyroid: 0,
     cardiac: 0,
-    migraine_hypertension: 0
+    migraine_hypertension: 0,
+    hair_loss_postpartum: 0
   };
 
   const addPhrases = (domain: Exclude<ClinicalDomainKey, 'default'>, rules: Array<[string, number]>) => {
@@ -1159,6 +1168,12 @@ function pickBestClinicalDomain(norm: string): ClinicalDomainKey {
     ['tang huyet ap', 65], ['huyet ap cao', 65], ['dau nua dau', 60],
     ['thai duong', 45], ['dinh dau', 45], ['mieng dang', 45], ['hoa mat chong mat', 50],
     ['van tia mau', 45], ['can duong thuong khang', 65], ['tien dinh', 55], ['chong mat', 35], ['hoa mat', 35], ['buc doc', 30]
+  ]);
+
+  addPhrases('hair_loss_postpartum', [
+    ['rung toc', 70], ['toc rung', 70], ['hoi dau', 65], ['thua toc', 55],
+    ['sau sinh', 50], ['hau san', 50], ['bo khi huyet', 55], ['khi huyet hu', 55],
+    ['khi huyet luong hu', 60], ['thieu mau', 45], ['bac toc', 45], ['duong toc', 50]
   ]);
 
   let bestKey: ClinicalDomainKey = 'default';
@@ -2444,6 +2459,93 @@ function matchClinicalDomain(norm: string, rawText: string): ClinicalSpec {
       ],
       emergencySigns: ['Huyết áp đo ≥ 180/120 mmHg kèm đau đầu dữ dội như búa bổ, nôn vọt', 'Nói ngọng, méo miệng, nhìn mờ đột ngột hoặc yếu liệt tay chân một bên (Dấu hiệu Đột quỵ cấp - Gọi 115 ngay)'],
       referencedBooks: ['The Practice of Chinese Medicine - Giovanni Maciocia', 'Chinese Herbal Medicine - Dan Bensky', 'Sổ Tay Đổng Thị Kỳ Huyệt', 'Guyton and Hall Textbook of Medical Physiology', 'Dược thư Quốc gia Việt Nam']
+    };
+  }
+
+  // 16b. Rụng tóc sau sinh / Hói đầu / Khí Huyết Lưỡng Hư - Thận Tinh Bất Túc
+  if (bestDomain === 'hair_loss_postpartum') {
+    return {
+      directAnswer:
+        `• CÓ CHỮA ĐƯỢC KHÔNG VÀ DÙNG BÀI THUỐC NÀO? — HOÀN TOÀN CÓ THỂ PHỤC HỒI NANG TÓC VÀ MỌC LẠI TÓC DÀY KHỎE:\n` +
+        `  1. Tại sao sau sinh bị rụng tóc nhiều đến mức thưa hói? Về Tây Y, khi mang thai nồng độ Estrogen cao giữ 90% sợi tóc ở pha mọc (Anagen); sau khi sinh, Estrogen tụt giảm đột ngột kết hợp mất máu khi sinh, thiếu sắt (Ferritin thấp), thiếu ngủ chăm con khiến hàng loạt nang tóc đồng loạt chuyển sang pha nghỉ và rụng (Postpartum Telogen Effluvium). Về Đông Y, "Phát vi huyết chi dư, Thận kỳ hoa tại phát" — sinh nở gây hao tổn Khí Huyết và Thận Tinh nặng nề nên huyết không lên nuôi được chân tóc, dẫn tới rụng tóc ồ ạt vùng trán - đỉnh đầu.\n` +
+        `  2. Bài thuốc Đông Y chủ đạo "Bổ Khí Huyết + Cố Thận Sinh Phát" an toàn cho phụ nữ sau sinh: Ưu tiên **Bát Trân Thang gia giảm** (Đương quy, Thục địa, Xuyên khung, Bạch thược, Đẳng sâm/Hoàng kỳ, Bạch truật, Phục linh) phối hợp **Thất Bảo Mỹ Nhiêm Đan gia giảm** (Hà thủ ô đỏ chế đậu đen chuẩn, Tang thầm, Hắc chi ma/Vừng đen, Câu kỷ tử, Thỏ ty tử).\n` +
+        `  3. Lưu ý an toàn nếu bạn đang cho con bú: Phải chọn Hà thủ ô đỏ ĐÃ BÀO CHẾ CỬU CHƯNG CỬU SÁI (ninh nhừ với đậu đen để khử tính kích thích ruột, không gây đi ngoài cho bé), tránh các thuốc bôi/uống Tây Y chống chỉ định cho con bú (như Finasteride hoặc bôi Minoxidil tràn lên gối/da bé), đồng thời xét nghiệm Ferritin, Công thức máu và TSH để bù đúng Sắt + Biotin + Kẽm.`,
+      summary: `Tình trạng Rụng tóc sau sinh (Postpartum Telogen Effluvium) / Rụng tóc thưa hói vùng trán đỉnh do thiếu hụt vi chất và sụt giảm nội tiết tố hậu sản. Đông y biện chứng thuộc chứng Phát Đọa / Ban Thốc thể Khí Huyết Lưỡng Hư kiêm Can Thận Bất Túc.`,
+      clinicalDefinition: 'Rụng tóc sau sinh (Postpartum Alopecia / Telogen Effluvium) kết hợp suy nhược khí huyết hậu sản xảy ra phổ biến từ tháng thứ 2 đến tháng thứ 9 sau sinh nở, biểu hiện rụng tóc từng nắm khi chải gội, lộ rõ da đầu vùng trán hai bên và đỉnh đầu kèm mệt mỏi, hoa mắt, da xanh xao hoặc đau mỏi thắt lưng.',
+      causesAndRiskFactors: [
+        'Sụt giảm đột ngột Estrogen sau sinh đẩy 40–50% nang tóc vào pha Telogen (rụng hàng loạt sau 2–4 tháng).',
+        'Thiếu máu thiếu sắt (Ferritin huyết thanh < 50 ng/mL), thiếu Kẽm, Vitamin D3, Biotin (B7) và Protein do mất máu khi sinh + tiết sữa nuôi con.',
+        'Viêm tuyến giáp sau sinh (Postpartum Thyroiditis) hoặc thiếu ngủ kéo dài làm tăng Cortisol gây co mạch nang tóc.',
+        'Đông Y: Sau sinh "Bách mạch giai không" (huyết hư, nguyên khí tổn thương), Can tàng huyết và Thận tàng tinh suy yếu không dưỡng được phần ngọn là tóc.'
+      ],
+      clinicalStages: [
+        'Giai đoạn 1 — Rụng tóc lan tỏa cấp (2–5 tháng sau sinh): Tóc rụng nhiều khi gội/chải (> 100–300 sợi/ngày), chân tóc còn chấm trắng (telogen club hair).',
+        'Giai đoạn 2 — Thưa rõ đường ngôi / Hói vùng trán - đỉnh đầu (6–12 tháng): Nếu khí huyết không được bồi bổ kịp thời kèm thiếu sắt/thiếu ngủ kéo dài, nang tóc suy yếu teo nhỏ, tóc con mọc lên mảnh yếu hoặc chậm mọc.'
+      ],
+      westernDisease: 'Rụng tóc sau sinh / Rụng tóc giai đoạn nghỉ kiêm Thiếu máu thiếu sắt hậu sản (Postpartum Telogen Effluvium / Alopecia)',
+      icd10: 'L65.0 / D50.9',
+      pathophysiology: 'Theo Guyton & Hall: Suy giảm đột ngột Estrogen sau khi xổ nhau thai giải phóng chu kỳ nang tóc từ pha Anagen sang Catagen/Telogen; đồng thời giảm Hemoglobin và Ferritin làm giảm cung cấp Oxy và ATP cho tế bào mầm nhú bì (Dermal Papilla Cells) khiến sợi tóc đứt gãy và ngừng tổng hợp Keratin.',
+      differentialDiagnoses: ['Rụng tóc do Suy giáp sau sinh (Postpartum Thyroiditis)', 'Rụng tóc từng mảng (Alopecia Areata)', 'Thiếu máu thiếu sắt nặng / Thiếu Kẽm hậu sản'],
+      investigations: ['Công thức máu toàn phần (CBC) & Ferritin huyết thanh (mục tiêu mọc tóc > 50-70 ng/mL)', 'TSH, FT4 (tầm soát rối loạn tuyến giáp sau sinh)', 'Định lượng Kẽm huyết thanh & Vitamin D 25-OH'],
+      urgency: 'Có thể phục hồi tốt khi bổ đúng khí huyết, vi chất và ngủ nghỉ hợp lý',
+      easternSyndrome: 'Phát Đọa / Huyết Hư Phong Táo — Thể Khí Huyết Lưỡng Hư kiêm Can Thận Tinh Hư',
+      batCuong: 'Lý chứng, Hư chứng',
+      khiHuyet: 'Khí huyết bất túc sau sinh không vinh nhuận được da đầu và chân tóc',
+      thietChanAnalysis: 'Chất lưỡi nhợt bệu, có vết hằn răng ở rìa lưỡi, rêu lưỡi trắng mỏng; Mạch Tế Nhược hoặc Trầm Tế ở bộ Xích.',
+      easternExplanation: 'Nội Kinh viết "Thận kỳ hoa tại phát" (Tóc là sự tươi tốt bên ngoài của Thận) và "Phát vi huyết chi dư" (Tóc là phần dư của Huyết). Phụ nữ sau sinh mất nhiều âm huyết, lại tiết sữa nuôi con (sữa hóa sinh từ huyết), dẫn đến Khí Huyết lưỡng hư, Can Thận bất túc, chân tóc không được nuôi dưỡng mà rụng hói.',
+      tangPhu: 'Tâm, Tỳ (chủ sinh huyết), Can (tàng huyết) và Thận (tàng tinh)',
+      phapTri: 'Ích khí dưỡng huyết, bổ Can Thận, điền tinh sinh phát (dưỡng mọc tóc).',
+      formulaName: 'Bát Trân Thang hợp Thất Bảo Mỹ Nhiêm Đan gia giảm (Chính Thể Loại Yếu & Dan Bensky)',
+      herbs: [
+        { name: 'Hoàng Kỳ & Đẳng Sâm', amount: '16g Hoàng kỳ, 12g Đẳng sâm', grams: 16, role: 'Quân', purpose: 'Đại bổ Tỳ Phế nguyên khí, thúc đẩy tủy xương và Tỳ Vị sinh huyết mới ("Hữu hình chi huyết bất năng tự sinh, sinh ư vô hình chi khí")' },
+        { name: 'Đương Quy & Thục Địa', amount: '12g Đương quy, 16g Thục địa', grams: 16, role: 'Quân', purpose: 'Bổ huyết dưỡng âm, tư bổ Can Thận, làm mượt và chắc chân tóc' },
+        { name: 'Hà Thủ Ô Đỏ Chế (Cửu chưng cửu sái với đậu đen)', amount: '12g', grams: 12, role: 'Thần', purpose: 'Bổ Can Thận, ích tinh huyết, đặc hiệu kích thích mọc tóc mới và làm đen chân tóc' },
+        { name: 'Tang Thầm (Quả dâu chín) & Hắc Chi Ma (Vừng đen)', amount: '12g mỗi vị', grams: 12, role: 'Thần', purpose: 'Tư âm dưỡng huyết, nhuận táo sinh phát, an toàn cho phụ nữ sau sinh' },
+        { name: 'Bạch Thược & Xuyên Khung', amount: '12g Bạch thược, 6g Xuyên khung', grams: 12, role: 'Tá', purpose: 'Dưỡng Can huyết và hoạt huyết dẫn dưỡng chất lên vi mạch da đầu' },
+        { name: 'Bạch Truật & Phục Linh & Chích Cam Thảo', amount: '12g Bạch truật, 12g Phục linh, 4g Cam thảo', grams: 12, role: 'Sứ', purpose: 'Kiện Tỳ trừ thấp, giúp tiêu hóa hấp thu tốt thuốc bổ mà không bị đầy trướng bụng' }
+      ],
+      howToUse: 'Sắc ngày 1 thang chia 2 lần uống ấm sau bữa ăn 45 phút. Nếu đang cho con bú: kiểm tra kỹ Hà thủ ô đã chế đậu đen đạt chuẩn (không dùng sống); nếu ít sữa gia thêm Thông thảo 8g, Vương bất lưu hành 10g; tuyệt đối không dùng liều cao Xuyên khung nếu còn sản dịch nhiều.',
+      tungPoints: [
+        { name: 'Tam Hoàng (88.12 Minh Hoàng, 88.13 Thiên Hoàng, 88.14 Kỳ Hoàng) & Hạ Tam Hoàng (77.17-77.21)', code: '88.12-14 / 77.17-21', howToPress: 'Bồi bổ Can huyết và Thận tinh từ gốc theo học thuyết Tạng tượng Đổng Thị, giúp nuôi dưỡng nang tóc từ bên trong.' },
+        { name: 'Chính Hội (1010.01) & Linh Cốt (22.05)', code: '1010.01 / 22.05', howToPress: 'Đưa khí huyết thanh dương lên đỉnh đầu nuôi nang tóc và giảm căng thẳng thần kinh sau sinh.' }
+      ],
+      classicPoints: [
+        { name: 'Bách Hội (GV-20) & Tứ Thần Thông (EX-HN1)', location: 'Đỉnh đầu và 4 điểm cách Bách Hội 1 thốn', howToPress: 'Dùng đầu ngón tay gõ nhẹ và day tròn vùng đỉnh đầu 3 phút mỗi tối giúp tăng tưới máu mao mạch da đầu rõ rệt.' },
+        { name: 'Túc Tam Lý (ST-36), Tam Âm Giao (SP-6) & Thái Khê (KI-3)', location: 'Cẳng chân và sau mắt cá trong', howToPress: 'Day bấm hoặc cứu ấm mỗi huyệt 2 phút mỗi bên để đại bổ Khí Huyết - Can - Tỳ - Thận.' }
+      ],
+      doEat: [
+        'Vừng đen (Mè đen) rang giã nhỏ ăn với cháo/cơm, đậu đen xanh lòng, kỷ tử, táo đỏ, hạt óc chó, hạt bí giàu Kẽm',
+        'Thịt bò nạc, lòng đỏ trứng gà, gan động vật (tuần 1-2 lần), cá hồi, rau bina, bông cải xanh giàu Sắt & Vitamin C tăng hấp thu sắt'
+      ],
+      dontEat: [
+        'Thức ăn quá mặn, quá cay nóng, nhiều đường tinh luyện, trà đặc/cà phê uống ngay sau bữa ăn (cản trở hấp thu Sắt)',
+        'Thức khuya kéo dài, gội đầu bằng nước quá nóng hoặc dùng dầu gội tẩy mạnh nhiều Sulfate'
+      ],
+      homeCare: 'Chải tóc nhẹ nhàng bằng lược răng thưa từ ngọn lên gốc; gội đầu bằng nước bồ kết - vỏ bưởi - hương nhu ấm 2-3 lần/tuần kết hợp massage da đầu 5 phút mỗi tối kích thích vi tuần hoàn.',
+      protocolName: 'Phác đồ Bổ sung Vi chất Phục hồi Nang tóc & Điều trị Thiếu máu Sau sinh (An toàn khi cho con bú)',
+      sourceGuidelines: ['Dược thư Quốc gia Việt Nam', 'Hướng dẫn Sản Phụ Khoa Bệnh viện Từ Dũ / Phụ Sản TW', 'UpToDate Postpartum Telogen Effluvium'],
+      drugs: [
+        {
+          name: 'Tardyferon B9 (hoặc Ferrovit)',
+          activeIngredient: 'Sắt nguyên tố (Ferrous Sulfate 50mg) + Acid Folic 350mcg',
+          group: 'Vi chất tạo hồng cầu & tái tạo Ferritin nang tóc',
+          dosage: '1 viên x 1 lần/ngày (sau xét nghiệm kiểm tra thiếu máu/Ferritin)',
+          usage: 'Uống trước ăn sáng 30 phút hoặc giữa các bữa ăn cùng nước cam (cách xa Canxi ít nhất 2 giờ)',
+          mechanism: 'Bổ sung sắt tổng hợp Hemoglobin và Ferritin dự trữ giúp vận chuyển Oxy tới tế bào mầm nang tóc.',
+          caution: 'Có thể làm phân sẫm màu; không uống chung với sữa, trà đặc hoặc viên Canxi.'
+        },
+        {
+          name: 'Biotin (Vitamin B7) 2.5mg - 5mg + Kẽm Gluconate 15mg + L-Cystine 500mg',
+          activeIngredient: 'Biotin + Zinc + L-Cystine',
+          group: 'Acid amin lưu huỳnh & Coenzyme tổng hợp Keratin sợi tóc',
+          dosage: 'Biotin 2.5-5mg/ngày + L-Cystine 500mg x 2 lần/ngày trong 2-3 tháng',
+          usage: 'Uống sau bữa ăn',
+          mechanism: 'Cung cấp cầu nối Disulfide (-S-S-) cấu trúc nên sợi Keratin bền chắc và kéo dài pha mọc (Anagen) của nang tóc.',
+          caution: 'Nếu đang cho con bú, ưu tiên liều sinh lý theo tư vấn bác sĩ sản/dược sĩ; lưu ý tạm ngưng Biotin 48h trước khi xét nghiệm hormone tuyến giáp để tránh sai lệch kết quả.'
+        }
+      ],
+      emergencySigns: ['Rụng tóc mảng tròn nhẵn thín đột ngột lan rộng (Alopecia Areata)', 'Chóng mặt ngất xỉu, tim đập nhanh, khó thở, da niêm nhợt nhạt nặng (Thiếu máu nặng sau sinh cần truyền sắt/máu tại bệnh viện)'],
+      referencedBooks: ['Phụ Nhân Đại Toàn Lương Phương', 'Chinese Herbal Medicine: Materia Medica - Dan Bensky', 'Những Cây Thuốc Và Vị Thuốc Việt Nam - GS. Đỗ Tất Lợi', 'Guyton and Hall Textbook of Medical Physiology', 'Dược thư Quốc gia Việt Nam']
     };
   }
 
