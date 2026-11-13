@@ -27,16 +27,18 @@ export function runOfflineDiagnosis(
   const systolic = bpMatch ? parseInt(bpMatch[1], 10) : 0;
 
   const scores = {
-    gout: score(['gout', 'gút', 'thống phong', 'acid uric', 'uric', 'ngón chân', 'podagra', 'colchicine', 'febuxostat', 'allopurinol', 'tam diệu']),
+    gout: score(['gout', 'gút', 'thống phong', 'acid uric', 'uric', 'ngón chân cái', 'khớp bàn ngón chân', 'podagra', 'colchicine', 'febuxostat', 'allopurinol', 'tam diệu']),
     diabetes: score(['tiểu đường', 'đái tháo đường', 'đường huyết', 'tiêu khát', 'metformin', 'hba1c', 'khát nước']),
-    sciatica: score(['thần kinh tọa', 'tọa cốt phong', 'thoát vị', 'l4-l5', 'l5-s1', 'rễ thần kinh', 'lasegue', 'valleix', 'lan dọc mông', 'lan xuống đùi', 'bàn chân', 'cẳng chân ngoài', 'buốt nhói như điện']),
-    hypertension: score(['huyết áp', 'can dương thượng kháng', 'thái dương', 'búa bổ', 'hoa mắt chóng mặt', 'xây xẩm', 'mặt đỏ gay', 'nảy mạch', 'áp lực công việc cao', 'amlodipine', 'cáu gắt vô cớ']) + (systolic >= 140 ? 6 : 0),
-    gerd: score(['ợ chua', 'ợ hơi', 'trào ngược', 'thực quản', 'thượng vị', 'dạ dày', 'hang vị', 'chấn thủy', 'nóng rát sau xương ức', 'nghẹn vướng cổ', 'sợ uống nước đá', 'sôi bụng', 'thiện án', 'trung quản']),
-    insomnia: score(['mất ngủ', 'khó ngủ', 'ngủ chập chờn', 'thức trắng', 'giật mình lúc 2', 'giật mình lúc 3', 'hồi hộp', 'đánh trống ngực', 'tâm tỳ', 'hay quên', 'ác mộng', 'mệt mỏi hụt hơi', 'mạch tế nhược', 'thần môn']),
+    sciatica: score(['thần kinh tọa', 'tọa cốt phong', 'thoát vị', 'đau thắt lưng', 'thắt lưng', 'cẳng chân', 'mông', 'cúi người', 'l4-l5', 'l5-s1', 'rễ thần kinh', 'lasegue', 'valleix', 'lan dọc', 'buốt nhói như điện', 'tê rần']),
+    hypertension: score(['huyết áp', 'can dương thượng kháng', 'thái dương', 'đỉnh đầu', 'vằn tia máu', 'búa bổ', 'hoa mắt chóng mặt', 'xây xẩm', 'mặt đỏ gay', 'nảy mạch', 'áp lực công việc cao', 'amlodipine', 'cáu gắt']),
+    gerd: score(['ợ chua', 'ợ hơi', 'trào ngược', 'thực quản', 'thượng vị', 'dạ dày', 'hang vị', 'chấn thủy', 'nóng rát sau xương ức', 'nghẹn', 'sợ uống nước đá', 'sôi bụng', 'thiện án', 'trung quản']),
+    insomnia: score(['mất ngủ', 'ngủ chập chờn', 'thức trắng', 'giật mình lúc 2', 'giật mình lúc 3', 'hồi hộp', 'đánh trống ngực', 'tâm tỳ', 'hay quên', 'ác mộng', 'mệt mỏi hụt hơi', 'mạch tế nhược', 'thần môn']),
     knee: score(['khớp gối', 'đầu gối', 'lục cục', 'leo cầu thang', 'cứng khớp', 'thoái hóa khớp', 'sụn khớp', 'hạc tất phong', 'độc tỵ', 'tất nhãn']),
     bellsPalsy: score(['liệt mặt', 'méo miệng', 'mắt nhắm không kín', 'dây thần kinh vii', 'dây số 7', 'trúng gió lạnh', 'không huýt sáo', 'rãnh mũi má', 'khẩu nhãn oa tà', 'địa thương', 'giáp xa']),
     neckShoulder: score(['cổ vai gáy', 'vai gáy', 'cứng cổ', 'vẹo cổ', 'cột sống cổ', 'quay cổ', 'đau mỏi vai', 'lan xuống cánh tay', 'kiên ngung', 'kiên tỉnh'])
   };
+
+  if (systolic >= 140) scores.hypertension += 6;
 
   // Find max category
   let maxCat = '';
@@ -834,97 +836,6 @@ export function runOfflineDiagnosis(
     };
   }
 
-  // 7. Mặc định: Can Khí Uất Kết / Rối Loạn Thần Kinh Thực Vật
-  return {
-    summary: `Bệnh nhân ${patientName} (${age} tuổi) có biểu hiện rối loạn trương lực thần kinh thực vật kết hợp căng thẳng thể chất, Đông y biện chứng thuộc thể Can Khí Uất Kết kiêm Tỳ Hư, cần sơ can giải uất, kiện tỳ dưỡng tâm và cân bằng nhịp sinh học.`,
-    westernAssessment: {
-      provisionalDiagnosis: 'Rối loạn chức năng thần kinh thực vật / Căng thẳng thể chất mạn tính (Burnout / Dysautonomia)',
-      icd10: 'F45.3 / R53',
-      differentialDiagnoses: ['Hội chứng mệt mỏi mạn tính (CFS)', 'Rối loạn lo âu lan tỏa (GAD)', 'Rối loạn tiền đình chức năng'],
-      guytonMechanism: 'Theo Guyton & Hall: Trục dưới đồi - tuyến yên - thượng thận (HPA axis) bị kích thích kéo dài làm mất cân bằng điều hòa giữa trương lực giao cảm và phó giao cảm, dẫn đến co thắt vi mạch ngoại vi và suy giảm dẫn truyền serotonin.',
-      investigationsNeeded: ['Xét nghiệm công thức máu toàn phần CBC', 'Sinh hóa máu kiểm tra chức năng gan thận, đường huyết đói', 'Điện tâm đồ ECG kiểm tra nhịp tim cơ bản'],
-      redFlags: ['Khó thở dữ dội kèm đau thắt ngực đè nặng', 'Ngất xỉu mất ý thức đột ngột', 'Sốt cao kéo dài không rõ nguyên nhân']
-    },
-    easternAssessment: {
-      syndromePattern: 'Can Khí Uất Kết - Khí Cơ Bất Thấu',
-      batCuong: 'Bán biểu bán lý, Khí trệ thực chứng kiêm Tỳ khí hư',
-      tangPhu: 'Can tạng mất sơ tiết, hoành nghịch ảnh hưởng Tỳ Vị và Tâm thần',
-      khiHuyet: 'Khí uất trệ không lưu thông thanh khiếu, sinh nhiệt uất vi thể',
-      thietChanAnalysis: 'Lưỡi có hai rìa đỏ nhẹ, rêu mỏng; Mạch Huyền thể hiện Can uất khí trệ điển hình theo Maciocia.'
-    },
-    integratedTreatmentPlan: {
-      phapTri: 'Sơ can giải uất, lý khí hòa trung, dưỡng tâm an thần.',
-      herbalPrescription: {
-        formulaName: 'Tiêu Dao Tán gia giảm (Thái Bình Huệ Dân Hòa Tễ Cục Phương & Dan Bensky)',
-        composition: [
-          { herb: 'Sài Hồ', grams: 10, role: 'Quân', purpose: 'Sơ can giải uất, thấu đạt khí cơ' },
-          { herb: 'Bạch Thược', grams: 12, role: 'Thần', purpose: 'Dưỡng huyết nhu can, giảm căng thẳng' },
-          { herb: 'Bạch Truật', grams: 12, role: 'Thần', purpose: 'Kiện tỳ ích khí, vận hóa thủy thấp' },
-          { herb: 'Phục Linh', grams: 12, role: 'Tá', purpose: 'Kiện tỳ an thần ninh tâm' },
-          { herb: 'Bạc Hà', grams: 4, role: 'Sứ', purpose: 'Tán nhiệt sơ can thấu uất' },
-          { herb: 'Chích Cam Thảo', grams: 4, role: 'Sứ', purpose: 'Điều hòa bách dược' }
-        ],
-        decoctionGuide: 'Bạc hà cho vào sau sắc sôi 5 phút. Uống ngày 1 thang chia làm 2 lần sau ăn ấm.',
-        modifications: ['Nếu miệng đắng bứt rứt gia Chi tử 8g, Đan bì 10g (Đan Chi Tiêu Dao Tán)']
-      },
-      acupuncturePrescription: {
-        classicPoints: [
-          { point: 'Thái Xung (Liv-3)', location: 'Khe xương bàn chân 1-2', technique: 'Châm tả nhẹ', purpose: 'Sơ tiết can khí giải tỏa uất ức' },
-          { point: 'Nội Quan (PC-6)', location: 'Trên nếp gấp cổ tay 2 thốn', technique: 'Châm sâu 0.8 thốn', purpose: 'Khoan khoái lồng ngực, an định nhịp tim' },
-          { point: 'Đản Trung (Ren-17)', location: 'Điểm giữa hai đầu vú trên xương ức', technique: 'Châm luồn dưới da 0.5 thốn', purpose: 'Hội của Khí, thông khí cơ ngực sườn' }
-        ],
-        tungPoints: [
-          { point: 'Chính Hội (1010.01)', code: '1010.01', dongQiInstructions: 'Day ấn đỉnh đầu kết hợp thở sâu 10 nhịp', purpose: 'Ổn định tâm trí, thư giãn hệ thần kinh' }
-        ],
-        nguyenTaiThuGuidance: 'Châm kết hợp Thái Xung, Nội Quan và Bách Hội kích thích xung điện nhẹ 2Hz tạo cảm giác êm dịu, giảm tải âu lo.',
-        westernNeuroscience: 'Giải phóng beta-endorphin và serotonin nội sinh, hạ nồng độ cortisol huyết tương giúp tái lập cân bằng nội môi.'
-      },
-      clinicalNutrition: {
-        dietaryTherapy: 'Thực đơn thanh đạm, giàu chất chống oxy hóa và trà thảo mộc theo Essentials of Nutrition.',
-        foodsToEat: ['Trà hoa cúc, hoa hồng, kỷ tử', 'Rau cần tây, củ sen, táo đỏ', 'Chuối chín, bột yến mạch'],
-        foodsToAvoid: ['Cà phê, trà đặc, đồ uống có cồn', 'Thức ăn cay nóng nhiều ớt tiêu', 'Đồ ăn nhanh chiên xào'],
-        drugNutrientInteractions: ['Tránh dùng rượu bia khi đang sử dụng thuốc an thần hoặc thảo mộc làm dịu thần kinh.']
-      },
-      qigongAndLifestyle: 'Đi bộ thư giãn ngoài trời 30 phút mỗi ngày; thực hành thiền hoặc bài thở bụng 4 thì mỗi tối trước khi đi ngủ.',
-      westernPrescription: {
-        protocolName: 'Phác đồ điều hòa Thần kinh thực vật & Giảm căng thẳng (Dược lâm sàng & DiPiro)',
-        sourceGuidelines: [
-          'Dược thư Quốc gia Việt Nam',
-          'Dược lâm sàng và Điều trị - ĐH Y Dược TP.HCM',
-          'Basic and Clinical Pharmacology - Katzung',
-          'MIMS Việt Nam'
-        ],
-        medications: [
-          {
-            drugName: 'Magne-B6 Corbiere',
-            activeIngredient: 'Magnesi lactat dihydrat 470mg + Pyridoxin HCl (B6) 5mg',
-            group: 'Khoáng chất & Vitamin hỗ trợ hệ thần kinh',
-            dosage: '1 viên x 2 lần/ngày',
-            timing: 'Uống trong bữa ăn với nhiều nước',
-            mechanism: 'Ion Magie điều hòa tính hưng phấn của màng nơ-ron và giảm giải phóng catecholamin; Vitamin B6 hỗ trợ tổng hợp GABA nội sinh.',
-            contraindications: 'Suy thận nặng (ClCr < 30 mL/phút).'
-          },
-          {
-            drugName: 'Tanakan 40mg (hoặc Tebonin 120mg)',
-            activeIngredient: 'Cao chuẩn hóa Ginkgo biloba 40mg',
-            group: 'Thuốc tuần hoàn vi mạch não',
-            dosage: '40mg x 2 viên/ngày',
-            timing: 'Uống sau bữa ăn sáng và trưa',
-            mechanism: 'Chống gốc tự do, tăng lưu thông vi mạch não, cải thiện tình trạng căng thẳng và mệt mỏi tinh thần.',
-            contraindications: 'Đang chảy máu cấp tính, chuẩn bị phẫu thuật.'
-          }
-        ],
-        clinicalCautions: ['Kết hợp rèn luyện thể dục thể thao vừa sức và tránh làm việc quá 10 tiếng/ngày.'],
-        monitoringParameters: ['Nhịp tim cơ bản', 'Mức độ sảng khoái và chất lượng giấc ngủ']
-      }
-    },
-    referencedBooks: [
-      'The Foundations of Chinese Medicine - Giovanni Maciocia',
-      'Phương Thang Y Học Cổ Truyền - Trần Gia Kỳ',
-      'Chinese Herbal Medicine: Materia Medica - Dan Bensky',
-      'Guyton and Hall Textbook of Medical Physiology',
-      'Dược thư Quốc gia Việt Nam',
-      'Basic and Clinical Pharmacology - Katzung'
-    ]
-  };
+  // 7. Mặc định & các chuyên khoa mở rộng (Tiểu đường, Hô hấp, Xoang, Tim mạch, Tuyến giáp, Nhãn khoa, Tiết niệu, Phụ khoa, Da liễu...): dùng Engine Y Học Khoa Học thống nhất
+  return generateDynamicDiagnosisResult(patient, vitals, symptoms, exam);
 }

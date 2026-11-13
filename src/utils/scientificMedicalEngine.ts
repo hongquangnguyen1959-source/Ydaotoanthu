@@ -529,12 +529,12 @@ const DISEASE_QUERY_KEYWORDS = [
   'khop goi', 'thoai hoa khop', 'luc cuc', 'viem khop',
   'da day', 'trao nguoc', 'gerd', 'o chua', 'thuong vi', 'viem loet', 'dai trang', 'ruot kich thich', 'tao bon', 'tieu chay',
   'mat ngu', 'kho ngu', 'lo au', 'suy nhuoc than kinh', 'tien dinh', 'chong mat', 'dau dau', 'dau nua dau',
-  'viem xoang', 'viem mui', 'nghet mui', 'di ung', 'me day', 'cham ', 'vay nen', 'zona',
+  'viem xoang', 'viem mui', 'nghet mui', 'di ung', 'me day', 'benh cham', 'cham da', 'vay nen', 'zona',
   'viem gan', 'men gan', 'gan nhiem mo', 'xo gan',
   'suy than', 'soi than', 'than hu', 'tieu dem', 'tieu buot', 'tien liet tuyen', 'yeu sinh ly',
   'dau bung kinh', 'thong kinh', 'roi loan kinh nguyet', 'buong trung', 'u xo',
-  'ho ', 'viem phe quan', 'hen suyen', 'viem hong', 'viem phoi',
-  'dau rang', 'nha chu', 'day v', 'liet mat', 'day vii',
+  'ho khan', 'ho co dom', 'ho keo dai', 'viem phe quan', 'hen suyen', 'viem hong', 'viem phoi',
+  'dau rang', 'nha chu', 'day than kinh so v', 'liet mat', 'day vii',
   'tuyen giap', 'cuong giap', 'suy giap', 'basedow', 'buou co', 'nhan tuyen giap',
   'mo mau', 'cholesterol', 'triglyceride', 'mach vanh', 'suy tim', 'dau that nguc', 'tim dap nhanh',
   'sot xuat huyet', 'cam cum', 'sot sieu vi', 'u tai', 'diec tai', 'viem tai'
@@ -991,7 +991,190 @@ interface ClinicalSpec {
   referencedBooks: string[];
 }
 
+type ClinicalDomainKey =
+  | 'eye'
+  | 'diabetes'
+  | 'respiratory'
+  | 'dental'
+  | 'gynecology'
+  | 'urinary'
+  | 'hepatic_allergy'
+  | 'gout'
+  | 'cervical'
+  | 'knee'
+  | 'gastric'
+  | 'insomnia'
+  | 'sinus'
+  | 'sciatica'
+  | 'thyroid'
+  | 'cardiac'
+  | 'migraine_hypertension'
+  | 'default';
+
+function hasWord(norm: string, word: string): boolean {
+  return new RegExp(`(?:^|\\s)${word}(?:\\s|$)`).test(norm);
+}
+
+function pickBestClinicalDomain(norm: string): ClinicalDomainKey {
+  const scores: Record<Exclude<ClinicalDomainKey, 'default'>, number> = {
+    eye: 0,
+    diabetes: 0,
+    respiratory: 0,
+    dental: 0,
+    gynecology: 0,
+    urinary: 0,
+    hepatic_allergy: 0,
+    gout: 0,
+    cervical: 0,
+    knee: 0,
+    gastric: 0,
+    insomnia: 0,
+    sinus: 0,
+    sciatica: 0,
+    thyroid: 0,
+    cardiac: 0,
+    migraine_hypertension: 0
+  };
+
+  const addPhrases = (domain: Exclude<ClinicalDomainKey, 'default'>, rules: Array<[string, number]>) => {
+    for (const [phrase, weight] of rules) {
+      if (norm.includes(phrase)) scores[domain] += weight;
+    }
+  };
+
+  addPhrases('eye', [
+    ['mat bi loi', 60], ['loi mat', 55], ['mat loi', 50], ['can thi', 50],
+    ['vien thi', 45], ['loan thi', 45], ['moi mat', 40], ['kho mat', 40],
+    ['nhuc mat', 45], ['mo mat', 40], ['nhin mo', 45], ['tang nhan ap', 55],
+    ['glocom', 55], ['thoai hoa diem vang', 55], ['duc thuy tinh', 50]
+  ]);
+  if (norm.includes('dien thoai') && hasWord(norm, 'mat')) scores.eye += 45;
+  if (norm.includes('ban dem') && hasWord(norm, 'mat')) scores.eye += 35;
+
+  addPhrases('diabetes', [
+    ['tieu duong', 60], ['dai thao duong', 65], ['duong huyet', 55],
+    ['hba1c', 60], ['tieu khat', 55], ['khat nuoc', 30], ['tieu nhieu', 25], ['sut can', 20]
+  ]);
+
+  addPhrases('respiratory', [
+    ['viem phe quan', 60], ['hen suyen', 60], ['viem phoi', 60],
+    ['viem hong', 45], ['dau hong', 45], ['khac dom', 50], ['ho khan', 50],
+    ['ho co dom', 55], ['ho keo dai', 50], ['ho nhieu', 45], ['kho khe', 45],
+    ['tuc nguc kho tho', 45]
+  ]);
+  // "ho" chỉ tính là triệu chứng hô hấp khi KHÔNG phải ngữ cảnh kích phát đau lưng ("ho hoặc cúi người đau tăng")
+  const isCoughAsBackPainTrigger =
+    norm.includes('ho hoac cui') ||
+    norm.includes('cui nguoi') ||
+    ((norm.includes('that lung') || norm.includes('dau lung') || norm.includes('than kinh toa')) &&
+      (norm.includes('dau tang') || norm.includes('nhoi') || norm.includes('te ran')));
+  if (hasWord(norm, 'ho') && !isCoughAsBackPainTrigger) scores.respiratory += 25;
+  if (hasWord(norm, 'dom') && !norm.includes('dom dom')) scores.respiratory += 25;
+  if (hasWord(norm, 'phoi') && !norm.includes('phoi hop')) scores.respiratory += 30;
+  if (norm.includes('kho tho') && !norm.includes('dau that nguc')) scores.respiratory += 25;
+
+  addPhrases('dental', [
+    ['dau rang', 60], ['nhuc rang', 60], ['nha chu', 55], ['viem loi', 50],
+    ['day than kinh so v', 60], ['day so v', 55], ['quai ham', 45], ['sau rang', 50]
+  ]);
+
+  addPhrases('gynecology', [
+    ['dau bung kinh', 60], ['bung kinh', 55], ['kinh nguyet', 55], ['thong kinh', 55],
+    ['phu khoa', 50], ['buong trung', 55], ['tu cung', 50], ['rong kinh', 55], ['khi hu', 45]
+  ]);
+
+  addPhrases('urinary', [
+    ['soi than', 60], ['viem duong tiet nieu', 65], ['tiet nieu', 55],
+    ['tieu buot', 55], ['tieu rat', 55], ['tieu dem', 45], ['tien liet tuyen', 60],
+    ['suy than', 55], ['yeu sinh ly', 50], ['than hu', 45]
+  ]);
+  if (hasWord(norm, 'than') && !norm.includes('than kinh') && !norm.includes('tinh than') && !norm.includes('ban than')) {
+    scores.urinary += 18;
+  }
+
+  addPhrases('hepatic_allergy', [
+    ['men gan', 60], ['viem gan', 60], ['gan nhiem mo', 60], ['xo gan', 60],
+    ['me day', 55], ['noi me day', 60], ['di ung', 45], ['man ngua', 50],
+    ['vay nen', 55], ['mun nhot', 45], ['zona', 55], ['benh cham', 50], ['viem da', 50]
+  ]);
+  if (hasWord(norm, 'ngua') && !norm.includes('duoi ngua')) scores.hepatic_allergy += 28;
+  if (hasWord(norm, 'gan') && (norm.includes('viem') || norm.includes('men') || norm.includes('nhiem mo') || norm.includes('xo'))) {
+    scores.hepatic_allergy += 20;
+  }
+
+  addPhrases('gout', [
+    ['acid uric', 65], ['thong phong', 60], ['podagra', 60], ['tophi', 60],
+    ['ban ngon chan cai', 65], ['khop ngon chan cai', 65], ['ngon chan cai', 50]
+  ]);
+  if (hasWord(norm, 'gout') || hasWord(norm, 'gut') || hasWord(norm, 'uric')) scores.gout += 60;
+  if (norm.includes('ngon chan') && (norm.includes('sung') || norm.includes('nong do'))) scores.gout += 40;
+
+  addPhrases('cervical', [
+    ['co vai gay', 65], ['vai gay', 55], ['dau co vai', 55], ['dau vai', 45],
+    ['lac cham', 55], ['veo co', 55], ['te tay', 45], ['te bi tay', 50],
+    ['ong co tay', 55], ['dot song co', 60], ['thoai hoa co', 55]
+  ]);
+
+  addPhrases('knee', [
+    ['khop goi', 65], ['dau goi', 60], ['thoai hoa khop goi', 70],
+    ['luc cuc', 50], ['leo cau thang', 50], ['cung khop', 40], ['xuong banh che', 55]
+  ]);
+  if (hasWord(norm, 'goi') && (norm.includes('khop') || norm.includes('dau') || norm.includes('cung'))) scores.knee += 35;
+
+  addPhrases('gastric', [
+    ['trao nguoc', 60], ['gerd', 60], ['da day', 55], ['o chua', 55], ['o hoi', 50],
+    ['thuong vi', 55], ['xuong uc', 45], ['nghen o co', 45], ['nghen co hong', 45],
+    ['dai trang', 55], ['tieu chay', 45], ['tao bon', 45], ['dau bung', 35], ['di ngoai', 35]
+  ]);
+
+  addPhrases('insomnia', [
+    ['mat ngu', 48], ['thuc trang', 50], ['suy nhuoc than kinh', 55],
+    ['giat minh', 35], ['mong mi', 40], ['lo au', 40], ['kho ngu', 26], ['hoi hop', 20]
+  ]);
+
+  addPhrases('sinus', [
+    ['viem xoang', 65], ['viem mui', 60], ['nghet mui', 55], ['so mui', 50],
+    ['xoang tran', 55], ['xoang ham', 55], ['hat hoi', 40], ['cuon mui', 50]
+  ]);
+
+  addPhrases('sciatica', [
+    ['than kinh toa', 70], ['thoat vi dia dem', 70], ['thoat vi', 55],
+    ['dau that lung', 65], ['that lung', 55], ['cang chan', 45], ['te ran', 40],
+    ['dien giat', 45], ['cui nguoi', 40], ['buot nhoi', 35], ['chum duoi ngua', 60],
+    ['dau lung', 50], ['l4', 35], ['l5', 35], ['s1', 35]
+  ]);
+  if (hasWord(norm, 'mong') && (norm.includes('lung') || norm.includes('chan') || norm.includes('te'))) scores.sciatica += 35;
+
+  addPhrases('thyroid', [
+    ['tuyen giap', 65], ['cuong giap', 65], ['suy giap', 65], ['basedow', 65],
+    ['buou co', 60], ['nhan tuyen giap', 65]
+  ]);
+
+  addPhrases('cardiac', [
+    ['mo mau', 55], ['cholesterol', 55], ['triglyceride', 55], ['mach vanh', 65],
+    ['suy tim', 60], ['dau that nguc', 65], ['tim dap nhanh', 50], ['thieu mau co tim', 65]
+  ]);
+
+  addPhrases('migraine_hypertension', [
+    ['tang huyet ap', 65], ['huyet ap cao', 65], ['dau nua dau', 60],
+    ['thai duong', 45], ['dinh dau', 45], ['mieng dang', 45], ['hoa mat chong mat', 50],
+    ['van tia mau', 45], ['can duong thuong khang', 65], ['tien dinh', 55], ['chong mat', 35], ['hoa mat', 35], ['buc doc', 30]
+  ]);
+
+  let bestKey: ClinicalDomainKey = 'default';
+  let bestScore = 24;
+  (Object.keys(scores) as Array<Exclude<ClinicalDomainKey, 'default'>>).forEach(key => {
+    if (scores[key] > bestScore) {
+      bestScore = scores[key];
+      bestKey = key;
+    }
+  });
+  return bestKey;
+}
+
 function matchClinicalDomain(norm: string, rawText: string): ClinicalSpec {
+  const bestDomain = pickBestClinicalDomain(norm);
+
   // First check if any Tung Formula matches the exact symptom/disease in the user text
   const matchedKnowledge = retrieveMedicalKnowledge(rawText);
   const topTungFormula = matchedKnowledge.tungFormulas[0];
@@ -1018,19 +1201,7 @@ function matchClinicalDomain(norm: string, rawText: string): ClinicalSpec {
       : null;
 
   // 0. Nhãn khoa / Mắt bị lồi do xem điện thoại ban đêm / Cận thị trục tiến triển / Hội chứng thị giác màn hình (CVS) / Mỏi mắt, khô mắt, mờ mắt
-  if (
-    norm.includes('mat bi loi') ||
-    norm.includes('loi mat') ||
-    norm.includes('mat loi') ||
-    norm.includes('can thi') ||
-    norm.includes('moi mat') ||
-    norm.includes('kho mat') ||
-    norm.includes('nhuc mat') ||
-    norm.includes('mo mat') ||
-    norm.includes('nhin mo') ||
-    (norm.includes('dien thoai') && norm.includes('mat')) ||
-    (norm.includes('ban dem') && norm.includes('mat'))
-  ) {
+  if (bestDomain === 'eye') {
     return {
       directAnswer:
         `• CÓ CHỮA ĐƯỢC KHÔNG? — CÓ THỂ CẢI THIỆN RÕ RỆT VÀ CHẶN ĐỨNG TIẾN TRIỂN, nhưng mức độ hồi phục phụ thuộc vào nguyên nhân gây lồi mắt của bạn thuộc 1 trong 2 cơ chế sau:\n` +
@@ -1155,7 +1326,7 @@ function matchClinicalDomain(norm: string, rawText: string): ClinicalSpec {
   }
 
   // 1. Đái tháo đường / Tiểu đường / Đường huyết cao
-  if (norm.includes('tieu duong') || norm.includes('dai thao duong') || norm.includes('duong huyet') || norm.includes('hba1c') || norm.includes('khat nuoc tieu nhieu') || norm.includes('tieu khat')) {
+  if (bestDomain === 'diabetes') {
     return {
       summary: `Bệnh lý Đái tháo đường Type 2 (Rối loạn chuyển hóa Glucose & Đề kháng Insulin), Đông y biện chứng thuộc chứng Tiêu Khát (Thượng - Trung - Hạ tiêu Âm Hư Hỏa Vượng kiêm Khí Âm Lưỡng Hư).`,
       clinicalDefinition: 'Đái tháo đường (Diabetes Mellitus) là bệnh rối loạn chuyển hóa mạn tính đặc trưng bởi tình trạng tăng Glucose huyết tương kéo dài do khiếm khuyết tiết Insulin của tế bào Beta tuyến tụy, đề kháng Insulin tại mô đích hoặc cả hai. Trong Y Học Cổ Truyền, bệnh thuộc phạm vi chứng "Tiêu Khát" (Tam Tiêu: Thượng tiêu khát nhiều, Trung tiêu ăn nhiều mau đói, Hạ tiêu tiểu nhiều).',
@@ -1233,7 +1404,7 @@ function matchClinicalDomain(norm: string, rawText: string): ClinicalSpec {
   }
 
   // 2. Ho / Viêm phế quản / Đau họng / Hen suyễn / Phổi
-  if (norm.includes('ho ') || norm.startsWith('ho') || norm.includes('viem phe quan') || norm.includes('dau hong') || norm.includes('viem hong') || norm.includes('hen suyen') || norm.includes('kho tho') || norm.includes('dom ') || norm.includes('phoi')) {
+  if (bestDomain === 'respiratory') {
     return {
       summary: `Viêm đường hô hấp / Viêm phế quản co thắt tăng tiết đờm, Đông y biện chứng thuộc chứng Khái Thấu / Háo Suyễn do Phế Khí Nghịch kiêm Đàm Nhiệt hoặc Phong Hàn phạm Phế.`,
       westernDisease: 'Viêm phế quản cấp - mạn / Viêm họng thanh quản / Co thắt phế quản',
@@ -1297,7 +1468,7 @@ function matchClinicalDomain(norm: string, rawText: string): ClinicalSpec {
   }
 
   // 3. Đau răng / Viêm nha chu / Đau hàm mặt / Đau dây thần kinh số V
-  if (norm.includes('dau rang') || norm.includes('nhuc rang') || norm.includes('nha chu') || norm.includes('viem loi') || norm.includes('day v') || norm.includes('quai ham')) {
+  if (bestDomain === 'dental') {
     return {
       summary: `Đau răng cấp / Viêm quanh chóp răng - nha chu hoặc Đau dây thần kinh sinh ba (Dây V), Đông y biện chứng thuộc chứng Nha Thống do Vị Hỏa Thượng Viêm hoặc Thận Hư Hỏa Vượng.`,
       westernDisease: 'Viêm tủy răng / Viêm nha chu cấp / Đau dây thần kinh sinh ba (Trigeminal Neuralgia)',
@@ -1361,7 +1532,7 @@ function matchClinicalDomain(norm: string, rawText: string): ClinicalSpec {
   }
 
   // 4. Đau bụng kinh / Rối loạn kinh nguyệt / Phụ khoa
-  if (norm.includes('bung kinh') || norm.includes('kinh nguyet') || norm.includes('thong kinh') || norm.includes('phu khoa') || norm.includes('buong trung') || norm.includes('tu cung') || norm.includes('rong kinh') || norm.includes('khi hu')) {
+  if (bestDomain === 'gynecology') {
     return {
       summary: `Đau bụng kinh (Thống kinh) / Rối loạn kinh nguyệt, Đông y biện chứng thuộc chứng Thống Kinh / Kinh Nguyệt Bất Điều do Hàn Ngưng Huyết Ứ hoặc Can Khí Uất Kết tại hai mạch Xung - Nhâm.`,
       westernDisease: 'Thống kinh nguyên phát / Rối loạn kinh nguyệt nội tiết (Dysmenorrhea / Menstrual Disorder)',
@@ -1426,7 +1597,7 @@ function matchClinicalDomain(norm: string, rawText: string): ClinicalSpec {
   }
 
   // 5. Tiết niệu / Thận / Sỏi thận / Tiểu buốt / Tiểu đêm / Tuyến tiền liệt
-  if (norm.includes('than ') || norm.includes('tiet nieu') || norm.includes('tieu buot') || norm.includes('tieu rat') || norm.includes('tieu dem') || norm.includes('soi than') || norm.includes('tien liet tuyen') || norm.includes('sinh ly')) {
+  if (bestDomain === 'urinary') {
     return {
       summary: `Bệnh lý Thận - Tiết niệu (Viêm đường tiết niệu / Sỏi tiết niệu / Tiểu đêm do Thận khí suy), Đông y biện chứng thuộc chứng Lâm Chứng (Thấp Nhiệt Hạ Tiêu) hoặc Thận Khí Bất Cố.`,
       westernDisease: 'Nhiễm khuẩn tiết niệu / Sỏi tiết niệu / Hội chứng đường tiểu dưới (LUTS)',
@@ -1490,7 +1661,7 @@ function matchClinicalDomain(norm: string, rawText: string): ClinicalSpec {
   }
 
   // 6. Gan mật / Men gan cao / Viêm gan / Mẩn ngứa mề đay / Dị ứng da liễu
-  if (norm.includes('gan ') || norm.includes('men gan') || norm.includes('viem gan') || norm.includes('me day') || norm.includes('di ung') || norm.includes('ngua') || norm.includes('cham ') || norm.includes('vay nen') || norm.includes('mun nhot') || norm.includes('zona')) {
+  if (bestDomain === 'hepatic_allergy') {
     return {
       summary: `Bệnh lý Gan mật / Dị ứng da liễu (Tăng men gan, Mề đay dị ứng, Viêm da cơ địa), Đông y biện chứng thuộc chứng Can Đởm Thấp Nhiệt hoặc Phong Thấp Nhiệt Huyết Nhiệt sinh Phong.`,
       westernDisease: 'Tổn thương tế bào gan / Mề đay dị ứng cấp - mạn (Urticaria / Hepatic Dysfunction)',
@@ -1554,7 +1725,7 @@ function matchClinicalDomain(norm: string, rawText: string): ClinicalSpec {
   }
 
   // 7. Gout / Thống phong / Acid Uric
-  if (norm.includes('gout') || norm.includes('gut') || norm.includes('thong phong') || norm.includes('uric') || norm.includes('podagra') || norm.includes('tophi') || (norm.includes('ngon chan') && norm.includes('sung'))) {
+  if (bestDomain === 'gout') {
     return {
       summary: `Viêm khớp Gout cấp - mạn (Thống phong) do rối loạn chuyển hóa nhân Purin gây tăng Acid Uric máu và lắng đọng tinh thể Monosodium Urate nội khớp. Đông y biện chứng thuộc chứng Thống Phong (Thấp Nhiệt Trở Lạc kiêm Đàm Ứ).`,
       clinicalDefinition: 'Bệnh Gout (Thống Phong - ICD-10: M10) là bệnh lý viêm khớp vi tinh thể do rối loạn chuyển hóa nhân Purin ở người, làm tăng nồng độ Acid Uric trong máu (> 420 µmol/L ở nam và > 360 µmol/L ở nữ). Khi vượt ngưỡng bão hòa, muối Monosodium Urate kết tinh thành các tinh thể hình kim sắc nhọn lắng đọng tại màng hoạt dịch khớp, sụn khớp và nhu mô thận.',
@@ -1640,7 +1811,7 @@ function matchClinicalDomain(norm: string, rawText: string): ClinicalSpec {
   }
 
   // 8. Đau cổ vai gáy / Hội chứng cổ vai cánh tay
-  if (norm.includes('co vai gay') || norm.includes('vai gay') || norm.includes('dau co') || norm.includes('dau vai') || norm.includes('lac cham') || norm.includes('te tay')) {
+  if (bestDomain === 'cervical') {
     return {
       summary: `Hội chứng Cổ Vai Cánh Tay / Thoái hóa đốt sống cổ C4-C7 chèn ép rễ thần kinh, Đông y biện chứng thuộc chứng Kiên Tý / Lạc Chẩm thể Phong Hàn Thấp Trở Lạc kiêm Khí Huyết Trệ.`,
       westernDisease: 'Hội chứng cổ vai cánh tay / Thoái hóa cột sống cổ (Cervical Radiculopathy)',
@@ -1714,7 +1885,7 @@ function matchClinicalDomain(norm: string, rawText: string): ClinicalSpec {
   }
 
   // 9. Khớp gối / Thoái hóa khớp gối
-  if (norm.includes('goi') || norm.includes('luc cuc') || norm.includes('cau thang') || norm.includes('cung khop')) {
+  if (bestDomain === 'knee') {
     return {
       summary: 'Thoái hóa khớp gối nguyên phát kèm viêm màng hoạt dịch cơ học, Đông y biện chứng thuộc chứng Tý (Hạc Tất Phong) thể Phong Hàn Thấp Tý kiêm Can Thận Hư.',
       clinicalStages: [
@@ -1784,7 +1955,7 @@ function matchClinicalDomain(norm: string, rawText: string): ClinicalSpec {
   }
 
   // 10. Trào ngược dạ dày / Viêm loét dạ dày / Tiêu hóa / Đại tràng
-  if (norm.includes('da day') || norm.includes('trao nguoc') || norm.includes('o chua') || norm.includes('o hoi') || norm.includes('thuong vi') || norm.includes('dai trang') || norm.includes('tieu chay') || norm.includes('tao bon') || norm.includes('dau bung')) {
+  if (bestDomain === 'gastric') {
     return {
       summary: 'Bệnh trào ngược dạ dày thực quản (GERD) / Viêm dạ dày - đại tràng co thắt, Đông y biện chứng thuộc chứng Vị Quản Thống / Phúc Thống thể Can Khí Phạm Vị kiêm Tỳ Vị Hư Hàn.',
       westernDisease: 'Trào ngược dạ dày thực quản (GERD) & Viêm niêm mạc dạ dày - đại tràng',
@@ -1848,7 +2019,7 @@ function matchClinicalDomain(norm: string, rawText: string): ClinicalSpec {
   }
 
   // 11. Mất ngủ / Lo âu / Suy nhược thần kinh
-  if (norm.includes('mat ngu') || norm.includes('kho ngu') || norm.includes('thuc trang') || norm.includes('hoi hop') || norm.includes('giat minh') || norm.includes('mong mi') || norm.includes('lo au')) {
+  if (bestDomain === 'insomnia') {
     return {
       summary: 'Rối loạn mất ngủ mạn tính (Insomnia) kết hợp suy nhược thần kinh, Đông y biện chứng thuộc thể Tâm Tỳ Lưỡng Hư hoặc Tâm Thận Bất Giao.',
       westernDisease: 'Rối loạn mất ngủ mạn tính (Chronic Insomnia Disorder)',
@@ -1912,7 +2083,7 @@ function matchClinicalDomain(norm: string, rawText: string): ClinicalSpec {
   }
 
   // 12. Viêm mũi xoang / Nghẹt mũi
-  if (norm.includes('xoang') || norm.includes('mui') || norm.includes('nghet') || norm.includes('hoc mat') || norm.includes('hat hoi')) {
+  if (bestDomain === 'sinus') {
     return {
       summary: 'Viêm mũi xoang dị ứng / Viêm xoang trán - sàng mạn tính, Đông y xếp vào chứng Tỵ Uyên do Phế Khí Hư kiêm Phong Hàn Uất Nhiệt.',
       westernDisease: 'Viêm mũi xoang dị ứng / Viêm xoang mạn tính (Chronic Rhinosinusitis)',
@@ -1975,7 +2146,7 @@ function matchClinicalDomain(norm: string, rawText: string): ClinicalSpec {
   }
 
   // 13. Đau thắt lưng / Thần kinh tọa / Thoát vị đĩa đệm
-  if (norm.includes('lung') || norm.includes('toa') || norm.includes('thoat vi') || norm.includes('l4') || norm.includes('l5') || norm.includes('mong')) {
+  if (bestDomain === 'sciatica') {
     return {
       summary: 'Chèn ép rễ thần kinh thắt lưng - cùng (Đau thần kinh tọa / Tọa Cốt Phong) do thoát vị đĩa đệm L4-L5/L5-S1, Đông y biện chứng thuộc thể Khí Trệ Huyết Ứ kiêm Hàn Thấp trên nền Can Thận Hư.',
       clinicalStages: [
@@ -2052,7 +2223,7 @@ function matchClinicalDomain(norm: string, rawText: string): ClinicalSpec {
   }
 
   // 14. Bệnh lý Tuyến Giáp (Cường giáp Basedow / Suy giáp Hashimoto / Bướu cổ - Chứng Anh Lựu)
-  if (norm.includes('tuyen giap') || norm.includes('cuong giap') || norm.includes('suy giap') || norm.includes('basedow') || norm.includes('buou co') || norm.includes('nhan tuyen giap')) {
+  if (bestDomain === 'thyroid') {
     return {
       summary: `Bệnh lý Tuyến Giáp (Cường giáp Basedow / Nhân tuyến giáp / Suy giáp), Đông y biện chứng thuộc chứng Anh Lựu (Khí Uất Đàm Ngưng hóa Hỏa hoặc Can Thận Âm Hư).`,
       clinicalDefinition: 'Bệnh lý tuyến giáp bao gồm Cường giáp (Hyperthyroidism/Basedow - tăng tiết quá mức hormone T3, T4 gây tăng chuyển hóa toàn thân), Suy giáp (Hypothyroidism - thiếu hụt hormone giáp) và Bướu nhân tuyến giáp. Trong Đông Y, bệnh thuộc chứng "Anh Lựu" (Khí Anh, Nhục Anh) vùng trước cổ.',
@@ -2127,7 +2298,7 @@ function matchClinicalDomain(norm: string, rawText: string): ClinicalSpec {
   }
 
   // 15. Bệnh lý Mạch vành / Đau thắt ngực / Rối loạn mỡ máu / Suy tim (Tâm Quý - Hung Tý)
-  if (norm.includes('mo mau') || norm.includes('cholesterol') || norm.includes('triglyceride') || norm.includes('mach vanh') || norm.includes('suy tim') || norm.includes('dau that nguc') || norm.includes('tim dap nhanh')) {
+  if (bestDomain === 'cardiac') {
     return {
       summary: `Bệnh lý Tim mạch - Mạch vành & Rối loạn Lipid máu (Xơ vữa động mạch / Thiếu máu cơ tim), Đông y biện chứng thuộc chứng Hung Tý - Tâm Thống do Tâm Huyết Ứ Trở kiêm Đàm Trọc Bế Tắc.`,
       clinicalDefinition: 'Bệnh lý mạch vành và rối loạn mỡ máu đặc trưng bởi sự tích tụ mảng xơ vữa Cholesterol (LDL-C) dưới lớp nội mạc động mạch vành gây hẹp lòng mạch, làm mất cân bằng giữa cung và cầu Oxy của cơ tim (biểu hiện đau thắt ngực, hồi hộp đánh trống ngực). Đông Y gọi là chứng "Hung Tý" hoặc "Chân Tâm Thống".',
@@ -2201,7 +2372,82 @@ function matchClinicalDomain(norm: string, rawText: string): ClinicalSpec {
     };
   }
 
-  // 14. Default / General Dynamic Synthesis incorporating any matched database records
+  // 16. Tăng huyết áp / Đau nửa đầu Migraine / Can Dương Thượng Kháng - Can Hỏa Thượng Viêm
+  if (bestDomain === 'migraine_hypertension') {
+    return {
+      summary: `Hội chứng Tăng huyết áp động mạch / Đau nửa đầu vận mạch & Rối loạn tiền đình, Đông y biện chứng thuộc chứng Huyễn Vựng / Đầu Thống thể Can Dương Thượng Kháng hoặc Can Hỏa Thượng Viêm.`,
+      clinicalDefinition: 'Tình trạng đau căng nhức thái dương hoặc đỉnh đầu kèm mắt đỏ hoa mắt chóng mặt, bực dọc, miệng đắng phản ánh sự mất điều hòa trương lực mạch máu não và tăng áp lực động mạch hệ thống (hoặc rối loạn vận mạch Migraine). Trong Y Học Cổ Truyền, Can khai khiếu ra mắt, kinh Túc Quyết Âm Can đi lên đỉnh đầu (Bách Hội), kinh Túc Thiếu Dương Đởm đi qua hai bên thái dương nên khi Can Dương Thượng Kháng hoặc Can Đởm Thực Hỏa bốc lên sẽ gây đau đầu căng tức, mắt đỏ, miệng đắng và mất ngủ.',
+      causesAndRiskFactors: [
+        'Tăng trương lực thần kinh giao cảm, hoạt hóa hệ Renin-Angiotensin-Aldosterone (RAAS) gây co thắt tiểu động mạch và tăng sức cản ngoại biên.',
+        'Co thắt rồi giãn đột ngột động mạch màng não kèm phóng thích chất trung gian CGRP trong cơn đau nửa đầu (Migraine).',
+        'Đông Y: Do Can Thận Âm Hư (Thủy không hàm Mộc) hoặc tình chí uất ức lâu ngày hóa Hỏa làm Can Dương bốc ngược lên thanh khiếu.'
+      ],
+      clinicalStages: [
+        'Giai đoạn 1 — Tăng huyết áp tiền lâm sàng / Huyết áp dao động (130–139 / 85–89 mmHg): Đau đầu vùng gáy hoặc thái dương khi căng thẳng, thiếu ngủ.',
+        'Giai đoạn 2 — Tăng huyết áp độ 1–2 (≥ 140/90 mmHg) hoặc Cơn Migraine điển hình: Đau nửa đầu giật theo nhịp mạch, hoa mắt chóng mặt, mắt vằn tia máu, đắng miệng, khó ngủ.',
+        'Giai đoạn 3 — Tổn thương cơ quan đích: Phì đại thất trái, tổn thương đáy mắt, đột quỵ hoặc bệnh thận tăng huyết áp nếu không kiểm soát.'
+      ],
+      westernDisease: 'Tăng huyết áp nguyên phát / Đau nửa đầu vận mạch (Hypertension / Migraine / Vertigo)',
+      icd10: 'I10 / G43.9',
+      pathophysiology: 'Theo Guyton & Hall: Tăng hoạt giao cảm và Angiotensin II gây co mạch ngoại biên, đồng thời biến động lưu lượng máu não vùng tuần hoàn thái dương - chẩm kích thích nhánh cảm giác đau dây thần kinh V và nhân tiền đình.',
+      differentialDiagnoses: ['Rối loạn tiền đình trung ương / ngoại biên', 'Cơn tăng huyết áp cấp cứu', 'Viêm xoang trán hoặc tăng nhãn áp góc đóng'],
+      investigations: ['Đo huyết áp 2 lần/ngày (sáng - chiều) trong 7 ngày', 'Điện tâm đồ (ECG), Bộ mỡ máu & Đường huyết', 'Siêu âm Doppler động mạch cảnh - đốt sống nếu chóng mặt nhiều'],
+      urgency: 'Cần đo kiểm tra chỉ số huyết áp ngay và điều hòa Can dương',
+      easternSyndrome: 'Huyễn Vựng / Đầu Thống - Thể Can Dương Thượng Kháng kiêm Can Hỏa Thượng Viêm',
+      batCuong: 'Bản Hư Tiêu Thực (Can Thận Âm Hư ở gốc, Can Dương - Can Hỏa bốc lên ở ngọn) - Nhiệt',
+      khiHuyet: 'Can khí uất hóa hỏa, khí huyết xung nghịch lên vùng đầu mặt',
+      thietChanAnalysis: 'Chất lưỡi đỏ đặc biệt ở hai rìa lưỡi, rêu lưỡi vàng mỏng; Mạch Huyền Hữu Lực hoặc Huyền Sác.',
+      easternExplanation: 'Can chủ sơ tiết và tàng huyết; khi Can âm bất túc không kìm giữ được Can dương, hoặc giận dữ căng thẳng làm Can Đởm hỏa vượng bốc lên theo kinh Thiếu Dương ra hai bên thái dương, lên đỉnh đầu và ra mắt, gây đau căng đầu, mắt đỏ, miệng đắng và trằn trọc khó ngủ.',
+      tangPhu: 'Can, Đởm và Thận',
+      phapTri: 'Bình can tiềm dương, thanh can tả hỏa, tư bổ can thận, an thần.',
+      formulaName: 'Thiên Ma Câu Đằng Ẩm hợp Long Đởm Tả Can Thang gia giảm (Tạp Bệnh Chứng Trị Tân Nghĩa & Dan Bensky)',
+      herbs: [
+        { name: 'Thiên Ma & Câu Đằng', amount: '12g mỗi vị', grams: 12, role: 'Quân', purpose: 'Bình can tức phong, hạ áp tự nhiên, cắt cơn đau đầu hoa mắt chóng mặt' },
+        { name: 'Thạch Quyết Minh (Sắc trước)', amount: '20g', grams: 20, role: 'Quân', purpose: 'Trọng trấn tiềm dương, thanh can minh mục (giảm mắt đỏ vằn tia máu)' },
+        { name: 'Hoàng Cầm & Chi Tử', amount: '10g mỗi vị', grams: 10, role: 'Thần', purpose: 'Thanh tả Can Đởm thực hỏa, trừ bực dọc và đắng miệng' },
+        { name: 'Ngưu Tất & Đỗ Trọng', amount: '12g mỗi vị', grams: 12, role: 'Tá', purpose: 'Dẫn huyết đi xuống dưới (Giáng nghịch), bổ Can Thận' },
+        { name: 'Cúc Hoa & Dạ Giao Đằng', amount: '12g mỗi vị', grams: 12, role: 'Sứ', purpose: 'Thanh đầu mắt và dưỡng tâm an thần giúp ngủ sâu' }
+      ],
+      howToUse: 'Thạch quyết minh đập vụn sắc trước 20 phút rồi cho các vị khác vào sắc chung; Câu đằng cho vào sau 5 phút cuối. Uống ấm ngày 1 thang chia 2 lần sau ăn.',
+      tungPoints: [
+        { name: 'Hỏa Ngạnh (66.03) & Hỏa Chủ (66.04)', code: '66.03 / 66.04', howToPress: 'Nằm trên mu bàn chân dọc khe xương bàn ngón 1-2: Châm hoặc day ấn mạnh giúp giáng Can hỏa, hạ huyết áp và cắt đau đỉnh đầu thái dương tức thì.' },
+        { name: 'Tam Trọng (77.05 - 77.07) & Chính Hội (1010.01)', code: '77.05 - 77.07 / 1010.01', howToPress: 'Phá khí trệ, bình can giáng nghịch; day nhẹ huyệt Chính Hội (Bách Hội) giúp an thần định huyễn.' }
+      ],
+      classicPoints: [
+        { name: 'Thái Xung (LR-3) & Phong Trì (GB-20)', location: 'Kẽ xương bàn ngón chân 1-2 & hõm sau gáy', howToPress: 'Day ấn Thái Xung hướng về gót chân (tả Can hỏa) kết hợp day Phong Trì 2 phút để thông mạch máu não và hạ cơn đau căng đầu.' },
+        { name: 'Thái Dương (EX-HN5) & Thái Khê (KI-3)', location: 'Hõm thái dương & sau mắt cá trong', howToPress: 'Tư Thận thủy để dưỡng Can mộc, giảm đau thái dương.' }
+      ],
+      doEat: ['Cần tây, mộc nhĩ đen, trà hoa cúc - hạ khô thảo - nụ vối, chuối chín giàu Kali', 'Cá hồi giàu Omega-3, tỏi đen, rau xanh đậm'],
+      dontEat: ['Rượu bia, cà phê đặc, nước tăng lực, thức ăn quá mặn (> 5g muối/ngày)', 'Đồ cay nóng chiên xào, thịt dê, nội tạng động vật'],
+      homeCare: 'Đo huyết áp ngay khi thấy đau đầu hoa mắt; tránh thay đổi tư thế đứng dậy đột ngột; ngâm chân nước ấm trước khi ngủ để dẫn hỏa đi xuống.',
+      protocolName: 'Phác đồ Kiểm soát Tăng huyết áp & Rối loạn vận mạch não (VNHA/ESC & Dược thư Quốc gia)',
+      sourceGuidelines: ['ESC/ESH Guidelines for Hypertension', 'Khuyến cáo Hội Tim Mạch Học VN (VNHA)', 'Dược thư Quốc gia Việt Nam'],
+      drugs: [
+        {
+          name: 'Micardis 40mg (hoặc Coversyl 5mg - chỉ dùng khi đo HA ≥ 140/90 mmHg)',
+          activeIngredient: 'Telmisartan 40mg (hoặc Perindopril 5mg)',
+          group: 'Thuốc ức chế thụ thể AT1 của Angiotensin II / Ức chế men chuyển',
+          dosage: '1 viên x 1 lần/ngày vào buổi sáng (theo chỉ định bác sĩ sau đo huyết áp)',
+          usage: 'Uống vào một giờ cố định mỗi sáng',
+          mechanism: 'Ức chế hệ Renin-Angiotensin-Aldosterone (RAAS), làm giãn tiểu động mạch hệ thống và ổn định huyết áp 24 giờ.',
+          caution: 'Chống chỉ định phụ nữ có thai; theo dõi chỉ số huyết áp để tránh tụt huyết áp tư thế.'
+        },
+        {
+          name: 'Tanganil 500mg (hoặc Betaserc 16mg - khi có hoa mắt chóng mặt)',
+          activeIngredient: 'Acetyl-DL-Leucine 500mg (hoặc Betahistine 16mg)',
+          group: 'Thuốc điều trị chóng mặt tiền đình & tuần hoàn tai trong',
+          dosage: '1 viên x 2 - 3 lần/ngày',
+          usage: 'Uống trong hoặc sau bữa ăn',
+          mechanism: 'Ổn định điện thế màng tế bào thần kinh tiền đình và cải thiện vi tuần hoàn mê đạo - thân nền.',
+          caution: 'Không tự ý lạm dụng kéo dài khi chưa đo loại trừ cơn tăng huyết áp cấp.'
+        }
+      ],
+      emergencySigns: ['Huyết áp đo ≥ 180/120 mmHg kèm đau đầu dữ dội như búa bổ, nôn vọt', 'Nói ngọng, méo miệng, nhìn mờ đột ngột hoặc yếu liệt tay chân một bên (Dấu hiệu Đột quỵ cấp - Gọi 115 ngay)'],
+      referencedBooks: ['The Practice of Chinese Medicine - Giovanni Maciocia', 'Chinese Herbal Medicine - Dan Bensky', 'Sổ Tay Đổng Thị Kỳ Huyệt', 'Guyton and Hall Textbook of Medical Physiology', 'Dược thư Quốc gia Việt Nam']
+    };
+  }
+
+  // 17. Default / General Dynamic Synthesis incorporating any matched database records
   const customDiseaseTitle = topTungFormula
     ? topTungFormula.diseaseName
     : matchedKnowledge.westernDiseases[0]
