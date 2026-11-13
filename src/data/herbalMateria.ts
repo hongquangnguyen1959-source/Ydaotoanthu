@@ -33,7 +33,7 @@ export const HERBAL_MATERIA: Herb[] = [
     dosageGram: '2 - 9g',
     actions: ["Phát hãn giải biểu mạnh", "Tuyên phế bình suyễn", "Lợi thủy tiêu thũng"],
     clinicalIndications: ["Cảm phong hàn biểu thực không mồ hôi", "Hen phế quản đờm khò khè", "Phù thũng phong thủy"],
-    contraindications: 'Cấm dùng cao huyết áp, tự hãn, âm hư hỏa vượng.',
+    contraindications: 'Cấm dùng cao huyết áp, tự hãn, âm hư hỏa vượng; thận trọng ở phụ nữ có thai.',
     benskyNotes: 'Dan Bensky 3rd Ed: Ephedrine kích thích phế quản; chích mật nhuận phế.'
   },
   {
@@ -50,7 +50,7 @@ export const HERBAL_MATERIA: Herb[] = [
     },
     dosageGram: '3 - 10g',
     actions: ["Phát hãn giải cơ", "Ôn thông kinh mạch", "Trợ tâm dương"],
-    clinicalIndications: ["Cảm phong hàn tự hãn", "Đau nhức khớp vai tay", "Đau bụng kinh do hàn凝"],
+    clinicalIndications: ["Cảm phong hàn tự hãn", "Đau nhức khớp vai tay", "Đau bụng kinh do hàn ngưng"],
     contraindications: 'Thận trọng sốt cao biểu nhiệt, mang thai.',
     benskyNotes: 'Dan Bensky: Phát tán kinh mạch chi trên, ấm mạch máu.'
   },
@@ -185,7 +185,7 @@ export const HERBAL_MATERIA: Herb[] = [
     vietnameseName: 'Hương nhu',
     pinyinName: 'Xiang Ru',
     botanicalName: 'Herba Moslae',
-    chineseCharacters: '香茹',
+    chineseCharacters: '香薷',
     category: '1. Thuốc Giải Biểu (Release Exterior)',
     properties: {
       nature: 'Ôn',
@@ -699,7 +699,7 @@ export const HERBAL_MATERIA: Herb[] = [
     dosageGram: '6 - 12g',
     actions: ["Thanh nhiệt lương huyết", "Tán ứ chỉ thống"],
     clinicalIndications: ["Nôn ra máu chảy máu cam huyết nhiệt", "Đau tức sườn bụng ứ huyết", "Đau mắt đỏ mụn nhọt"],
-    contraindications: 'Thận trọng âm hư huyết hư.',
+    contraindications: 'Phản Lê lô (Thập bát phản); thận trọng âm hư huyết hư.',
     benskyNotes: 'Dan Bensky: Chuyên thanh Can hỏa và làm tan ứ máu mạnh.'
   },
   {
@@ -752,8 +752,8 @@ export const HERBAL_MATERIA: Herb[] = [
     },
     dosageGram: '15 - 30g',
     actions: ["Thanh nhiệt lương huyết đại nhiệt", "Giải độc định kinh co giật", "Thay thế Tê giác"],
-    clinicalIndications: ["Sốt cao mê cuồng xuất huyết ban chẩn", "Viêm màng brain sốt co giật"],
-    contraindications: 'Kỵ tỳ vị hư hàn.',
+    clinicalIndications: ["Sốt cao mê cuồng xuất huyết ban chẩn", "Viêm màng não sốt co giật"],
+    contraindications: 'Kỵ tỳ vị hư hàn; phụ nữ có thai dùng thận trọng.',
     benskyNotes: 'Dan Bensky 3rd Ed: Sừng trâu chính thức thay thế Tê giác bảo tồn hoang dã.'
   },
   {
@@ -769,7 +769,7 @@ export const HERBAL_MATERIA: Herb[] = [
       channels: ["Can", "Vị", "Thận"]
     },
     dosageGram: '6 - 12g',
-    actions: ["Thanh nhiệt lương huyết", "Lợi niệu通 lâm đái buốt", "Giải độc liệu mụn nhọt"],
+    actions: ["Thanh nhiệt lương huyết", "Lợi niệu thông lâm đái buốt", "Giải độc liệu mụn nhọt"],
     clinicalIndications: ["Sốt kéo dài sau sinh, sốt âm hư", "Viêm đường tiết niệu đái buốt đái máu"],
     contraindications: 'Kỵ tỳ vị hư hàn đại tiện lỏng.',
     benskyNotes: 'Dan Bensky: Rễ bạch vi mát máu mà không trệ kinh mạch.'
@@ -861,7 +861,7 @@ export const HERBAL_MATERIA: Herb[] = [
     dosageGram: '6 - 12g',
     actions: ["Thanh nhiệt táo thấp", "Sát trùng chỉ ngứa eczema ngứa ngáy", "Lợi niệu"],
     clinicalIndications: ["Ngứa âm đạo eczema nấm da mề đay", "Lỵ trực trùng đái buốt"],
-    contraindications: 'Cấm tỳ vị hư hàn. Kỵ Tố Lô.',
+    contraindications: 'Phản Lê lô (Thập bát phản); cấm tỳ vị hư hàn.',
     benskyNotes: 'Dan Bensky: Rễ khổ sâm diệt nấm ngứa ngoài da và viêm âm đạo.'
   },
   {
@@ -967,7 +967,7 @@ export const HERBAL_MATERIA: Herb[] = [
       channels: ["Phế", "Vị", "Đại tràng"]
     },
     dosageGram: '6 - 12g',
-    actions: ["Thanh nhiệt giải độc kháng sinh", "Táo thấp止 tả"],
+    actions: ["Thanh nhiệt giải độc kháng sinh", "Táo thấp chỉ tả"],
     clinicalIndications: ["Viêm họng cấp, viêm phế quản, viêm phổi", "Viêm ruột lỵ trực trùng"],
     contraindications: 'Dùng liều cao hại tỳ vị.',
     benskyNotes: 'Dan Bensky: Vị đắng xuyên tâm kháng khuẩn đường hô hấp & tiêu hóa.'
@@ -1077,7 +1077,7 @@ export const HERBAL_MATERIA: Herb[] = [
     dosageGram: '6 - 12g',
     actions: ["Tả hạ nhuận phân", "Nhuận táo mộc kiên làm mềm phân cứng", "Thanh nhiệt tiêu thũng"],
     clinicalIndications: ["Táo bón kết vón phân cứng ngắc", "Sưng đau họng vú lở miệng"],
-    contraindications: 'Cấm phụ nữ mang thai.',
+    contraindications: 'Úy Tam lăng (Thập cửu úy); cấm phụ nữ mang thai.',
     benskyNotes: 'Dan Bensky: Muối Natri Sulfat hút nước vào lòng ruột làm mềm phân tích tụ.'
   },
   {
@@ -1139,7 +1139,7 @@ export const HERBAL_MATERIA: Herb[] = [
     vietnameseName: 'Ý dĩ nhân',
     pinyinName: 'Yi Yi Ren',
     botanicalName: 'Semen Coicis',
-    chineseCharacters: '意苡仁',
+    chineseCharacters: '薏苡仁',
     category: '4. Thuốc Lợi Thủy Thẩm Thấp (Drain Dampness)',
     properties: {
       nature: 'Hơi hàn',
@@ -1193,7 +1193,7 @@ export const HERBAL_MATERIA: Herb[] = [
     vietnameseName: 'Nhân trần hao',
     pinyinName: 'Yin Chen Hao',
     botanicalName: 'Herba Artemisiae Scopariae',
-    chineseCharacters: '陰陳蒿',
+    chineseCharacters: '茵陳蒿',
     category: '4. Thuốc Lợi Thủy Thẩm Thấp (Drain Dampness)',
     properties: {
       nature: 'Hơi hàn',
@@ -1293,7 +1293,7 @@ export const HERBAL_MATERIA: Herb[] = [
     dosageGram: '4.5 - 9g',
     actions: ["Táo thấp hóa đờm", "Giáng nghịch chỉ ẩu cắt nôn trào ngược", "Tiêu nán tán kết"],
     clinicalIndications: ["Ho đờm trắng lỏng nhiều", "Buồn nôn nôn mửa trào ngược GERD", "Vướng nghẹn cổ họng Mai hạch khí"],
-    contraindications: 'Cấm Bán Hạ sống. Kỵ ho khô âm hư.',
+    contraindications: 'Phản Ô đầu, Phụ tử (Thập bát phản); cấm Bán Hạ sống; kỵ ho khô âm hư; phụ nữ có thai dùng thận trọng.',
     benskyNotes: 'Dan Bensky: Bán hạ chế gừng dập nôn trào ngược dạ dày và đờm ẩm cực hay.'
   },
   {
@@ -1725,7 +1725,7 @@ export const HERBAL_MATERIA: Herb[] = [
     dosageGram: '3 - 15g',
     actions: ["Hồi dương cứu nghịch", "Bổ hỏa trợ dương", "Tán hàn chỉ thống"],
     clinicalIndications: ["Chân tay lạnh ngắt thoát dương cấp", "Thận dương hư suy đau lưng sợ lạnh liệt dương", "Đau khớp gối lạnh nhức"],
-    contraindications: 'Cấm phụ nữ mang thai, chân nhiệt giả hàn.',
+    contraindications: 'Phản Bán hạ, Qua lâu, Bối mẫu, Bạch liễm, Bạch cập (Thập bát phản); cấm phụ nữ mang thai, chân nhiệt giả hàn.',
     benskyNotes: 'Dan Bensky: Aconitine trong Phụ tử chế giải phóng ngọn lửa Mệnh môn hỏa.'
   },
   {
@@ -1743,7 +1743,7 @@ export const HERBAL_MATERIA: Herb[] = [
     dosageGram: '1 - 4.5g',
     actions: ["Bổ Mệnh môn hỏa trợ dương", "Ôn trung chỉ thống", "Dẫn hỏa quy nguyên"],
     clinicalIndications: ["Liệt dương tử cung lạnh đại tiện lỏng sáng sớm", "Đau bụng lạnh cuộn nôn mửa", "Hư hỏa bốc lên lở miệng chân lạnh"],
-    contraindications: 'Cấm phụ nữ mang thai, âm hư hỏa vượng.',
+    contraindications: 'Úy Xích thạch chi (Thập cửu úy); cấm phụ nữ mang thai, âm hư hỏa vượng.',
     benskyNotes: 'Dan Bensky: Tinh dầu Cinnamaldehyde sưởi ấm vùng hạ tiêu Mệnh môn hỏa.'
   },
   {
@@ -1797,7 +1797,7 @@ export const HERBAL_MATERIA: Herb[] = [
     dosageGram: '3 - 9g',
     actions: ["Đại bổ nguyên khí", "Bổ tỳ ích phế", "Sinh tân chỉ khát", "An thần ích trí"],
     clinicalIndications: ["Kiệt sức mạch vi vã mồ hôi", "Suy nhược cơ thể kéo dài", "Đái tháo đường liệt dương"],
-    contraindications: 'Cấm thực nhiệt, cảm mạo, cao huyết áp kịch phát.',
+    contraindications: 'Phản Lê lô (Thập bát phản); úy Ngũ linh chi (Thập cửu úy); cấm thực nhiệt, cảm mạo, cao huyết áp kịch phát.',
     benskyNotes: 'Dan Bensky: Ginsenosides đại bổ sức sống toàn thân.'
   },
   {
@@ -1833,7 +1833,7 @@ export const HERBAL_MATERIA: Herb[] = [
     dosageGram: '9 - 30g',
     actions: ["Bổ trung ích khí", "Kiện tỳ ích phế", "Dưỡng huyết sinh tân"],
     clinicalIndications: ["Tỳ vị hư yếu thở ngắn mệt mỏi", "Thiếu máu da xanh xao", "Khát nước âm hư"],
-    contraindications: 'Kỵ thực chứng nhiệt.',
+    contraindications: 'Phản Lê lô (Thập bát phản); kỵ thực chứng nhiệt.',
     benskyNotes: 'Dan Bensky: Thay thế Nhân Sâm êm dịu hàng ngày.'
   },
   {
@@ -1887,7 +1887,7 @@ export const HERBAL_MATERIA: Herb[] = [
     dosageGram: '2 - 10g',
     actions: ["Bổ tỳ ích khí", "Nhuận phế chỉ ho", "Hòa hoãn cấp bách giảm đau co thắt", "Giải độc các vị thuốc"],
     clinicalIndications: ["Tỳ vị hư yếu ho hắng đờm nhiều", "Đau co thắt dạ dày đau bụng", "Ngộ độc thuốc ngộ độc ăn uống"],
-    contraindications: 'Không dùng liều cao kéo dài ở người cao huyết áp phù thũng.',
+    contraindications: 'Phản Cam toại, Đại kích, Nguyên hoa, Hải tảo (Thập bát phản); không dùng liều cao kéo dài ở người cao huyết áp phù thũng.',
     benskyNotes: 'Dan Bensky: Glycyrrhizin điều hòa độc tính của 100 vị thuốc.'
   },
   {
@@ -2211,7 +2211,7 @@ export const HERBAL_MATERIA: Herb[] = [
     dosageGram: '0.1 - 0.5g',
     actions: ["Trọng trấn an thần", "Thanh tâm trấn kinh", "Giải độc tiêu thũng"],
     clinicalIndications: ["Sốt cao mê cuồng co giật", "Mất ngủ cuồng loạn cuồng sảng Tâm hỏa"],
-    contraindications: 'Cấm dùng lâu ngày hoặc đun nấu nhiệt độ cao.',
+    contraindications: 'Có độc Thủy ngân (HgS); cấm dùng lâu ngày, không đun nấu nhiệt độ cao; cấm phụ nữ có thai.',
     benskyNotes: 'Dan Bensky 3rd Ed: Khoáng vật Thủy ngân sulfide trấn an tâm thần cực mạnh.'
   },
   {
@@ -2391,7 +2391,7 @@ export const HERBAL_MATERIA: Herb[] = [
     dosageGram: '3 - 10g',
     actions: ["Sát trùng tiêu tích đặc trị sán dây & giun", "Hành khí lợi thủy giáng nghịch"],
     clinicalIndications: ["Nhiễm giun sán dây sán lợn bụng trướng", "Táo bón bế khí ruột", "Phù thũng chân tay"],
-    contraindications: 'Thận trọng trung khí suy yếu.',
+    contraindications: 'Thận trọng trung khí suy yếu và phụ nữ có thai.',
     benskyNotes: 'Dan Bensky: Arecoline làm tê liệt cơ bắp giun sán dây để xả sạch.'
   },
   {
@@ -2443,9 +2443,9 @@ export const HERBAL_MATERIA: Herb[] = [
       channels: ["Can", "Tỳ"]
     },
     dosageGram: '0.3 - 0.6g',
-    actions: ["Thông络 chỉ thống giảm đau xương khớp mạnh", "Tán kết tiêu thũng"],
+    actions: ["Thông lạc chỉ thống giảm đau xương khớp mạnh", "Tán kết tiêu thũng"],
     clinicalIndications: ["Đau nhức cơ xương khớp phong thấp mạn tính", "Liệt cơ bắp sau tai biến"],
-    contraindications: 'Chứa Strychnine cực độc gây co giật tử vong.',
+    contraindications: 'Chứa Strychnine cực độc gây co giật tử vong; cấm tuyệt đối phụ nữ có thai và không dùng quá liều quy định.',
     benskyNotes: 'Dan Bensky 3rd Ed: Strychnine kích thích tủy sống nhưng khoảng liều an toàn rất hẹp.'
   },
   {
@@ -2803,7 +2803,7 @@ export const HERBAL_MATERIA: Herb[] = [
     "vietnameseName": "Biển súc (Rau đắng đất)",
     "pinyinName": "Bian Xu",
     "botanicalName": "Herba Polygoni Avicularis",
-    "chineseCharacters": "扁蓄",
+    "chineseCharacters": "萹蓄",
     "category": "4. Thuốc Lợi Thủy Thẩm Thấp (Drain Dampness)",
     "properties": {
       "nature": "Hơi hàn",
@@ -3268,7 +3268,7 @@ export const HERBAL_MATERIA: Herb[] = [
       "Khối u vùng bụng, gan lách to",
       "Đau bụng trướng tức do thực tích"
     ],
-    "contraindications": "Phụ nữ có thai cấm dùng.",
+    "contraindications": "Úy Mang tiêu (Thập cửu úy); phụ nữ có thai cấm dùng.",
     "benskyNotes": "Dan Bensky: Luôn phối hợp cùng Nga truật tạo thành cặp Tam lăng - Nga truật phá khối u bướu huyết tích."
   },
   {
@@ -4249,7 +4249,7 @@ export const HERBAL_MATERIA: Herb[] = [
     vietnameseName: 'Đinh lăng (Nam dương sâm)',
     pinyinName: 'Nam Duong Sam',
     botanicalName: 'Radix Polysciacis Fruticosae',
-    chineseCharacters: '丁挴參',
+    chineseCharacters: '南洋參',
     category: '12. Thuốc Bổ Ích (Tonifying Herbs)',
     properties: {
       nature: 'Mát',
@@ -4549,7 +4549,7 @@ export const HERBAL_MATERIA: Herb[] = [
       'Ôn tỳ chỉ tả'
     ],
     clinicalIndications: [
-      'Mệnh môn hỏa suy liệt dương tinh lạnh bất孕 lãnh cảm',
+      'Mệnh môn hỏa suy liệt dương tinh lạnh vô sinh lãnh cảm',
       'Hàn thấp lưng gối đau lạnh tê bại',
       'Hội chứng tiền mãn kinh cao huyết áp dương hư (Nhị Tiên Thang)'
     ],
@@ -5099,7 +5099,7 @@ export const HERBAL_MATERIA: Herb[] = [
       'Mề đay mẩn ngứa dị ứng ngoài da (uống và nấu nước tắm)',
       'Đau nhức khớp phong thấp'
     ],
-    contraindications: 'Sởi đã mọc透 hoàn toàn thì không dùng.',
+    contraindications: 'Sởi đã mọc thấu hoàn toàn thì không dùng.',
     benskyNotes: 'Dan Bensky: Tuyên thông bì mao giúp ban sởi thoát nhanh ra ngoài mà không làm tổn thương tân dịch.'
   },
   {
@@ -6053,7 +6053,7 @@ export const HERBAL_MATERIA: Herb[] = [
     dosageGram: '9 - 15g',
     actions: [
       'Lương huyết chỉ huyết cầm máu hạ tiêu',
-      'Giải độc liễm疮 trị bỏng và lở loét',
+      'Giải độc liễm sang trị bỏng và lở loét',
       'Chỉ tả lỵ'
     ],
     clinicalIndications: [
@@ -6369,7 +6369,7 @@ export const HERBAL_MATERIA: Herb[] = [
       'Thông nhĩ minh mục và nạp khí bình suyễn'
     ],
     clinicalIndications: [
-      'Âm hư dương亢 hồi hộp mất ngủ chóng mặt ù tai điếc tai mờ mắt (Nhĩ Lung Tả Từ Hoàn)',
+      'Âm hư dương cang hồi hộp mất ngủ chóng mặt ù tai điếc tai mờ mắt (Nhĩ Lung Tả Từ Hoàn)',
       'Cao huyết áp đau đầu giật cơ',
       'Thận bất nạp khí hen suyễn'
     ],

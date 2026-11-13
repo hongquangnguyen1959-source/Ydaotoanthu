@@ -32,7 +32,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen w-full overflow-x-hidden bg-slate-50 text-slate-900 flex flex-col font-sans selection:bg-emerald-700 selection:text-white">
+    <div className="min-h-screen w-full overflow-x-hidden bg-[#F7F6F2] text-stone-900 flex flex-col font-sans selection:bg-[#0F3D2E] selection:text-white">
       {/* Main Navigation & Instant Omnibox */}
       <Navbar
         activeTab={activeTab}
@@ -69,14 +69,14 @@ export default function App() {
       </main>
 
       {/* Clean Scientific Medical Footer */}
-      <footer className="bg-white border-t border-slate-200 text-sm text-slate-700 py-8 px-3 sm:px-6 lg:px-8 mt-10 w-full overflow-x-hidden">
+      <footer className="bg-[#FAF9F5] border-t border-stone-200 text-sm text-stone-700 py-8 px-4 sm:px-6 lg:px-8 mt-10 w-full overflow-x-hidden">
         <div className="max-w-7xl mx-auto space-y-5">
-          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 pb-5 border-b border-slate-100">
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 pb-5 border-b border-stone-200/70">
             <div>
-              <div className="font-extrabold text-base sm:text-lg text-slate-900">
-                Y Đạo Toàn Thư · Hệ Thống Y Học Lâm Sàng Đông - Tây Y Kết Hợp
+              <div className="font-serif font-bold text-base sm:text-lg text-stone-900">
+                Y Đạo Toàn Thư · Hệ Thống Y Học Lâm Sàng Đông – Tây Y Kết Hợp
               </div>
-              <p className="text-xs sm:text-sm text-slate-600 mt-1 max-w-2xl leading-relaxed">
+              <p className="text-xs sm:text-sm text-stone-600 mt-1 max-w-2xl leading-relaxed">
                 Tích hợp dữ liệu chuyên khảo từ 65 tác phẩm y điển kinh điển và 4 bộ sách PDF nguyên bản: 239 Kỳ huyệt Đổng Thị, 295 Phác đồ lâm sàng, 58 Kỳ huyệt WHO, Châm cứu GS. Nguyễn Tài Thu và Lưu Viêm, Dược điển Dan Bensky, Nam dược Tuệ Tĩnh và Đỗ Tất Lợi, Dược thư Quốc gia Việt Nam.
               </p>
             </div>
@@ -85,35 +85,35 @@ export default function App() {
               <button
                 type="button"
                 onClick={() => setActiveTab('acupuncture')}
-                className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs sm:text-sm font-bold transition-colors cursor-pointer"
+                className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white border border-stone-200 hover:border-emerald-800/30 hover:bg-emerald-50/40 text-stone-800 text-xs sm:text-sm font-semibold transition-colors cursor-pointer whitespace-nowrap"
               >
-                <Compass className="w-4 h-4 text-emerald-700" />
+                <Compass className="w-4 h-4 text-[#0F3D2E]" />
                 <span>239 Huyệt Đổng Thị</span>
               </button>
               <button
                 type="button"
                 onClick={() => setActiveTab('pharmacology')}
-                className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs sm:text-sm font-bold transition-colors cursor-pointer"
+                className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white border border-stone-200 hover:border-emerald-800/30 hover:bg-emerald-50/40 text-stone-800 text-xs sm:text-sm font-semibold transition-colors cursor-pointer whitespace-nowrap"
               >
-                <Pill className="w-4 h-4 text-cyan-700" />
+                <Pill className="w-4 h-4 text-cyan-800" />
                 <span>Thuốc Tây Y A-Z</span>
               </button>
               <button
                 type="button"
                 onClick={() => setActiveTab('library')}
-                className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs sm:text-sm font-bold transition-colors cursor-pointer"
+                className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white border border-stone-200 hover:border-emerald-800/30 hover:bg-emerald-50/40 text-stone-800 text-xs sm:text-sm font-semibold transition-colors cursor-pointer whitespace-nowrap"
               >
-                <BookOpen className="w-4 h-4 text-emerald-700" />
+                <BookOpen className="w-4 h-4 text-[#0F3D2E]" />
                 <span>Kho 65 Sách Y</span>
               </button>
             </div>
           </div>
 
-          <div className="p-4 rounded-xl bg-amber-50 border border-amber-200 text-xs sm:text-sm text-amber-950 flex items-start gap-2.5">
+          <div className="p-4 rounded-xl bg-amber-50/80 border border-amber-200/80 text-xs sm:text-sm text-amber-950 flex items-start gap-2.5">
             <ShieldAlert className="w-5 h-5 text-amber-700 shrink-0 mt-0.5" />
             <p className="leading-relaxed">
               <strong>Lưu ý chuyên môn: </strong>
-              Hệ thống phục vụ tra cứu lâm sàng, học tập và đối chiếu y văn Đông - Tây Y. Không tự ý ngưng thuốc điều trị chuyên khoa khi chưa có chỉ định của bác sĩ.
+              Hệ thống phục vụ tra cứu lâm sàng, học tập và đối chiếu y văn Đông – Tây Y. Không tự ý ngưng thuốc điều trị chuyên khoa khi chưa có chỉ định của bác sĩ.
             </p>
           </div>
         </div>

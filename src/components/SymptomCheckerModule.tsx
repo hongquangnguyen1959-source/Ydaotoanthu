@@ -16,7 +16,10 @@ import {
   HelpCircle,
   AlertCircle,
   Pill,
-  AlertTriangle
+  AlertTriangle,
+  ChevronDown,
+  ChevronUp,
+  Stethoscope
 } from 'lucide-react';
 import { HerbDrugInteractionAlert } from './HerbDrugInteractionAlert';
 import { generateDynamicSymptomResponse } from '../utils/scientificMedicalEngine';
@@ -89,32 +92,141 @@ export const SymptomCheckerModule: React.FC<SymptomCheckerModuleProps> = ({ onOp
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState<SymptomResponseData | null>(null);
 
-  const symptomPresets = [
+  const [showSymptomPresets, setShowSymptomPresets] = useState(false);
+  const [activePresetCategory, setActivePresetCategory] = useState<string>('all');
+  const [selectedPresetLabel, setSelectedPresetLabel] = useState<string | null>(null);
+
+  const presetCategories = [
+    { id: 'all', label: 'Tất cả' },
+    { id: 'musculoskeletal', label: 'Xương khớp' },
+    { id: 'digestive_hepatic', label: 'Tiêu hóa & Gan' },
+    { id: 'neuro_cardiac', label: 'Thần kinh & Tim mạch' },
+    { id: 'ent_resp_eye', label: 'Hô hấp - TMH - Mắt Răng' },
+    { id: 'endocrine_uro_derm', label: 'Nội tiết - Tiết niệu - Da - Phụ khoa' }
+  ];
+
+  const symptomPresets: { category: string; label: string; text: string }[] = [
+    // 1. Cơ xương khớp
     {
+      category: 'musculoskeletal',
       label: 'Đau thắt lưng lan xuống chân (Thần kinh tọa)',
       text: 'Tôi bị đau thắt lưng lan dọc xuống mông và cẳng chân trái, đau buốt nhói như điện giật, ho hoặc cúi người thì đau tăng dữ dội, ngón chân có cảm giác tê rần.'
     },
     {
+      category: 'musculoskeletal',
       label: 'Sưng nóng đỏ đau khớp ngón chân cái (Bệnh Gout)',
       text: 'Tôi bị sưng tấy, nóng đỏ và đau nhức dữ dội ở khớp bàn ngón chân cái sau bữa ăn nhiều đạm, xét nghiệm Acid Uric máu tăng cao 520 umol/L.'
     },
     {
-      label: 'Đau nửa đầu, hoa mắt, miệng đắng (Huyết áp/Can hỏa)',
-      text: 'Tôi thường xuyên bị đau căng nhức một bên thái dương và đỉnh đầu, mắt vằn tia máu, hoa mắt chóng mặt khi đứng lên, trong người bực dọc, miệng đắng và khó ngủ.'
+      category: 'musculoskeletal',
+      label: 'Đau mỏi khớp gối, leo cầu thang lục cục',
+      text: 'Hai khớp gối của tôi bị đau nhức khi đi lại và leo cầu thang, có tiếng kêu lục cục trong khớp, sáng ngủ dậy khớp bị cứng đơ khoảng 15-20 phút mới co duỗi được.'
     },
     {
+      category: 'musculoskeletal',
+      label: 'Đau cứng cổ vai gáy, tê bì cánh tay',
+      text: 'Tôi bị đau cứng cổ vai gáy lan xuống bả vai và tê bì cánh tay, quay cổ bị hạn chế, ngồi làm việc máy tính lâu thì nhức mỏi tăng nhiều.'
+    },
+    // 2. Tiêu hóa & Gan mật
+    {
+      category: 'digestive_hepatic',
       label: 'Trào ngược dạ dày, ợ chua, đau thượng vị',
       text: 'Tôi bị ợ hơi ợ chua liên tục, cảm giác nóng rát sau xương ức, nghẹn ở cổ họng, đau âm ỉ vùng thượng vị sau khi ăn, ăn đồ lạnh vào là hay bị đau bụng đi ngoài.'
     },
     {
+      category: 'digestive_hepatic',
+      label: 'Đầy bụng chậm tiêu, rối loạn đại tiện (Đại tràng)',
+      text: 'Tôi hay bị đau bụng âm ỉ dọc khung đại tràng, ăn vào dễ đầy hơi chướng bụng, đi ngoài phân lỏng hoặc lúc táo lúc lỏng kéo dài.'
+    },
+    {
+      category: 'digestive_hepatic',
+      label: 'Táo bón lâu ngày, phân khô khó đi ngoài',
+      text: 'Tôi bị táo bón kéo dài nhiều ngày mới đi đại tiện một lần, phân khô cứng, đau rát hậu môn, bụng dưới đầy tức khó chịu.'
+    },
+    {
+      category: 'digestive_hepatic',
+      label: 'Men gan cao, gan nhiễm mỡ, tức hạ sườn phải',
+      text: 'Tôi mới xét nghiệm thấy men gan tăng cao và gan nhiễm mỡ, hay mệt mỏi chán ăn, đắng miệng, nước tiểu vàng và tức nhẹ vùng hạ sườn phải.'
+    },
+    // 3. Thần kinh, Tim mạch & Giấc ngủ
+    {
+      category: 'neuro_cardiac',
+      label: 'Đau nửa đầu, hoa mắt, miệng đắng (Huyết áp/Can hỏa)',
+      text: 'Tôi thường xuyên bị đau căng nhức một bên thái dương và đỉnh đầu, mắt vằn tia máu, hoa mắt chóng mặt khi đứng lên, trong người bực dọc, miệng đắng và khó ngủ.'
+    },
+    {
+      category: 'neuro_cardiac',
+      label: 'Chóng mặt quay cuồng, buồn nôn (Rối loạn tiền đình)',
+      text: 'Tôi bị hoa mắt chóng mặt quay cuồng như nhà cửa xoay tròn khi thay đổi tư thế nằm sang ngồi dậy, kèm ù tai và buồn nôn.'
+    },
+    {
+      category: 'neuro_cardiac',
+      label: 'Mất ngủ mạn tính, trằn trọc hay giật mình',
+      text: 'Tôi bị mất ngủ kéo dài nhiều tháng, đêm trằn trọc rất khó vào giấc, ngủ không sâu hay giật mình tỉnh giấc giữa đêm, ban ngày suy nhược thần kinh mệt mỏi.'
+    },
+    {
+      category: 'neuro_cardiac',
+      label: 'Tức ngực trái, tim đập nhanh, mỡ máu cao',
+      text: 'Tôi thỉnh thoảng bị đau thắt ngực trái nhẹ khi gắng sức, tim đập nhanh hồi hộp, xét nghiệm mỡ máu cholesterol và triglyceride đều tăng cao.'
+    },
+    // 4. Hô hấp, Tai mũi họng, Mắt & Răng hàm mặt
+    {
+      category: 'ent_resp_eye',
+      label: 'Ho kéo dài có đờm, khò khè khó thở (Phế quản)',
+      text: 'Tôi bị ho kéo dài nhiều tuần khạc đờm đặc, ngực tức khò khè và khó thở về đêm gần sáng, thời tiết chuyển lạnh là tái phát viêm phế quản.'
+    },
+    {
+      category: 'ent_resp_eye',
+      label: 'Nghẹt mũi, nhức hốc mắt trán, sổ mũi (Viêm xoang)',
+      text: 'Tôi bị viêm xoang mạn tính, sáng dậy hay hắt hơi sổ mũi, nghẹt mũi hai bên và đau nhức vùng xoang trán, sống mũi khi ngồi điều hòa.'
+    },
+    {
+      category: 'ent_resp_eye',
+      label: 'Đau nhức răng hàm, sưng lợi nhức lên thái dương',
+      text: 'Tôi bị đau nhức răng hàm dữ dội, nướu viêm lợi sưng đỏ, đau giật từng cơn lan lên quai hàm và thái dương khi ăn đồ nóng lạnh.'
+    },
+    {
+      category: 'ent_resp_eye',
+      label: 'Mỏi mắt, khô rát, nhìn mờ khi dùng màn hình',
+      text: 'Tôi thường xuyên xem điện thoại ban đêm nên bị mỏi mắt, khô rát cộm mắt, nhìn mờ và cảm giác nhãn cầu căng tức như hơi lồi nhẹ.'
+    },
+    // 5. Nội tiết, Tiết niệu, Da liễu & Phụ khoa
+    {
+      category: 'endocrine_uro_derm',
       label: 'Khát nước, tiểu nhiều, tê bì chân tay (Tiểu đường)',
       text: 'Tôi hay bị khát nước khô miệng, đi tiểu đêm nhiều lần, người mệt mỏi sụt cân, hai bàn chân có cảm giác tê bì châm chích, đường huyết lúc đói 8.5 mmol/L.'
     },
     {
-      label: 'Đau mỏi khớp gối, leo cầu thang lục cục',
-      text: 'Hai khớp gối của tôi bị đau nhức khi đi lại và leo cầu thang, có tiếng kêu lục cục trong khớp, sáng ngủ dậy khớp bị cứng đơ khoảng 15-20 phút mới co duỗi được.'
+      category: 'endocrine_uro_derm',
+      label: 'Tim đập nhanh, run tay, sụt cân, bướu cổ (Tuyến giáp)',
+      text: 'Tôi có dấu hiệu cường giáp tuyến giáp, tim đập nhanh hồi hộp, tay run nhẹ, ăn nhiều nhưng vẫn sụt cân, hay vã mồ hôi sợ nóng và tức nhẹ vùng cổ.'
+    },
+    {
+      category: 'endocrine_uro_derm',
+      label: 'Tiểu buốt, tiểu rắt, đau âm ỉ thắt lưng (Tiết niệu)',
+      text: 'Tôi bị tiểu buốt, tiểu rắt nhiều lần trong ngày, nước tiểu đục, kèm đau âm ỉ vùng hố thắt lưng nghi ngờ sỏi thận hoặc viêm đường tiết niệu.'
+    },
+    {
+      category: 'endocrine_uro_derm',
+      label: 'Nổi mề đay, mẩn ngứa dị ứng toàn thân',
+      text: 'Da tôi hay nổi mề đay thành từng mảng đỏ sẩn phù, mẩn ngứa dữ dội về chiều tối hoặc khi ăn hải sản, thời tiết thay đổi.'
+    },
+    {
+      category: 'endocrine_uro_derm',
+      label: 'Rụng tóc nhiều sau sinh, hoa mắt da xanh',
+      text: 'Sau sinh tôi bị rụng tóc rất nhiều, tóc thưa lộ da đầu vùng trán đỉnh, người hay mệt mỏi hoa mắt da xanh do thiếu máu khí huyết hư.'
+    },
+    {
+      category: 'endocrine_uro_derm',
+      label: 'Đau bụng kinh dữ dội, kinh nguyệt không đều',
+      text: 'Mỗi kỳ kinh nguyệt tôi bị đau bụng kinh dữ dội vùng bụng dưới, tay chân lạnh, chu kỳ kinh nguyệt không đều và hay có máu cục thẫm màu.'
     }
   ];
+
+  const visiblePresets =
+    activePresetCategory === 'all'
+      ? symptomPresets
+      : symptomPresets.filter((p) => p.category === activePresetCategory);
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -665,56 +777,124 @@ export const SymptomCheckerModule: React.FC<SymptomCheckerModuleProps> = ({ onOp
   return (
     <div className="space-y-6">
       {/* Clean Clinical Header Banner (No Photos) */}
-      <div className="rounded-2xl sm:rounded-3xl bg-white border border-slate-200 p-5 sm:p-7 shadow-xs space-y-3">
-        <div className="flex flex-wrap items-center gap-2 text-xs text-emerald-800 font-semibold">
-          <span className="px-2.5 py-0.5 rounded-md bg-emerald-50 border border-emerald-200 font-bold">
-            Y Học Tích Hợp Đông - Tây Y
-          </span>
-          <span aria-hidden="true">·</span>
-          <span>65 Y Điển & 4 Sách PDF Nguyên Bản</span>
-          <span aria-hidden="true">·</span>
-          <span>239 Kỳ Huyệt Đổng Thị · Dược Thư Quốc Gia</span>
+      <div className="rounded-2xl bg-white border border-stone-200/90 p-5 sm:p-6 shadow-xs space-y-2.5">
+        <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] text-[#0F3D2E] font-bold uppercase tracking-[0.06em]">
+          <span>Y Học Tích Hợp Đông - Tây Y</span>
+          <span aria-hidden="true" className="text-stone-300">·</span>
+          <span className="text-stone-600 font-semibold normal-case tracking-normal">65 Y Điển & 4 Sách PDF Nguyên Bản</span>
+          <span aria-hidden="true" className="text-stone-300">·</span>
+          <span className="text-stone-600 font-semibold normal-case tracking-normal">239 Kỳ Huyệt Đổng Thị · Dược Thư Quốc Gia</span>
         </div>
-        <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight leading-snug">
+        <h2 className="text-xl sm:text-2xl font-serif font-bold text-stone-900 tracking-tight leading-snug">
           Khám Triệu Chứng, Biện Chứng Đông - Tây Y & Phác Đồ Điều Trị
         </h2>
-        <p className="text-xs sm:text-sm text-slate-700 leading-relaxed max-w-3xl">
-          Mô tả triệu chứng hoặc chọn nhanh bệnh cảnh bên dưới để Bác sĩ AI phân tích sinh lý bệnh Tây y (Guyton & Hall), biện chứng Bát cương - Tạng phủ (Maciocia), kê cổ phương (Dan Bensky), định vị Kỳ huyệt Đổng Thị và phác đồ thuốc Tây y chuẩn Dược thư Quốc gia.
+        <p className="text-xs sm:text-sm text-stone-600 leading-relaxed max-w-3xl">
+          Mô tả triệu chứng hoặc mở danh sách triệu chứng phổ biến để hệ thống phân tích sinh lý bệnh Tây y (Guyton & Hall), biện chứng Bát cương - Tạng phủ (Maciocia), kê cổ phương (Dan Bensky), định vị Kỳ huyệt Đổng Thị và phác đồ Tây y.
         </p>
       </div>
 
       {/* Top Input Card */}
-      <div className="p-6 sm:p-8 rounded-3xl bg-white border border-slate-200 shadow-xs space-y-5">
-        {/* Quick Symptom Chips */}
-        <div>
-          <span className="text-xs font-bold text-slate-700 block mb-2">
-            Chọn nhanh triệu chứng hoặc bệnh lý phổ biến:
-          </span>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
-            {symptomPresets.map((preset, i) => (
-              <button
-                key={i}
-                type="button"
-                onClick={() => setSymptomText(preset.text)}
-                className="text-left p-2.5 rounded-xl bg-slate-50 hover:bg-emerald-50 text-slate-700 hover:text-emerald-900 border border-slate-200 hover:border-emerald-300 transition-all text-xs font-medium cursor-pointer"
-              >
-                {preset.label}
-              </button>
-            ))}
-          </div>
+      <div className="p-4 sm:p-6 rounded-2xl bg-white border border-stone-200/90 shadow-xs space-y-4">
+        {/* Compact Expandable Quick Symptom Selector (Collapsed by default) */}
+        <div className="rounded-xl border border-stone-200 bg-stone-50/70 overflow-hidden">
+          <button
+            type="button"
+            onClick={() => setShowSymptomPresets((prev) => !prev)}
+            aria-expanded={showSymptomPresets}
+            className="w-full px-3.5 py-2.5 flex items-center justify-between gap-3 text-left hover:bg-emerald-50/50 transition-colors cursor-pointer"
+          >
+            <div className="flex items-center gap-2.5 min-w-0">
+              <Stethoscope className="w-4 h-4 text-[#0F3D2E] shrink-0" />
+              <div className="min-w-0">
+                <div className="text-xs font-bold text-stone-800 truncate">
+                  Chọn nhanh triệu chứng phổ biến ({symptomPresets.length} bệnh cảnh)
+                </div>
+                {selectedPresetLabel && !showSymptomPresets && (
+                  <div className="text-[11px] text-[#0F3D2E] font-medium truncate">
+                    Đang chọn: {selectedPresetLabel}
+                  </div>
+                )}
+              </div>
+            </div>
+            <div className="flex items-center gap-1.5 text-[11px] font-semibold text-[#0F3D2E] shrink-0 whitespace-nowrap">
+              <span>{showSymptomPresets ? 'Thu gọn' : 'Mở danh sách'}</span>
+              {showSymptomPresets ? (
+                <ChevronUp className="w-4 h-4" />
+              ) : (
+                <ChevronDown className="w-4 h-4" />
+              )}
+            </div>
+          </button>
+
+          {showSymptomPresets && (
+            <div className="border-t border-stone-200 bg-white p-3 space-y-2.5 animate-fadeIn">
+              {/* Specialty Category Tabs */}
+              <div className="flex items-center gap-1.5 overflow-x-auto scrollbar-none pb-1 border-b border-stone-100">
+                {presetCategories.map((cat) => {
+                  const active = activePresetCategory === cat.id;
+                  const count =
+                    cat.id === 'all'
+                      ? symptomPresets.length
+                      : symptomPresets.filter((p) => p.category === cat.id).length;
+                  return (
+                    <button
+                      key={cat.id}
+                      type="button"
+                      onClick={() => setActivePresetCategory(cat.id)}
+                      className={`px-2.5 py-1 rounded-lg text-[11px] font-semibold whitespace-nowrap transition-colors cursor-pointer ${
+                        active
+                          ? 'bg-[#0F3D2E] text-white'
+                          : 'bg-stone-100 text-stone-600 hover:bg-stone-200/80 hover:text-stone-900'
+                      }`}
+                    >
+                      {cat.label} ({count})
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Compact Multi-column Symptom List */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-1.5 max-h-72 overflow-y-auto pr-0.5">
+                {visiblePresets.map((preset) => {
+                  const isSelected = selectedPresetLabel === preset.label && symptomText === preset.text;
+                  return (
+                    <button
+                      key={preset.label}
+                      type="button"
+                      onClick={() => {
+                        setSymptomText(preset.text);
+                        setSelectedPresetLabel(preset.label);
+                        setShowSymptomPresets(false);
+                      }}
+                      className={`text-left px-3 py-2 rounded-lg border transition-all text-xs leading-snug cursor-pointer ${
+                        isSelected
+                          ? 'bg-emerald-50 border-[#0F3D2E]/50 text-[#0F3D2E] font-semibold'
+                          : 'bg-stone-50/80 hover:bg-emerald-50/70 text-stone-700 hover:text-stone-900 border-stone-200/80 hover:border-emerald-300 font-medium'
+                      }`}
+                    >
+                      {preset.label}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Main Symptom Textarea */}
         <div className="space-y-1.5">
-          <label className="text-xs font-bold text-slate-800 block">
+          <label className="text-xs font-bold text-stone-800 block">
             Mô tả chi tiết triệu chứng của bạn <span className="text-rose-500">*</span>
           </label>
           <textarea
             rows={4}
             value={symptomText}
-            onChange={(e) => setSymptomText(e.target.value)}
+            onChange={(e) => {
+              setSymptomText(e.target.value);
+              if (selectedPresetLabel) setSelectedPresetLabel(null);
+            }}
             placeholder="Ví dụ: Tôi bị đau nửa đầu bên phải nhói giật giật, hoa mắt, mất ngủ, hay cáu gắt và miệng đắng vào buổi sáng. Khi cúi xuống thì đầu căng tức khó chịu..."
-            className="w-full p-4 rounded-2xl bg-slate-50 border border-slate-300 text-slate-900 text-sm placeholder-slate-400 focus:outline-none focus:border-emerald-600 focus:bg-white transition-all shadow-2xs leading-relaxed"
+            className="w-full p-3.5 rounded-xl bg-stone-50 border border-stone-300 text-stone-900 text-sm placeholder-stone-400 focus:outline-none focus:border-[#0F3D2E] focus:bg-white transition-all leading-relaxed"
           />
         </div>
 

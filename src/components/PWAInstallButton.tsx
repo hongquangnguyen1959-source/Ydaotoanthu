@@ -26,9 +26,9 @@ export const PWAInstallButton: React.FC = () => {
       <button
         type="button"
         onClick={handleClick}
-        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-xs sm:text-sm font-extrabold shadow-sm transition-colors cursor-pointer shrink-0"
+        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/15 text-amber-200 border border-amber-300/35 text-xs font-semibold transition-colors cursor-pointer shrink-0 whitespace-nowrap"
       >
-        <Download className="w-4 h-4 stroke-[2.5]" />
+        <Download className="w-3.5 h-3.5" />
         <span>Tải App Về Máy</span>
       </button>
 

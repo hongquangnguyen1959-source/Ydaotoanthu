@@ -23,7 +23,7 @@ const SPECIMEN_GROUPS: SpecimenGroup[] = [
     file: 'pale_sliced_roots.jpg',
     partLabel: 'Hoàng Kỳ & Rễ Thái Phiến Vàng Nhạt',
     processingNote: 'Rễ củ thái vát dài phơi khô hoặc chích mật ong chuẩn Bensky',
-    ids: ['huang-qi', 'ku-shen', 'ban-lan-gen', 'shan-dou-gen']
+    ids: ['huang-qi', 'ku-shen', 'ban-lan-gen', 'shan-dou-gen', 'niu-xi']
   },
   {
     file: 'licorice_gancao.jpg',
@@ -53,7 +53,7 @@ const SPECIMEN_GROUPS: SpecimenGroup[] = [
     file: 'sliced_angelica_peony.jpg',
     partLabel: 'Đương Quy & Bạch Thược (Phiến Rễ Bổ Huyết)',
     processingNote: 'Rễ củ thái lát mỏng trắng ngà giàu tinh dầu thơm dưỡng huyết nhu can',
-    ids: ['dang-gui', 'bai-shao', 'du-huo', 'tien-ho', 'jie-geng', 'yuan-zhi']
+    ids: ['dang-gui', 'bai-shao', 'du-huo', 'tien-ho', 'jie-geng', 'yuan-zhi', 'phong-ky']
   },
   {
     file: 'atractylodes_baizhu.jpg',
@@ -70,7 +70,7 @@ const SPECIMEN_GROUPS: SpecimenGroup[] = [
   {
     file: 'scutellaria_huangqin.jpg',
     partLabel: 'Hoàng Cầm Phiến (Lát Rễ Vàng Nâu Giữa Rỗng Khô Cầm)',
-    processingNote: 'Rễ Hoàng cầm thái vát dài màu vàng sẫm có lõi giữa nâu đen (khô cầm) तẩm rượu sao thanh Phế hỏa',
+    processingNote: 'Rễ Hoàng cầm thái vát dài màu vàng sẫm có lõi giữa nâu đen (khô cầm) tẩm rượu sao thanh Phế hỏa',
     ids: ['huang-qin']
   },
   {
@@ -173,19 +173,31 @@ const SPECIMEN_GROUPS: SpecimenGroup[] = [
     file: 'red_salvia_roots.jpg',
     partLabel: 'Hồng Căn (Rễ Nâu Đỏ Hoạt Huyết / Bổ Thận)',
     processingNote: 'Đoạn rễ vỏ nâu đỏ hoặc tím sẫm rút lõi, sao rượu thông huyết mạch',
-    ids: ['dan-shen', 'chi-shao', 'zi-cao', 'di-yu', 'niu-xi', 'bai-tou-weng', 'tuc-doan', 'ba-ji-tian', 'tu-uyen', 'bai-wei', 'xian-mao']
+    ids: ['dan-shen', 'chi-shao', 'zi-cao', 'di-yu', 'tuc-doan', 'ba-ji-tian']
   },
   {
     file: 'gnarled_chuanxiong_slices.jpg',
     partLabel: 'Phiến Thân Rễ Vân Xoắn (Xuyên Khung / Thương Truật)',
     processingNote: 'Thân rễ thái lát vân hoa cúc / cánh bướm giàu tinh dầu khu phong hành khí',
-    ids: ['chuan-xiong', 'cang-zhu', 'qiang-huo', 'fang-feng', 'gao-ben', 'tu-fu-ling', 'ty-giai', 'o-duoc', 'tam-lang', 'ze-xie']
+    ids: ['chuan-xiong', 'cang-zhu', 'gao-ben', 'tu-fu-ling', 'ty-giai', 'o-duoc', 'tam-lang', 'ze-xie']
+  },
+  {
+    file: 'fangfeng_root.jpg',
+    partLabel: 'Phòng Phong Phiến (Rễ Nhăn Xám Nâu Vân Cúc Hoa Tâm)',
+    processingNote: 'Rễ Phòng phong vỏ nâu xám có vân ngang (đầu sâu róm), mặt cắt trắng vàng nổi vân tia cúc hoa tâm đặc trưng trừ phong giải biểu',
+    ids: ['fang-feng']
+  },
+  {
+    file: 'qianghuo_rhizome.jpg',
+    partLabel: 'Khương Hoạt (Thân Rễ Đốt Tằm Khương Nâu Đen Có Điểm Chu Sa)',
+    processingNote: 'Thân rễ Khương hoạt đốt vòng dày giống con tằm (tằm khương), lát cắt vỏ nâu cam lộ nhiều điểm tinh dầu đỏ (chu sa điểm) khu phong thắng thấp',
+    ids: ['qiang-huo']
   },
   {
     file: 'fibrous_cyperus_rhizomes.jpg',
     partLabel: 'Thân Rễ & Rễ Nâu Sơ Can / Trừ Phong',
     processingNote: 'Thân rễ cắt lát xéo phơi khô hoặc tứ chế giấm/rượu/muối',
-    ids: ['chai-hu', 'xiang-fu', 'mu-xiang', 'sheng-ma', 'zhi-mu', 'cot-toai-bo', 'tan-giao', 'wei-ling-xian', 'long-dan-cao', 'xi-xin', 'shi-chang-pu', 'qian-nian-jian', 'lu-gen', 'she-gan', 'gan-sui']
+    ids: ['chai-hu', 'xiang-fu', 'mu-xiang', 'sheng-ma', 'zhi-mu', 'cot-toai-bo', 'tan-giao', 'wei-ling-xian', 'long-dan-cao', 'xi-xin', 'shi-chang-pu', 'qian-nian-jian', 'lu-gen', 'she-gan', 'gan-sui', 'bai-tou-weng', 'tu-uyen', 'bai-wei', 'xian-mao']
   },
   {
     file: 'golden_cibotium_rhizome.jpg',
@@ -239,7 +251,13 @@ const SPECIMEN_GROUPS: SpecimenGroup[] = [
     file: 'cut_stem_herbs.jpg',
     partLabel: 'Toàn Thảo Cắt Khúc (Herba Thanh Nhiệt / Giải Biểu)',
     processingNote: 'Toàn cây trên mặt đất cắt khúc phơi khô chuẩn Dược điển Bensky',
-    ids: ['jing-jie', 'xiang-ru', 'yi-mu-cao', 'xia-ku-cao', 'pu-gong-ying', 'zi-hua-di-ding', 'chuan-xin-lian', 'yu-xing-cao', 'yin-chen-hao', 'qing-hao', 'xian-he-cao', 'da-ji-thao', 'xiao-ji', 'lac-tien', 'rau-meo']
+    ids: ['jing-jie', 'xiang-ru', 'yi-mu-cao', 'pu-gong-ying', 'zi-hua-di-ding', 'chuan-xin-lian', 'yu-xing-cao', 'yin-chen-hao', 'qing-hao', 'xian-he-cao', 'da-ji-thao', 'xiao-ji', 'lac-tien', 'rau-meo']
+  },
+  {
+    file: 'prunella_spica_xiakucao.jpg',
+    partLabel: 'Hạ Khô Thảo (Cụm Hoa Bông Khô Nâu Đỏ Thanh Can Tán Kết)',
+    processingNote: 'Cụm hoa hình bông (Spica Prunellae) thu hái mùa hạ lúc chuyển nâu đỏ thanh can hỏa tán uất kết',
+    ids: ['xia-ku-cao']
   },
   {
     file: 'small_leaf_herbs.jpg',
@@ -263,13 +281,19 @@ const SPECIMEN_GROUPS: SpecimenGroup[] = [
     file: 'woody_liana_slices.jpg',
     partLabel: 'Đằng Mộc Phiến (Lát Cắt Dây Đằng Vân Đồng Tâm)',
     processingNote: 'Thân dây leo cổ thụ thái lát tròn lộ vân vòng đồng tâm đỏ nâu thông lạc',
-    ids: ['ke-huyet-dang', 'day-dau-xuong', 'da-giao-dang', 'hai-feng-teng', 'luo-shi-teng', 'phong-ky']
+    ids: ['ke-huyet-dang', 'day-dau-xuong', 'da-giao-dang', 'hai-feng-teng', 'luo-shi-teng']
   },
   {
     file: 'cut_woody_twigs.jpg',
     partLabel: 'Chi Mộc (Cành Dâu Tang Chi / Tang Ký Sinh / Tây Hà Liễu)',
     processingNote: 'Cành gỗ thái vát phơi khô khu phong thông lạc lợi khớp',
-    ids: ['tang-chi', 'sang-ji-sheng', 'xi-he-liu', 'shi-hu']
+    ids: ['tang-chi', 'sang-ji-sheng', 'xi-he-liu']
+  },
+  {
+    file: 'dendrobium_shihu.jpg',
+    partLabel: 'Thạch Hộc (Thân Lan Hoàng Thảo Rãnh Vàng & Phong Đấu Tư Âm)',
+    processingNote: 'Thân lan Thạch hộc phơi khô rãnh dọc vàng xanh hoặc quấn lò xo (Phong đấu thạch hộc) tư âm ích vị sinh tân',
+    ids: ['shi-hu']
   },
   {
     file: 'hooked_uncaria_gouteng.jpg',
@@ -281,7 +305,13 @@ const SPECIMEN_GROUPS: SpecimenGroup[] = [
     file: 'bamboo_shavings_trucnhu.jpg',
     partLabel: 'Trúc Nhự (Phoi Bào Lớp Giữa Thân Tre Xanh Vàng)',
     processingNote: 'Lớp mô giữa thân tre cạo vỏ xanh bào thành sợi mỏng thanh nhiệt hóa đờm chỉ ẩu',
-    ids: ['truc-nhu', 'yu-mi-xu']
+    ids: ['truc-nhu']
+  },
+  {
+    file: 'corn_silk_yumixu.jpg',
+    partLabel: 'Râu Ngô / Ngọc Mễ Tu (Sợi Vòi Nhụy Khô Vàng Nâu Lợi Thủy)',
+    processingNote: 'Vòi nhụy hoa cái cây ngô (Stigma Maydis) thu hái phơi râm giữ sợi mềm lợi thủy tiêu thũng lợi đởm',
+    ids: ['yu-mi-xu']
   },
   {
     file: 'red_sappan_wood_sumu.jpg',
@@ -311,7 +341,13 @@ const SPECIMEN_GROUPS: SpecimenGroup[] = [
     file: 'rough_tree_bark.jpg',
     partLabel: 'Mộc Bì (Vỏ Thân Cây Hoàng Bá / Tần Bì / Hợp Hoan Bì)',
     processingNote: 'Vỏ cây dày xù xì thái dải thanh nhiệt táo thấp hoặc giải uất an thần',
-    ids: ['huang-bai', 'qin-pi', 'hop-hoan-bi', 'hai-tong-pi', 'dai-phuc-bi']
+    ids: ['huang-bai', 'qin-pi', 'hop-hoan-bi', 'hai-tong-pi']
+  },
+  {
+    file: 'areca_peel_daiphucbi.jpg',
+    partLabel: 'Đại Phúc Bì (Xơ Vỏ Quả Cau Vàng Nâu Hạ Khí Hành Thủy)',
+    processingNote: 'Vỏ quả cau già xé tơi phơi khô thành bó sợi vàng nâu hành khí khoan trung hạ khí lợi thủy tiêu thũng',
+    ids: ['dai-phuc-bi']
   },
   {
     file: 'smooth_cinnamon_bark.jpg',
@@ -371,7 +407,13 @@ const SPECIMEN_GROUPS: SpecimenGroup[] = [
     file: 'red_goji_berries.jpg',
     partLabel: 'Quả Chín Đỏ Dưỡng Huyết Tư Âm (Kỷ Tử / Sơn Thù / Ngũ Vị)',
     processingNote: 'Quả chín đỏ mọng sấy khô tư bổ Can Thận ích tinh minh mục',
-    ids: ['gou-qi-zi', 'shan-zhu-yu', 'wu-wei-zi', 'fu-pen-zi', 'nu-zhen-zi']
+    ids: ['gou-qi-zi', 'shan-zhu-yu', 'wu-wei-zi', 'fu-pen-zi']
+  },
+  {
+    file: 'nu_zhen_zi.jpg',
+    partLabel: 'Nữ Trinh Tử (Quả Chín Khô Tím Đen Nhăn Bổ Can Thận)',
+    processingNote: 'Quả chín cây Nữ trinh (Fructus Ligustri Lucidi) đồ rượu phơi khô màu tím đen nhăn tư bổ Can Thận minh mục',
+    ids: ['nu-zhen-zi']
   },
   {
     file: 'dried_mulberry_sangshen.jpg',
@@ -411,9 +453,15 @@ const SPECIMEN_GROUPS: SpecimenGroup[] = [
   },
   {
     file: 'bitter_orange_round_fruits.jpg',
-    partLabel: 'Chỉ Thực, Chỉ Xác & Mạn Kinh Tử (Quả Khô Phá Khí / Tán Phong)',
+    partLabel: 'Chỉ Thực & Chỉ Xác (Quả Cam Đắng Khô Thái Lát Phá Khí)',
     processingNote: 'Quả non hoặc quả già sấy khô thái lát sao cám phá khí tiêu tích hóa đờm',
-    ids: ['zhi-shi', 'chi-xac', 'man-jing-zi']
+    ids: ['zhi-shi', 'chi-xac']
+  },
+  {
+    file: 'vitex_fruit_manjingzi.jpg',
+    partLabel: 'Mạn Kinh Tử (Quả Tròn Khô Nâu Xám Có Đài Mỏng Tán Phong Nhiệt)',
+    processingNote: 'Quả chín hình cầu nhỏ 4-6mm màu nâu xám bọc đài hoa mỏng sao thơm giã dập sơ tán phong nhiệt minh mục',
+    ids: ['man-jing-zi']
   },
   {
     file: 'clove_dinhhuong.jpg',
@@ -467,7 +515,13 @@ const SPECIMEN_GROUPS: SpecimenGroup[] = [
     file: 'forsythia_pods_lianqiao.jpg',
     partLabel: 'Liên Kiều (Vỏ Quả Khô Tách Đôi Hình Mỏ Chim)',
     processingNote: 'Quả già nứt thành 2 mảnh cong hình thuyền màu nâu thanh nhiệt giải độc tán kết',
-    ids: ['lian-qiao', 'shi-di']
+    ids: ['lian-qiao']
+  },
+  {
+    file: 'persimmon_calyx_shidi.jpg',
+    partLabel: 'Thị Đế (Đài Quả Hồng 4 Cánh Nâu Giáng Nghịch Chỉ Ách)',
+    processingNote: 'Đài quả hồng chín (Calyx Kaki) 4 cánh gỗ dày màu nâu đỏ phơi khô giáng khí chỉ ách trị nấc cụt',
+    ids: ['shi-di']
   },
   {
     file: 'orange_gardenia_zhizi.jpg',
@@ -663,9 +717,15 @@ const SPECIMEN_GROUPS: SpecimenGroup[] = [
   },
   {
     file: 'golden_frankincense_resin.jpg',
-    partLabel: 'Nhũ Hương & Xạ Hương (Giọt Nhựa Thơm Hoạt Huyết Khai Khiếu)',
-    processingNote: 'Giọt nhựa cây Nhũ hương trắng vàng bán trong suốt hoạt huyết định thống sinh cơ',
-    ids: ['ru-xiang', 'she-xiang']
+    partLabel: 'Nhũ Hương (Giọt Nhựa Thơm Vàng Trong Hoạt Huyết Sinh Cơ)',
+    processingNote: 'Giọt nhựa cây Nhũ hương trắng vàng bán trong suốt sao giấm khử dầu hoạt huyết định thống sinh cơ',
+    ids: ['ru-xiang']
+  },
+  {
+    file: 'musk_shexiang.jpg',
+    partLabel: 'Xạ Hương (Chất Tiết Túi Xạ Dạng Hạt Nâu Thẫm Khai Khiếu)',
+    processingNote: 'Hương dược lấy từ túi xạ hươu xạ màu nâu đỏ sẫm dạng hạt thơm nồng khai khiếu tỉnh thần hoạt huyết thông kinh',
+    ids: ['she-xiang']
   },
   {
     file: 'myrrh_moyao.jpg',
@@ -848,8 +908,10 @@ function getExactBotanicalPartLabel(herb: Herb): string {
     partDesc = 'Lá Thu Hái Phơi Âm Can (Diệp Phiến)';
   } else if (bot.includes('flos') || bot.includes('plumula')) {
     partDesc = 'Nụ Hoa / Tâm Mầm Sấy Khô Giữ Tinh Dầu';
+  } else if (bot.includes('spica')) {
+    partDesc = 'Cụm Hoa Bông Khô Thu Hái Sấy Khô';
   } else if (bot.includes('pericarpium')) {
-    partDesc = 'Vỏ Quả Chín Phơi Khô Trần Cửu';
+    partDesc = 'Vỏ Quả / Xơ Quả Phơi Khô Trần Cửu';
   } else if (bot.includes('calyx')) {
     partDesc = 'Đài Quả (Thị Đế) Thu Hái Sấy Khô';
   } else if (bot.includes('stigma')) {
@@ -860,29 +922,36 @@ function getExactBotanicalPartLabel(herb: Herb): string {
     partDesc = 'Hạt Già Chọn Lọc Phơi Khô / Sao Thơm';
   } else if (bot.includes('cortex')) {
     partDesc = 'Vỏ Thân / Vỏ Rễ Cạo Bần Bào Chế';
+  } else if (bot.includes('cacumen')) {
+    partDesc = 'Ngọn Cành Mang Lá Thái Đoạn Phơi Khô';
   } else if (bot.includes('caulis') || bot.includes('ramulus') || bot.includes('lignum')) {
     partDesc = 'Thân Cành / Dây Đằng Thái Phiến Phơi Khô';
   } else if (bot.includes('bulbus')) {
     partDesc = 'Vảy Thân Hành Tách Rời Đồ Sấy Khô';
-  } else if (bot.includes('sclerotium') || bot.includes('polyporus')) {
-    partDesc = 'Thể Hạch Nấm Thái Khối Vuông Trắng';
+  } else if (bot.includes('sclerotium') || bot.includes('polyporus') || bot.includes('poria')) {
+    partDesc = 'Thể Hạch Nấm Thái Khối / Lát Bào Chế';
   } else if (bot.includes('herba')) {
     partDesc = 'Toàn Thảo Cắt Đoạn Phơi Khô';
-  } else if (bot.includes('thallus')) {
+  } else if (bot.includes('thallus') || bot.includes('sargassum')) {
     partDesc = 'Tảo Biển Phơi Khô Rửa Sạch Muối';
   } else if (bot.includes('cornu')) {
     partDesc = 'Sừng Bào Phiến Mỏng Sắc Trước';
+  } else if (bot.includes('carapax') || bot.includes('plastrum') || bot.includes('concha') || bot.includes('endoconcha')) {
+    partDesc = 'Mai / Yếm / Vỏ Xác Nung Giã Vụn Chích Giấm';
   } else if (
     bot.includes('gypsum') ||
     bot.includes('mirabilit') ||
+    bot.includes('natrii sulfas') ||
     bot.includes('talc') ||
     bot.includes('alumen') ||
     bot.includes('borax') ||
     bot.includes('magnetit') ||
-    bot.includes('haematit')
+    bot.includes('haematit') ||
+    bot.includes('cinnabar') ||
+    bot.includes('sulfur')
   ) {
     partDesc = 'Khoáng Thạch Dược Dụng Nung / Thủy Phi';
-  } else if (bot.includes('olibanum') || bot.includes('myrrha') || bot.includes('moschus')) {
+  } else if (bot.includes('olibanum') || bot.includes('myrrha') || bot.includes('moschus') || bot.includes('succinum') || bot.includes('aloe')) {
     partDesc = 'Nhựa Thơm / Hương Dược Tinh Chế';
   }
   return `${herb.vietnameseName} (${herb.chineseCharacters}) — ${partDesc}`;

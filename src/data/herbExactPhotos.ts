@@ -1077,7 +1077,7 @@ export const HERB_EXACT_PHOTOS: Record<string, { url: string; taxonName: string 
     "taxonName": "Lumbricus terrestris"
   },
   "bai-jiang-can": {
-    "url": "https://live.staticflickr.com/65535/54733881818_caf302efac_b.jpg",
+    "url": "https://static.inaturalist.org/photos/369978040/medium.jpg",
     "taxonName": "Bombyx mori"
   },
   "quan-xie": {

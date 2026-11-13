@@ -340,22 +340,22 @@ function createPhotorealisticEyeTexture(): THREE.CanvasTexture {
           B = Math.round(ib);
         }
       } else {
-        // Sclera with subtle peripheral vascular warmth and ambient curvature shading
+        // Sclera with subtle peripheral vascular warmth and natural ambient curvature shading
         const scleralDist = Math.min(1, (r - rIris) / 0.56);
         const veinNoise =
           Math.max(0, Math.sin(angle * 23 + r * 18) * Math.cos(angle * 37 - r * 24)) *
           scleralDist;
-        R = Math.round(247 - scleralDist * 14 + veinNoise * 6);
-        G = Math.round(244 - scleralDist * 20 - veinNoise * 5);
-        B = Math.round(240 - scleralDist * 22 - veinNoise * 6);
+        R = Math.round(238 - scleralDist * 16 + veinNoise * 5);
+        G = Math.round(234 - scleralDist * 22 - veinNoise * 4);
+        B = Math.round(230 - scleralDist * 24 - veinNoise * 5);
       }
 
-      // Natural upper-eyelid ambient occlusion & cast shadow across top of eye (dy > 0.14)
-      if (dy > 0.12) {
-        const lidShadow = Math.min(0.52, Math.pow((dy - 0.12) / 0.55, 1.35) * 0.58);
-        R = Math.round(R * (1 - lidShadow * 0.82));
-        G = Math.round(G * (1 - lidShadow * 0.86));
-        B = Math.round(B * (1 - lidShadow * 0.88));
+      // Natural upper-eyelid ambient occlusion & cast shadow across top of eye (dy > 0.04)
+      if (dy > 0.04) {
+        const lidShadow = Math.min(0.62, Math.pow((dy - 0.04) / 0.52, 1.25) * 0.68);
+        R = Math.round(R * (1 - lidShadow * 0.84));
+        G = Math.round(G * (1 - lidShadow * 0.88));
+        B = Math.round(B * (1 - lidShadow * 0.90));
       }
       // Subtle lower-lid tear meniscus warmth
       if (dy < -0.28) {
@@ -500,6 +500,94 @@ function createRealistic3DEyeballGeometry(): THREE.BufferGeometry {
  *    - Palmar flexion creases (thenar, transverse palmar, wrist creases), finger joint creases, extensor tendons, and fingernails
  * 3. Applies lifelike multi-chromophore human skin shading with hair-stroke eyebrows, ciliary lash lines, and vascular zones.
  */
+/**
+ * Pure analytical torso sculpting transform: converts the base MakeHuman mesh's protruding
+ * female breast mound & pinched waist into a compact, lean, anatomically accurate male chest.
+ * Applied identically to BOTH the 3D skin mesh vertices AND `meridian-surface-data.json`
+ * acupoints/routes so every chest acupoint (ST17, ST18, CV17, PC1, KI23-25, SP18-19) stays
+ * locked flush onto the reshaped male chest surface.
+ */
+function transformToMaleBody(
+  x: number,
+  y: number,
+  z: number
+): [number, number, number] {
+  const absX = Math.abs(x);
+  if (absX >= 0.185 || y < 1.11 || y > 1.47) {
+    return [x, y, z];
+  }
+
+  let nx = x;
+  let ny = y;
+  let nz = z;
+
+  const frontFade = THREE.MathUtils.smoothstep(z, 0.080, 0.138);
+
+  if (frontFade > 0) {
+    // 1. Flatten protruding breast mound (~1.4cm) into a smooth, compact male pectoral plane
+    const breastMask =
+      Math.exp(
+        -Math.pow((absX - 0.082) / 0.052, 2) -
+          Math.pow((y - 1.332) / 0.044, 2)
+      ) * frontFade;
+    nz -= 0.0145 * breastMask;
+
+    // 2. Lift and smooth out the lower inframammary breast fold/overhang
+    const underFoldMask =
+      Math.exp(
+        -Math.pow((absX - 0.082) / 0.048, 2) -
+          Math.pow((y - 1.304) / 0.024, 2)
+      ) * frontFade;
+    ny += 0.0032 * underFoldMask;
+    nz -= 0.0018 * underFoldMask;
+
+    // 3. Gently compact overall anterior chest projection for a lean, neat male torso
+    const chestCompactMask =
+      Math.exp(
+        -Math.pow(absX / 0.130, 2) - Math.pow((y - 1.320) / 0.080, 2)
+      ) * frontFade;
+    nz -= 0.0035 * chestCompactMask;
+  }
+
+  // 4. Gently trim lateral chest flare so upper chest reads compact and proportional
+  if (absX > 0.095 && y > 1.24 && y < 1.42) {
+    const latChestMask =
+      Math.exp(-Math.pow((y - 1.325) / 0.056, 2)) *
+      THREE.MathUtils.smoothstep(absX, 0.095, 0.145);
+    nx -= Math.sign(x) * 0.006 * latChestMask;
+  }
+
+  // 5. Gently fill extreme hourglass waist indentation for natural male torso line
+  if (absX > 0.088 && y > 1.13 && y < 1.26) {
+    const waistMask =
+      Math.exp(-Math.pow((y - 1.205) / 0.048, 2)) *
+      THREE.MathUtils.smoothstep(absX, 0.088, 0.138);
+    nx += Math.sign(x) * 0.0065 * waistMask;
+  }
+
+  return [nx, ny, nz];
+}
+
+function transformSurfaceDataToMaleBody(
+  data: SurfaceDataJSON
+): SurfaceDataJSON {
+  const points: Record<string, [number, number, number]> = {};
+  for (const [k, pt] of Object.entries(data.points || {})) {
+    points[k] = transformToMaleBody(pt[0], pt[1], pt[2]);
+  }
+  const routes: Record<string, [number, number, number][][]> = {};
+  for (const [k, branches] of Object.entries(data.routes || {})) {
+    routes[k] = (branches || []).map((branch) =>
+      branch.map((pt) => transformToMaleBody(pt[0], pt[1], pt[2]))
+    );
+  }
+  return {
+    ...data,
+    points,
+    routes,
+  };
+}
+
 function enhanceAndColorHumanGeometry(geometry: THREE.BufferGeometry) {
   const posAttr = geometry.attributes.position;
   let normAttr = geometry.attributes.normal;
@@ -564,11 +652,11 @@ function enhanceAndColorHumanGeometry(geometry: THREE.BufferGeometry) {
       }
     }
 
-    // Remove internal oral cavity triangles (hopDist <= 10, plus deep lower mucosal ring hopDist <= 11 with z < 0.1685)
+    // Remove internal oral cavity triangles (hopDist <= 10, plus deep lower/back mucosal ring hopDist <= 11 with z < 0.1695)
     const isInternalOralVertex = new Uint8Array(count);
     for (let i = 0; i < count; i++) {
       const d = hopDist[i];
-      if (d >= 0 && (d <= 10 || (d === 11 && posAttr.getZ(i) < 0.1685))) {
+      if (d >= 0 && (d <= 10 || (d === 11 && posAttr.getZ(i) < 0.1695))) {
         isInternalOralVertex[i] = 1;
       }
     }
@@ -591,7 +679,17 @@ function enhanceAndColorHumanGeometry(geometry: THREE.BufferGeometry) {
       new THREE.BufferAttribute(new Uint32Array(filteredIndices), 1)
     );
 
-    // --- STEP 2: Seamlessly Seal Upper & Lower Lip Rims into Natural Plump Occlusion ---
+    // --- STEP 1B: Reshape Female Chest into a Compact, Flat Male Chest ---
+    for (let i = 0; i < count; i++) {
+      const [mx, my, mz] = transformToMaleBody(
+        posAttr.getX(i),
+        posAttr.getY(i),
+        posAttr.getZ(i)
+      );
+      posAttr.setXYZ(i, mx, my, mz);
+    }
+
+    // --- STEP 2: Seamlessly Seal Central Mouth Rim Without Buckling Mouth Corners ---
     for (let i = 0; i < count; i++) {
       const d = hopDist[i];
       if (d >= 11 && d <= 15) {
@@ -599,43 +697,36 @@ function enhanceAndColorHumanGeometry(geometry: THREE.BufferGeometry) {
         let y = posAttr.getY(i);
         let z = posAttr.getZ(i);
         const absX = Math.abs(x);
-        if (absX < 0.0245 && z > 0.145) {
-          const widthFade = Math.max(0, 1 - Math.pow(absX / 0.024, 2));
-          // Natural Cupid's bow lip parting curve
-          const lipSeamY = 1.6409 + Math.pow(absX / 0.023, 2) * 0.0005;
-          const lipSeamZ = 0.1736 - Math.pow(absX / 0.024, 2) * 0.0175;
+        // Only pull the central open gap (absX < 0.0175); corners (>= 0.0175) are already cleanly closed in mesh!
+        if (absX < 0.0185 && z > 0.148) {
+          const widthFade = Math.max(0, 1 - Math.pow(absX / 0.0185, 2));
+          // Follows natural mesh curve from 1.6406 center up to 1.6416 at x=0.0173 (no ledge!)
+          const lipSeamY =
+            1.6406 + 0.0010 * Math.pow(Math.min(1, absX / 0.0175), 1.8);
+          const lipSeamZ = 0.1718 - Math.pow(absX / 0.025, 2) * 0.0145;
 
           if (d === 11) {
-            // Innermost upper lip rim (e.g. v=474): seal directly onto the lip parting seam
-            y = THREE.MathUtils.lerp(y, lipSeamY, 0.95 * widthFade);
-            z = Math.max(z, THREE.MathUtils.lerp(z, lipSeamZ, 0.85 * widthFade));
+            y = THREE.MathUtils.lerp(y, lipSeamY + 0.0001, 0.85 * widthFade);
+            z = THREE.MathUtils.lerp(z, lipSeamZ, 0.55 * widthFade);
           } else if (d === 12) {
-            if (y > 1.6415) {
-              // Upper lip lower roll (v=468 at y=1.6433): roll smoothly down to meet lower lip
-              y = THREE.MathUtils.lerp(y, lipSeamY + 0.0005, 0.78 * widthFade);
+            if (y > 1.6416) {
+              y = THREE.MathUtils.lerp(y, lipSeamY + 0.0010, 0.45 * widthFade);
             } else {
-              // Lower inner lip rim (v=540): bring up and forward to tuck seamlessly behind upper lip
-              y = THREE.MathUtils.lerp(y, lipSeamY, 0.95 * widthFade);
-              z = Math.max(z, THREE.MathUtils.lerp(z, lipSeamZ - 0.0003, 0.90 * widthFade));
+              y = THREE.MathUtils.lerp(y, Math.min(y, lipSeamY - 0.0002), 0.85 * widthFade);
+              z = Math.min(z, lipSeamZ - 0.0005);
             }
           } else if (d === 13) {
-            if (y < 1.6425) {
-              // Lower lip inner edge (v=523): bring up to lip parting seam
-              y = THREE.MathUtils.lerp(y, lipSeamY - 0.0001, 0.92 * widthFade);
-              z = Math.max(z, THREE.MathUtils.lerp(z, lipSeamZ - 0.0001, 0.85 * widthFade));
+            if (y < 1.6416) {
+              y = THREE.MathUtils.lerp(y, Math.min(y, lipSeamY - 0.0001), 0.82 * widthFade);
+              z = Math.min(z, lipSeamZ - 0.0003);
             } else {
-              // Upper lip tubercle (v=509 at y=1.6454): subtle plumpness
-              y = THREE.MathUtils.lerp(y, lipSeamY + 0.0028, 0.35 * widthFade);
-              z += 0.0005 * widthFade;
+              y = THREE.MathUtils.lerp(y, lipSeamY + 0.0028, 0.22 * widthFade);
             }
           } else if (d === 14 && y < 1.6415) {
-            // Lower lip top border (v=493 at y=1.6401): touch upper lip roll with zero gap
-            y = THREE.MathUtils.lerp(y, lipSeamY - 0.0002, 0.85 * widthFade);
-            z += 0.0012 * widthFade;
+            y = THREE.MathUtils.lerp(y, lipSeamY - 0.0001, 0.82 * widthFade);
+            z = THREE.MathUtils.lerp(z, lipSeamZ + 0.0001, 0.55 * widthFade);
           } else if (d === 15 && y < 1.6400) {
-            // Lower lip upper cushion (v=494 at y=1.6387): plump forward slightly
-            y = THREE.MathUtils.lerp(y, lipSeamY - 0.0014, 0.45 * widthFade);
-            z += 0.0008 * widthFade;
+            y = THREE.MathUtils.lerp(y, lipSeamY - 0.0018, 0.25 * widthFade);
           }
           posAttr.setXYZ(i, x, y, z);
         }
@@ -744,10 +835,16 @@ function enhanceAndColorHumanGeometry(geometry: THREE.BufferGeometry) {
           disp -= 0.0014 * Math.exp(-Math.pow((dyClav - 0.012) / 0.0085, 2)) * envX;
         }
 
-        // 4. Median sternal furrow (Rãnh ức Đản Trung CV-17) & Pectoral contour
+        // 4. Median sternal furrow (Rãnh ức Đản Trung CV-17) & Subtle Male Pectoral Lower Edge
         if (y >= 1.295 && y <= 1.465 && absX < 0.025) {
           const sternalEnv = Math.sin(((y - 1.295) / 0.170) * Math.PI);
-          disp -= 0.0013 * Math.exp(-Math.pow(x / 0.011, 2)) * sternalEnv;
+          disp -= 0.0014 * Math.exp(-Math.pow(x / 0.011, 2)) * sternalEnv;
+        }
+        if (absX >= 0.022 && absX <= 0.130 && y >= 1.290 && y <= 1.365) {
+          const pecEdgeY = 1.307 + 0.016 * Math.pow((absX - 0.022) / 0.108, 1.8);
+          const pecEnvX = Math.sin(((absX - 0.022) / 0.108) * Math.PI);
+          disp += 0.00085 * Math.exp(-Math.pow((y - (pecEdgeY + 0.012)) / 0.014, 2)) * pecEnvX;
+          disp -= 0.00065 * Math.exp(-Math.pow((y - pecEdgeY) / 0.007, 2)) * pecEnvX;
         }
 
         // 5. Linea alba (Đường trắng giữa bụng CV-14 -> CV-8 -> CV-4)
@@ -911,19 +1008,14 @@ function enhanceAndColorHumanGeometry(geometry: THREE.BufferGeometry) {
   // --- STEP 5: Lifelike Multi-Chromophore Human Skin & Anatomical Feature Coloring ---
   const colors = new Float32Array(count * 3);
 
-  const cSkinBase = new THREE.Color('#eabaa3');      // Natural living warm peach-ivory complexion
-  const cSkinLuminous = new THREE.Color('#f7dfd4');  // Soft upward-facing dermal highlight
-  const cSkinContour = new THREE.Color('#c88e76');   // Smooth anatomical muscle/groove contour
-  const cVascularRosy = new THREE.Color('#de8070');  // Capillary hemoglobin oxygenation (cheeks, palms, knees, joints)
-  const cSkinCrease = new THREE.Color('#b0745f');    // Palmar creases, finger joint folds, philtrum & facial creases
-  const cLipsUpper = new THREE.Color('#bd5f59');
-  const cLipsLower = new THREE.Color('#d4726b');
-  const cLipHighlight = new THREE.Color('#eb9b94');
-  const cLipLine = new THREE.Color('#783431');
-  const cBrow = new THREE.Color('#3b271e');
-  const cEyelidLine = new THREE.Color('#472a20');
-  const cNipple = new THREE.Color('#b8685b');
-  const cAreola = new THREE.Color('#cf8476');
+  const cSkinBase = new THREE.Color('#eabaa3');      // Glossy warm peach-ivory complexion
+  const cSkinLuminous = new THREE.Color('#f7dfd4');  // Pearlescent porcelain skin highlight
+  const cSkinContour = new THREE.Color('#c88e76');   // Soft warm-peach anatomical contour
+  const cVascularRosy = new THREE.Color('#de8070');  // Living capillary blush
+  const cSkinCrease = new THREE.Color('#b4745d');    // Palmar creases, joint folds & subtle anatomical creases
+  const cLipLine = new THREE.Color('#692d2a');
+  const cNipple = new THREE.Color('#a46053');
+  const cAreola = new THREE.Color('#c58576');
   const cNavel = new THREE.Color('#8f5746');
   const cNailPlate = new THREE.Color('#f4dad2');
   const cNailLunula = new THREE.Color('#fbf0ec');
@@ -1100,14 +1192,14 @@ function enhanceAndColorHumanGeometry(geometry: THREE.BufferGeometry) {
       tmp.lerp(cNailPlate, 0.62);
     }
 
-    // 5. Realistic Nipple & Areola (ST-17 landmark: [±0.0905, 1.3252, 0.1764])
-    const distNipple = Math.hypot(absX - 0.0905, y - 1.3252);
-    if (z > 0.14 && distNipple < 0.0165) {
-      const areolaT = THREE.MathUtils.smoothstep(0.0165 - distNipple, 0, 0.008);
-      tmp.lerp(cAreola, areolaT * 0.58);
-      if (distNipple < 0.0065) {
-        const papillaT = 1 - distNipple / 0.0065;
-        tmp.lerp(cNipple, papillaT * 0.82);
+    // 5. Compact Male Nipple & Areola (on reshaped flat male pectoral: [±0.092, 1.334])
+    const distNipple = Math.hypot(absX - 0.092, y - 1.334);
+    if (z > 0.12 && distNipple < 0.0095) {
+      const areolaT = THREE.MathUtils.smoothstep(0.0095 - distNipple, 0, 0.0045);
+      tmp.lerp(cAreola, areolaT * 0.36);
+      if (distNipple < 0.0036) {
+        const papillaT = 1 - distNipple / 0.0036;
+        tmp.lerp(cNipple, papillaT * 0.50);
       }
     }
 
@@ -1118,110 +1210,32 @@ function enhanceAndColorHumanGeometry(geometry: THREE.BufferGeometry) {
       tmp.lerp(cNavel, t * 0.76);
     }
 
-    // 7. Detailed Facial Features (Nostrils, Philtrum, Vermilion Lips, Ciliary Eyelashes, Hair-Stroke Eyebrows)
+    // 7. Facial Base Shading (Nostrils, Philtrum, Temples & Jawline — lips/brows/lashes rendered per-pixel in shader!)
     if (y > 1.585 && z > 0.08) {
       if (cav > 0) {
-        tmp.lerp(cSkinCrease, Math.min(0.36, cav * 0.32));
+        tmp.lerp(cSkinCrease, Math.min(0.32, cav * 0.28));
       } else if (cav < 0) {
-        tmp.lerp(cSkinLuminous, Math.min(0.20, -cav * 0.18));
+        tmp.lerp(cSkinLuminous, Math.min(0.16, -cav * 0.14));
       }
 
       // Nostrils cavity under nose tip
-      const distNostril = Math.hypot(absX - 0.011, y - 1.663);
-      if (z > 0.162 && ny < -0.15 && distNostril < 0.008) {
-        tmp.lerp(cLipLine, 0.78);
+      const distNostril = Math.hypot(absX - 0.0108, y - 1.6632);
+      if (z > 0.162 && ny < -0.15 && distNostril < 0.0076) {
+        tmp.lerp(cLipLine, 0.72);
+      }
+
+      // Subtle under-eye & temple organic depth
+      if (z > 0.115 && absX > 0.048 && absX < 0.072 && y > 1.70 && y < 1.745) {
+        tmp.lerp(cSkinContour, 0.14);
       }
 
       // Philtrum groove (Nhân Trung GV-26 between nose base y=1.659 and Cupid's bow y=1.648)
-      if (y >= 1.6475 && y <= 1.660 && absX < 0.0075 && z > 0.168) {
+      if (y >= 1.6475 && y <= 1.660 && absX < 0.0072 && z > 0.168) {
         const philEnv = Math.sin(((y - 1.6475) / 0.0125) * Math.PI);
-        if (absX < 0.0032) {
-          tmp.lerp(cSkinContour, (1 - absX / 0.0032) * philEnv * 0.32);
+        if (absX < 0.0030) {
+          tmp.lerp(cSkinContour, (1 - absX / 0.0030) * philEnv * 0.28);
         } else {
-          // Philtrum ridges
-          tmp.lerp(cSkinLuminous, Math.exp(-Math.pow((absX - 0.0045) / 0.0018, 2)) * philEnv * 0.25);
-        }
-      }
-
-      // Multi-tone Vermilion Lips with Cupid's bow, vertical tubercular micro-striations & glossy lower cushion
-      const lipPartY = 1.6409 + Math.pow(absX / 0.023, 2) * 0.0005;
-      const cupidBowY =
-        1.6485 -
-        0.0016 * Math.exp(-Math.pow(absX / 0.0035, 2)) +
-        0.0012 * Math.exp(-Math.pow((absX - 0.0065) / 0.0045, 2)) -
-        0.0065 * Math.pow(absX / 0.0245, 2.1);
-      const lowerBorderY = 1.6318 + 0.0088 * Math.pow(absX / 0.0245, 2.0);
-
-      if (z > 0.152 && absX < 0.0248 && y >= lowerBorderY - 0.001 && y <= cupidBowY + 0.001) {
-        const distParting = Math.abs(y - lipPartY);
-        const xFade = THREE.MathUtils.smoothstep(0.0248 - absX, 0, 0.004);
-        // Subtle vertical vermilion lip striation
-        const lipStria = 1 + 0.04 * Math.sin(absX * 1450);
-
-        if (distParting < 0.00095 && absX < 0.0225) {
-          tmp.lerp(cLipLine, 0.72 * (1 - distParting / 0.00095) * xFade);
-        } else if (y >= lipPartY) {
-          const upperT = THREE.MathUtils.clamp((cupidBowY - y) / Math.max(0.001, cupidBowY - lipPartY), 0, 1);
-          const rimFactor = THREE.MathUtils.smoothstep(upperT, 0, 0.25) * xFade;
-          tmp.lerp(cLipsUpper, rimFactor * 0.88 * lipStria);
-          // White roll highlight along Cupid's bow border
-          if (upperT < 0.18) {
-            tmp.lerp(cSkinLuminous, (1 - upperT / 0.18) * xFade * 0.24);
-          }
-        } else {
-          const lowerT = THREE.MathUtils.clamp((y - lowerBorderY) / Math.max(0.001, lipPartY - lowerBorderY), 0, 1);
-          const rimFactor = THREE.MathUtils.smoothstep(lowerT, 0, 0.25) * xFade;
-          tmp.lerp(cLipsLower, rimFactor * 0.90 * lipStria);
-          // Natural lower-lip cushion highlight
-          const cushion =
-            Math.exp(-Math.pow((y - 1.6358) / 0.0026, 2)) *
-            Math.exp(-Math.pow(absX / 0.014, 2));
-          tmp.lerp(cLipHighlight, cushion * 0.44);
-        }
-      }
-
-      // Eyelid ciliary lash rim & crisp upper palpebral fold (supratarsal crease)
-      const dxEye = absX - 0.0345;
-      const dyEye = y - 1.7158;
-      const eyeEllipse =
-        Math.pow(dxEye / 0.0136, 2) + Math.pow(dyEye / 0.0055, 2);
-      if (z > 0.146 && eyeEllipse >= 0.68 && eyeEllipse <= 1.24) {
-        // Fine eyelash fringe modulation along upper and lower lid margins
-        const lashAngle = Math.atan2(dyEye, dxEye);
-        const lashFringe = 0.78 + 0.22 * Math.sin(lashAngle * 48);
-        tmp.lerp(cEyelidLine, (dyEye > 0 ? 0.84 : 0.48) * lashFringe);
-      } else if (
-        z > 0.144 &&
-        dyEye > 0.0062 &&
-        dyEye < 0.0098 &&
-        Math.abs(dxEye) < 0.0145
-      ) {
-        // Supratarsal double-eyelid crease
-        const foldArch = 0.0078 - Math.pow(dxEye / 0.014, 2) * 0.0016;
-        const dFold = Math.abs(dyEye - foldArch);
-        if (dFold < 0.0014) {
-          tmp.lerp(cSkinCrease, (1 - dFold / 0.0014) * 0.42);
-        }
-      }
-
-      // Realistic Hair-Stroke Tapered Eyebrows
-      const browArchX = (absX - 0.013) / 0.043; // 0 at medial head -> 1 at lateral tail
-      if (z > 0.140 && browArchX >= 0 && browArchX <= 1.0) {
-        const browCenterY =
-          1.7345 +
-          0.0028 * Math.sin(browArchX * Math.PI * 0.82) -
-          0.0032 * Math.pow(Math.max(0, browArchX - 0.55) / 0.45, 1.8);
-        const browHalfThick =
-          0.0040 * (1 - 0.55 * Math.pow(browArchX, 1.6)) * Math.sin(Math.pow(browArchX, 0.45) * Math.PI);
-        const dBrowY = Math.abs(y - browCenterY);
-        if (dBrowY < browHalfThick && browHalfThick > 0.0004) {
-          const yProfile = Math.cos((dBrowY / browHalfThick) * Math.PI * 0.5);
-          // Oblique hair-follicle stroke pattern
-          const hairStroke =
-            0.72 +
-            0.28 *
-              Math.sin((absX * 1650 - (y - browCenterY) * 950) + Math.cos(y * 1200));
-          tmp.lerp(cBrow, 0.82 * yProfile * hairStroke);
+          tmp.lerp(cSkinLuminous, Math.exp(-Math.pow((absX - 0.0044) / 0.0018, 2)) * philEnv * 0.20);
         }
       }
     }
@@ -1772,8 +1786,8 @@ export const Human3DMeridianViewer: React.FC = () => {
     mountRef.current.appendChild(renderer.domElement);
     rendererRef.current = renderer;
 
-    // 4. High-Contrast Sculptural Studio Lighting Rig (Zero shadow-map overhead, instant 60fps!)
-    const ambientLight = new THREE.AmbientLight(0xfff5ee, 0.42);
+    // 4. Clean Luminous Studio Lighting Rig (Restores smooth porcelain-gloss specular highlights)
+    const ambientLight = new THREE.AmbientLight(0xfff4ee, 0.42);
     scene.add(ambientLight);
 
     const hemiLight = new THREE.HemisphereLight(0xfff8f4, 0x3b3032, 0.52);
@@ -1786,12 +1800,12 @@ export const Human3DMeridianViewer: React.FC = () => {
     scene.add(keyLight);
 
     // Soft Fill Light from left
-    const fillLight = new THREE.DirectionalLight(0xe5d5d0, 0.42);
+    const fillLight = new THREE.DirectionalLight(0xe6d4cf, 0.42);
     fillLight.position.set(-2.4, 1.0, 1.6);
     scene.add(fillLight);
 
     // Back Key Light so Posterior View is equally crisp and sculpted
-    const backKeyLight = new THREE.DirectionalLight(0xfff7f0, 1.25);
+    const backKeyLight = new THREE.DirectionalLight(0xfff6ee, 1.25);
     backKeyLight.position.set(-1.2, 2.3, -2.8);
     scene.add(backKeyLight);
 
@@ -1883,9 +1897,119 @@ export const Human3DMeridianViewer: React.FC = () => {
       polygonOffsetFactor: 1.2,
       polygonOffsetUnits: 1.2,
     });
-    // Real-time Dual-Lobe Dermal Subsurface Scattering (SSS) + Fresnel Rim Presence
+    // Per-Pixel Even Lips, Natural Soft Eyebrows, Lash Lines & Compact Male Areola + Glossy Dermal SSS
     skinMat.onBeforeCompile = (shader) => {
+      shader.vertexShader = shader.vertexShader
+        .replace(
+          '#include <common>',
+          `#include <common>
+          varying vec3 vBodyPos;
+          `
+        )
+        .replace(
+          '#include <begin_vertex>',
+          `#include <begin_vertex>
+          vBodyPos = position;
+          `
+        );
+
       shader.fragmentShader = shader.fragmentShader
+        .replace(
+          '#include <common>',
+          `#include <common>
+          varying vec3 vBodyPos;
+          `
+        )
+        .replace(
+          '#include <color_fragment>',
+          `#include <color_fragment>
+          float fAbsX = abs(vBodyPos.x);
+          float fLipMask = 0.0;
+          float fUpperLipMask = 0.0;
+
+          // 1. Per-pixel EVEN-TONED natural lips reaching cleanly to both corners (zero corner triangles or stripes)
+          if (vBodyPos.y > 1.628 && vBodyPos.y < 1.653 && vBodyPos.z > 0.145 && fAbsX < 0.030) {
+            float xNorm = clamp(fAbsX / 0.0272, 0.0, 1.0);
+            // Aligned with actual GLB mouth seam: 1.6406 center -> 1.6416 mid -> 1.6412 corner
+            float lipSeamY = 1.6406 + 0.0010 * pow(clamp(fAbsX / 0.018, 0.0, 1.0), 1.8) - 0.0004 * smoothstep(0.018, 0.0272, fAbsX);
+            float cupidBowY = 1.6480 - 0.0010 * exp(-pow(fAbsX / 0.0032, 2.0)) + 0.0013 * exp(-pow((fAbsX - 0.0065) / 0.0048, 2.0)) - 0.0068 * pow(xNorm, 2.35);
+            float lowerBorderY = 1.6335 + 0.0077 * pow(xNorm, 2.15);
+
+            float xLipFade = smoothstep(0.0276, 0.0235, fAbsX);
+            float upperIn = smoothstep(lipSeamY - 0.0005, lipSeamY + 0.0004, vBodyPos.y) * smoothstep(cupidBowY + 0.0009, cupidBowY - 0.0009, vBodyPos.y) * xLipFade;
+            float lowerIn = smoothstep(lowerBorderY - 0.0010, lowerBorderY + 0.0010, vBodyPos.y) * smoothstep(lipSeamY + 0.0005, lipSeamY - 0.0004, vBodyPos.y) * xLipFade;
+
+            // Single unified, smooth, even rose-terracotta natural lip color across upper & lower lips
+            vec3 evenLipTone = vec3(0.75, 0.44, 0.43);
+            float totalLip = clamp(upperIn + lowerIn, 0.0, 1.0);
+            diffuseColor.rgb = mix(diffuseColor.rgb, evenLipTone, totalLip * 0.84);
+
+            // Delicate, subtle closed mouth parting line (clean & even, not a thick dark bar)
+            float seamDist = abs(vBodyPos.y - lipSeamY);
+            float seamLine = exp(-pow(seamDist / 0.00055, 2.0)) * smoothstep(0.0268, 0.0205, fAbsX);
+            diffuseColor.rgb = mix(diffuseColor.rgb, vec3(0.45, 0.22, 0.21), seamLine * 0.62);
+
+            float cornerDimple = exp(-pow((fAbsX - 0.0265) / 0.0022, 2.0) - pow((vBodyPos.y - 1.6412) / 0.0018, 2.0));
+            diffuseColor.rgb = mix(diffuseColor.rgb, diffuseColor.rgb * 0.84, cornerDimple * 0.52);
+
+            fLipMask = totalLip;
+            fUpperLipMask = upperIn;
+          }
+
+          // 2. Soft, natural per-pixel eyebrows (smooth organic gradient, no zebra stripes)
+          if (vBodyPos.y > 1.724 && vBodyPos.y < 1.747 && vBodyPos.z > 0.140 && fAbsX > 0.010 && fAbsX < 0.058) {
+            float bT = (fAbsX - 0.0125) / 0.0435;
+            if (bT >= -0.05 && bT <= 1.05) {
+              float bClamp = clamp(bT, 0.0, 1.0);
+              float browY = 1.7338 + 0.0028 * sin(bClamp * 2.5) - 0.0034 * pow(max(0.0, bClamp - 0.62) / 0.38, 1.7);
+              float browHalfH = 0.0035 * (1.0 - 0.50 * pow(bClamp, 1.5)) * smoothstep(-0.04, 0.15, bT) * smoothstep(1.04, 0.86, bT);
+              float dBrow = abs(vBodyPos.y - browY);
+              if (dBrow < browHalfH && browHalfH > 0.0003) {
+                float browFalloff = smoothstep(browHalfH, browHalfH * 0.18, dBrow);
+                float softGrain = 0.88 + 0.12 * (0.5 + 0.5 * sin(fAbsX * 1200.0 + sin(vBodyPos.y * 1900.0) * 1.3));
+                float browDensity = browFalloff * softGrain;
+                diffuseColor.rgb = mix(diffuseColor.rgb, vec3(0.22, 0.15, 0.12), browDensity * 0.68);
+              }
+            }
+          }
+
+          // 3. Per-pixel crisp upper/lower eyelash lines & supratarsal double-eyelid fold
+          if (vBodyPos.y > 1.706 && vBodyPos.y < 1.729 && vBodyPos.z > 0.144 && fAbsX > 0.018 && fAbsX < 0.052) {
+            float dxE = fAbsX - 0.0345;
+            float dyE = vBodyPos.y - 1.7158;
+            float eRad = length(vec2(dxE / 0.0136, dyE / 0.0055));
+            if (eRad >= 0.65 && eRad <= 1.24) {
+              float lashAng = atan(dyE, dxE);
+              float lashTick = 0.82 + 0.18 * sin(lashAng * 56.0);
+              float rimWeight = smoothstep(1.24, 0.96, eRad) * smoothstep(0.65, 0.84, eRad);
+              float upperOrLower = dyE > 0.0 ? 0.82 : 0.40;
+              diffuseColor.rgb = mix(diffuseColor.rgb, vec3(0.14, 0.09, 0.075), rimWeight * upperOrLower * lashTick);
+            }
+            if (dyE > 0.0058 && dyE < 0.0102 && abs(dxE) < 0.0145) {
+              float foldY = 0.0078 - pow(dxE / 0.014, 2.0) * 0.0016;
+              float dFold = abs(dyE - foldY);
+              float foldLine = exp(-pow(dFold / 0.00075, 2.0)) * smoothstep(0.0145, 0.010, abs(dxE));
+              diffuseColor.rgb = mix(diffuseColor.rgb, diffuseColor.rgb * 0.78, foldLine * 0.55);
+            }
+          }
+
+          // 4. Compact, neat male areola & papilla ([±0.092, 1.334] on flattened chest)
+          if (vBodyPos.y > 1.318 && vBodyPos.y < 1.350 && vBodyPos.z > 0.135 && fAbsX > 0.076 && fAbsX < 0.108) {
+            float dNip = length(vec2(fAbsX - 0.092, vBodyPos.y - 1.334));
+            float areolaMask = smoothstep(0.0092, 0.0050, dNip);
+            float papillaMask = smoothstep(0.0034, 0.0012, dNip);
+            diffuseColor.rgb = mix(diffuseColor.rgb, vec3(0.73, 0.48, 0.42), areolaMask * 0.56);
+            diffuseColor.rgb = mix(diffuseColor.rgb, vec3(0.60, 0.35, 0.31), papillaMask * 0.62);
+          }
+          `
+        )
+        .replace(
+          '#include <roughnessmap_fragment>',
+          `#include <roughnessmap_fragment>
+          // Keep glossy porcelain skin; smooth subtle uniform sheen on lips
+          roughnessFactor = mix(roughnessFactor, min(roughnessFactor, 0.38), fLipMask);
+          `
+        )
         .replace(
           '#include <lights_fragment_end>',
           `#include <lights_fragment_end>
@@ -1893,10 +2017,12 @@ export const Human3DMeridianViewer: React.FC = () => {
           float sssNoV = clamp(dot(geometryNormal, sssViewDir), 0.0, 1.0);
           float sssLum = dot(reflectedLight.directDiffuse, vec3(0.333));
           float terminatorBand = smoothstep(0.01, 0.38, sssLum) * (1.0 - smoothstep(0.38, 0.88, sssLum));
-          vec3 dermalScatter = vec3(0.98, 0.35, 0.22) * diffuseColor.rgb * (terminatorBand * 0.32 + 0.05);
+          vec3 dermalScatter = vec3(0.95, 0.36, 0.24) * diffuseColor.rgb * (terminatorBand * 0.32 + 0.05);
           float grazingSheen = pow(1.0 - sssNoV, 2.6) * 0.14;
           reflectedLight.directDiffuse += dermalScatter;
-          reflectedLight.indirectDiffuse += diffuseColor.rgb * vec3(1.06, 0.94, 0.88) * grazingSheen;
+          reflectedLight.indirectDiffuse += diffuseColor.rgb * vec3(1.05, 0.94, 0.88) * grazingSheen;
+          // Gentle chin-bounce fill on downward-facing upper lip so upper & lower lips appear even in brightness
+          reflectedLight.indirectDiffuse += diffuseColor.rgb * (0.28 * fUpperLipMask);
           `
         )
         .replace(
@@ -1908,7 +2034,7 @@ export const Human3DMeridianViewer: React.FC = () => {
           #include <opaque_fragment>`
         );
     };
-    skinMat.customProgramCacheKey = () => 'lifelike_dermal_sss_physical_v4';
+    skinMat.customProgramCacheKey = () => 'lifelike_dermal_sss_physical_v7';
     skinMaterialRef.current = skinMat;
 
     // Dedicated glossy corneal tear-film material for the 3D Eyeballs with 512x512 photorealistic iris texture
@@ -1993,7 +2119,7 @@ export const Human3DMeridianViewer: React.FC = () => {
       .then((res) => res.json())
       .then((json: SurfaceDataJSON) => {
         if (!disposed) {
-          setSurfaceData(json);
+          setSurfaceData(transformSurfaceDataToMaleBody(json));
         }
       })
       .catch((err) => console.error('Error loading meridian surface data:', err));
@@ -3602,44 +3728,7 @@ export const Human3DMeridianViewer: React.FC = () => {
           </div>
         </div>
 
-        {/* Active Meridian Qi Flow Direction & Tử Ngọ Lưu Chú HUD Card */}
-        {primaryFlowMeta && primaryActiveItem && !showMenuDrawer && !selectedPoint && !selectedOrgan && (
-          <div className="absolute bottom-3 sm:bottom-4 left-2.5 sm:left-4 z-10 max-w-[310px] sm:max-w-sm bg-white/92 backdrop-blur-md border border-slate-200/90 rounded-2xl p-2.5 sm:p-3 shadow-xl text-slate-900 space-y-1.5">
-            <div className="flex items-center justify-between gap-2">
-              <div className="flex items-center gap-1.5 min-w-0">
-                <span
-                  className="w-2.5 h-2.5 rounded-full shrink-0"
-                  style={{ backgroundColor: primaryActiveItem.lineColor }}
-                />
-                <span className="text-xs font-extrabold text-slate-900 truncate">
-                  {primaryActiveItem.viShort}
-                </span>
-                <span className="px-1.5 py-0.5 rounded bg-rose-50 text-rose-700 border border-rose-200 text-[10px] font-bold shrink-0">
-                  {primaryFlowMeta.flowDirectionType}
-                </span>
-              </div>
-              {nextFlowItem && (
-                <button
-                  type="button"
-                  onClick={() => handleCycleMeridian(nextFlowItem.id)}
-                  title={`Chuyển tiếp vòng tuần hoàn Tý Ngọ Lưu Chú sang ${nextFlowItem.viShort}`}
-                  className="px-2 py-0.5 rounded-lg bg-slate-900 hover:bg-rose-700 text-white text-[10px] font-bold flex items-center gap-1 shrink-0 transition-colors cursor-pointer"
-                >
-                  <span>Tiếp: {nextFlowItem.viShort}</span>
-                  <ArrowRight className="w-2.5 h-2.5" />
-                </button>
-              )}
-            </div>
-            <div className="text-[11px] font-semibold text-slate-700 flex flex-wrap gap-x-2 gap-y-0.5">
-              <span>• Giờ vượng: {primaryFlowMeta.flowTime}</span>
-              <span>• {primaryFlowMeta.pairedZangFu}</span>
-            </div>
-            <p className="text-[11px] leading-snug text-slate-600">
-              <span className="font-bold text-slate-800">Chiều kinh: </span>
-              {primaryFlowMeta.originPointName} → {primaryFlowMeta.terminalPointName}
-            </p>
-          </div>
-        )}
+        {/* Meridian Qi Flow card moved below the 3D viewport so it never covers the 3D human model */}
 
         {/* ===================================================================
             SEARCH MODAL OVERLAY (Triggered by top-left 🔍 button)
@@ -4040,6 +4129,45 @@ export const Human3DMeridianViewer: React.FC = () => {
           })}
         </div>
       </div>
+
+      {/* Active Meridian Qi Flow Direction & Tử Ngọ Lưu Chú Card (Placed below & outside 3D canvas) */}
+      {primaryFlowMeta && primaryActiveItem && (
+        <div className="w-full bg-white border-t border-slate-200 px-3.5 py-3 sm:px-4 sm:py-3.5 text-slate-900 space-y-1.5">
+          <div className="flex items-center justify-between gap-2 flex-wrap">
+            <div className="flex items-center gap-2 min-w-0 flex-wrap">
+              <span
+                className="w-2.5 h-2.5 rounded-full shrink-0"
+                style={{ backgroundColor: primaryActiveItem.lineColor }}
+              />
+              <span className="text-xs sm:text-sm font-extrabold text-slate-900">
+                {primaryActiveItem.viShort}
+              </span>
+              <span className="px-2 py-0.5 rounded bg-rose-50 text-rose-700 border border-rose-200 text-[10px] sm:text-[11px] font-bold shrink-0">
+                {primaryFlowMeta.flowDirectionType}
+              </span>
+            </div>
+            {nextFlowItem && (
+              <button
+                type="button"
+                onClick={() => handleCycleMeridian(nextFlowItem.id)}
+                title={`Chuyển tiếp vòng tuần hoàn Tý Ngọ Lưu Chú sang ${nextFlowItem.viShort}`}
+                className="px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-rose-700 text-white text-[11px] font-bold flex items-center gap-1 shrink-0 transition-colors cursor-pointer"
+              >
+                <span>Tiếp: {nextFlowItem.viShort}</span>
+                <ArrowRight className="w-3 h-3" />
+              </button>
+            )}
+          </div>
+          <div className="text-[11px] sm:text-xs font-semibold text-slate-700 flex flex-wrap gap-x-3 gap-y-0.5">
+            <span>• Giờ vượng: {primaryFlowMeta.flowTime}</span>
+            <span>• {primaryFlowMeta.pairedZangFu}</span>
+          </div>
+          <p className="text-[11px] sm:text-xs leading-snug text-slate-600">
+            <span className="font-bold text-slate-800">Chiều kinh: </span>
+            {primaryFlowMeta.originPointName} → {primaryFlowMeta.terminalPointName}
+          </p>
+        </div>
+      )}
     </div>
   );
 };
