@@ -1091,6 +1091,14 @@ app.post('/api/chat', async (req: Request, res: Response) => {
       ? userMessages[userMessages.length - 1].content
       : req.body.query || '';
 
+  // Ghép ngữ cảnh câu hỏi liền trước nếu câu hỏi hiện tại là câu hỏi nối tiếp ngắn (VD: "liều dùng thế nào?", "uống chung được không?")
+  const prevUserMessage =
+    userMessages.length >= 2 ? userMessages[userMessages.length - 2].content : '';
+  const contextualRetrievalQuery =
+    prevUserMessage && lastUserMessage.trim().length < 80
+      ? `${prevUserMessage} — ${lastUserMessage}`
+      : lastUserMessage;
+
   const rawImageInputs: Array<{ base64: string; mimeType?: string }> = [];
   if (Array.isArray(images)) {
     for (const item of images.slice(0, 6)) {
@@ -1116,7 +1124,7 @@ app.post('/api/chat', async (req: Request, res: Response) => {
   });
 
   const hasImage = imageParts.length > 0;
-  const ragContext = buildScientificRagContext(lastUserMessage);
+  const ragContext = buildScientificRagContext(contextualRetrievalQuery);
 
   try {
     const ai = getGeminiClient();
@@ -1129,7 +1137,7 @@ app.post('/api/chat', async (req: Request, res: Response) => {
         });
       }
       const fallbackReply = generateClinicalConsultationAnswer(
-        lastUserMessage,
+        contextualRetrievalQuery,
         messages
       );
       return res.json({ reply: fallbackReply, source: 'knowledge_vault' });
@@ -1158,10 +1166,11 @@ Người dùng vừa tải lên ${imageParts.length} hình ảnh đơn thuốc h
     const systemPrompt = `${MASTER_MEDICAL_PROMPT}
 Bệnh cảnh đang trao đổi (nếu có): ${context ? JSON.stringify(context) : 'Hội chẩn Y Đạo Toàn Thư'}.
 ${prescriptionPromptBlock}
-QUY TRÌNH PHÂN TÍCH CÂU HỎI BẮT BUỘC:
-Bước 1: Đọc nguyên văn câu hỏi "${lastUserMessage}" — xác định chính xác từng vế hỏi, thuật ngữ y khoa, con số xét nghiệm, bệnh nền/chống chỉ định được nhắc tới.
-Bước 2: Mở đầu bằng mục "1. TRẢ LỜI TRỰC TIẾP ĐÚNG TRỌNG TÂM CÂU HỎI", trả lời thẳng vào ĐÚNG vấn đề người hỏi đặt ra (nếu câu hỏi hỏi 2-3 ý thì đánh số trả lời đủ cả 2-3 ý).
-Bước 3: Trình bày phân tích chuyên sâu Đông - Tây Y (Harrison's 21st, Guyton & Hall, ESC/ADA/KDIGO/GOLD 2024-2025 + Nội Kinh, Thương Hàn, Hải Thượng, Maciocia, Bensky, Đổng Thị, Nguyễn Tài Thu) CHỈ cho những khía cạnh liên quan trực tiếp câu hỏi. Tuyệt đối không dùng # hay * và không chèn link URL.`;
+QUY TẮC BÁM SÁT CÂU HỎI BẮT BUỘC (TUYỆT ĐỐI KHÔNG LẠC ĐỀ):
+1. Đọc kỹ từng từ trong câu hỏi hiện tại của người dùng: "${lastUserMessage}".
+2. Nếu người dùng chỉ hỏi một vấn đề cụ thể (ví dụ: hỏi về 1 vị thuốc, 1 hoạt chất Tây y, 1 huyệt đạo, so sánh 2 vị thuốc, hỏi liều dùng, tương tác thuốc, nguyên nhân của 1 triệu chứng, hoặc hỏi tiếp nối câu trước), HÃY TRẢ LỜI THẲNG VÀO ĐÚNG VẤN ĐỀ ĐÓ. Tuyệt đối KHÔNG tự ý áp đặt khung bệnh án 6 phần của một bệnh khác không được hỏi.
+3. Phần "DỮ LIỆU KHOA HỌC TRÍCH XUẤT" đính kèm bên dưới chỉ là từ điển tham khảo: CHỈ sử dụng những mục khớp 100% với chủ đề câu hỏi hiện tại và BỎ QUA hoàn toàn mọi mục trích xuất dư thừa không liên quan.
+4. Trình bày rõ ràng bằng đánh số (1., 2., 3.) và dấu chấm tròn (•), tuyệt đối không dùng ký tự # hay *.`;
 
     const recentHistory = (messages || [])
       .slice(-6)
@@ -1171,10 +1180,10 @@ Bước 3: Trình bày phân tích chuyên sâu Đông - Tây Y (Harrison's 21st
       )
       .join('\n\n');
 
-    const contentsText = `${recentHistory}\n\n${ragContext}\nCÂU HỎI HIỆN TẠI CẦN TRẢ LỜI SÁT TỪNG CÂU CHỮ: "${lastUserMessage}"\n\n${
+    const contentsText = `LỊCH SỬ HỘI THOẠI GẦN ĐÂY:\n${recentHistory}\n\n[TỪ ĐIỂN DỮ LIỆU THAM KHẢO TÙY CHỌN — CHỈ DÙNG MỤC KHỚP TRỰC TIẾP VỚI CÂU HỎI, BỎ QUA MỤC KHÔNG LIÊN QUAN]:\n${ragContext}\n\nCÂU HỎI HIỆN TẠI CẦN TRẢ LỜI CHÍNH XÁC TỪNG CÂU CHỮ: "${lastUserMessage}"\n\n${
       hasImage
         ? `Hãy đọc kỹ toàn bộ ${imageParts.length} hình ảnh đơn thuốc/tài liệu y khoa đính kèm, liệt kê chính xác từng thuốc/liều dùng đọc được ở từng ảnh, kiểm tra trùng hoạt chất/tương tác và trả lời sát câu hỏi của người dùng (trình bày sạch sẽ không #, không *).`
-        : 'Hãy trả lời trực diện, đúng trọng tâm từng ý hỏi, chuẩn xác chuyên môn Đông - Tây Y và trình bày sạch sẽ (không #, không *).'
+        : 'Hãy trả lời trực diện, đúng 100% trọng tâm câu hỏi trên, không trả lời lan man sang bệnh khác (trình bày sạch sẽ không #, không *).'
     }`;
 
     const requestContents = hasImage
@@ -1191,8 +1200,8 @@ Bước 3: Trình bày phân tích chuyên sâu Đông - Tây Y (Harrison's 21st
           systemInstruction: systemPrompt,
         },
       },
-      hasImage ? 65000 : 42000,
-      ThinkingLevel.HIGH
+      hasImage ? 65000 : 38000,
+      ThinkingLevel.LOW
     );
 
     const replyText = cleanMedicalText(response?.text || '');
@@ -1207,7 +1216,7 @@ Bước 3: Trình bày phân tích chuyên sâu Đông - Tây Y (Harrison's 21st
     }
 
     const fallbackReply = generateClinicalConsultationAnswer(
-      lastUserMessage,
+      contextualRetrievalQuery,
       messages
     );
     return res.json({ reply: fallbackReply, source: 'knowledge_vault' });
@@ -1223,7 +1232,7 @@ Bước 3: Trình bày phân tích chuyên sâu Đông - Tây Y (Harrison's 21st
       });
     }
     const fallbackReply = generateClinicalConsultationAnswer(
-      lastUserMessage,
+      contextualRetrievalQuery,
       messages
     );
     return res.json({ reply: fallbackReply, source: 'knowledge_vault' });
@@ -1247,6 +1256,7 @@ app.post('/api/ask-library', async (req: Request, res: Response) => {
       ai,
       {
         contents: `Tra cứu chuyên sâu trong kho 82+ Y điển Đông - Tây Y (Trọng tâm sách đang chọn: ${bookId || 'Toàn bộ thư viện Y Đạo Toàn Thư'}).
+[TỪ ĐIỂN DỮ LIỆU THAM KHẢO TÙY CHỌN — CHỈ DÙNG MỤC KHỚP TRỰC TIẾP VỚI CÂU HỎI]:
 ${ragContext}
 CÂU HỎI NGUYÊN VĂN CỦA NGƯỜI DÙNG: "${q}"
 
@@ -1259,8 +1269,8 @@ YÊU CẦU BẮT BUỘC: Hãy bám sát 100% từng câu chữ của câu hỏi 
           systemInstruction: MASTER_MEDICAL_PROMPT,
         },
       },
-      42000,
-      ThinkingLevel.HIGH
+      38000,
+      ThinkingLevel.LOW
     );
 
     const answer = cleanMedicalText(response?.text || '');

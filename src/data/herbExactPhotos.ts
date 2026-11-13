@@ -13,8 +13,8 @@ export const HERB_EXACT_PHOTOS: Record<string, { url: string; taxonName: string 
     "taxonName": "Perilla frutescens"
   },
   "jing-jie": {
-    "url": "https://purl.org/gbifnorway/img/ipt-specimens/barstow-garden/2011/P7171504.jpg",
-    "taxonName": "Nepeta tenuifolia"
+    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/762857282/medium.jpg",
+    "taxonName": "Schizonepeta tenuifolia"
   },
   "qiang-huo": {
     "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/744817617/medium.jpg",
@@ -313,8 +313,8 @@ export const HERB_EXACT_PHOTOS: Record<string, { url: string; taxonName: string 
     "taxonName": "Crataegus pinnatifida"
   },
   "chen-pi": {
-    "url": "https://static.inaturalist.org/photos/1297316/medium.",
-    "taxonName": "Citrus × limon"
+    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/762295990/medium.jpg",
+    "taxonName": "Citrus reticulata"
   },
   "mai-ya": {
     "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/76716288/medium.jpg",
@@ -341,8 +341,8 @@ export const HERB_EXACT_PHOTOS: Record<string, { url: string; taxonName: string 
     "taxonName": "Citrus × aurantium"
   },
   "chuan-xiong": {
-    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/09/Ligusticum_sinense_%27Chuanxiong%27_slices.jpg/330px-Ligusticum_sinense_%27Chuanxiong%27_slices.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-    "taxonName": "Conioselinum anthriscoides"
+    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/751204649/medium.jpg",
+    "taxonName": "Ligusticum chuanxiong"
   },
   "san-qi": {
     "url": "https://static.inaturalist.org/photos/224957689/medium.png",
@@ -374,7 +374,7 @@ export const HERB_EXACT_PHOTOS: Record<string, { url: string; taxonName: string 
   },
   "rou-gui": {
     "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/601104/medium.jpg",
-    "taxonName": "Cinnamomum verum"
+    "taxonName": "Cinnamomum cassia"
   },
   "xi-yang-shen": {
     "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/5091105/medium.jpeg",
@@ -385,8 +385,8 @@ export const HERB_EXACT_PHOTOS: Record<string, { url: string; taxonName: string 
     "taxonName": "Tetradium ruticarpum"
   },
   "gan-jiang": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/17145446/medium.jpeg",
-    "taxonName": "Zingiber mioga"
+    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/754730454/medium.jpg",
+    "taxonName": "Zingiber officinale"
   },
   "ren-shen": {
     "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/598814451/medium.jpg",
@@ -421,7 +421,7 @@ export const HERB_EXACT_PHOTOS: Record<string, { url: string; taxonName: string 
     "taxonName": "Reynoutria multiflora"
   },
   "shu-di-huang": {
-    "url": "https://medialib.naturalis.nl/file/id/L.2798848/format/large",
+    "url": "https://static.inaturalist.org/photos/762168860/medium.jpg",
     "taxonName": "Rehmannia glutinosa"
   },
   "du-zhong": {
@@ -481,8 +481,8 @@ export const HERB_EXACT_PHOTOS: Record<string, { url: string; taxonName: string 
     "taxonName": "Cornus officinalis"
   },
   "yuan-zhi": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/392751859/medium.jpeg",
-    "taxonName": "Senega alba"
+    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/762538570/medium.jpg",
+    "taxonName": "Polygala tenuifolia"
   },
   "shi-chang-pu": {
     "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/630933625/medium.jpg",
@@ -525,8 +525,8 @@ export const HERB_EXACT_PHOTOS: Record<string, { url: string; taxonName: string 
     "taxonName": "Strychnos nux-vomica"
   },
   "xi-jiao-shui-niu-jiao": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/97834194/medium.jpg",
-    "taxonName": "Syncerus caffer"
+    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/4666378/medium.jpg",
+    "taxonName": "Bubalus bubalis"
   },
   "tan-giao": {
     "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/16851726/medium.jpeg",
@@ -609,7 +609,7 @@ export const HERB_EXACT_PHOTOS: Record<string, { url: string; taxonName: string 
     "taxonName": "Bletilla striata"
   },
   "nga-truat": {
-    "url": "http://jbrj-public-img.s3-sa-east-1.amazonaws.com/JPG/rb/1/44/82/11/01448211.jpg",
+    "url": "https://static.inaturalist.org/photos/279330518/medium.jpg",
     "taxonName": "Curcuma phaeocaulis"
   },
   "ngai-diep": {
@@ -622,11 +622,11 @@ export const HERB_EXACT_PHOTOS: Record<string, { url: string; taxonName: string 
   },
   "chi-xac": {
     "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/345573117/medium.jpg",
-    "taxonName": "Citrus × aurantium aurantium"
+    "taxonName": "Citrus × aurantium"
   },
   "thanh-bi": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/187774879/medium.jpeg",
-    "taxonName": "Citrus × latifolia"
+    "url": "https://static.inaturalist.org/photos/760654036/medium.jpg",
+    "taxonName": "Citrus reticulata"
   },
   "tam-lang": {
     "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/99767301/medium.jpg",
@@ -649,7 +649,7 @@ export const HERB_EXACT_PHOTOS: Record<string, { url: string; taxonName: string 
     "taxonName": "Wurfbainia compacta"
   },
   "tram-huong": {
-    "url": "http://mediaphoto.mnhn.fr/media/1441424844946mnKUqGpwupHITnrR",
+    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/711302609/medium.jpg",
     "taxonName": "Aquilaria sinensis"
   },
   "thao-qua": {
@@ -825,8 +825,8 @@ export const HERB_EXACT_PHOTOS: Record<string, { url: string; taxonName: string 
     "taxonName": "Iris domestica"
   },
   "shan-dou-gen": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/20571110/medium.jpeg",
-    "taxonName": "Euchresta japonica"
+    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/734260802/medium.jpg",
+    "taxonName": "Sophora tonkinensis"
   },
   "qin-pi": {
     "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/191617623/medium.jpg",
@@ -869,7 +869,7 @@ export const HERB_EXACT_PHOTOS: Record<string, { url: string; taxonName: string 
     "taxonName": "Cynara cardunculus"
   },
   "gao-ben": {
-    "url": "https://images.mobot.org/RISScanning02/detailImages/RISScanning02/102973000/399B0C8A-6313-47E6-9E2B-1DAA364927A9.jpg",
+    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/734835393/medium.jpg",
     "taxonName": "Ligusticum sinense"
   },
   "xi-he-liu": {
@@ -885,7 +885,7 @@ export const HERB_EXACT_PHOTOS: Record<string, { url: string; taxonName: string 
     "taxonName": "Prunus japonica"
   },
   "gan-sui": {
-    "url": "https://images.mobot.org/tropicosimages5/detailimages/TropicosImagesVol5/102193000/D725D922-7C8C-4D96-B908-98146E28D6F9.jpg",
+    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/760268388/medium.jpg",
     "taxonName": "Euphorbia kansui"
   },
   "gou-ji": {
@@ -1025,7 +1025,7 @@ export const HERB_EXACT_PHOTOS: Record<string, { url: string; taxonName: string 
     "taxonName": "Sanguisorba officinalis"
   },
   "xiao-ji": {
-    "url": "http://biobase.179.ru/flora/2019-moscow-flora/2019-08-04_19-10-58-.jpg",
+    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/760629327/medium.jpg",
     "taxonName": "Cirsium setosum"
   },
   "gao-liang-jiang": {
@@ -1049,8 +1049,8 @@ export const HERB_EXACT_PHOTOS: Record<string, { url: string; taxonName: string 
     "taxonName": "Tenodera sinensis"
   },
   "lian-xin": {
-    "url": "https://sernecportal.org/media/sernec/VSC/VSC0085/VSC0085448.jpg",
-    "taxonName": "Nelumbo lutea"
+    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/762856228/medium.jpg",
+    "taxonName": "Nelumbo nucifera"
   },
   "lac-tien": {
     "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/605517881/medium.jpg",
@@ -1065,8 +1065,8 @@ export const HERB_EXACT_PHOTOS: Record<string, { url: string; taxonName: string 
     "taxonName": "Dryobalanops aromatica"
   },
   "fu-shen": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/257258530/medium.jpg",
-    "taxonName": "Pinus massoniana"
+    "url": "https://static.inaturalist.org/photos/735107376/medium.jpg",
+    "taxonName": "Wolfiporia cocos"
   },
   "wu-gong": {
     "url": "https://static.inaturalist.org/photos/578741133/medium.jpg",

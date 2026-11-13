@@ -221,7 +221,7 @@ const SPECIMEN_GROUPS: SpecimenGroup[] = [
     file: 'green_ephedra_stems.jpg',
     partLabel: 'Thảo Ma Hoàng & Thân Đốt Tròn Mảnh',
     processingNote: 'Thân thảo hình trụ có đốt cắt đoạn 2-3cm phát hãn tuyên phế lợi thủy',
-    ids: ['ma-huang', 'mu-zei', 'yu-mi-xu', 'shi-hu']
+    ids: ['ma-huang', 'mu-zei']
   },
   {
     file: 'white_pith_thongthao.jpg',
@@ -269,7 +269,7 @@ const SPECIMEN_GROUPS: SpecimenGroup[] = [
     file: 'cut_woody_twigs.jpg',
     partLabel: 'Chi Mộc (Cành Dâu Tang Chi / Tang Ký Sinh / Tây Hà Liễu)',
     processingNote: 'Cành gỗ thái vát phơi khô khu phong thông lạc lợi khớp',
-    ids: ['tang-chi', 'sang-ji-sheng', 'xi-he-liu']
+    ids: ['tang-chi', 'sang-ji-sheng', 'xi-he-liu', 'shi-hu']
   },
   {
     file: 'hooked_uncaria_gouteng.jpg',
@@ -281,7 +281,7 @@ const SPECIMEN_GROUPS: SpecimenGroup[] = [
     file: 'bamboo_shavings_trucnhu.jpg',
     partLabel: 'Trúc Nhự (Phoi Bào Lớp Giữa Thân Tre Xanh Vàng)',
     processingNote: 'Lớp mô giữa thân tre cạo vỏ xanh bào thành sợi mỏng thanh nhiệt hóa đờm chỉ ẩu',
-    ids: ['truc-nhu']
+    ids: ['truc-nhu', 'yu-mi-xu']
   },
   {
     file: 'red_sappan_wood_sumu.jpg',
@@ -467,7 +467,7 @@ const SPECIMEN_GROUPS: SpecimenGroup[] = [
     file: 'forsythia_pods_lianqiao.jpg',
     partLabel: 'Liên Kiều (Vỏ Quả Khô Tách Đôi Hình Mỏ Chim)',
     processingNote: 'Quả già nứt thành 2 mảnh cong hình thuyền màu nâu thanh nhiệt giải độc tán kết',
-    ids: ['lian-qiao']
+    ids: ['lian-qiao', 'shi-di']
   },
   {
     file: 'orange_gardenia_zhizi.jpg',
@@ -807,40 +807,85 @@ const SPECIMEN_GROUPS: SpecimenGroup[] = [
   },
   {
     file: 'black_smoked_plums.jpg',
-    partLabel: 'Ô Mai & Thị Đế (Quả Mơ Muối Hun Khói Đen Liễm Phế)',
-    processingNote: 'Quả mơ xanh hun khói đen nhăn vị chua chát liễm phế chỉ khái an hồi',
-    ids: ['o-mai', 'shi-di']
+    partLabel: 'Ô Mai (Quả Mơ Muối Hun Khói Đen Liễm Phế Sinh Tân)',
+    processingNote: 'Quả mơ xanh hun khói đen nhăn vị chua chát liễm phế chỉ khái sinh tân an hồi',
+    ids: ['o-mai']
   }
 ];
 
 const VARIANT_CLASSES = [
   '',
-  'scale-110 -scale-x-110 brightness-105 saturate-110',
-  'scale-115 -scale-y-115 contrast-105 saturate-95',
-  'rotate-90 scale-110 brightness-95 saturate-115',
-  'rotate-180 scale-115 contrast-105',
-  '-rotate-90 scale-110 brightness-105 saturate-105',
-  'scale-120 -scale-x-120 rotate-90 contrast-105',
-  'scale-120 -scale-y-120 rotate-90 brightness-95',
-  'scale-125 translate-x-2 translate-y-2 saturate-110',
-  'scale-125 -translate-x-2 translate-y-2 -scale-x-125',
-  'scale-125 translate-x-2 -translate-y-2 -scale-y-125',
-  'rotate-90 scale-125 translate-x-1 -translate-y-1',
-  'rotate-180 scale-125 -translate-x-2 -translate-y-1',
-  '-rotate-90 scale-125 translate-x-2 translate-y-1',
-  'scale-130 -scale-x-130 rotate-180 brightness-105'
+  'scale-105 brightness-102 saturate-105',
+  'scale-105 -scale-x-105 contrast-102',
+  'scale-108 brightness-98 saturate-108',
+  'scale-106 -scale-x-106 brightness-103'
 ];
 
-const HERB_SPEC_MAP: Record<string, { file: string; variantClass: string; partLabel: string; processingNote: string }> = {};
+const HERB_SPEC_MAP: Record<string, { file: string; variantClass: string; partLabel: string; processingNote: string; isDedicatedSingle: boolean }> = {};
 for (const group of SPECIMEN_GROUPS) {
+  const isSingle = group.ids.length === 1;
   group.ids.forEach((id, idx) => {
     HERB_SPEC_MAP[id] = {
       file: `/assets/images/herbs/${group.file}`,
-      variantClass: VARIANT_CLASSES[idx % VARIANT_CLASSES.length],
+      variantClass: isSingle ? '' : VARIANT_CLASSES[idx % VARIANT_CLASSES.length],
       partLabel: group.partLabel,
-      processingNote: group.processingNote
+      processingNote: group.processingNote,
+      isDedicatedSingle: isSingle
     };
   });
+}
+
+function getExactBotanicalPartLabel(herb: Herb): string {
+  const bot = herb.botanicalName.toLowerCase();
+  let partDesc = 'Dược Liệu Bào Chế Chuẩn Dược Điển';
+  if (bot.includes('radix') && bot.includes('rhizoma')) {
+    partDesc = 'Rễ & Thân Rễ Thái Phiến Bào Chế Khô';
+  } else if (bot.includes('radix')) {
+    partDesc = 'Rễ Củ Thái Phiến Bào Chế Khô';
+  } else if (bot.includes('rhizoma')) {
+    partDesc = 'Thân Rễ Thái Lát Phơi Sấy Khô';
+  } else if (bot.includes('folium')) {
+    partDesc = 'Lá Thu Hái Phơi Âm Can (Diệp Phiến)';
+  } else if (bot.includes('flos') || bot.includes('plumula')) {
+    partDesc = 'Nụ Hoa / Tâm Mầm Sấy Khô Giữ Tinh Dầu';
+  } else if (bot.includes('pericarpium')) {
+    partDesc = 'Vỏ Quả Chín Phơi Khô Trần Cửu';
+  } else if (bot.includes('calyx')) {
+    partDesc = 'Đài Quả (Thị Đế) Thu Hái Sấy Khô';
+  } else if (bot.includes('stigma')) {
+    partDesc = 'Vòi Nhụy (Ngọc Mễ Tu) Phơi Mát Sấy Khô';
+  } else if (bot.includes('fructus')) {
+    partDesc = 'Quả Chín Thu Hái Sấy Khô / Sao Chế';
+  } else if (bot.includes('semen')) {
+    partDesc = 'Hạt Già Chọn Lọc Phơi Khô / Sao Thơm';
+  } else if (bot.includes('cortex')) {
+    partDesc = 'Vỏ Thân / Vỏ Rễ Cạo Bần Bào Chế';
+  } else if (bot.includes('caulis') || bot.includes('ramulus') || bot.includes('lignum')) {
+    partDesc = 'Thân Cành / Dây Đằng Thái Phiến Phơi Khô';
+  } else if (bot.includes('bulbus')) {
+    partDesc = 'Vảy Thân Hành Tách Rời Đồ Sấy Khô';
+  } else if (bot.includes('sclerotium') || bot.includes('polyporus')) {
+    partDesc = 'Thể Hạch Nấm Thái Khối Vuông Trắng';
+  } else if (bot.includes('herba')) {
+    partDesc = 'Toàn Thảo Cắt Đoạn Phơi Khô';
+  } else if (bot.includes('thallus')) {
+    partDesc = 'Tảo Biển Phơi Khô Rửa Sạch Muối';
+  } else if (bot.includes('cornu')) {
+    partDesc = 'Sừng Bào Phiến Mỏng Sắc Trước';
+  } else if (
+    bot.includes('gypsum') ||
+    bot.includes('mirabilit') ||
+    bot.includes('talc') ||
+    bot.includes('alumen') ||
+    bot.includes('borax') ||
+    bot.includes('magnetit') ||
+    bot.includes('haematit')
+  ) {
+    partDesc = 'Khoáng Thạch Dược Dụng Nung / Thủy Phi';
+  } else if (bot.includes('olibanum') || bot.includes('myrrha') || bot.includes('moschus')) {
+    partDesc = 'Nhựa Thơm / Hương Dược Tinh Chế';
+  }
+  return `${herb.vietnameseName} (${herb.chineseCharacters}) — ${partDesc}`;
 }
 
 export function getHerbVisualSpec(herb: Herb): HerbVisualSpec & { variantClass?: string } {
@@ -848,8 +893,16 @@ export function getHerbVisualSpec(herb: Herb): HerbVisualSpec & { variantClass?:
   const exact = HERB_EXACT_PHOTOS[herb.id];
 
   const baseFile = mapped?.file || '/assets/images/herbs/pale_sliced_roots.jpg';
-  const partLabel = mapped?.partLabel || 'Dược Liệu Bào Chế Chuẩn Dược Điển';
-  const processingNote = mapped?.processingNote || 'Bào chế theo tiêu chuẩn Dược điển Đông - Nam dược';
+  const partLabel = mapped?.isDedicatedSingle
+    ? mapped.partLabel
+    : getExactBotanicalPartLabel(herb);
+
+  const cleanBensky = (herb.benskyNotes || '')
+    .replace(/^Dan Bensky(\s*3rd Ed)?:\s*/i, '')
+    .replace(/\.$/, '');
+  const processingNote = mapped?.isDedicatedSingle
+    ? mapped.processingNote
+    : `${herb.vietnameseName} (${herb.botanicalName}): ${mapped?.processingNote || 'Bào chế chuẩn Dược điển'}${cleanBensky ? ` — ${cleanBensky}` : ''}`;
 
   return {
     imageUrl: baseFile,

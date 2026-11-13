@@ -540,30 +540,57 @@ const DISEASE_QUERY_KEYWORDS = [
   'sot xuat huyet', 'cam cum', 'sot sieu vi', 'u tai', 'diec tai', 'viem tai'
 ];
 
-function isClinicalDiseaseQuery(norm: string): boolean {
-  // If user is explicitly asking only for a point code (e.g., 22.05, 77.18, EX-HN5) or "huyet X nam o dau"
+function isClinicalDiseaseQuery(norm: string, matched?: MatchedMedicalKnowledge): boolean {
+  // If user is explicitly asking about a point code (e.g., 22.05, 77.18, EX-HN5) or acupoint location/needling
   if (/\b\d{2}\.\d{2}\b/.test(norm)) return false;
-  if ((norm.startsWith('huyet ') || norm.includes('vi tri huyet') || norm.includes('cach cham huyet')) && !norm.includes('benh') && !norm.includes('chua')) {
+  if (
+    norm.startsWith('huyet ') ||
+    norm.includes('vi tri huyet') ||
+    norm.includes('cach cham huyet') ||
+    norm.includes('cach bam huyet') ||
+    norm.includes('vi thuoc ') ||
+    norm.includes('duoc lieu ') ||
+    norm.includes('thuoc tay ') ||
+    norm.includes('hoat chat ') ||
+    norm.includes('uong chung') ||
+    norm.includes('tuong tac thuoc') ||
+    norm.includes('so sanh ') ||
+    norm.includes('phan biet ')
+  ) {
     return false;
   }
-  if (
-    norm.includes('giai doan') ||
-    norm.includes('nguyen nhan') ||
-    norm.includes('la benh gi') ||
-    norm.includes('benh gi') ||
-    norm.includes('cach chua') ||
-    norm.includes('chua duoc') ||
-    norm.includes('co chua') ||
-    norm.includes('co khoi') ||
-    norm.includes('chua khoi') ||
-    norm.includes('dieu tri') ||
-    norm.includes('phac do') ||
-    norm.includes('trieu chung') ||
-    norm.includes('dau hieu') ||
-    norm.includes('lam sao')
-  ) {
-    return true;
+
+  // If the user explicitly named a specific Herb, Western Drug, or Acupoint in the query,
+  // prioritize answering directly about that entity unless they explicitly ask for a full disease protocol
+  if (matched) {
+    const namedHerbDirectly = matched.herbs.some(h => {
+      const vn = normalizeVi(h.vietnameseName);
+      return vn.length >= 4 && norm.includes(vn);
+    });
+    const namedDrugDirectly = matched.westernDrugs.some(d => {
+      const act = normalizeVi(d.activeIngredient).split(' ')[0];
+      const brandHit = d.commonBrandNames.some(b => {
+        const bn = normalizeVi(b);
+        return bn.length >= 4 && norm.includes(bn);
+      });
+      return (act.length >= 4 && norm.includes(act)) || brandHit;
+    });
+    const namedPointDirectly =
+      matched.tungPoints.some(p => {
+        const pn = normalizeVi(p.name);
+        return pn.length >= 5 && norm.includes(pn);
+      }) ||
+      matched.whoPoints.some(w => {
+        const wn = normalizeVi(w.name);
+        return wn.length >= 5 && norm.includes(wn);
+      });
+
+    if ((namedHerbDirectly || namedDrugDirectly || namedPointDirectly) && !norm.includes('phac do benh')) {
+      return false;
+    }
   }
+
+  // Only treat as a full clinical disease consultation if a recognized clinical disease keyword is present
   return DISEASE_QUERY_KEYWORDS.some(kw => norm.includes(kw));
 }
 
@@ -735,8 +762,8 @@ export function generatePreciseScientificAnswer(query: string, bookFilter?: stri
 
   const matched = retrieveMedicalKnowledge(query, bookFilter);
 
-  // Priority 1: If the user is asking about a clinical disease, its definition, causes, stages, or treatment
-  if (isClinicalDiseaseQuery(norm) && !bookFilter) {
+  // Priority 1: If the user is asking about a recognized clinical disease (and not a specific herb/drug/point)
+  if (isClinicalDiseaseQuery(norm, matched) && !bookFilter) {
     const spec = matchClinicalDomain(norm, query);
     const questionLead = buildQuestionFocusedLead(query, norm, matched);
     const enrichedSpec = spec.directAnswer
