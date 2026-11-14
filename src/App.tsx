@@ -112,8 +112,8 @@ export default function App() {
           <div className="p-4 rounded-xl bg-amber-50/80 border border-amber-200/80 text-xs sm:text-sm text-amber-950 flex items-start gap-2.5">
             <ShieldAlert className="w-5 h-5 text-amber-700 shrink-0 mt-0.5" />
             <p className="leading-relaxed">
-              <strong>Lưu ý chuyên môn: </strong>
-              Hệ thống phục vụ tra cứu lâm sàng, học tập và đối chiếu y văn Đông – Tây Y. Không tự ý ngưng thuốc điều trị chuyên khoa khi chưa có chỉ định của bác sĩ.
+              <strong>Lưu ý chuyên môn &amp; Miễn trừ trách nhiệm: </strong>
+              Mọi thông tin trên hệ thống chỉ mang tính chất <strong>tham khảo và hỗ trợ</strong> tra cứu lâm sàng, học tập và đối chiếu y văn Đông – Tây Y; người dùng <strong>cần phải tự kiểm chứng thêm</strong> qua tài liệu y khoa chính thống và thăm khám thực tế. Không thay thế chẩn đoán trực tiếp hay tự ý ngưng thuốc điều trị chuyên khoa khi chưa có chỉ định của bác sĩ. <strong>Tác giả được miễn trừ hoàn toàn trách nhiệm</strong> đối với mọi rủi ro hoặc hệ quả phát sinh từ việc sử dụng hoặc tự ý áp dụng thông tin trên hệ thống.
             </p>
           </div>
         </div>
