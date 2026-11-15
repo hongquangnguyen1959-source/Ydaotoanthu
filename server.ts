@@ -4,16 +4,11 @@ import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import {
-  cleanMedicalText,
-} from './src/utils/scientificMedicalEngine';
-import {
-  getGeminiClient,
-  callGeminiWithModelFallback,
-  MASTER_MEDICAL_PROMPT,
   handleDiagnoseRequest,
   handleSymptomAnswerRequest,
   handleChatRequest,
   handleAskLibraryRequest,
+  handleCheckInteractionsRequest,
 } from './src/utils/aiServerHandlers';
 
 dotenv.config();
@@ -50,53 +45,25 @@ app.post('/api/ask-library', async (req: Request, res: Response) => {
   return res.status(status).json(payload);
 });
 
+// Kiểm tra trạng thái máy chủ & cấu hình AI (không lộ key)
+app.get('/api/health', (_req: Request, res: Response) => {
+  const rawKey = (
+    process.env.GEMINI_API_KEY ||
+    process.env.GOOGLE_API_KEY ||
+    process.env.GOOGLE_GENERATIVE_AI_API_KEY ||
+    ''
+  ).trim();
+  return res.json({
+    ok: true,
+    aiConfigured: Boolean(rawKey && rawKey !== 'MY_GEMINI_API_KEY'),
+    runtime: 'express-node',
+  });
+});
+
 // API Quét chuyên sâu tương tác thuốc Đông - Tây Y
 app.post('/api/check-interactions', async (req: Request, res: Response) => {
-  try {
-    const { herbs, drugs } = req.body;
-    const herbList = Array.isArray(herbs) ? herbs : [];
-    const drugList = Array.isArray(drugs) ? drugs : [];
-
-    const promptText = `HỘI CHẨN TƯƠNG TÁC DƯỢC LÝ ĐÔNG - TÂY Y (Dược Thư Quốc Gia, Stockley, DiPiro & Dan Bensky):
-Danh sách thảo dược Đông y: ${JSON.stringify(herbList)}
-Danh sách thuốc Tây y: ${JSON.stringify(drugList)}
-
-Hãy phân tích toàn diện:
-1. Cảnh báo nguy cơ xuất huyết, độc tính gan thận, hạ kali máu hoặc tạo phức chelat (nếu có).
-2. Tác động lên men gan Cytochrome P450 (CYP3A4, CYP2C9, CYP2C19) và chuyển hóa thuốc.
-3. Các tương tác hiệp đồng có lợi (Synergy) giúp nâng cao hiệu quả hoặc giảm tác dụng phụ.
-4. Lời khuyên cụ thể về giãn cách thời gian uống (Quy tắc 1.5 - 2 giờ) và chỉ số xét nghiệm cần theo dõi.`;
-
-    const ai = getGeminiClient();
-    if (!ai) {
-      return res.json({
-        success: true,
-        summary: "Phân tích từ Dược thư Quốc gia Việt Nam & Stockley",
-        guidance: "Khuyến cáo uống thuốc Đông y cách thuốc Tây y tối thiểu 1.5 - 2 giờ để tránh tương tác cơ học và chelat hóa tại dạ dày."
-      });
-    }
-
-    const response: any = await callGeminiWithModelFallback(
-      ai,
-      {
-        contents: promptText,
-        config: {
-          systemInstruction: MASTER_MEDICAL_PROMPT,
-        },
-      },
-      35000
-    );
-
-    return res.json({
-      success: true,
-      analysis: cleanMedicalText(response?.text || '')
-    });
-  } catch (err: any) {
-    return res.json({
-      success: true,
-      guidance: "Khuyến cáo uống thuốc Đông y cách thuốc Tây y tối thiểu 1.5 - 2 giờ để tránh tương tác hấp thu tại ruột non."
-    });
-  }
+  const { status, payload } = await handleCheckInteractionsRequest(req.body || {});
+  return res.status(status).json(payload);
 });
 
 // Setup Vite middleware in dev or static serving in production

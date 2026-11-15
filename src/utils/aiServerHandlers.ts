@@ -9,8 +9,13 @@ import {
 } from './scientificMedicalEngine';
 
 export const getGeminiClient = () => {
-  const apiKey = process.env.GEMINI_API_KEY;
-  if (!apiKey) {
+  const apiKey = (
+    process.env.GEMINI_API_KEY ||
+    process.env.GOOGLE_API_KEY ||
+    process.env.GOOGLE_GENERATIVE_AI_API_KEY ||
+    ''
+  ).trim();
+  if (!apiKey || apiKey === 'MY_GEMINI_API_KEY') {
     return null;
   }
   return new GoogleGenAI({
@@ -23,7 +28,24 @@ export const getGeminiClient = () => {
   });
 };
 
-const CANDIDATE_MODELS = ['gemini-4-hydrogen', 'gemini-3.1-flash-lite'];
+// Primary AI Studio model first, then automatic public-API Gemini fallback for Vercel keys
+const CANDIDATE_MODELS = [
+  'gemini-4-hydrogen',
+  'gemini-3.1-flash-lite',
+  'gemini-2.5-flash',
+];
+
+function extractCleanJson(raw: string): string {
+  const trimmed = (raw || '').trim();
+  const fenced = trimmed.match(/```(?:json)?\s*([\s\S]*?)\s*```/i);
+  const candidate = fenced ? fenced[1].trim() : trimmed;
+  const firstBrace = candidate.indexOf('{');
+  const lastBrace = candidate.lastIndexOf('}');
+  if (firstBrace !== -1 && lastBrace > firstBrace) {
+    return candidate.slice(firstBrace, lastBrace + 1);
+  }
+  return candidate;
+}
 
 export async function callGeminiWithModelFallback(
   ai: GoogleGenAI,
@@ -32,11 +54,23 @@ export async function callGeminiWithModelFallback(
   thinkingLevel: ThinkingLevel = ThinkingLevel.HIGH
 ) {
   let lastError: any = null;
+  const totalBudgetMs = Math.min(Math.max(timeoutMs, 25000), 52000);
+  const startedAt = Date.now();
 
-  for (const model of CANDIDATE_MODELS) {
+  for (let i = 0; i < CANDIDATE_MODELS.length; i++) {
+    const model = CANDIDATE_MODELS[i];
+    const elapsed = Date.now() - startedAt;
+    const remainingBudget = totalBudgetMs - elapsed;
+    if (remainingBudget < 4000) break;
+
+    const perAttemptTimeout =
+      i === CANDIDATE_MODELS.length - 1
+        ? remainingBudget
+        : Math.min(20000, Math.floor(remainingBudget * 0.65));
+
     try {
       const timeoutPromise = new Promise((_, reject) =>
-        setTimeout(() => reject(new Error(`Gemini API timeout (${model})`)), timeoutMs)
+        setTimeout(() => reject(new Error(`Gemini API timeout (${model})`)), perAttemptTimeout)
       );
 
       const callConfig = { ...(params.config || {}) };
@@ -253,12 +287,13 @@ YÊU CẦU ĐẦU RA BẰNG JSON HỢP LỆ THEO ĐÚNG CẤU TRÚC CHẨN ĐOÁ
           responseMimeType: 'application/json',
         },
       },
-      45000
+      45000,
+      ThinkingLevel.LOW
     );
 
-    const jsonText = (response.text || '').trim();
+    const jsonText = extractCleanJson(response.text || '');
     const result = JSON.parse(jsonText);
-    return { status: 200, payload: { success: true, diagnosis: result } };
+    return { status: 200, payload: { success: true, diagnosis: result, source: 'gemini' } };
   } catch (error: any) {
     console.warn('Diagnosis API switched to scientific medical engine:', error?.message || error);
     const offlineResult = runOfflineDiagnosis(
@@ -331,12 +366,13 @@ YÊU CẦU CHẨN TRỊ:
           responseMimeType: 'application/json',
         },
       },
-      45000
+      45000,
+      ThinkingLevel.LOW
     );
 
-    const jsonText = (response.text || '').trim();
+    const jsonText = extractCleanJson(response.text || '');
     const result = JSON.parse(jsonText);
-    return { status: 200, payload: { success: true, data: result } };
+    return { status: 200, payload: { success: true, data: result, source: 'gemini' } };
   } catch (error: any) {
     console.warn('Gemini symptom-answer fallback triggered:', error?.message || error);
     return {
@@ -554,6 +590,69 @@ YÊU CẦU BẮT BUỘC: Hãy bám sát 100% từng câu chữ của câu hỏi 
       status: 200,
       payload: {
         answer: generateClinicalConsultationAnswer(q, undefined, bookId),
+        source: 'knowledge_vault',
+      },
+    };
+  }
+}
+
+export async function handleCheckInteractionsRequest(body: any): Promise<{ status: number; payload: any }> {
+  try {
+    const { herbs, drugs } = body || {};
+    const herbList = Array.isArray(herbs) ? herbs : [];
+    const drugList = Array.isArray(drugs) ? drugs : [];
+
+    const promptText = `HỘI CHẨN TƯƠNG TÁC DƯỢC LÝ ĐÔNG - TÂY Y (Dược Thư Quốc Gia, Stockley, DiPiro & Dan Bensky):
+Danh sách thảo dược Đông y: ${JSON.stringify(herbList)}
+Danh sách thuốc Tây y: ${JSON.stringify(drugList)}
+
+Hãy phân tích toàn diện:
+1. Cảnh báo nguy cơ xuất huyết, độc tính gan thận, hạ kali máu hoặc tạo phức chelat (nếu có).
+2. Tác động lên men gan Cytochrome P450 (CYP3A4, CYP2C9, CYP2C19) và chuyển hóa thuốc.
+3. Các tương tác hiệp đồng có lợi (Synergy) giúp nâng cao hiệu quả hoặc giảm tác dụng phụ.
+4. Lời khuyên cụ thể về giãn cách thời gian uống (Quy tắc 1.5 - 2 giờ) và chỉ số xét nghiệm cần theo dõi.`;
+
+    const ai = getGeminiClient();
+    if (!ai) {
+      return {
+        status: 200,
+        payload: {
+          success: true,
+          summary: 'Phân tích từ Dược thư Quốc gia Việt Nam & Stockley',
+          guidance:
+            'Khuyến cáo uống thuốc Đông y cách thuốc Tây y tối thiểu 1.5 - 2 giờ để tránh tương tác cơ học và chelat hóa tại dạ dày.',
+          source: 'knowledge_vault',
+        },
+      };
+    }
+
+    const response: any = await callGeminiWithModelFallback(
+      ai,
+      {
+        contents: promptText,
+        config: {
+          systemInstruction: MASTER_MEDICAL_PROMPT,
+        },
+      },
+      35000,
+      ThinkingLevel.LOW
+    );
+
+    return {
+      status: 200,
+      payload: {
+        success: true,
+        analysis: cleanMedicalText(response?.text || ''),
+        source: 'gemini',
+      },
+    };
+  } catch {
+    return {
+      status: 200,
+      payload: {
+        success: true,
+        guidance:
+          'Khuyến cáo uống thuốc Đông y cách thuốc Tây y tối thiểu 1.5 - 2 giờ để tránh tương tác hấp thu tại ruột non.',
         source: 'knowledge_vault',
       },
     };
