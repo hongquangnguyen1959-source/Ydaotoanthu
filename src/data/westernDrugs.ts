@@ -1,3 +1,7 @@
+import { EXTRA_WESTERN_DRUGS } from './westernDrugsExtra';
+import { EXTRA_ANTIBIOTICS_ANTI_INFLAMMATORIES } from './westernAntibioticsAndAntiInflammatories';
+import { EXTRA_INJECTABLES_AND_ANTI_INFLAMMATORIES } from './westernInjectablesAndExtraAntiInflam';
+
 export interface DrugCombinationProtocol {
   diseaseName: string;
   combinedWith: string[];
@@ -13,7 +17,7 @@ export interface BrandVariant {
 
 export interface WesternDrug {
   id: string;
-  category: 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G';
+  category: 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' | 'I' | 'J';
   categoryName: string;
   groupName: string;
   activeIngredient: string;
@@ -29,7 +33,7 @@ export interface WesternDrug {
   referenceSources: string[];
 }
 
-export const WESTERN_DRUGS_DATABASE: WesternDrug[] = [
+const CORE_WESTERN_DRUGS: WesternDrug[] = [
   // --- NHÓM A: Chứng Đau, Sốt, Viêm & Cơ Xương Khớp ---
   {
     id: 'paracetamol',
@@ -227,7 +231,7 @@ export const WESTERN_DRUGS_DATABASE: WesternDrug[] = [
         variantName: 'Celebrex 200mg (Pfizer - Mỹ)',
         manufacturer: 'Pfizer (Mỹ)',
         ingredients: 'Celecoxib 200mg nang cứng',
-        specialEffect: 'Biệt dược gốc chọn lọc COX-2 hàng đầu thế giới, giảm thiểu tác tác dụng phụ gây viêm loét xuất huyết dạ dày.'
+        specialEffect: 'Biệt dược gốc chọn lọc COX-2 hàng đầu thế giới, giảm thiểu tác dụng phụ gây viêm loét xuất huyết dạ dày.'
       }
     ],
     referenceSources: ['DiPiro Pharmacotherapy', 'Dược thư Quốc gia Việt Nam']
@@ -761,7 +765,7 @@ export const WESTERN_DRUGS_DATABASE: WesternDrug[] = [
     groupName: 'Kháng sinh Cephalosporin Thế hệ 3 (Tiêm truyền)',
     activeIngredient: 'Ceftriaxone Sodium',
     commonBrandNames: ['Rocephin', 'Ceftriaxon 1g'],
-    indications: ['Viêm màng brain, nhiễm khuẩn huyết, viêm phổi nặng mắc phải cộng đồng'],
+    indications: ['Viêm màng não, nhiễm khuẩn huyết, viêm phổi nặng mắc phải cộng đồng'],
     mechanismOfAction: 'Ức chế vách vi khuẩn với thời gian bán thải dài (uống 1 lần/ngày tiêm).',
     standardDosage: '1g - 2g/ngày tiêm bắp hoặc truyền tĩnh mạch.',
     administration: 'Dùng đường tiêm truyền tại cơ sở y tế.',
@@ -1033,7 +1037,7 @@ export const WESTERN_DRUGS_DATABASE: WesternDrug[] = [
     groupName: 'Chống kết tập tiểu cầu (Dự phòng huyết khối)',
     activeIngredient: 'Aspirin (Acid Acetylsalicylic 81mg)',
     commonBrandNames: ['Aspirin 81mg', 'Aspirin pH8'],
-    indications: ['Dự phòng nhồi máu cơ tim, đột quỵ thiếu máu brain, bệnh mạch vành'],
+    indications: ['Dự phòng nhồi máu cơ tim, đột quỵ thiếu máu não, bệnh mạch vành'],
     mechanismOfAction: 'Ức chế không thuận nghịch COX-1 tiểu cầu.',
     standardDosage: '81mg - 100mg x 1 lần/ngày.',
     administration: 'Uống ngay sau bữa ăn sáng.',
@@ -1208,7 +1212,7 @@ export const WESTERN_DRUGS_DATABASE: WesternDrug[] = [
     standardDosage: '500mg x 3 - 4 viên/ngày.',
     administration: 'Uống vào bữa ăn.',
     contraindications: ['Quá mẫn Acetyl-DL-leucine'],
-    cautions: ['Nếu chóng mặt kéo dài > 5 ngày cần chụp MRI sọ脑.'],
+    cautions: ['Nếu chóng mặt kéo dài > 5 ngày cần chụp MRI sọ não.'],
     brandVariants: [
       {
         variantName: 'Tanganil 500mg Viên Nén (Pierre Fabre - Pháp)',
@@ -1227,7 +1231,7 @@ export const WESTERN_DRUGS_DATABASE: WesternDrug[] = [
       {
         diseaseName: 'Rối loạn tiền đình cấp nôn nao quay cuồng',
         combinedWith: ['Sibelium 5mg (Flunarizine)', 'Primperan 10mg'],
-        clinicalRationale: 'Tanganil dập tắt chóng mặt nhân tiền đình, Flunarizine chẹn kênh canxi mạch brain.'
+        clinicalRationale: 'Tanganil dập tắt chóng mặt nhân tiền đình, Flunarizine chẹn kênh canxi mạch não.'
       }
     ],
     referenceSources: ['Vidal Việt Nam', 'Phác đồ Chợ Rẫy']
@@ -1259,10 +1263,10 @@ export const WESTERN_DRUGS_DATABASE: WesternDrug[] = [
     id: 'ginkgo-biloba',
     category: 'G',
     categoryName: 'G. Bệnh Lý Thần Kinh, Tiền Đình & Giấc Ngủ',
-    groupName: 'Tuần hoàn brain & Cải thiện trí nhớ',
+    groupName: 'Tuần hoàn não & Cải thiện trí nhớ',
     activeIngredient: 'Cao chuẩn hóa lá Ginkgo biloba (EGb 761)',
     commonBrandNames: ['Tanakan', 'Tebonin', 'Ginkor Fort', 'Cerecaps'],
-    indications: ['Thiểu năng tuần hoàn brain, đau đầu, ù tai, suy giảm trí nhớ'],
+    indications: ['Thiểu năng tuần hoàn não, đau đầu, ù tai, suy giảm trí nhớ'],
     mechanismOfAction: 'Flavonoid & Terpenoid trung hòa gốc tự do, tăng tưới máu vi mạch não.',
     standardDosage: '40mg - 80mg x 2 - 3 lần/ngày hoặc 120mg x 1-2 lần/ngày.',
     administration: 'Uống trong hoặc sau bữa ăn.',
@@ -1331,3 +1335,11 @@ export const WESTERN_DRUGS_DATABASE: WesternDrug[] = [
     referenceSources: ['Goodman & Gilman’s', 'DiPiro Pharmacotherapy']
   }
 ];
+
+export const WESTERN_DRUGS_DATABASE: WesternDrug[] = [
+  ...CORE_WESTERN_DRUGS,
+  ...EXTRA_WESTERN_DRUGS,
+  ...EXTRA_ANTIBIOTICS_ANTI_INFLAMMATORIES,
+  ...EXTRA_INJECTABLES_AND_ANTI_INFLAMMATORIES,
+];
+

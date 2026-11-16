@@ -27,10 +27,10 @@ export const WesternPharmacologyModule: React.FC = () => {
   const [isAsking, setIsAsking] = useState(false);
   const [viewMode, setViewMode] = useState<'DICTIONARY' | 'CARDS'>('DICTIONARY');
 
-  const alphabetList = ['ALL', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'L', 'M', 'N', 'O', 'P', 'R', 'S', 'T', 'V', 'Z'];
+  const alphabetList = ['ALL', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Z'];
 
   const categories = [
-    { id: 'ALL', code: 'Tất Cả', label: 'Tất Cả 7 Nhóm', count: WESTERN_DRUGS_DATABASE.length },
+    { id: 'ALL', code: 'Tất Cả', label: 'Tất Cả 10 Nhóm', count: WESTERN_DRUGS_DATABASE.length },
     { id: 'A', code: 'Nhóm A', label: 'Đau, Sốt, Viêm & Khớp', count: WESTERN_DRUGS_DATABASE.filter(d => d.category === 'A').length },
     { id: 'B', code: 'Nhóm B', label: 'Dạ Dày, Tiêu Hóa & Gan', count: WESTERN_DRUGS_DATABASE.filter(d => d.category === 'B').length },
     { id: 'C', code: 'Nhóm C', label: 'Hô Hấp & Dị Ứng', count: WESTERN_DRUGS_DATABASE.filter(d => d.category === 'C').length },
@@ -38,11 +38,15 @@ export const WesternPharmacologyModule: React.FC = () => {
     { id: 'E', code: 'Nhóm E', label: 'Tim Mạch, Huyết Áp & Mỡ Máu', count: WESTERN_DRUGS_DATABASE.filter(d => d.category === 'E').length },
     { id: 'F', code: 'Nhóm F', label: 'Nội Tiết & Tiểu Đường', count: WESTERN_DRUGS_DATABASE.filter(d => d.category === 'F').length },
     { id: 'G', code: 'Nhóm G', label: 'Thần Kinh, Tiền Đình & Ngủ', count: WESTERN_DRUGS_DATABASE.filter(d => d.category === 'G').length },
+    { id: 'H', code: 'Nhóm H', label: 'Tiết Niệu, Thận & Sản Khoa', count: WESTERN_DRUGS_DATABASE.filter(d => d.category === 'H').length },
+    { id: 'I', code: 'Nhóm I', label: 'Da Liễu, Mắt - TMH & Vitamin', count: WESTERN_DRUGS_DATABASE.filter(d => d.category === 'I').length },
+    { id: 'J', code: 'Nhóm J', label: 'Tiêm Chích, Truyền & Cấp Cứu', count: WESTERN_DRUGS_DATABASE.filter(d => d.category === 'J').length },
   ];
 
   const popularBrandShortcuts = [
-    'Panadol', 'Nexium', 'Augmentin', 'Voltaren', 'Zinnat', 'Concor',
-    'Lipitor', 'Glucophage', 'Tanganil', 'Singulair', 'Mobic', 'No-Spa'
+    'Panadol', 'Alpha Choay', 'Arcoxia', 'Dynastat', 'Nexium', 'Enterogermina',
+    'Augmentin', 'Rodogyl', 'Adrenalin', 'Lovenox', 'Coversyl', 'Lipitor',
+    'Forxiga', 'Glucophage', 'Betaserc', 'Harnal', 'Neurobion', 'Tiêm'
   ];
 
   const filteredDrugs = useMemo(() => {
@@ -56,7 +60,9 @@ export const WesternPharmacologyModule: React.FC = () => {
         drug.groupName.toLowerCase().includes(query) ||
         drug.commonBrandNames.some(b => b.toLowerCase().includes(query)) ||
         drug.indications.some(ind => ind.toLowerCase().includes(query)) ||
-        drug.mechanismOfAction.toLowerCase().includes(query);
+        drug.mechanismOfAction.toLowerCase().includes(query) ||
+        drug.standardDosage.toLowerCase().includes(query) ||
+        drug.administration.toLowerCase().includes(query);
 
       const matchLetter =
         selectedLetter === 'ALL' ||
