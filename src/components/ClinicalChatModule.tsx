@@ -364,7 +364,7 @@ export const ClinicalChatModule: React.FC<ClinicalChatModuleProps> = ({
     setLoading(true);
 
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), hasImages ? 70000 : 45000);
+    const timeoutId = setTimeout(() => controller.abort(), hasImages ? 90000 : 45000);
 
     try {
       const preparedImages = hasImages
@@ -378,22 +378,37 @@ export const ClinicalChatModule: React.FC<ClinicalChatModuleProps> = ({
           content: m.content.slice(0, 1500),
         }));
 
-      const res = await fetch('/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        signal: controller.signal,
-        body: JSON.stringify({
-          messages: historyToSend,
-          query: question,
-          context: context || undefined,
-          images: hasImages
-            ? preparedImages.map((img) => ({
-                base64: img.dataUrl,
-                mimeType: img.mimeType,
-              }))
-            : undefined,
-        }),
+      const requestBody = JSON.stringify({
+        messages: historyToSend,
+        query: question,
+        context: context || undefined,
+        images: hasImages
+          ? preparedImages.map((img) => ({
+              base64: img.dataUrl,
+              mimeType: img.mimeType,
+            }))
+          : undefined,
       });
+
+      const postChat = () =>
+        fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          signal: controller.signal,
+          body: requestBody,
+        });
+
+      let res: Response;
+      try {
+        res = await postChat();
+      } catch (firstErr: any) {
+        // Retry once automatically if server container was waking up or mobile network blinked
+        if (firstErr?.name === 'AbortError' || controller.signal.aborted) {
+          throw firstErr;
+        }
+        await new Promise((r) => setTimeout(r, 1400));
+        res = await postChat();
+      }
 
       clearTimeout(timeoutId);
       const rawBodyText = await res.text();
@@ -460,16 +475,18 @@ export const ClinicalChatModule: React.FC<ClinicalChatModuleProps> = ({
         ]);
         return;
       }
-    } catch {
+    } catch (err: any) {
       clearTimeout(timeoutId);
       if (hasImages) {
+        const isAbort = err?.name === 'AbortError' || controller.signal.aborted;
         setMessages((prev) => [
           ...prev,
           {
             id: botMsgId,
             sender: 'bot',
-            content:
-              'Kết nối máy chủ bị gián đoạn hoặc quá thời gian khi phân tích ảnh. Vui lòng thử gửi lại 1 ảnh rõ nét sau giây lát.',
+            content: isAbort
+              ? 'Quá thời gian chờ phản hồi đọc ảnh từ máy chủ (90 giây). Vui lòng gửi lại 1 ảnh gọn hơn hoặc thử lại sau giây lát.'
+              : 'Mất kết nối tạm thời tới máy chủ (/api/chat) khi gửi ảnh (thường do máy chủ vừa khởi động lại sau khi nghỉ hoặc mạng vừa chuyển Wi-Fi/5G). Bạn hãy tải lại trang hoặc bấm gửi lại ảnh ngay bây giờ.',
             timestamp: nowTime,
           },
         ]);

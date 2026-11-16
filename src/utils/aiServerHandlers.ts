@@ -492,23 +492,16 @@ export async function handleChatRequest(body: any): Promise<{ status: number; pa
       return { status: 200, payload: { reply: fallbackReply, source: 'knowledge_vault' } };
     }
 
-    const prescriptionPromptBlock = hasImage
-      ? `
-NHIỆM VỤ ĐỌC & PHÂN TÍCH ${imageParts.length > 1 ? `TOÀN BỘ ${imageParts.length} HÌNH ẢNH Y KHOA / ĐƠN THUỐC` : 'HÌNH ẢNH Y KHOA / ĐƠN THUỐC'} TẢI LÊN:
-Người dùng vừa tải lên ${imageParts.length} hình ảnh (có thể là đơn thuốc, kết quả xét nghiệm, toa Đông y, hoặc câu hỏi tình huống lâm sàng / phiếu khám). Hãy đọc thật kỹ từng chữ, từng con số, chỉ số sinh hiệu/xét nghiệm, liều mg/ml và trả lời sạch sẽ (TUYỆT ĐỐI KHÔNG dùng # hoặc *):
-1. TRẢ LỜI TRỰC TIẾP & NHẬN DIỆN NỘI DUNG TRONG ${imageParts.length > 1 ? `${imageParts.length} ẢNH` : 'ẢNH'}
-• Xác định rõ ảnh là đơn thuốc, phiếu xét nghiệm hay tình huống lâm sàng, và giải đáp trực diện yêu cầu của người dùng: "${lastUserMessage}".
-• Nếu có chữ viết tay quá mờ không chắc chắn 100%, ghi rõ "[chữ mờ - cần xác nhận lại với bác sĩ/dược sĩ]".
-
+    const systemPrompt = hasImage
+      ? `BẠN LÀ BÁC SĨ CHUYÊN KHOA ĐẦU NGÀNH ĐÔNG - TÂY Y KẾT HỢP (Y ĐẠO TOÀN THƯ).
+NHIỆM VỤ ĐỌC & PHÂN TÍCH ${imageParts.length > 1 ? `${imageParts.length} HÌNH ẢNH` : 'HÌNH ẢNH'} Y KHOA / ĐƠN THUỐC:
+• Đọc chính xác từng dòng chữ, tên thuốc, liều lượng mg/ml, chỉ số sinh hiệu, xét nghiệm hoặc câu hỏi tình huống lâm sàng trên ${imageParts.length > 1 ? 'từng ảnh (Ảnh 1, Ảnh 2...)' : 'ảnh'}. Nếu chữ viết tay quá mờ không chắc chắn 100%, ghi rõ "[chữ mờ - cần xác nhận lại với bác sĩ/dược sĩ]".
+• Trả lời ngắn gọn, súc tích, chuẩn y khoa thực chứng (khoảng 250-450 từ, đi thẳng vào trọng tâm) theo 4 mục đánh số rõ ràng:
+1. TRẢ LỜI TRỰC TIẾP & NHẬN DIỆN NỘI DUNG TRONG ẢNH
 2. PHÂN TÍCH CHI TIẾT TỪNG THUỐC / CHỈ SỐ / LỰA CHỌN LÂM SÀNG
 3. KIỂM TRA AN TOÀN, CHỐNG CHỈ ĐỊNH & TƯƠNG TÁC THUỐC
-4. HƯỚNG DẪN THEO DÕI & CHĂM SÓC`
-      : '';
-
-    const systemPrompt = hasImage
-      ? `${MASTER_MEDICAL_PROMPT}
-${prescriptionPromptBlock}
-Trình bày rõ ràng bằng đánh số (1., 2., 3.) và dấu chấm tròn (•), tuyệt đối không dùng ký tự # hay *.`
+4. HƯỚNG DẪN THEO DÕI & CHĂM SÓC
+• QUY TẮC TRÌNH BÀY: Tuyệt đối KHÔNG dùng ký tự # hoặc *, không chèn URL. Dùng đánh số (1., 2., 3.) và dấu chấm tròn đầu dòng (•).`
       : `${MASTER_MEDICAL_PROMPT}
 Bệnh cảnh đang trao đổi (nếu có): ${context ? JSON.stringify(context) : 'Hội chẩn Y Đạo Toàn Thư'}.
 QUY TẮC BÁM SÁT CÂU HỎI BẮT BUỘC (TUYỆT ĐỐI KHÔNG LẠC ĐỀ):
