@@ -23,6 +23,7 @@ import {
 } from 'lucide-react';
 import { HerbDrugInteractionAlert } from './HerbDrugInteractionAlert';
 import { generateDynamicSymptomResponse } from '../utils/scientificMedicalEngine';
+import { compressMedicalImage } from '../utils/imageCompression';
 
 interface SymptomCheckerModuleProps {
   onOpenChatWithQuery?: (query: string) => void;
@@ -228,14 +229,23 @@ export const SymptomCheckerModule: React.FC<SymptomCheckerModuleProps> = ({ onOp
       ? symptomPresets
       : symptomPresets.filter((p) => p.category === activePresetCategory);
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImageBase64(reader.result as string);
-      };
-      reader.readAsDataURL(file);
+      try {
+        const compressed = await compressMedicalImage(file, {
+          maxDim: 1280,
+          quality: 0.82,
+          maxTargetChars: 1_200_000,
+        });
+        setImageBase64(compressed.dataUrl);
+      } catch {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setImageBase64(reader.result as string);
+        };
+        reader.readAsDataURL(file);
+      }
     }
   };
 

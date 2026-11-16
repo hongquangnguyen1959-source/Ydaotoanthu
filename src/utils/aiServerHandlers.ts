@@ -33,7 +33,47 @@ const CANDIDATE_MODELS = [
   'gemini-4-hydrogen',
   'gemini-3.1-flash-lite',
   'gemini-2.5-flash',
+  'gemini-2.5-flash-lite',
 ];
+
+// Warm-instance cache of model IDs not available on the current API key/endpoint (e.g. 404 on public keys)
+const unsupportedModelsCache = new Set<string>();
+
+function normalizeImageMimeType(mime?: string): string {
+  const clean = (mime || '').toLowerCase().trim();
+  if (!clean || clean === 'image/jpg') return 'image/jpeg';
+  if (clean.startsWith('image/')) return clean;
+  return 'image/jpeg';
+}
+
+function toInlineImagePart(rawBase64: string, explicitMime?: string) {
+  const trimmed = (rawBase64 || '').trim();
+  if (!trimmed || trimmed.length < 32) return null;
+  const detectedMimeMatch = trimmed.match(/^data:(image\/[\w.+-]+);base64,/i);
+  const mimeType = normalizeImageMimeType(
+    explicitMime || (detectedMimeMatch ? detectedMimeMatch[1] : 'image/jpeg')
+  );
+  const data = trimmed.replace(/^data:image\/[\w.+-]+;base64,/i, '').trim();
+  if (!data) return null;
+  return {
+    inlineData: {
+      mimeType,
+      data,
+    },
+  };
+}
+
+function isModelUnavailableError(err: any): boolean {
+  const msg = String(err?.message || err || '').toLowerCase();
+  const status = err?.status || err?.code;
+  return (
+    status === 404 ||
+    msg.includes('404') ||
+    msg.includes('not_found') ||
+    msg.includes('not found') ||
+    msg.includes('is not supported for generatecontent')
+  );
+}
 
 function extractCleanJson(raw: string): string {
   const trimmed = (raw || '').trim();
@@ -51,22 +91,26 @@ export async function callGeminiWithModelFallback(
   ai: GoogleGenAI,
   params: any,
   timeoutMs = 45000,
-  thinkingLevel: ThinkingLevel = ThinkingLevel.HIGH
+  thinkingLevel: ThinkingLevel = ThinkingLevel.HIGH,
+  fastMode = false
 ) {
   let lastError: any = null;
-  const totalBudgetMs = Math.min(Math.max(timeoutMs, 25000), 52000);
+  const totalBudgetMs = Math.min(Math.max(timeoutMs, 20000), 52000);
   const startedAt = Date.now();
 
-  for (let i = 0; i < CANDIDATE_MODELS.length; i++) {
-    const model = CANDIDATE_MODELS[i];
+  const orderedModels = CANDIDATE_MODELS.filter((m) => !unsupportedModelsCache.has(m));
+  const modelsToTry = orderedModels.length > 0 ? orderedModels : CANDIDATE_MODELS;
+
+  for (let i = 0; i < modelsToTry.length; i++) {
+    const model = modelsToTry[i];
     const elapsed = Date.now() - startedAt;
     const remainingBudget = totalBudgetMs - elapsed;
-    if (remainingBudget < 4000) break;
+    if (remainingBudget < 3500) break;
 
     const perAttemptTimeout =
-      i === CANDIDATE_MODELS.length - 1
+      i === modelsToTry.length - 1
         ? remainingBudget
-        : Math.min(20000, Math.floor(remainingBudget * 0.65));
+        : Math.min(20000, Math.floor(remainingBudget * 0.6));
 
     try {
       const timeoutPromise = new Promise((_, reject) =>
@@ -76,6 +120,9 @@ export async function callGeminiWithModelFallback(
       const callConfig = { ...(params.config || {}) };
       if (model === 'gemini-4-hydrogen' && !callConfig.thinkingConfig) {
         callConfig.thinkingConfig = { thinkingLevel };
+      } else if (model.startsWith('gemini-2.5-') && !callConfig.thinkingConfig) {
+        // Minimize default thinking delay on Gemini 2.5 so Vercel serverless never times out on image OCR
+        callConfig.thinkingConfig = { thinkingBudget: fastMode ? 0 : 512 };
       }
 
       const callParams = { ...params, model, config: callConfig };
@@ -90,6 +137,10 @@ export async function callGeminiWithModelFallback(
     } catch (err: any) {
       console.info(`Gemini model '${model}' fallback:`, err?.message || err);
       lastError = err;
+
+      if (isModelUnavailableError(err) && i < modelsToTry.length - 1) {
+        unsupportedModelsCache.add(model);
+      }
 
       if (err?.message?.includes('Developer instruction') || err?.message?.includes('systemInstruction')) {
         try {
@@ -107,6 +158,8 @@ export async function callGeminiWithModelFallback(
           const callConfigRetry = { ...params.config, systemInstruction: undefined };
           if (model === 'gemini-4-hydrogen' && !callConfigRetry.thinkingConfig) {
             callConfigRetry.thinkingConfig = { thinkingLevel };
+          } else if (model.startsWith('gemini-2.5-') && !callConfigRetry.thinkingConfig) {
+            callConfigRetry.thinkingConfig = { thinkingBudget: fastMode ? 0 : 512 };
           }
           const callParamsNoSys = {
             ...params,
@@ -115,7 +168,7 @@ export async function callGeminiWithModelFallback(
             config: callConfigRetry,
           };
           const timeoutPromiseRetry = new Promise((_, reject) =>
-            setTimeout(() => reject(new Error(`Gemini API retry timeout (${model})`)), timeoutMs)
+            setTimeout(() => reject(new Error(`Gemini API retry timeout (${model})`)), perAttemptTimeout)
           );
           const resNoSys: any = await Promise.race([
             ai.models.generateContent(callParamsNoSys),
@@ -270,12 +323,8 @@ YÊU CẦU ĐẦU RA BẰNG JSON HỢP LỆ THEO ĐÚNG CẤU TRÚC CHẨN ĐOÁ
 
     const parts: any[] = [{ text: promptText }];
     if (tongueImageBase64) {
-      parts.unshift({
-        inlineData: {
-          mimeType: 'image/jpeg',
-          data: tongueImageBase64.replace(/^data:image\/\w+;base64,/, ''),
-        },
-      });
+      const part = toInlineImagePart(tongueImageBase64);
+      if (part) parts.unshift(part);
     }
 
     const response: any = await callGeminiWithModelFallback(
@@ -349,12 +398,8 @@ YÊU CẦU CHẨN TRỊ:
 
     const parts: any[] = [{ text: promptText }];
     if (imageBase64) {
-      parts.unshift({
-        inlineData: {
-          mimeType: 'image/jpeg',
-          data: imageBase64.replace(/^data:image\/\w+;base64,/, ''),
-        },
-      });
+      const part = toInlineImagePart(imageBase64);
+      if (part) parts.unshift(part);
     }
 
     const response: any = await callGeminiWithModelFallback(
@@ -411,21 +456,21 @@ export async function handleChatRequest(body: any): Promise<{ status: number; pa
     rawImageInputs.push({ base64: imageBase64, mimeType: imageMimeType });
   }
 
-  const imageParts = rawImageInputs.map((img) => {
-    const detectedMimeMatch = img.base64.match(/^data:(image\/[\w.+-]+);base64,/);
-    const mimeType =
-      img.mimeType || (detectedMimeMatch ? detectedMimeMatch[1] : 'image/jpeg');
-    const data = img.base64.replace(/^data:image\/[\w.+-]+;base64,/, '').trim();
-    return {
-      inlineData: {
-        mimeType,
-        data,
-      },
-    };
-  });
+  const imageParts = rawImageInputs
+    .map((img) => toInlineImagePart(img.base64, img.mimeType))
+    .filter((p): p is NonNullable<typeof p> => Boolean(p));
 
   const hasImage = imageParts.length > 0;
-  const ragContext = buildScientificRagContext(contextualRetrievalQuery);
+  const isGenericImageQuery =
+    hasImage &&
+    (!lastUserMessage ||
+      lastUserMessage.startsWith('Hãy đọc và giải thích chi tiết đơn thuốc') ||
+      lastUserMessage.startsWith('Đọc và phân tích') ||
+      lastUserMessage.startsWith('Đọc & giải thích từng thuốc'));
+
+  const ragContext = isGenericImageQuery
+    ? ''
+    : buildScientificRagContext(contextualRetrievalQuery);
 
   try {
     const ai = getGeminiClient();
@@ -435,7 +480,7 @@ export async function handleChatRequest(body: any): Promise<{ status: number; pa
           status: 200,
           payload: {
             reply:
-              '1. THÔNG BÁO ĐỌC HÌNH ẢNH ĐƠN THUỐC\n• Để Bác sĩ AI đọc và phân tích trực tiếp các hình ảnh đơn thuốc bạn vừa tải lên, hệ thống cần kết nối mô hình thị giác Gemini API trên máy chủ (kiểm tra biến môi trường GEMINI_API_KEY).\n• Trong khi chưa có kết nối AI trực tuyến, bạn có thể gõ tên các thuốc ghi trên đơn vào khung chat để tra cứu công dụng, liều dùng và tương tác thuốc từ kho 82+ Y Điển.',
+              '1. THÔNG BÁO ĐỌC HÌNH ẢNH ĐƠN THUỐC & TÀI LIỆU Y KHOA\n• Để Bác sĩ AI đọc và phân tích trực tiếp hình ảnh bạn vừa tải lên, máy chủ triển khai cần được cấu hình biến môi trường GEMINI_API_KEY (trong Vercel Project Settings -> Environment Variables rồi Redeploy).\n• Trong khi chưa cấu hình AI trực tuyến, bạn có thể nhập tên thuốc hoặc triệu chứng thành văn bản để tra cứu từ kho 82+ Y Điển.',
             source: 'offline_notice',
           },
         };
@@ -449,20 +494,23 @@ export async function handleChatRequest(body: any): Promise<{ status: number; pa
 
     const prescriptionPromptBlock = hasImage
       ? `
-NHIỆM VỤ ĐỌC & PHÂN TÍCH ${imageParts.length > 1 ? `TOÀN BỘ ${imageParts.length} HÌNH ẢNH ĐƠN THUỐC / PHIẾU KHÁM` : 'HÌNH ẢNH ĐƠN THUỐC / PHIẾU KHÁM'} TẢI LÊN:
-Người dùng vừa tải lên ${imageParts.length} hình ảnh đơn thuốc hoặc tài liệu y khoa. Hãy quan sát thật kỹ từng dòng chữ trên ${imageParts.length > 1 ? 'TẤT CẢ các ảnh theo thứ tự (Ảnh 1, Ảnh 2...)' : 'ảnh'} (kể cả chữ viết tay, chữ in, liều lượng mg/ml, số lượng viên, ký hiệu sáng/trưa/chiều/tối, kết quả xét nghiệm, vị thuốc Đông y & gram) và trả lời theo đúng cấu trúc sạch sẽ sau (TUYỆT ĐỐI KHÔNG dùng # hoặc *):
-1. TRẢ LỜI TRỰC TIẾP & TÓM TẮT ĐƠN THUỐC TRONG ${imageParts.length > 1 ? `${imageParts.length} ẢNH` : 'ẢNH'}
-• Nêu rõ đây là đơn thuốc điều trị nhóm bệnh gì và trả lời trực tiếp câu hỏi kèm theo của người dùng: "${lastUserMessage}".
-• Nếu có chữ viết tay quá mờ không chắc chắn 100%, PHẢI ghi rõ "[chữ mờ - cần xác nhận lại với bác sĩ/dược sĩ kê đơn]".
+NHIỆM VỤ ĐỌC & PHÂN TÍCH ${imageParts.length > 1 ? `TOÀN BỘ ${imageParts.length} HÌNH ẢNH Y KHOA / ĐƠN THUỐC` : 'HÌNH ẢNH Y KHOA / ĐƠN THUỐC'} TẢI LÊN:
+Người dùng vừa tải lên ${imageParts.length} hình ảnh (có thể là đơn thuốc, kết quả xét nghiệm, toa Đông y, hoặc câu hỏi tình huống lâm sàng / phiếu khám). Hãy đọc thật kỹ từng chữ, từng con số, chỉ số sinh hiệu/xét nghiệm, liều mg/ml và trả lời sạch sẽ (TUYỆT ĐỐI KHÔNG dùng # hoặc *):
+1. TRẢ LỜI TRỰC TIẾP & NHẬN DIỆN NỘI DUNG TRONG ${imageParts.length > 1 ? `${imageParts.length} ẢNH` : 'ẢNH'}
+• Xác định rõ ảnh là đơn thuốc, phiếu xét nghiệm hay tình huống lâm sàng, và giải đáp trực diện yêu cầu của người dùng: "${lastUserMessage}".
+• Nếu có chữ viết tay quá mờ không chắc chắn 100%, ghi rõ "[chữ mờ - cần xác nhận lại với bác sĩ/dược sĩ]".
 
-2. CHI TIẾT TỪNG THUỐC / VỊ THUỐC TRÊN ĐƠN
-3. KIỂM TRA AN TOÀN, TRÙNG THUỐC, TƯƠNG TÁC THUỐC & TÁC DỤNG PHỤ
-4. HƯỚNG DẪN CHĂM SÓC, DINH DƯỠNG & PHỐI HỢP ĐÔNG Y AN TOÀN`
+2. PHÂN TÍCH CHI TIẾT TỪNG THUỐC / CHỈ SỐ / LỰA CHỌN LÂM SÀNG
+3. KIỂM TRA AN TOÀN, CHỐNG CHỈ ĐỊNH & TƯƠNG TÁC THUỐC
+4. HƯỚNG DẪN THEO DÕI & CHĂM SÓC`
       : '';
 
-    const systemPrompt = `${MASTER_MEDICAL_PROMPT}
-Bệnh cảnh đang trao đổi (nếu có): ${context ? JSON.stringify(context) : 'Hội chẩn Y Đạo Toàn Thư'}.
+    const systemPrompt = hasImage
+      ? `${MASTER_MEDICAL_PROMPT}
 ${prescriptionPromptBlock}
+Trình bày rõ ràng bằng đánh số (1., 2., 3.) và dấu chấm tròn (•), tuyệt đối không dùng ký tự # hay *.`
+      : `${MASTER_MEDICAL_PROMPT}
+Bệnh cảnh đang trao đổi (nếu có): ${context ? JSON.stringify(context) : 'Hội chẩn Y Đạo Toàn Thư'}.
 QUY TẮC BÁM SÁT CÂU HỎI BẮT BUỘC (TUYỆT ĐỐI KHÔNG LẠC ĐỀ):
 1. Đọc kỹ từng từ trong câu hỏi hiện tại của người dùng: "${lastUserMessage}".
 2. Nếu người dùng chỉ hỏi một vấn đề cụ thể (ví dụ: rụng tóc sau sinh dùng bài thuốc nào, hỏi về 1 vị thuốc, 1 hoạt chất Tây y, 1 huyệt đạo, tương tác thuốc, liều dùng...), HÃY TRẢ LỜI THẲNG VÀO ĐÚNG VẤN ĐỀ ĐÓ. Tuyệt đối KHÔNG tự ý áp đặt bệnh án của một bệnh khác không được hỏi.
@@ -470,18 +518,20 @@ QUY TẮC BÁM SÁT CÂU HỎI BẮT BUỘC (TUYỆT ĐỐI KHÔNG LẠC ĐỀ):
 4. Trình bày rõ ràng bằng đánh số (1., 2., 3.) và dấu chấm tròn (•), tuyệt đối không dùng ký tự # hay *.`;
 
     const recentHistory = (messages || [])
-      .slice(-6)
+      .slice(-4)
       .map(
         (m: any) =>
-          `${m.role === 'user' ? 'Người hỏi' : 'Bác sĩ AI'}: ${m.content}`
+          `${m.role === 'user' ? 'Người hỏi' : 'Bác sĩ AI'}: ${String(m.content || '').slice(0, 1200)}`
       )
       .join('\n\n');
 
-    const contentsText = `LỊCH SỬ HỘI THOẠI GẦN ĐÂY:\n${recentHistory}\n\n[TỪ ĐIỂN DỮ LIỆU THAM KHẢO TÙY CHỌN — CHỈ DÙNG MỤC KHỚP TRỰC TIẾP VỚI CÂU HỎI, BỎ QUA MỤC KHÔNG LIÊN QUAN]:\n${ragContext}\n\nCÂU HỎI HIỆN TẠI CẦN TRẢ LỜI CHÍNH XÁC TỪNG CÂU CHỮ: "${lastUserMessage}"\n\n${
-      hasImage
-        ? `Hãy đọc kỹ toàn bộ ${imageParts.length} hình ảnh đơn thuốc/tài liệu y khoa đính kèm, liệt kê chính xác từng thuốc/liều dùng đọc được ở từng ảnh, kiểm tra trùng hoạt chất/tương tác và trả lời sát câu hỏi của người dùng (trình bày sạch sẽ không #, không *).`
-        : 'Hãy trả lời trực diện, đúng 100% trọng tâm câu hỏi trên, không trả lời lan man sang bệnh khác (trình bày sạch sẽ không #, không *).'
-    }`;
+    const contentsText = hasImage
+      ? `YÊU CẦU CỦA NGƯỜI DÙNG: "${lastUserMessage}"${
+          recentHistory && !isGenericImageQuery ? `\n\nNGỮ CẢNH GẦN ĐÂY:\n${recentHistory}` : ''
+        }${
+          ragContext ? `\n\nTÀI LIỆU THAM KHẢO:\n${ragContext}` : ''
+        }\n\nHãy đọc kỹ toàn bộ ${imageParts.length} hình ảnh đính kèm, liệt kê đầy đủ dữ liệu đọc được và trả lời trực diện, chuẩn xác (trình bày sạch sẽ không #, không *).`
+      : `LỊCH SỬ HỘI THOẠI GẦN ĐÂY:\n${recentHistory}\n\n[TỪ ĐIỂN DỮ LIỆU THAM KHẢO TÙY CHỌN — CHỈ DÙNG MỤC KHỚP TRỰC TIẾP VỚI CÂU HỎI, BỎ QUA MỤC KHÔNG LIÊN QUAN]:\n${ragContext}\n\nCÂU HỎI HIỆN TẠI CẦN TRẢ LỜI CHÍNH XÁC TỪNG CÂU CHỮ: "${lastUserMessage}"\n\nHãy trả lời trực diện, đúng 100% trọng tâm câu hỏi trên, không trả lời lan man sang bệnh khác (trình bày sạch sẽ không #, không *).`;
 
     const requestContents = hasImage
       ? {
@@ -497,8 +547,9 @@ QUY TẮC BÁM SÁT CÂU HỎI BẮT BUỘC (TUYỆT ĐỐI KHÔNG LẠC ĐỀ):
           systemInstruction: systemPrompt,
         },
       },
-      hasImage ? 65000 : 38000,
-      ThinkingLevel.LOW
+      hasImage ? 50000 : 38000,
+      ThinkingLevel.LOW,
+      hasImage
     );
 
     const replyText = cleanMedicalText(response?.text || '');
@@ -510,7 +561,7 @@ QUY TẮC BÁM SÁT CÂU HỎI BẮT BUỘC (TUYỆT ĐỐI KHÔNG LẠC ĐỀ):
       return {
         status: 502,
         payload: {
-          error: 'Không nhận được nội dung phân tích từ hình ảnh đơn thuốc. Vui lòng chụp rõ nét hơn và thử lại.',
+          error: 'Không nhận được nội dung phân tích từ hình ảnh. Vui lòng chụp rõ nét hơn và thử lại.',
         },
       };
     }
@@ -523,11 +574,23 @@ QUY TẮC BÁM SÁT CÂU HỎI BẮT BUỘC (TUYỆT ĐỐI KHÔNG LẠC ĐỀ):
   } catch (error: any) {
     console.warn('Chat API switched to scientific knowledge engine:', error?.message || error);
     if (hasImage) {
+      const errMsg = String(error?.message || error || '').toLowerCase();
+      let friendlyError =
+        'Không thể phân tích hình ảnh lúc này. Vui lòng kiểm tra kết nối hoặc thử tải lại ảnh rõ nét hơn.';
+      if (errMsg.includes('api key') || errMsg.includes('403') || errMsg.includes('permission_denied') || errMsg.includes('400')) {
+        friendlyError =
+          'GEMINI_API_KEY trên máy chủ chưa hợp lệ hoặc chưa được kích hoạt quyền Gemini Vision. Vui lòng kiểm tra biến môi trường trên Vercel rồi Redeploy.';
+      } else if (errMsg.includes('429') || errMsg.includes('resource_exhausted') || errMsg.includes('quota')) {
+        friendlyError =
+          'GEMINI_API_KEY hiện đang vượt giới hạn lượt gọi (Quota 429). Vui lòng thử lại sau vài chục giây hoặc nâng cấp gói API Key.';
+      } else if (errMsg.includes('timeout')) {
+        friendlyError =
+          'Quá trình đọc ảnh bị quá thời gian phản hồi từ AI. Vui lòng gửi 1 ảnh rõ nét mỗi lượt hoặc thử lại ngay.';
+      }
       return {
         status: 500,
         payload: {
-          error:
-            'Không thể phân tích hình ảnh đơn thuốc lúc này. Vui lòng kiểm tra kết nối hoặc thử tải lại ảnh rõ nét hơn.',
+          error: friendlyError,
         },
       };
     }

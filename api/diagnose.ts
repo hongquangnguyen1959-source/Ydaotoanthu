@@ -4,16 +4,42 @@ export const config = {
   maxDuration: 60,
 };
 
-function parseBody(req: any) {
-  if (!req?.body) return {};
-  if (typeof req.body === 'string') {
+async function readJsonBody(req: any): Promise<any> {
+  if (req?.body !== undefined && req.body !== null) {
+    if (Buffer.isBuffer(req.body)) {
+      try {
+        return JSON.parse(req.body.toString('utf8'));
+      } catch {
+        return {};
+      }
+    }
+    if (typeof req.body === 'string') {
+      try {
+        return JSON.parse(req.body);
+      } catch {
+        return {};
+      }
+    }
+    if (typeof req.body === 'object') {
+      return req.body;
+    }
+  }
+
+  if (req && typeof req[Symbol.asyncIterator] === 'function') {
+    const chunks: Buffer[] = [];
+    for await (const chunk of req) {
+      chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
+    }
+    const raw = Buffer.concat(chunks).toString('utf8').trim();
+    if (!raw) return {};
     try {
-      return JSON.parse(req.body);
+      return JSON.parse(raw);
     } catch {
       return {};
     }
   }
-  return req.body;
+
+  return {};
 }
 
 export default async function handler(req: any, res: any) {
@@ -28,7 +54,8 @@ export default async function handler(req: any, res: any) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
   try {
-    const { status, payload } = await handleDiagnoseRequest(parseBody(req));
+    const body = await readJsonBody(req);
+    const { status, payload } = await handleDiagnoseRequest(body);
     return res.status(status).json(payload);
   } catch (err: any) {
     return res.status(500).json({ error: err?.message || 'Lỗi chẩn đoán AI.' });

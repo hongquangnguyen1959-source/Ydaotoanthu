@@ -20,6 +20,10 @@ import {
   cleanMedicalText,
   getSuggestedFollowUpQuestions
 } from '../utils/scientificMedicalEngine';
+import {
+  compressMedicalImage,
+  fitImagesWithinPayloadBudget
+} from '../utils/imageCompression';
 import { DiagnosisResult } from '../types';
 
 const MAX_UPLOAD_IMAGES = 6;
@@ -41,58 +45,10 @@ interface PendingImage {
 }
 
 async function compressPrescriptionImage(file: File): Promise<PendingImage> {
-  const uid = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
-  const readAsDataUrl = (f: File): Promise<string> =>
-    new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(String(reader.result || ''));
-      reader.onerror = () => reject(new Error('Không thể đọc tệp ảnh.'));
-      reader.readAsDataURL(f);
-    });
-
-  const rawDataUrl = await readAsDataUrl(file);
-  return new Promise((resolve) => {
-    const img = new Image();
-    img.onload = () => {
-      const maxDim = 1600;
-      let { width, height } = img;
-      if (width > maxDim || height > maxDim) {
-        const ratio = Math.min(maxDim / width, maxDim / height);
-        width = Math.round(width * ratio);
-        height = Math.round(height * ratio);
-      }
-      const canvas = document.createElement('canvas');
-      canvas.width = width;
-      canvas.height = height;
-      const ctx = canvas.getContext('2d');
-      if (!ctx) {
-        resolve({
-          id: uid,
-          dataUrl: rawDataUrl,
-          mimeType: file.type || 'image/jpeg',
-          fileName: file.name,
-        });
-        return;
-      }
-      ctx.fillStyle = '#ffffff';
-      ctx.fillRect(0, 0, width, height);
-      ctx.drawImage(img, 0, 0, width, height);
-      const compressed = canvas.toDataURL('image/jpeg', 0.88);
-      resolve({
-        id: uid,
-        dataUrl: compressed,
-        mimeType: 'image/jpeg',
-        fileName: file.name,
-      });
-    };
-    img.onerror = () =>
-      resolve({
-        id: uid,
-        dataUrl: rawDataUrl,
-        mimeType: file.type || 'image/jpeg',
-        fileName: file.name,
-      });
-    img.src = rawDataUrl;
+  return compressMedicalImage(file, {
+    maxDim: 1280,
+    quality: 0.82,
+    maxTargetChars: 850_000,
   });
 }
 
@@ -411,10 +367,16 @@ export const ClinicalChatModule: React.FC<ClinicalChatModuleProps> = ({
     const timeoutId = setTimeout(() => controller.abort(), hasImages ? 70000 : 45000);
 
     try {
-      const historyToSend = [...messages.filter((m) => m.id !== 'welcome'), userMsg].map((m) => ({
-        role: m.sender === 'user' ? 'user' : 'model',
-        content: m.content,
-      }));
+      const preparedImages = hasImages
+        ? await fitImagesWithinPayloadBudget(imagesToSend, 2_700_000)
+        : [];
+
+      const historyToSend = [...messages.filter((m) => m.id !== 'welcome'), userMsg]
+        .slice(-4)
+        .map((m) => ({
+          role: m.sender === 'user' ? 'user' : 'model',
+          content: m.content.slice(0, 1500),
+        }));
 
       const res = await fetch('/api/chat', {
         method: 'POST',
@@ -425,7 +387,7 @@ export const ClinicalChatModule: React.FC<ClinicalChatModuleProps> = ({
           query: question,
           context: context || undefined,
           images: hasImages
-            ? imagesToSend.map((img) => ({
+            ? preparedImages.map((img) => ({
                 base64: img.dataUrl,
                 mimeType: img.mimeType,
               }))
@@ -434,7 +396,14 @@ export const ClinicalChatModule: React.FC<ClinicalChatModuleProps> = ({
       });
 
       clearTimeout(timeoutId);
-      const data = await res.json().catch(() => ({}));
+      const rawBodyText = await res.text();
+      let data: any = {};
+      try {
+        data = rawBodyText ? JSON.parse(rawBodyText) : {};
+      } catch {
+        data = {};
+      }
+
       if (res.ok) {
         const cleanedServerReply = cleanMedicalText(data?.reply || '');
         if (cleanedServerReply.length > 30) {
@@ -450,15 +419,42 @@ export const ClinicalChatModule: React.FC<ClinicalChatModuleProps> = ({
           ]);
           return;
         }
+        if (hasImages) {
+          setMessages((prev) => [
+            ...prev,
+            {
+              id: botMsgId,
+              sender: 'bot',
+              content:
+                data?.error ||
+                'Máy chủ chưa trả về nội dung đọc ảnh. Vui lòng thử gửi lại ảnh rõ nét hơn.',
+              timestamp: nowTime,
+            },
+          ]);
+          return;
+        }
       } else if (hasImages) {
+        let diagnosticMessage = data?.error;
+        if (!diagnosticMessage) {
+          if (res.status === 413) {
+            diagnosticMessage =
+              'Dung lượng ảnh gửi lên vượt giới hạn 4.5MB của máy chủ Vercel. Vui lòng gửi 1-2 ảnh mỗi lượt hoặc chụp ảnh gọn hơn.';
+          } else if (res.status === 504) {
+            diagnosticMessage =
+              'Máy chủ Vercel xử lý đọc ảnh bị quá thời gian (Timeout 504). Vui lòng gửi 1 ảnh mỗi lượt để AI đọc nhanh hơn.';
+          } else if (res.status === 404) {
+            diagnosticMessage =
+              'Không tìm thấy API /api/chat trên máy chủ triển khai hiện tại (404). Vui lòng kiểm tra cấu hình deploy Vercel.';
+          } else {
+            diagnosticMessage = `Không thể đọc hình ảnh đơn thuốc lúc này (HTTP ${res.status}). Vui lòng kiểm tra GEMINI_API_KEY trên Vercel hoặc chụp rõ nét hơn và gửi lại.`;
+          }
+        }
         setMessages((prev) => [
           ...prev,
           {
             id: botMsgId,
             sender: 'bot',
-            content:
-              data?.error ||
-              'Không thể đọc hình ảnh đơn thuốc lúc này. Vui lòng chụp lại rõ nét hơn và gửi lại.',
+            content: diagnosticMessage,
             timestamp: nowTime,
           },
         ]);
@@ -473,7 +469,7 @@ export const ClinicalChatModule: React.FC<ClinicalChatModuleProps> = ({
             id: botMsgId,
             sender: 'bot',
             content:
-              'Kết nối máy chủ bị gián đoạn khi phân tích ảnh đơn thuốc. Vui lòng thử gửi lại ảnh sau giây lát.',
+              'Kết nối máy chủ bị gián đoạn hoặc quá thời gian khi phân tích ảnh. Vui lòng thử gửi lại 1 ảnh rõ nét sau giây lát.',
             timestamp: nowTime,
           },
         ]);
