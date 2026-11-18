@@ -9,7 +9,7 @@ import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js
  */
 function smoothAndAnalyzeBoneGeometry(
   geo: THREE.BufferGeometry,
-  iterations = 2,
+  iterations = 1,
   computeCurvature = true
 ): Float32Array {
   const posAttr = geo.attributes.position;
@@ -17,15 +17,15 @@ function smoothAndAnalyzeBoneGeometry(
   const vCount = posAttr.count;
 
   const precision = 20000; // 0.05mm weld tolerance
-  const map = new Map<string, number>();
+  const map = new Map<number, number>();
   const repOf = new Int32Array(vCount);
   const reps: number[] = [];
 
   for (let i = 0; i < vCount; i++) {
-    const x = Math.round(posAttr.getX(i) * precision);
-    const y = Math.round(posAttr.getY(i) * precision);
-    const z = Math.round(posAttr.getZ(i) * precision);
-    const key = `${x},${y},${z}`;
+    const ix = Math.round(posAttr.getX(i) * precision) + 65536;
+    const iy = Math.round(posAttr.getY(i) * precision) + 65536;
+    const iz = Math.round(posAttr.getZ(i) * precision) + 65536;
+    const key = (ix * 131072 + iy) * 131072 + iz;
     let r = map.get(key);
     if (r === undefined) {
       r = reps.length;
@@ -44,9 +44,17 @@ function smoothAndAnalyzeBoneGeometry(
     uPos[r * 3 + 2] = posAttr.getZ(idx);
   }
 
-  const adj: Set<number>[] = Array.from({ length: uCount }, () => new Set<number>());
+  const adj: number[][] = Array.from({ length: uCount }, () => []);
   const indexAttr = geo.index;
   const triCount = indexAttr ? indexAttr.count / 3 : Math.floor(vCount / 3);
+  const addEdge = (a: number, b: number) => {
+    const listA = adj[a];
+    for (let k = 0; k < listA.length; k++) {
+      if (listA[k] === b) return;
+    }
+    listA.push(b);
+    adj[b].push(a);
+  };
 
   for (let t = 0; t < triCount; t++) {
     const i0 = indexAttr ? indexAttr.getX(t * 3) : t * 3;
@@ -55,63 +63,53 @@ function smoothAndAnalyzeBoneGeometry(
     const r0 = repOf[i0];
     const r1 = repOf[i1];
     const r2 = repOf[i2];
-    if (r0 !== r1) {
-      adj[r0].add(r1);
-      adj[r1].add(r0);
-    }
-    if (r1 !== r2) {
-      adj[r1].add(r2);
-      adj[r2].add(r1);
-    }
-    if (r2 !== r0) {
-      adj[r2].add(r0);
-      adj[r0].add(r2);
-    }
+    if (r0 !== r1) addEdge(r0, r1);
+    if (r1 !== r2) addEdge(r1, r2);
+    if (r2 !== r0) addEdge(r2, r0);
   }
 
-  const neighborArrays: Int32Array[] = adj.map((s) => Int32Array.from(s));
-  const tempPos = new Float32Array(uCount * 3);
-
-  const applyLaplacianStep = (src: Float32Array, dst: Float32Array, weight: number) => {
-    for (let r = 0; r < uCount; r++) {
-      const nbs = neighborArrays[r];
-      const len = nbs.length;
-      const r3 = r * 3;
-      if (len < 2) {
-        dst[r3] = src[r3];
-        dst[r3 + 1] = src[r3 + 1];
-        dst[r3 + 2] = src[r3 + 2];
-        continue;
+  if (iterations > 0) {
+    const tempPos = new Float32Array(uCount * 3);
+    const applyLaplacianStep = (src: Float32Array, dst: Float32Array, weight: number) => {
+      for (let r = 0; r < uCount; r++) {
+        const nbs = adj[r];
+        const len = nbs.length;
+        const r3 = r * 3;
+        if (len < 2) {
+          dst[r3] = src[r3];
+          dst[r3 + 1] = src[r3 + 1];
+          dst[r3 + 2] = src[r3 + 2];
+          continue;
+        }
+        let sx = 0;
+        let sy = 0;
+        let sz = 0;
+        for (let k = 0; k < len; k++) {
+          const nb3 = nbs[k] * 3;
+          sx += src[nb3];
+          sy += src[nb3 + 1];
+          sz += src[nb3 + 2];
+        }
+        const inv = 1 / len;
+        dst[r3] = src[r3] + weight * (sx * inv - src[r3]);
+        dst[r3 + 1] = src[r3 + 1] + weight * (sy * inv - src[r3 + 1]);
+        dst[r3 + 2] = src[r3 + 2] + weight * (sz * inv - src[r3 + 2]);
       }
-      let sx = 0;
-      let sy = 0;
-      let sz = 0;
-      for (let k = 0; k < len; k++) {
-        const nb3 = nbs[k] * 3;
-        sx += src[nb3];
-        sy += src[nb3 + 1];
-        sz += src[nb3 + 2];
-      }
-      const inv = 1 / len;
-      dst[r3] = src[r3] + weight * (sx * inv - src[r3]);
-      dst[r3 + 1] = src[r3 + 1] + weight * (sy * inv - src[r3 + 1]);
-      dst[r3 + 2] = src[r3 + 2] + weight * (sz * inv - src[r3 + 2]);
+    };
+
+    const lambda = 0.36;
+    const mu = -0.38;
+    for (let iter = 0; iter < iterations; iter++) {
+      applyLaplacianStep(uPos, tempPos, lambda);
+      applyLaplacianStep(tempPos, uPos, mu);
     }
-  };
 
-  // Taubin λ/μ smoothing: removes faceted polygon edges while preserving anatomical ridges & condyles
-  const lambda = 0.42;
-  const mu = -0.442;
-  for (let iter = 0; iter < iterations; iter++) {
-    applyLaplacianStep(uPos, tempPos, lambda);
-    applyLaplacianStep(tempPos, uPos, mu);
+    for (let i = 0; i < vCount; i++) {
+      const r3 = repOf[i] * 3;
+      posAttr.setXYZ(i, uPos[r3], uPos[r3 + 1], uPos[r3 + 2]);
+    }
+    posAttr.needsUpdate = true;
   }
-
-  for (let i = 0; i < vCount; i++) {
-    const r3 = repOf[i] * 3;
-    posAttr.setXYZ(i, uPos[r3], uPos[r3 + 1], uPos[r3 + 2]);
-  }
-  posAttr.needsUpdate = true;
 
   // Compute area-weighted welded smooth normals
   const uNorm = new Float32Array(uCount * 3);
@@ -167,14 +165,23 @@ function smoothAndAnalyzeBoneGeometry(
   }
   geo.setAttribute('normal', new THREE.BufferAttribute(normals, 3));
 
-  // Compute local mean curvature / cavity value in [-1, +1]
-  // Negative = sulcus / fossa / nutrient foramen / suture groove (concave)
-  // Positive = crest / tuberosity / condylar ridge / process (convex)
+  if (!geo.attributes.uv) {
+    const uvs = new Float32Array(vCount * 2);
+    for (let i = 0; i < vCount; i++) {
+      const x = posAttr.getX(i);
+      const y = posAttr.getY(i);
+      const z = posAttr.getZ(i);
+      uvs[i * 2] = (x * 0.85 + z * 0.5) * 14.0;
+      uvs[i * 2 + 1] = (y * 0.92 - z * 0.32) * 14.0;
+    }
+    geo.setAttribute('uv', new THREE.BufferAttribute(uvs, 2));
+  }
+
   const cavity = new Float32Array(vCount);
   if (computeCurvature) {
     const uCavity = new Float32Array(uCount);
     for (let r = 0; r < uCount; r++) {
-      const nbs = neighborArrays[r];
+      const nbs = adj[r];
       const len = nbs.length;
       if (len < 2) continue;
       const r3 = r * 3;
@@ -197,9 +204,6 @@ function smoothAndAnalyzeBoneGeometry(
       dy *= inv;
       dz *= inv;
       avgEdge = Math.max(0.0005, avgEdge * inv);
-      // Dot Laplacian vector with outward normal:
-      // If neighbors are in front of vertex along normal, surface is concave (fossa/sulcus < 0)
-      // If neighbors are behind vertex along normal, surface is convex (ridge/crest > 0)
       const dot = dx * uNorm[r3] + dy * uNorm[r3 + 1] + dz * uNorm[r3 + 2];
       uCavity[r] = Math.max(-1, Math.min(1, (-dot / avgEdge) * 3.2));
     }
@@ -210,109 +214,7 @@ function smoothAndAnalyzeBoneGeometry(
   return cavity;
 }
 
-/**
- * Curved PN-Triangle / Phong Tessellation 1->4 Subdivision for anatomical bones.
- * Quadruples triangle density on skull, facial, and hand bones so orbital rims,
- * nasal apertures, zygomatic arches, carpals, metacarpals, and phalanges have
- * smooth, organic silhouettes without low-poly faceting.
- */
-function subdivideCurvedBoneGeometry(
-  geo: THREE.BufferGeometry,
-  alpha = 0.48
-): THREE.BufferGeometry {
-  // Ensure welded smooth normals before projecting curved edge midpoints
-  smoothAndAnalyzeBoneGeometry(geo, 1, false);
-
-  const posAttr = geo.attributes.position;
-  const normAttr = geo.attributes.normal;
-  const indexAttr = geo.index;
-  if (!posAttr || !normAttr) return geo;
-
-  const vCount = posAttr.count;
-  const triCount = indexAttr ? indexAttr.count / 3 : Math.floor(vCount / 3);
-
-  const newPositions: number[] = [];
-  for (let i = 0; i < vCount; i++) {
-    newPositions.push(posAttr.getX(i), posAttr.getY(i), posAttr.getZ(i));
-  }
-
-  // Weld spatial positions to share curved midpoints across split UV/normal seams
-  const precision = 20000;
-  const posKeyOf = (idx: number) =>
-    `${Math.round(posAttr.getX(idx) * precision)},${Math.round(posAttr.getY(idx) * precision)},${Math.round(posAttr.getZ(idx) * precision)}`;
-
-  const vertexSpatialKey = new Array<string>(vCount);
-  for (let i = 0; i < vCount; i++) {
-    vertexSpatialKey[i] = posKeyOf(i);
-  }
-
-  const edgeMidpointCache = new Map<string, number>();
-  const getCurvedMidpoint = (iA: number, iB: number): number => {
-    const kA = vertexSpatialKey[iA];
-    const kB = vertexSpatialKey[iB];
-    const edgeKey = kA < kB ? `${kA}|${kB}` : `${kB}|${kA}`;
-    const cached = edgeMidpointCache.get(edgeKey);
-    if (cached !== undefined) return cached;
-
-    const ax = posAttr.getX(iA);
-    const ay = posAttr.getY(iA);
-    const az = posAttr.getZ(iA);
-    const bx = posAttr.getX(iB);
-    const by = posAttr.getY(iB);
-    const bz = posAttr.getZ(iB);
-
-    const nAx = normAttr.getX(iA);
-    const nAy = normAttr.getY(iA);
-    const nAz = normAttr.getZ(iA);
-    const nBx = normAttr.getX(iB);
-    const nBy = normAttr.getY(iB);
-    const nBz = normAttr.getZ(iB);
-
-    // Linear midpoint
-    let mx = 0.5 * (ax + bx);
-    let my = 0.5 * (ay + by);
-    let mz = 0.5 * (az + bz);
-
-    // Phong tessellation tangent plane projection
-    const dx = bx - ax;
-    const dy = by - ay;
-    const dz = bz - az;
-    const dotA = dx * nAx + dy * nAy + dz * nAz;
-    const dotB = -dx * nBx - dy * nBy - dz * nBz;
-
-    mx += alpha * 0.25 * (dotB * nBx - dotA * nAx);
-    my += alpha * 0.25 * (dotB * nBy - dotA * nAy);
-    mz += alpha * 0.25 * (dotB * nBz - dotA * nAz);
-
-    const newIdx = newPositions.length / 3;
-    newPositions.push(mx, my, mz);
-    edgeMidpointCache.set(edgeKey, newIdx);
-    return newIdx;
-  };
-
-  const newIndices: number[] = [];
-  for (let t = 0; t < triCount; t++) {
-    const i0 = indexAttr ? indexAttr.getX(t * 3) : t * 3;
-    const i1 = indexAttr ? indexAttr.getX(t * 3 + 1) : t * 3 + 1;
-    const i2 = indexAttr ? indexAttr.getX(t * 3 + 2) : t * 3 + 2;
-
-    const m01 = getCurvedMidpoint(i0, i1);
-    const m12 = getCurvedMidpoint(i1, i2);
-    const m20 = getCurvedMidpoint(i2, i0);
-
-    newIndices.push(
-      i0, m01, m20,
-      i1, m12, m01,
-      i2, m20, m12,
-      m01, m12, m20
-    );
-  }
-
-  const out = new THREE.BufferGeometry();
-  out.setAttribute('position', new THREE.Float32BufferAttribute(newPositions, 3));
-  out.setIndex(newIndices);
-  return out;
-}
+// Fast mesh normal & curvature analysis directly preserves high-detail medical GLB geometry without 4x CPU bloat.
 
 /**
  * Generates an anatomically sculpted 32-tooth upper & lower human dentition
@@ -384,10 +286,10 @@ function createSculptedAnatomicalDentition(): THREE.BufferGeometry {
     const colors: number[] = [];
     const indices: number[] = [];
 
-    const cEnamelTip = new THREE.Color(0xf9f5ec);
-    const cEnamelBody = new THREE.Color(0xf2ead9);
-    const cCervical = new THREE.Color(0xd7c7ad);
-    const cEmbrasure = new THREE.Color(0xc5b396);
+    const cEnamelTip = new THREE.Color(0xf4eee0);
+    const cEnamelBody = new THREE.Color(0xe6dac2);
+    const cCervical = new THREE.Color(0xc2ab87);
+    const cEmbrasure = new THREE.Color(0x9b825f);
     const tmpColor = new THREE.Color();
 
     for (let iv = 0; iv <= vSegs; iv++) {
@@ -536,46 +438,29 @@ function createSculptedAnatomicalDentition(): THREE.BufferGeometry {
 }
 
 /**
- * Creates internal dark-bone cranial fossa liners inside the posterior eye sockets
- * (orbital apex / superior orbital fissure) and deep nasal cavity (ethmoidal / sphenoidal recess)
- * so looking into the orbits or piriform nasal aperture shows realistic deep anatomical shadow
- * rather than bright background sky showing through inter-bone suture gaps.
+ * Creates a deep internal sphenoidal/choanal shadow baffle far behind the nasal septum
+ * so the skull's eye orbits stay 100% open & hollow (no spheres inside eye sockets!)
+ * while the deep posterior nasal aperture does not leak bright sky through sutures.
  */
 function createCranialFossaOcclusionLiners(): THREE.BufferGeometry {
-  const parts: THREE.BufferGeometry[] = [];
+  const geo = new THREE.SphereGeometry(0.0115, 14, 10);
+  geo.scale(0.85, 1.15, 0.75);
+  geo.translate(0.0, 1.690, 0.104);
 
-  const addColoredFossaMesh = (geo: THREE.BufferGeometry, hexColor: number) => {
-    const nonIndexed = geo.index ? geo.toNonIndexed() : geo;
-    const count = nonIndexed.attributes.position.count;
-    const cols = new Float32Array(count * 3);
-    const c = new THREE.Color(hexColor);
-    for (let i = 0; i < count; i++) {
-      cols[i * 3] = c.r;
-      cols[i * 3 + 1] = c.g;
-      cols[i * 3 + 2] = c.b;
-    }
-    nonIndexed.setAttribute('color', new THREE.BufferAttribute(cols, 3));
-    nonIndexed.computeVertexNormals();
-    parts.push(nonIndexed);
-  };
+  const nonIndexed = geo.index ? geo.toNonIndexed() : geo;
+  if (geo !== nonIndexed) geo.dispose();
 
-  // Left and Right posterior orbital cone liners (recessed behind sphenoid/zygomatic orbital walls)
-  for (const side of [-1, 1]) {
-    const orbitBack = new THREE.SphereGeometry(0.0185, 16, 12);
-    orbitBack.scale(1.08, 0.92, 0.85);
-    orbitBack.translate(side * 0.0335, 1.7155, 0.1225);
-    addColoredFossaMesh(orbitBack, 0x6e604e);
+  const count = nonIndexed.attributes.position.count;
+  const cols = new Float32Array(count * 3);
+  const c = new THREE.Color(0x4a3d2e);
+  for (let i = 0; i < count; i++) {
+    cols[i * 3] = c.r;
+    cols[i * 3 + 1] = c.g;
+    cols[i * 3 + 2] = c.b;
   }
-
-  // Deep nasal cavity / posterior choanae / ethmoidal turbinate shadow block
-  const nasalBack = new THREE.SphereGeometry(0.0155, 16, 12);
-  nasalBack.scale(0.85, 1.25, 0.95);
-  nasalBack.translate(0.0, 1.6910, 0.1265);
-  addColoredFossaMesh(nasalBack, 0x665847);
-
-  const merged = mergeGeometries(parts, false);
-  parts.forEach((p) => p.dispose());
-  return merged;
+  nonIndexed.setAttribute('color', new THREE.BufferAttribute(cols, 3));
+  nonIndexed.computeVertexNormals();
+  return nonIndexed;
 }
 
 /**
@@ -620,15 +505,15 @@ function applyAnatomicalBoneVertexColors(
     boneName.includes('vomer') ||
     boneName.includes('mandible');
 
-  // Medical osteological palette
-  const cCortical = new THREE.Color(0xf3ecde); // Dense cortical shaft / cranial vault ivory
-  const cEpiphysis = new THREE.Color(0xdfd0b8); // Spongy trabecular epiphyseal condyle warm ochre
-  const cSulcus = new THREE.Color(0x9e8b72); // Anatomical fossae, sulci, sutures, foramina
-  const cRidge = new THREE.Color(0xfaf5eb); // Elevated bony crests, lines, tuberosities
-  const cOrbitShadow = new THREE.Color(0x7c6c58); // Deep internal orbital / nasal cavity shadow
+  // Realistic museum/medical osteological ivory palette (not chalky white plastic)
+  const cCortical = new THREE.Color(0xe3d5ba); // Warm natural cortical bone ivory
+  const cEpiphysis = new THREE.Color(0xc5ab84); // Rich trabecular epiphyseal condyle ochre
+  const cSulcus = new THREE.Color(0x6d563e); // Deep anatomical fossae, sulci, sutures, foramina
+  const cRidge = new THREE.Color(0xf0e5ce); // Crisp bony crests, lines, tuberosities
+  const cOrbitShadow = new THREE.Color(0x4f3d2c); // Deep internal orbital / nasal bone self-shadow
 
-  const cCartilageCore = new THREE.Color(0xd2dee4); // Hyaline costal cartilage / fibrocartilage disc
-  const cCartilageEdge = new THREE.Color(0xbfcace);
+  const cCartilageCore = new THREE.Color(0xaec2cc); // Translucent cool-pearl hyaline costal cartilage
+  const cCartilageEdge = new THREE.Color(0x8ea6b3);
 
   const tmp = new THREE.Color();
 
@@ -645,9 +530,11 @@ function applyAnatomicalBoneVertexColors(
         1,
         Math.hypot(x - center.x, y - center.y, z - center.z) / (maxSpan * 0.5)
       );
-      tmp.lerpColors(cCartilageCore, cCartilageEdge, edgeT * 0.65);
+      tmp.lerpColors(cCartilageCore, cCartilageEdge, edgeT * 0.72);
       if (cav < 0) {
-        tmp.lerp(cSulcus, Math.min(0.35, -cav * 0.35));
+        tmp.lerp(cSulcus, Math.min(0.45, -cav * 0.42));
+      } else if (cav > 0) {
+        tmp.lerp(cRidge, Math.min(0.22, cav * 0.18));
       }
     } else {
       // Distance from bone center -> 0 at diaphysis shaft center, 1 at epiphyseal ends / suture perimeter
@@ -656,60 +543,59 @@ function applyAnatomicalBoneVertexColors(
         Math.hypot(x - center.x, y - center.y, z - center.z) / (maxSpan * 0.52)
       );
       // Epiphyseal transition near bone ends and suture borders
-      const epiphysealT = Math.pow(distNorm, 1.85) * (isSkull ? 0.38 : 0.62);
+      const epiphysealT = Math.pow(distNorm, 1.65) * (isSkull ? 0.48 : 0.72);
       tmp.lerpColors(cCortical, cEpiphysis, epiphysealT);
 
       // Multi-frequency deterministic osteon / Haversian canal micro-grain
       const grain =
-        Math.sin(x * 190.0 + y * 95.0 + z * 160.0) *
-        Math.cos(y * 260.0 - z * 140.0) *
-        0.022;
+        Math.sin(x * 195.0 + y * 102.0 + z * 165.0) *
+        Math.cos(y * 270.0 - z * 145.0) *
+        0.036;
       tmp.offsetHSL(0, 0, grain);
 
-      // Curvature shading: darken concavities (fossae, nutrient grooves, inter-bone sutures)
-      // and subtly brighten convex anatomical crests
+      // Strong curvature shading: darken concavities (fossae, nutrient grooves, intercostal channels, sutures)
       if (cav < 0) {
-        const sulcusStrength = Math.min(0.68, -cav * (isSkull ? 0.62 : 0.52));
+        const sulcusStrength = Math.min(0.84, -cav * (isSkull ? 0.85 : 0.72));
         tmp.lerp(cSulcus, sulcusStrength);
       } else if (cav > 0) {
-        tmp.lerp(cRidge, Math.min(0.45, cav * 0.36));
+        tmp.lerp(cRidge, Math.min(0.48, cav * 0.38));
       }
 
       // Deep orbital & nasal cavity internal anatomical self-shadowing on skull
       if (isSkull) {
-        // Inside eye orbits: y in [1.695, 1.735], |x| in [0.012, 0.048], z < 0.138
+        // Inside eye orbits: y in [1.695, 1.735], |x| in [0.012, 0.048], z < 0.140
         const inOrbitX = Math.abs(Math.abs(x) - 0.029);
         const inOrbitY = Math.abs(y - 1.714);
-        if (inOrbitX < 0.020 && inOrbitY < 0.020 && z < 0.140 && z > 0.105) {
-          const depthOrbit = Math.max(0, Math.min(1, (0.140 - z) / 0.024));
+        if (inOrbitX < 0.021 && inOrbitY < 0.021 && z < 0.142 && z > 0.098) {
+          const depthOrbit = Math.max(0, Math.min(1, (0.142 - z) / 0.024));
           const radialOrbit = Math.max(
             0,
-            1 - Math.hypot(inOrbitX / 0.020, inOrbitY / 0.020)
+            1 - Math.hypot(inOrbitX / 0.021, inOrbitY / 0.021)
           );
-          tmp.lerp(cOrbitShadow, depthOrbit * radialOrbit * 0.65);
+          tmp.lerp(cOrbitShadow, depthOrbit * radialOrbit * 0.78);
         }
 
         // Inside piriform nasal aperture: |x| < 0.015, y in [1.668, 1.705], z < 0.145
         const inNoseX = Math.abs(x);
         const inNoseY = Math.abs(y - 1.685);
-        if (inNoseX < 0.015 && inNoseY < 0.020 && z < 0.144 && z > 0.110) {
-          const depthNose = Math.max(0, Math.min(1, (0.144 - z) / 0.022));
+        if (inNoseX < 0.016 && inNoseY < 0.021 && z < 0.146 && z > 0.100) {
+          const depthNose = Math.max(0, Math.min(1, (0.146 - z) / 0.022));
           const radialNose = Math.max(
             0,
-            1 - Math.hypot(inNoseX / 0.015, inNoseY / 0.020)
+            1 - Math.hypot(inNoseX / 0.016, inNoseY / 0.021)
           );
-          tmp.lerp(cOrbitShadow, depthNose * radialNose * 0.72);
+          tmp.lerp(cOrbitShadow, depthNose * radialNose * 0.82);
         }
 
-        // Subtle cranial suture line accentuation near perimeter of skull bones
-        if (distNorm > 0.78) {
-          const sutureT = (distNorm - 0.78) / 0.22;
-          tmp.lerp(cSulcus, sutureT * 0.22);
+        // Crisp cranial suture line accentuation near perimeter of skull bones
+        if (distNorm > 0.72) {
+          const sutureT = (distNorm - 0.72) / 0.28;
+          tmp.lerp(cSulcus, sutureT * 0.44);
         }
       }
 
-      // Subtle inferior/posterior anatomical ambient occlusion
-      const ao = (ny < 0 ? -ny * 0.045 : 0) + (nz < 0 ? -nz * 0.03 : 0);
+      // Natural inferior/posterior anatomical ambient occlusion
+      const ao = (ny < 0 ? -ny * 0.075 : 0) + (nz < 0 ? -nz * 0.05 : 0);
       tmp.multiplyScalar(1 - ao);
     }
 
@@ -728,7 +614,7 @@ function createCorticalBoneMaps(): {
   bumpMap: THREE.CanvasTexture;
   roughnessMap: THREE.CanvasTexture;
 } {
-  const size = 256;
+  const size = 512;
   const bumpCanvas = document.createElement('canvas');
   bumpCanvas.width = size;
   bumpCanvas.height = size;
@@ -749,16 +635,16 @@ function createCorticalBoneMaps(): {
 
       // Longitudinal Haversian canal striation + fine trabecular micro-pores
       const striation =
-        Math.sin(u * 14 + Math.cos(v * 3) * 1.5) * 0.45 +
-        Math.sin(u * 29 - v * 6) * 0.25 +
-        Math.cos(v * 18 + u * 5) * 0.30;
+        Math.sin(u * 16 + Math.cos(v * 3) * 1.5) * 0.45 +
+        Math.sin(u * 34 - v * 6) * 0.28 +
+        Math.cos(v * 20 + u * 5) * 0.27;
 
       const pore =
-        Math.sin(u * 41 + v * 37) * Math.cos(u * 23 - v * 43);
+        Math.sin(u * 48 + v * 42) * Math.cos(u * 29 - v * 51);
 
       const bumpVal = Math.max(
         0,
-        Math.min(255, Math.round(128 + striation * 26 + pore * 18))
+        Math.min(255, Math.round(128 + striation * 34 + pore * 24))
       );
       bImg.data[idx] = bumpVal;
       bImg.data[idx + 1] = bumpVal;
@@ -767,7 +653,7 @@ function createCorticalBoneMaps(): {
 
       const roughVal = Math.max(
         0,
-        Math.min(255, Math.round(118 - striation * 18 + pore * 22))
+        Math.min(255, Math.round(142 - striation * 24 + pore * 26))
       );
       rImg.data[idx] = roughVal;
       rImg.data[idx + 1] = roughVal;
@@ -782,12 +668,12 @@ function createCorticalBoneMaps(): {
   const bumpMap = new THREE.CanvasTexture(bumpCanvas);
   bumpMap.wrapS = THREE.RepeatWrapping;
   bumpMap.wrapT = THREE.RepeatWrapping;
-  bumpMap.repeat.set(6, 6);
+  bumpMap.repeat.set(9, 9);
 
   const roughnessMap = new THREE.CanvasTexture(roughCanvas);
   roughnessMap.wrapS = THREE.RepeatWrapping;
   roughnessMap.wrapT = THREE.RepeatWrapping;
-  roughnessMap.repeat.set(6, 6);
+  roughnessMap.repeat.set(9, 9);
 
   return { bumpMap, roughnessMap };
 }
@@ -797,23 +683,24 @@ let loadingCallbacks: Array<(template: THREE.Group) => void> | null = null;
 
 /**
  * Loads the complete 242-bone human skeleton from `/models/skeleton.glb`,
- * applies curved PN-Triangle subdivision on cranial/facial and hand/finger bones,
  * performs shrinkage-free Taubin fairing + Laplacian curvature shading across all bones,
  * and adds a sculpted 32-tooth anatomical dentition in true alveolar occlusion.
  * Returns a `THREE.Group` container immediately and populates it once loaded.
  */
-export function buildCompleteAnatomicalSkeleton3D(): THREE.Group {
+export function buildCompleteAnatomicalSkeleton3D(onLoaded?: () => void): THREE.Group {
   const container = new THREE.Group();
   container.name = 'anatomical-skeleton-root';
 
   if (cachedSkeletonTemplate) {
     container.add(cachedSkeletonTemplate.clone(true));
+    onLoaded?.();
     return container;
   }
 
   if (loadingCallbacks) {
     loadingCallbacks.push((tpl) => {
       container.add(tpl.clone(true));
+      onLoaded?.();
     });
     return container;
   }
@@ -821,6 +708,7 @@ export function buildCompleteAnatomicalSkeleton3D(): THREE.Group {
   loadingCallbacks = [
     (tpl) => {
       container.add(tpl.clone(true));
+      onLoaded?.();
     },
   ];
 
@@ -831,22 +719,23 @@ export function buildCompleteAnatomicalSkeleton3D(): THREE.Group {
       const root = gltf.scene;
       const { bumpMap, roughnessMap } = createCorticalBoneMaps();
 
-      // 1. Cortical & Cancellous Bone Material (with vertex-color curvature/epiphyseal shading)
+      // 1. Cortical & Cancellous Bone Material (Natural satin ivory bone, not shiny white PVC)
       const boneMaterial = new THREE.MeshPhysicalMaterial({
         color: 0xffffff,
         vertexColors: true,
-        roughness: 0.42,
+        roughness: 0.62,
         roughnessMap,
-        metalness: 0.01,
-        clearcoat: 0.18,
-        clearcoatRoughness: 0.34,
-        reflectivity: 0.45,
-        sheen: 0.16,
-        sheenRoughness: 0.65,
-        sheenColor: new THREE.Color(0xebe0cc),
+        metalness: 0.0,
+        clearcoat: 0.06,
+        clearcoatRoughness: 0.48,
+        reflectivity: 0.34,
+        envMapIntensity: 0.40,
+        sheen: 0.12,
+        sheenRoughness: 0.72,
+        sheenColor: new THREE.Color(0xe6d6bc),
         bumpMap,
-        bumpScale: 0.00045,
-        side: THREE.DoubleSide,
+        bumpScale: 0.00145,
+        side: THREE.FrontSide,
         transparent: false,
         depthWrite: true,
       });
@@ -855,21 +744,20 @@ export function buildCompleteAnatomicalSkeleton3D(): THREE.Group {
       const cartilageMaterial = new THREE.MeshPhysicalMaterial({
         color: 0xffffff,
         vertexColors: true,
-        roughness: 0.28,
+        roughness: 0.34,
         metalness: 0.0,
-        clearcoat: 0.42,
-        clearcoatRoughness: 0.22,
-        transmission: 0.12,
-        thickness: 0.008,
-        sheen: 0.25,
-        sheenRoughness: 0.4,
-        sheenColor: new THREE.Color(0xdce8ee),
-        side: THREE.DoubleSide,
+        clearcoat: 0.28,
+        clearcoatRoughness: 0.28,
+        envMapIntensity: 0.50,
+        sheen: 0.20,
+        sheenRoughness: 0.48,
+        sheenColor: new THREE.Color(0xc8dce6),
+        side: THREE.FrontSide,
         transparent: false,
         depthWrite: true,
       });
 
-      // 3. Dental Enamel Material (high-gloss translucent hydroxyapatite enamel)
+      // 3. Dental Enamel Material
       const teethMaterial = new THREE.MeshPhysicalMaterial({
         color: 0xffffff,
         vertexColors: true,
@@ -881,7 +769,7 @@ export function buildCompleteAnatomicalSkeleton3D(): THREE.Group {
         sheen: 0.15,
         sheenRoughness: 0.25,
         sheenColor: new THREE.Color(0xfffcf5),
-        side: THREE.DoubleSide,
+        side: THREE.FrontSide,
         transparent: false,
         depthWrite: true,
       });
@@ -892,91 +780,110 @@ export function buildCompleteAnatomicalSkeleton3D(): THREE.Group {
         vertexColors: true,
         roughness: 0.88,
         metalness: 0.0,
-        side: THREE.DoubleSide,
+        side: THREE.FrontSide,
       });
 
+      const boneGeos: THREE.BufferGeometry[] = [];
+      const cartilageGeos: THREE.BufferGeometry[] = [];
+      const identityMat = new THREE.Matrix4();
+
       root.traverse((child) => {
-        if ((child as THREE.Mesh).isMesh) {
-          const mesh = child as THREE.Mesh;
-          const name = (mesh.name || mesh.parent?.name || '').toLowerCase();
-          let geo = mesh.geometry;
+        if (!(child as THREE.Mesh).isMesh) return;
+        const mesh = child as THREE.Mesh;
+        const name = (mesh.name || mesh.parent?.name || '').toLowerCase();
+        const geo = mesh.geometry;
+        if (!geo || !geo.attributes.position) return;
 
-          if (geo && geo.attributes.position) {
-            // Ensure mandible sits at natural Vertical Dimension of Occlusion (-9.2mm)
-            // while keeping the condylar head seated in the TMJ mandibular fossa
-            if (name === 'mandible') {
-              const pos = geo.attributes.position;
-              for (let i = 0; i < pos.count; i++) {
-                const y = pos.getY(i);
-                const z = pos.getZ(i);
-                const anteriorT = Math.max(0, Math.min(1, (z - 0.088) / 0.032));
-                pos.setY(i, y - 0.0092 * anteriorT);
-                pos.setZ(i, z - 0.0006 * anteriorT);
-              }
-              pos.needsUpdate = true;
-            }
+        mesh.updateWorldMatrix(true, false);
+        if (!mesh.matrixWorld.equals(identityMat)) {
+          geo.applyMatrix4(mesh.matrixWorld);
+        }
 
-            // Subdivide skull/facial bones and hand/finger bones (4x curved triangle density)
-            const needsCurvedSubdivision =
-              name.includes('frontal') ||
-              name.includes('parietal') ||
-              name.includes('occipital') ||
-              name.includes('temporal') ||
-              name.includes('zygomatic') ||
-              name.includes('maxilla') ||
-              name.includes('mandible') ||
-              name.includes('nasal') ||
-              name.includes('lacrimal') ||
-              name.includes('sphenoid') ||
-              name.includes('metacarpal') ||
-              name.includes('phalanx') ||
-              name.includes('scaphoid') ||
-              name.includes('lunate') ||
-              name.includes('triquetral') ||
-              name.includes('pisiform') ||
-              name.includes('trapezium') ||
-              name.includes('trapezoid') ||
-              name.includes('capitate') ||
-              name.includes('hamate');
-
-            if (needsCurvedSubdivision) {
-              geo = subdivideCurvedBoneGeometry(geo, 0.45);
-              mesh.geometry = geo;
-            }
-
-            const smoothIters = needsCurvedSubdivision ? 2 : 1;
-            const cavity = smoothAndAnalyzeBoneGeometry(geo, smoothIters, true);
-            applyAnatomicalBoneVertexColors(geo, name, cavity);
-            geo.computeBoundingBox();
-            geo.computeBoundingSphere();
+        if (name === 'mandible') {
+          const pos = geo.attributes.position;
+          for (let i = 0; i < pos.count; i++) {
+            const y = pos.getY(i);
+            const z = pos.getZ(i);
+            const anteriorT = Math.max(0, Math.min(1, (z - 0.088) / 0.032));
+            pos.setY(i, y - 0.0092 * anteriorT);
+            pos.setZ(i, z - 0.0006 * anteriorT);
           }
+          pos.needsUpdate = true;
+        }
 
-          const isCartilage =
-            name.includes('cartilage') || name.includes('intervertebral-disc');
-          mesh.material = isCartilage ? cartilageMaterial : boneMaterial;
-          mesh.castShadow = true;
-          mesh.receiveShadow = true;
+        const cavity = smoothAndAnalyzeBoneGeometry(geo, 1, true);
+        applyAnatomicalBoneVertexColors(geo, name, cavity);
+
+        // Normalize to indexed BufferGeometry with matching [position, normal, uv, color] for safe merging
+        const isCartilage =
+          name.includes('cartilage') || name.includes('intervertebral-disc');
+        if (isCartilage) {
+          cartilageGeos.push(geo.index ? geo : geo.toNonIndexed());
+        } else {
+          boneGeos.push(geo.index ? geo : geo.toNonIndexed());
         }
       });
 
-      // Add sculpted 32-tooth upper & lower dental arches in alveolar occlusion
+      const batchedRoot = new THREE.Group();
+      batchedRoot.name = 'anatomical-skeleton-batched';
+
+      const toCommonAttributeList = (geos: THREE.BufferGeometry[]): THREE.BufferGeometry[] => {
+        const allIndexed = geos.every((g) => Boolean(g.index));
+        return geos.map((g) => {
+          const out = allIndexed ? g : g.index ? g.toNonIndexed() : g;
+          // Ensure uint32 index consistency if merging indexed geometries
+          if (out.index && !(out.index.array instanceof Uint32Array)) {
+            out.setIndex(new THREE.BufferAttribute(new Uint32Array(out.index.array), 1));
+          }
+          return out;
+        });
+      };
+
+      const disposeList = (orig: THREE.BufferGeometry[], normalized: THREE.BufferGeometry[]) => {
+        const unique = new Set<THREE.BufferGeometry>([...orig, ...normalized]);
+        unique.forEach((g) => g.dispose());
+      };
+
+      if (boneGeos.length > 0) {
+        const normalizedBones = toCommonAttributeList(boneGeos);
+        const mergedBoneGeo = mergeGeometries(normalizedBones, false);
+        disposeList(boneGeos, normalizedBones);
+        if (mergedBoneGeo) {
+          mergedBoneGeo.computeBoundingBox();
+          mergedBoneGeo.computeBoundingSphere();
+          const mergedBoneMesh = new THREE.Mesh(mergedBoneGeo, boneMaterial);
+          mergedBoneMesh.name = 'skeleton-merged-bones';
+          batchedRoot.add(mergedBoneMesh);
+        }
+      }
+
+      if (cartilageGeos.length > 0) {
+        const normalizedCarts = toCommonAttributeList(cartilageGeos);
+        const mergedCartGeo = mergeGeometries(normalizedCarts, false);
+        disposeList(cartilageGeos, normalizedCarts);
+        if (mergedCartGeo) {
+          mergedCartGeo.computeBoundingBox();
+          mergedCartGeo.computeBoundingSphere();
+          const mergedCartMesh = new THREE.Mesh(mergedCartGeo, cartilageMaterial);
+          mergedCartMesh.name = 'skeleton-merged-cartilage';
+          batchedRoot.add(mergedCartMesh);
+        }
+      }
+
       const dentalGeo = createSculptedAnatomicalDentition();
       const dentalMesh = new THREE.Mesh(dentalGeo, teethMaterial);
       dentalMesh.name = 'anatomical-dental-arches-32';
-      dentalMesh.castShadow = true;
-      dentalMesh.receiveShadow = true;
-      root.add(dentalMesh);
+      batchedRoot.add(dentalMesh);
 
-      // Add internal orbital & nasal fossa occlusion liners
       const fossaGeo = createCranialFossaOcclusionLiners();
       const fossaMesh = new THREE.Mesh(fossaGeo, fossaMaterial);
       fossaMesh.name = 'cranial-fossa-liners';
-      root.add(fossaMesh);
+      batchedRoot.add(fossaMesh);
 
-      cachedSkeletonTemplate = root;
+      cachedSkeletonTemplate = batchedRoot;
       const cbs = loadingCallbacks || [];
       loadingCallbacks = null;
-      cbs.forEach((cb) => cb(root));
+      cbs.forEach((cb) => cb(batchedRoot));
     },
     undefined,
     (err) => {

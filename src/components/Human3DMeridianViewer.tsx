@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState, useMemo, useCallback } from 'react';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import {
   MERIDIANS_3D_DATA,
@@ -16,6 +17,8 @@ import {
   buildZangFuOrgans3D,
   ZangFuOrgansRig,
   ZangFuOrganInfo,
+  ZANG_FU_ORGANS_INFO,
+  ZANG_FU_ORDER,
 } from '../utils/zangFuOrgans3DBuilder';
 import {
   buildCunGuides3D,
@@ -1008,17 +1011,17 @@ function enhanceAndColorHumanGeometry(geometry: THREE.BufferGeometry) {
   // --- STEP 5: Lifelike Multi-Chromophore Human Skin & Anatomical Feature Coloring ---
   const colors = new Float32Array(count * 3);
 
-  const cSkinBase = new THREE.Color('#eabaa3');      // Glossy warm peach-ivory complexion
-  const cSkinLuminous = new THREE.Color('#f7dfd4');  // Pearlescent porcelain skin highlight
-  const cSkinContour = new THREE.Color('#c88e76');   // Soft warm-peach anatomical contour
-  const cVascularRosy = new THREE.Color('#de8070');  // Living capillary blush
-  const cSkinCrease = new THREE.Color('#b4745d');    // Palmar creases, joint folds & subtle anatomical creases
-  const cLipLine = new THREE.Color('#692d2a');
-  const cNipple = new THREE.Color('#a46053');
-  const cAreola = new THREE.Color('#c58576');
-  const cNavel = new THREE.Color('#8f5746');
-  const cNailPlate = new THREE.Color('#f4dad2');
-  const cNailLunula = new THREE.Color('#fbf0ec');
+  const cSkinBase = new THREE.Color('#cf8e6e');      // Rich warm natural human complexion (never chalky/washed out)
+  const cSkinLuminous = new THREE.Color('#e4b095');  // Soft warm golden-peach highlight
+  const cSkinContour = new THREE.Color('#995c43');   // Warm anatomical chiaroscuro contour
+  const cVascularRosy = new THREE.Color('#c75c4b');  // Natural living capillary warmth
+  const cSkinCrease = new THREE.Color('#864c38');    // Crisp palmar creases, joint folds & anatomical grooves
+  const cLipLine = new THREE.Color('#521e1b');
+  const cNipple = new THREE.Color('#854438');
+  const cAreola = new THREE.Color('#a56252');
+  const cNavel = new THREE.Color('#703d2e');
+  const cNailPlate = new THREE.Color('#ecc6bc');
+  const cNailLunula = new THREE.Color('#f6e4de');
 
   const tmp = new THREE.Color();
 
@@ -1383,7 +1386,7 @@ export const Human3DMeridianViewer: React.FC = () => {
   const [showLabels, setShowLabels] = useState<boolean>(true);
   const [showFlowArrows, setShowFlowArrows] = useState<boolean>(true);
   const [qiFlowSpeed, setQiFlowSpeed] = useState<number>(1.0); // 0 = paused, 0.6 = slow, 1.0 = normal, 1.8 = fast
-  const [showOrgans, setShowOrgans] = useState<boolean>(false);
+  const [showOrgans, setShowOrgans] = useState<boolean>(true);
   const [showNeedle, setShowNeedle] = useState<boolean>(true);
   const [showCunGuides, setShowCunGuides] = useState<boolean>(false);
   const [pointFilterMode, setPointFilterMode] = useState<'all' | 'special'>('all');
@@ -1430,11 +1433,12 @@ export const Human3DMeridianViewer: React.FC = () => {
   const qiTracksRef = useRef<QiBeadTrack[]>([]);
   const qiFlowSpeedRef = useRef<number>(1.0);
   const showFlowArrowsRef = useRef<boolean>(true);
-  const showOrgansRef = useRef<boolean>(false);
+  const showOrgansRef = useRef<boolean>(true);
   const pointsGroupRef = useRef<THREE.Group | null>(null);
   const animFrameIdRef = useRef<number>(0);
   const isTranslucentSkinRef = useRef<boolean>(false);
   const occlusionDirtyRef = useRef<boolean>(true);
+  const needsRenderRef = useRef<boolean>(true);
   const tubeScaleUniformRef = useRef<{ value: number }>({ value: 1.0 });
   const camFlightRef = useRef<{
     active: boolean;
@@ -1448,6 +1452,7 @@ export const Human3DMeridianViewer: React.FC = () => {
 
   useEffect(() => {
     qiFlowSpeedRef.current = qiFlowSpeed;
+    needsRenderRef.current = true;
   }, [qiFlowSpeed]);
 
   useEffect(() => {
@@ -1455,11 +1460,13 @@ export const Human3DMeridianViewer: React.FC = () => {
     if (flowArrowsGroupRef.current) {
       flowArrowsGroupRef.current.visible = showFlowArrows;
     }
+    needsRenderRef.current = true;
   }, [showFlowArrows]);
 
   useEffect(() => {
-    showOrgansRef.current = showOrgans;
-  }, [showOrgans]);
+    showOrgansRef.current = showOrgans && anatomicalMode !== 'opaque_skin';
+    needsRenderRef.current = true;
+  }, [showOrgans, anatomicalMode]);
 
   // Build complete 3D acupoint catalog:
   // 362 classical (including GV29 Ấn Đường) + 58 WHO Extra + 6 Kỳ Kinh Bát Mạch member sets + 40 Đổng Thị Kỳ Huyệt 3D
@@ -1723,6 +1730,7 @@ export const Human3DMeridianViewer: React.FC = () => {
       }
       flight.active = true;
       occlusionDirtyRef.current = true;
+      needsRenderRef.current = true;
     },
     []
   );
@@ -1738,7 +1746,31 @@ export const Human3DMeridianViewer: React.FC = () => {
     camFlightRef.current.target.set(x * 0.6, y, z * 0.6);
     camFlightRef.current.active = true;
     occlusionDirtyRef.current = true;
+    needsRenderRef.current = true;
   }, []);
+
+  // Smoothly fly camera to frame & inspect any selected 3D Zang-Fu organ up close
+  const focusOnOrgan = useCallback(
+    (organ: ZangFuOrganInfo) => {
+      setSelectedOrgan(organ);
+      setSelectedPoint(null);
+      if (anatomicalMode === 'opaque_skin') {
+        setAnatomicalMode('skin_skeleton');
+      }
+      if (!showOrgans) {
+        setShowOrgans(true);
+      }
+      if (!cameraRef.current || !controlsRef.current) return;
+      const [tx, ty, tz] = organ.focusTarget;
+      const [ox, oy, oz] = organ.focusCameraOffset;
+      camFlightRef.current.target.set(tx, ty, tz);
+      camFlightRef.current.camPos.set(tx + ox, ty + oy, tz + oz);
+      camFlightRef.current.active = true;
+      occlusionDirtyRef.current = true;
+      needsRenderRef.current = true;
+    },
+    [anatomicalMode, showOrgans]
+  );
 
   // Load surface registration JSON & MakeHuman GLB model
   useEffect(() => {
@@ -1781,59 +1813,79 @@ export const Human3DMeridianViewer: React.FC = () => {
     renderer.setPixelRatio(isSoftwareGl ? 1 : Math.min(window.devicePixelRatio || 1, 2));
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 0.98;
+    renderer.toneMappingExposure = 0.96;
     renderer.shadowMap.enabled = false;
     mountRef.current.appendChild(renderer.domElement);
     rendererRef.current = renderer;
 
-    // 4. Clean Luminous Studio Lighting Rig (Restores smooth porcelain-gloss specular highlights)
-    const ambientLight = new THREE.AmbientLight(0xfff4ee, 0.42);
+    // Studio PMREM reflection environment for realistic biological wet clearcoat & osteological sheen
+    const pmremGenerator = new THREE.PMREMGenerator(renderer);
+    const roomEnv = new RoomEnvironment();
+    const envRenderTarget = pmremGenerator.fromScene(roomEnv, 0.04);
+    scene.environment = envRenderTarget.texture;
+    scene.environmentIntensity = 0.56;
+    roomEnv.dispose();
+    pmremGenerator.dispose();
+
+    // 4. Balanced Sculpting Studio Lighting Rig (Crisp depth & rich warm tones without chalky washout)
+    const ambientLight = new THREE.AmbientLight(0xffeadd, 0.28);
     scene.add(ambientLight);
 
-    const hemiLight = new THREE.HemisphereLight(0xfff8f4, 0x3b3032, 0.52);
+    const hemiLight = new THREE.HemisphereLight(0xfff1e8, 0x2c201e, 0.38);
     hemiLight.position.set(0, 3.5, 0);
     scene.add(hemiLight);
 
     // Primary Key Light from top-right-front
-    const keyLight = new THREE.DirectionalLight(0xfffaf4, 1.38);
-    keyLight.position.set(1.6, 2.5, 2.8);
+    const keyLight = new THREE.DirectionalLight(0xfff5ec, 1.24);
+    keyLight.position.set(1.9, 2.6, 2.5);
     scene.add(keyLight);
 
     // Soft Fill Light from left
-    const fillLight = new THREE.DirectionalLight(0xe6d4cf, 0.42);
+    const fillLight = new THREE.DirectionalLight(0xd9beb4, 0.34);
     fillLight.position.set(-2.4, 1.0, 1.6);
     scene.add(fillLight);
 
     // Back Key Light so Posterior View is equally crisp and sculpted
-    const backKeyLight = new THREE.DirectionalLight(0xfff6ee, 1.25);
+    const backKeyLight = new THREE.DirectionalLight(0xfff2e6, 1.08);
     backKeyLight.position.set(-1.2, 2.3, -2.8);
     scene.add(backKeyLight);
 
-    // 5. Responsive OrbitControls (restricted to interactions ON the 3D human body so outside touches scroll the page!)
+    // 5. Full-Viewport Smooth OrbitControls (rotation, pinch-zoom & pan always enabled inside the 3D studio)
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = !isSoftwareGl;
-    controls.dampingFactor = 0.16;
+    controls.dampingFactor = 0.14;
     controls.rotateSpeed = 0.95;
     controls.zoomSpeed = 1.1;
+    controls.panSpeed = 0.85;
     controls.minDistance = 0.32;
     controls.maxDistance = 4.2;
     controls.target.set(0, 0.96, 0);
     // Cancel camera flight immediately if user drags/rotates manually
     const onControlsStart = () => {
       camFlightRef.current.active = false;
+      needsRenderRef.current = true;
+    };
+    const onControlsChange = () => {
+      needsRenderRef.current = true;
     };
     controls.addEventListener('start', onControlsStart);
-    // Allow vertical page scrolling by default when touching outside the 3D human figure
-    renderer.domElement.style.touchAction = 'pan-y';
+    controls.addEventListener('change', onControlsChange);
+    // Permanently claim touch gestures inside the 3D viewport so mobile Chrome/Safari never hijacks rotation!
+    renderer.domElement.style.touchAction = 'none';
     controlsRef.current = controls;
 
     // 6. Groups (Complete 242-Bone 3D Skeleton + Zang-Fu Organs + Cun Guides + Skin + Meridians + Flow Arrows + Needles + Acupoints)
-    const skeletonGroup = buildCompleteAnatomicalSkeleton3D();
+    const skeletonGroup = buildCompleteAnatomicalSkeleton3D(() => {
+      needsRenderRef.current = true;
+    });
     skeletonGroupRef.current = skeletonGroup;
     scene.add(skeletonGroup);
 
-    const organsRig = buildZangFuOrgans3D();
+    const organsRig = buildZangFuOrgans3D(() => {
+      needsRenderRef.current = true;
+    });
     organsRigRef.current = organsRig;
+    organsRig.setVisible(showOrgansRef.current);
     scene.add(organsRig.group);
 
     const cunGuidesRig = buildCunGuides3D();
@@ -1877,16 +1929,17 @@ export const Human3DMeridianViewer: React.FC = () => {
     const skinMat = new THREE.MeshPhysicalMaterial({
       vertexColors: true,
       bumpMap: bumpTex,
-      bumpScale: 0.00058,
+      bumpScale: 0.00095,
       roughnessMap: bumpTex,
-      roughness: 0.46,
+      roughness: 0.54,
       metalness: 0.0,
-      clearcoat: 0.09,
-      clearcoatRoughness: 0.46,
-      reflectivity: 0.52,
-      sheen: 0.36,
-      sheenRoughness: 0.45,
-      sheenColor: new THREE.Color('#ffe6d9'),
+      clearcoat: 0.04,
+      clearcoatRoughness: 0.54,
+      reflectivity: 0.36,
+      envMapIntensity: 0.30,
+      sheen: 0.16,
+      sheenRoughness: 0.60,
+      sheenColor: new THREE.Color('#f0b69c'),
       transparent: true,
       opacity: 0.52,
       depthWrite: false,
@@ -1897,7 +1950,7 @@ export const Human3DMeridianViewer: React.FC = () => {
       polygonOffsetFactor: 1.2,
       polygonOffsetUnits: 1.2,
     });
-    // Per-Pixel Even Lips, Natural Soft Eyebrows, Lash Lines & Compact Male Areola + Glossy Dermal SSS
+    // Per-Pixel Even Lips, Natural Soft Eyebrows, Lash Lines & Compact Male Areola + Rich Dermal SSS
     skinMat.onBeforeCompile = (shader) => {
       shader.vertexShader = shader.vertexShader
         .replace(
@@ -1939,24 +1992,24 @@ export const Human3DMeridianViewer: React.FC = () => {
             float upperIn = smoothstep(lipSeamY - 0.0005, lipSeamY + 0.0004, vBodyPos.y) * smoothstep(cupidBowY + 0.0009, cupidBowY - 0.0009, vBodyPos.y) * xLipFade;
             float lowerIn = smoothstep(lowerBorderY - 0.0010, lowerBorderY + 0.0010, vBodyPos.y) * smoothstep(lipSeamY + 0.0005, lipSeamY - 0.0004, vBodyPos.y) * xLipFade;
 
-            // Single unified, smooth, even rose-terracotta natural lip color across upper & lower lips
-            vec3 evenLipTone = vec3(0.75, 0.44, 0.43);
+            // Rich, natural rose-terracotta lip tone (never chalky or pale)
+            vec3 evenLipTone = vec3(0.62, 0.27, 0.26);
             float totalLip = clamp(upperIn + lowerIn, 0.0, 1.0);
-            diffuseColor.rgb = mix(diffuseColor.rgb, evenLipTone, totalLip * 0.84);
+            diffuseColor.rgb = mix(diffuseColor.rgb, evenLipTone, totalLip * 0.88);
 
-            // Delicate, subtle closed mouth parting line (clean & even, not a thick dark bar)
+            // Delicate, crisp closed mouth parting line
             float seamDist = abs(vBodyPos.y - lipSeamY);
             float seamLine = exp(-pow(seamDist / 0.00055, 2.0)) * smoothstep(0.0268, 0.0205, fAbsX);
-            diffuseColor.rgb = mix(diffuseColor.rgb, vec3(0.45, 0.22, 0.21), seamLine * 0.62);
+            diffuseColor.rgb = mix(diffuseColor.rgb, vec3(0.34, 0.13, 0.13), seamLine * 0.72);
 
             float cornerDimple = exp(-pow((fAbsX - 0.0265) / 0.0022, 2.0) - pow((vBodyPos.y - 1.6412) / 0.0018, 2.0));
-            diffuseColor.rgb = mix(diffuseColor.rgb, diffuseColor.rgb * 0.84, cornerDimple * 0.52);
+            diffuseColor.rgb = mix(diffuseColor.rgb, diffuseColor.rgb * 0.80, cornerDimple * 0.56);
 
             fLipMask = totalLip;
             fUpperLipMask = upperIn;
           }
 
-          // 2. Soft, natural per-pixel eyebrows (smooth organic gradient, no zebra stripes)
+          // 2. Crisp, natural per-pixel eyebrows
           if (vBodyPos.y > 1.724 && vBodyPos.y < 1.747 && vBodyPos.z > 0.140 && fAbsX > 0.010 && fAbsX < 0.058) {
             float bT = (fAbsX - 0.0125) / 0.0435;
             if (bT >= -0.05 && bT <= 1.05) {
@@ -1968,7 +2021,7 @@ export const Human3DMeridianViewer: React.FC = () => {
                 float browFalloff = smoothstep(browHalfH, browHalfH * 0.18, dBrow);
                 float softGrain = 0.88 + 0.12 * (0.5 + 0.5 * sin(fAbsX * 1200.0 + sin(vBodyPos.y * 1900.0) * 1.3));
                 float browDensity = browFalloff * softGrain;
-                diffuseColor.rgb = mix(diffuseColor.rgb, vec3(0.22, 0.15, 0.12), browDensity * 0.68);
+                diffuseColor.rgb = mix(diffuseColor.rgb, vec3(0.14, 0.09, 0.07), browDensity * 0.78);
               }
             }
           }
@@ -1982,14 +2035,14 @@ export const Human3DMeridianViewer: React.FC = () => {
               float lashAng = atan(dyE, dxE);
               float lashTick = 0.82 + 0.18 * sin(lashAng * 56.0);
               float rimWeight = smoothstep(1.24, 0.96, eRad) * smoothstep(0.65, 0.84, eRad);
-              float upperOrLower = dyE > 0.0 ? 0.82 : 0.40;
-              diffuseColor.rgb = mix(diffuseColor.rgb, vec3(0.14, 0.09, 0.075), rimWeight * upperOrLower * lashTick);
+              float upperOrLower = dyE > 0.0 ? 0.88 : 0.46;
+              diffuseColor.rgb = mix(diffuseColor.rgb, vec3(0.08, 0.05, 0.04), rimWeight * upperOrLower * lashTick);
             }
             if (dyE > 0.0058 && dyE < 0.0102 && abs(dxE) < 0.0145) {
               float foldY = 0.0078 - pow(dxE / 0.014, 2.0) * 0.0016;
               float dFold = abs(dyE - foldY);
               float foldLine = exp(-pow(dFold / 0.00075, 2.0)) * smoothstep(0.0145, 0.010, abs(dxE));
-              diffuseColor.rgb = mix(diffuseColor.rgb, diffuseColor.rgb * 0.78, foldLine * 0.55);
+              diffuseColor.rgb = mix(diffuseColor.rgb, diffuseColor.rgb * 0.72, foldLine * 0.65);
             }
           }
 
@@ -1998,16 +2051,15 @@ export const Human3DMeridianViewer: React.FC = () => {
             float dNip = length(vec2(fAbsX - 0.092, vBodyPos.y - 1.334));
             float areolaMask = smoothstep(0.0092, 0.0050, dNip);
             float papillaMask = smoothstep(0.0034, 0.0012, dNip);
-            diffuseColor.rgb = mix(diffuseColor.rgb, vec3(0.73, 0.48, 0.42), areolaMask * 0.56);
-            diffuseColor.rgb = mix(diffuseColor.rgb, vec3(0.60, 0.35, 0.31), papillaMask * 0.62);
+            diffuseColor.rgb = mix(diffuseColor.rgb, vec3(0.62, 0.36, 0.31), areolaMask * 0.64);
+            diffuseColor.rgb = mix(diffuseColor.rgb, vec3(0.49, 0.25, 0.21), papillaMask * 0.70);
           }
           `
         )
         .replace(
           '#include <roughnessmap_fragment>',
           `#include <roughnessmap_fragment>
-          // Keep glossy porcelain skin; smooth subtle uniform sheen on lips
-          roughnessFactor = mix(roughnessFactor, min(roughnessFactor, 0.38), fLipMask);
+          roughnessFactor = mix(roughnessFactor, min(roughnessFactor, 0.42), fLipMask);
           `
         )
         .replace(
@@ -2017,12 +2069,12 @@ export const Human3DMeridianViewer: React.FC = () => {
           float sssNoV = clamp(dot(geometryNormal, sssViewDir), 0.0, 1.0);
           float sssLum = dot(reflectedLight.directDiffuse, vec3(0.333));
           float terminatorBand = smoothstep(0.01, 0.38, sssLum) * (1.0 - smoothstep(0.38, 0.88, sssLum));
-          vec3 dermalScatter = vec3(0.95, 0.36, 0.24) * diffuseColor.rgb * (terminatorBand * 0.32 + 0.05);
-          float grazingSheen = pow(1.0 - sssNoV, 2.6) * 0.14;
+          vec3 dermalScatter = vec3(0.88, 0.26, 0.16) * diffuseColor.rgb * (terminatorBand * 0.28 + 0.03);
+          float grazingSheen = pow(1.0 - sssNoV, 2.8) * 0.06;
           reflectedLight.directDiffuse += dermalScatter;
-          reflectedLight.indirectDiffuse += diffuseColor.rgb * vec3(1.05, 0.94, 0.88) * grazingSheen;
-          // Gentle chin-bounce fill on downward-facing upper lip so upper & lower lips appear even in brightness
-          reflectedLight.indirectDiffuse += diffuseColor.rgb * (0.28 * fUpperLipMask);
+          reflectedLight.indirectDiffuse += diffuseColor.rgb * vec3(1.02, 0.90, 0.82) * grazingSheen;
+          // Gentle chin-bounce fill on downward-facing upper lip without bleaching tone
+          reflectedLight.indirectDiffuse += diffuseColor.rgb * (0.10 * fUpperLipMask);
           `
         )
         .replace(
@@ -2034,7 +2086,7 @@ export const Human3DMeridianViewer: React.FC = () => {
           #include <opaque_fragment>`
         );
     };
-    skinMat.customProgramCacheKey = () => 'lifelike_dermal_sss_physical_v7';
+    skinMat.customProgramCacheKey = () => 'lifelike_dermal_sss_physical_v8';
     skinMaterialRef.current = skinMat;
 
     // Dedicated glossy corneal tear-film material for the 3D Eyeballs with 512x512 photorealistic iris texture
@@ -2055,9 +2107,6 @@ export const Human3DMeridianViewer: React.FC = () => {
       side: THREE.FrontSide,
     });
     eyeballMaterialRef.current = eyeballMat;
-
-    // Keep reference to the 3D human body meshes so hit-testing works in all anatomical modes (including skeleton_only)
-    const skinHitMeshes: THREE.Object3D[] = [];
 
     const loader = new GLTFLoader();
     loader.load(
@@ -2080,7 +2129,6 @@ export const Human3DMeridianViewer: React.FC = () => {
             }
             obj.material = skinMat;
             obj.renderOrder = 3;
-            skinHitMeshes.push(obj);
 
             const depthMesh = new THREE.Mesh(obj.geometry, skinDepthMat);
             depthMesh.position.copy(obj.position);
@@ -2099,7 +2147,6 @@ export const Human3DMeridianViewer: React.FC = () => {
         eyeballColorMesh.renderOrder = 3;
         depthClones.push(eyeballDepthMesh);
         bodyGroup.add(eyeballColorMesh);
-        skinHitMeshes.push(eyeballColorMesh);
 
         depthClones.forEach((dm) => bodyGroup.add(dm));
         bodyGroup.add(gltf.scene);
@@ -2107,6 +2154,7 @@ export const Human3DMeridianViewer: React.FC = () => {
           setHumanMeshBuffers({ positions: capturedPos, normals: capturedNorm });
         }
         occlusionDirtyRef.current = true;
+        needsRenderRef.current = true;
         setModelLoaded(true);
       },
       undefined,
@@ -2120,144 +2168,34 @@ export const Human3DMeridianViewer: React.FC = () => {
       .then((json: SurfaceDataJSON) => {
         if (!disposed) {
           setSurfaceData(transformSurfaceDataToMaleBody(json));
+          needsRenderRef.current = true;
         }
       })
       .catch((err) => console.error('Error loading meridian surface data:', err));
 
-    // 8. Body-Only Touch/Mouse Interaction & Acupoint Click Raycasting
-    // Touching/dragging ON the 3D human body rotates/flips/zooms; touching OUTSIDE scrolls the page!
+    // 8. Non-Blocking Acupoint & Organ Tap Raycasting (never interferes with OrbitControls dragging/zooming)
     const raycaster = new THREE.Raycaster();
     const mouse = new THREE.Vector2();
-    const samplePt = new THREE.Vector2();
     let downPos = { x: 0, y: 0 };
-    let isInteractingWithBody = false;
 
-    const hitTestHumanBody = (clientX: number, clientY: number): boolean => {
-      if (!mountRef.current) return false;
-      const rect = mountRef.current.getBoundingClientRect();
-      if (rect.width <= 0 || rect.height <= 0) return false;
-      const baseX = ((clientX - rect.left) / rect.width) * 2 - 1;
-      const baseY = -((clientY - rect.top) / rect.height) * 2 + 1;
-
-      // Check center point plus a small ~7px cross neighborhood so fingers/edges/acupoints are easy to grab
-      const offsets: [number, number][] = [
-        [0, 0],
-        [0.024, 0],
-        [-0.024, 0],
-        [0, 0.024],
-        [0, -0.024],
-      ];
-
-      for (let i = 0; i < offsets.length; i++) {
-        samplePt.set(baseX + offsets[i][0], baseY + offsets[i][1]);
-        raycaster.setFromCamera(samplePt, camera);
-
-        if (skinHitMeshes.length > 0) {
-          const hits = raycaster.intersectObjects(skinHitMeshes, false);
-          if (hits.length > 0) return true;
-        } else if (skeletonGroupRef.current) {
-          const skelHits = raycaster.intersectObjects(
-            skeletonGroupRef.current.children,
-            true
-          );
-          if (skelHits.length > 0) return true;
-        }
-
-        if (pointsGroupRef.current && pointsGroupRef.current.children.length > 0) {
-          const ptHits = raycaster
-            .intersectObjects(pointsGroupRef.current.children, false)
-            .filter((h) => h.object.visible);
-          if (ptHits.length > 0) return true;
-        }
-
-        if (showOrgansRef.current && organsRigRef.current) {
-          const organHits = raycaster.intersectObjects(
-            organsRigRef.current.organMeshes,
-            false
-          );
-          if (organHits.length > 0) return true;
-        }
-      }
-      return false;
-    };
-
-    const onTouchStartCapture = (e: TouchEvent) => {
-      let hitBody = false;
-      for (let i = 0; i < e.touches.length; i++) {
-        if (hitTestHumanBody(e.touches[i].clientX, e.touches[i].clientY)) {
-          hitBody = true;
-          break;
-        }
-      }
-      isInteractingWithBody = hitBody;
-      if (hitBody) {
-        controls.enabled = true;
-        renderer.domElement.style.touchAction = 'none';
-        if (e.cancelable) e.preventDefault();
-      } else {
-        controls.enabled = false;
-        renderer.domElement.style.touchAction = 'pan-y';
-        e.stopImmediatePropagation();
-      }
-    };
-
-    const onTouchMoveCapture = (e: TouchEvent) => {
-      if (isInteractingWithBody) {
-        if (e.cancelable) e.preventDefault();
-      } else {
-        e.stopImmediatePropagation();
-      }
-    };
-
-    const onTouchEndCapture = () => {
-      isInteractingWithBody = false;
-      renderer.domElement.style.touchAction = 'pan-y';
-    };
-
-    const onPointerDownCapture = (e: PointerEvent) => {
+    const onPointerDown = (e: PointerEvent) => {
       downPos = { x: e.clientX, y: e.clientY };
-      const hitBody =
-        e.pointerType === 'touch'
-          ? isInteractingWithBody || hitTestHumanBody(e.clientX, e.clientY)
-          : hitTestHumanBody(e.clientX, e.clientY);
-      isInteractingWithBody = hitBody;
-
-      if (hitBody) {
-        controls.enabled = true;
-        renderer.domElement.style.touchAction = 'none';
-      } else {
-        controls.enabled = false;
-        renderer.domElement.style.touchAction = 'pan-y';
-        e.stopImmediatePropagation();
-      }
-    };
-
-    const onWheelCapture = (e: WheelEvent) => {
-      const hitBody = hitTestHumanBody(e.clientX, e.clientY);
-      if (hitBody) {
-        controls.enabled = true;
-      } else {
-        controls.enabled = false;
-        // Stop OrbitControls from zooming so the browser scrolls the webpage vertically!
-        e.stopImmediatePropagation();
-      }
     };
 
     const onPointerUp = (e: PointerEvent) => {
-      renderer.domElement.style.touchAction = 'pan-y';
-      if (Math.hypot(e.clientX - downPos.x, e.clientY - downPos.y) > 6 || !mountRef.current) {
+      if (Math.hypot(e.clientX - downPos.x, e.clientY - downPos.y) > 7 || !mountRef.current) {
         return;
       }
       const rect = mountRef.current.getBoundingClientRect();
+      if (rect.width <= 0 || rect.height <= 0) return;
       mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
       mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
 
       raycaster.setFromCamera(mouse, camera);
       let handledHit = false;
-      if (pointsGroupRef.current) {
-        // Only intersect visible points (back-facing points are already hidden in "Da thật" mode!)
+      if (pointsGroupRef.current && pointsGroupRef.current.children.length > 0) {
         const hits = raycaster
-          .intersectObjects(pointsGroupRef.current.children, true)
+          .intersectObjects(pointsGroupRef.current.children, false)
           .filter((h) => h.object.visible);
 
         if (hits.length > 0) {
@@ -2290,24 +2228,7 @@ export const Human3DMeridianViewer: React.FC = () => {
       }
     };
 
-    renderer.domElement.addEventListener('touchstart', onTouchStartCapture, {
-      capture: true,
-      passive: false,
-    });
-    renderer.domElement.addEventListener('touchmove', onTouchMoveCapture, {
-      capture: true,
-      passive: false,
-    });
-    renderer.domElement.addEventListener('touchend', onTouchEndCapture, {
-      capture: true,
-    });
-    renderer.domElement.addEventListener('pointerdown', onPointerDownCapture, {
-      capture: true,
-    });
-    renderer.domElement.addEventListener('wheel', onWheelCapture, {
-      capture: true,
-      passive: false,
-    });
+    renderer.domElement.addEventListener('pointerdown', onPointerDown);
     renderer.domElement.addEventListener('pointerup', onPointerUp);
 
     // 9. Resize Handler
@@ -2315,10 +2236,12 @@ export const Human3DMeridianViewer: React.FC = () => {
       if (!mountRef.current || !rendererRef.current || !cameraRef.current) return;
       const w = mountRef.current.clientWidth;
       const h = mountRef.current.clientHeight;
+      if (w <= 0 || h <= 0) return;
       cameraRef.current.aspect = w / h;
       cameraRef.current.updateProjectionMatrix();
       rendererRef.current.setSize(w, h);
       occlusionDirtyRef.current = true;
+      needsRenderRef.current = true;
     };
     window.addEventListener('resize', handleResize);
 
@@ -2338,6 +2261,9 @@ export const Human3DMeridianViewer: React.FC = () => {
     const _beadScale = new THREE.Vector3();
     const _beadMat = new THREE.Matrix4();
     let lastFrameTime = performance.now();
+    let lastRenderTime = 0;
+    let lastLabelLayoutTime = 0;
+    let labelLayoutPending = true;
     let qiPhase = 0;
 
     interface ScreenPinObstacle {
@@ -2382,18 +2308,30 @@ export const Human3DMeridianViewer: React.FC = () => {
           controls.target.copy(flight.target);
           flight.active = false;
         }
+        needsRenderRef.current = true;
       }
 
       controls.update();
 
-      // Update flowing Qi pulses strictly in physiological direction (origin -> terminal)
+      const camMoved =
+        lastCamPos.distanceToSquared(camera.position) > 0.00001 ||
+        lastTargetPos.distanceToSquared(controls.target) > 0.00001;
+
       const qiMesh = qiBeadsMeshRef.current;
       const tracks = qiTracksRef.current;
       const flowSpeed = qiFlowSpeedRef.current;
+      const isQiAnimating = Boolean(
+        qiMesh && tracks.length > 0 && showFlowArrowsRef.current && flowSpeed > 0
+      );
+
+      // Update flowing Qi pulses strictly in physiological direction (origin -> terminal)
       if (qiMesh && tracks.length > 0) {
-        if (!showFlowArrowsRef.current || flowSpeed <= 0) {
-          qiMesh.visible = false;
-        } else {
+        if (!isQiAnimating) {
+          if (qiMesh.visible) {
+            qiMesh.visible = false;
+            needsRenderRef.current = true;
+          }
+        } else if (!isSoftwareGl || camMoved || needsRenderRef.current || now - lastRenderTime >= 48) {
           qiMesh.visible = true;
           qiPhase = (qiPhase + dt * 0.24 * flowSpeed) % 1000;
           const beadZoomScale = Math.pow(
@@ -2415,17 +2353,25 @@ export const Human3DMeridianViewer: React.FC = () => {
             qiMesh.setMatrixAt(i, _beadMat);
           }
           qiMesh.instanceMatrix.needsUpdate = true;
+          needsRenderRef.current = true;
         }
       }
 
-      const camMoved =
-        lastCamPos.distanceToSquared(camera.position) > 0.00001 ||
-        lastTargetPos.distanceToSquared(controls.target) > 0.00001;
+      const shouldRunLabelLayout =
+        Boolean(pointsGroupRef.current) &&
+        (occlusionDirtyRef.current ||
+          (camMoved && ((labelLayoutPending = true), now - lastLabelLayoutTime >= 65)) ||
+          (!camMoved && labelLayoutPending));
 
-      if ((camMoved || occlusionDirtyRef.current) && pointsGroupRef.current) {
+      if (shouldRunLabelLayout && pointsGroupRef.current) {
         lastCamPos.copy(camera.position);
         lastTargetPos.copy(controls.target);
         occlusionDirtyRef.current = false;
+        lastLabelLayoutTime = now;
+        if (!camMoved) {
+          labelLayoutPending = false;
+        }
+        needsRenderRef.current = true;
 
         // Dynamically scale meridian line thickness based on camera zoom distance
         const camTargetDist = camera.position.distanceTo(controls.target);
@@ -2633,9 +2579,10 @@ export const Human3DMeridianViewer: React.FC = () => {
               // 1. Check collision against ALL visible yellow acupoint pin circles
               for (let k = 0; k < visiblePins.length; k++) {
                 const pin = visiblePins[k];
-                const ox = item.hw + pin.hw - Math.abs(cx - pin.sx);
                 const oy = item.hh + pin.hh - Math.abs(cy - pin.sy);
-                if (ox > 0 && oy > 0) {
+                if (oy <= 0) continue;
+                const ox = item.hw + pin.hw - Math.abs(cx - pin.sx);
+                if (ox > 0) {
                   maxOverlap = Math.max(maxOverlap, ox * oy * 3.0);
                 }
               }
@@ -2643,9 +2590,10 @@ export const Human3DMeridianViewer: React.FC = () => {
               // 2. Check collision against ALL already-placed acupoint name labels
               for (let p = 0; p < placed.length; p++) {
                 const other = placed[p];
-                const ox = item.hw + other.hw - Math.abs(cx - other.sx);
                 const oy = item.hh + other.hh - Math.abs(cy - other.sy);
-                if (ox > 0 && oy > 0) {
+                if (oy <= 0) continue;
+                const ox = item.hw + other.hw - Math.abs(cx - other.sx);
+                if (ox > 0) {
                   maxOverlap = Math.max(maxOverlap, ox * oy);
                 }
               }
@@ -2682,7 +2630,11 @@ export const Human3DMeridianViewer: React.FC = () => {
         }
       }
 
-      renderer.render(scene, camera);
+      if (needsRenderRef.current || camMoved || flight.active) {
+        renderer.render(scene, camera);
+        needsRenderRef.current = false;
+        lastRenderTime = now;
+      }
     };
     animate();
 
@@ -2690,28 +2642,16 @@ export const Human3DMeridianViewer: React.FC = () => {
       disposed = true;
       cancelAnimationFrame(animFrameIdRef.current);
       window.removeEventListener('resize', handleResize);
-      renderer.domElement.removeEventListener('touchstart', onTouchStartCapture, {
-        capture: true,
-      } as EventListenerOptions);
-      renderer.domElement.removeEventListener('touchmove', onTouchMoveCapture, {
-        capture: true,
-      } as EventListenerOptions);
-      renderer.domElement.removeEventListener('touchend', onTouchEndCapture, {
-        capture: true,
-      } as EventListenerOptions);
-      renderer.domElement.removeEventListener('pointerdown', onPointerDownCapture, {
-        capture: true,
-      } as EventListenerOptions);
-      renderer.domElement.removeEventListener('wheel', onWheelCapture, {
-        capture: true,
-      } as EventListenerOptions);
+      renderer.domElement.removeEventListener('pointerdown', onPointerDown);
       renderer.domElement.removeEventListener('pointerup', onPointerUp);
       controls.removeEventListener('start', onControlsStart);
+      controls.removeEventListener('change', onControlsChange);
       organsRig.dispose();
       cunGuidesRig.dispose();
       needleRig.dispose();
       bumpTex.dispose();
       eyeTex.dispose();
+      envRenderTarget.dispose();
       renderer.dispose();
       if (mountRef.current && renderer.domElement) {
         mountRef.current.removeChild(renderer.domElement);
@@ -2816,21 +2756,26 @@ export const Human3DMeridianViewer: React.FC = () => {
         }
       });
     }
+    needsRenderRef.current = true;
   }, [anatomicalMode]);
 
   // Sync Zang-Fu 3D internal organs visibility & meridian pairing highlight
+  // (Automatically hidden in solid opaque_skin mode so no deep tissue ever clips or shows through)
   useEffect(() => {
     const rig = organsRigRef.current;
     if (!rig) return;
-    rig.setVisible(showOrgans);
-    if (showOrgans) {
-      rig.highlightMeridians(activeMeridianIds);
+    const effectiveShowOrgans = showOrgans && anatomicalMode !== 'opaque_skin';
+    rig.setVisible(effectiveShowOrgans);
+    if (effectiveShowOrgans) {
+      rig.highlightMeridians(activeMeridianIds, selectedOrgan?.id || null);
     }
-  }, [showOrgans, activeMeridianIds]);
+    needsRenderRef.current = true;
+  }, [showOrgans, activeMeridianIds, selectedOrgan, anatomicalMode]);
 
   // Sync anatomical Cun & Midline reference guides visibility
   useEffect(() => {
     cunGuidesRigRef.current?.setVisible(showCunGuides);
+    needsRenderRef.current = true;
   }, [showCunGuides]);
 
   // Sync 3D virtual acupuncture needle target & insertion angle on selected point
@@ -2839,6 +2784,7 @@ export const Human3DMeridianViewer: React.FC = () => {
     if (!needle) return;
     if (!showNeedle || !selectedPoint) {
       needle.setVisible(false);
+      needsRenderRef.current = true;
       return;
     }
 
@@ -2855,6 +2801,7 @@ export const Human3DMeridianViewer: React.FC = () => {
 
     needle.setTarget(selectedPoint.position, outwardNormal, selectedPoint.depth);
     needle.setVisible(true);
+    needsRenderRef.current = true;
   }, [selectedPoint, showNeedle, allPlottedPoints, surfaceData]);
 
   // Render Surface-Registered Meridian Curves, Flow Direction Arrows, Qi Beads, & Acupoint Pins + Labels
@@ -3142,6 +3089,7 @@ export const Human3DMeridianViewer: React.FC = () => {
     }
 
     occlusionDirtyRef.current = true;
+    needsRenderRef.current = true;
   }, [
     surfaceData,
     activeMeridianIds,
@@ -3196,24 +3144,24 @@ export const Human3DMeridianViewer: React.FC = () => {
   );
 
   return (
-    <div className="w-full rounded-2xl overflow-hidden border border-slate-300 shadow-2xl flex flex-col select-none bg-[#b8b0b3]">
-      {/* Main 3D Studio Viewport (Exact Acu Atlas 3D taupe studio backdrop & floating buttons) */}
+    <div className="w-full rounded-2xl overflow-hidden border border-slate-300 shadow-2xl flex flex-col select-none bg-[#a89c9f]">
+      {/* Main 3D Studio Viewport (Rich studio backdrop for crisp skin, skeleton & viscera contrast) */}
       <div
         className="relative w-full h-[640px] sm:h-[750px] overflow-hidden"
         style={{
           background:
-            'radial-gradient(circle at 50% 38%, #d2c8ca 0%, #b8aeb0 52%, #8e8386 100%)',
+            'radial-gradient(circle at 50% 38%, #c9bdbf 0%, #a5989b 52%, #7a6e71 100%)',
         }}
       >
         {/* Three.js Canvas Mount */}
         <div
           ref={mountRef}
-          className="w-full h-full cursor-grab active:cursor-grabbing"
+          className="w-full h-full cursor-grab active:cursor-grabbing touch-none"
         />
 
         {/* Loading indicator while 643KB MakeHuman GLB mesh loads */}
         {!modelLoaded && (
-          <div className="absolute inset-0 flex items-center justify-center bg-black/15 backdrop-blur-xs z-10 pointer-events-none">
+          <div className="absolute inset-0 flex items-center justify-center bg-black/20 z-10 pointer-events-none">
             <div className="px-4 py-2.5 rounded-xl bg-white/95 shadow-lg text-xs font-bold text-slate-800 flex items-center gap-2">
               <div className="w-4 h-4 border-2 border-rose-600 border-t-transparent rounded-full animate-spin" />
               Đang tải mô hình giải phẫu người 3D độ nét cao...
@@ -3242,7 +3190,7 @@ export const Human3DMeridianViewer: React.FC = () => {
 
           {/* CENTER: ANATOMICAL MODE BAR + TOOL POPOVER */}
           <div className="pointer-events-auto flex flex-col items-center min-w-0">
-            <div className="flex items-center gap-0.5 sm:gap-1 bg-white/95 backdrop-blur-md p-1 rounded-full shadow-lg border border-slate-200/90">
+            <div className="flex items-center gap-0.5 sm:gap-1 bg-white/95 p-1 rounded-full shadow-lg border border-slate-200/90">
               <button
                 type="button"
                 onClick={() => {
@@ -3315,7 +3263,7 @@ export const Human3DMeridianViewer: React.FC = () => {
             </div>
 
             {showToolPopover && (
-              <div className="mt-2 w-76 sm:w-88 max-h-[72vh] overflow-y-auto bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-slate-200 p-3 text-slate-800 space-y-2.5 animate-fade-in">
+              <div className="mt-2 w-76 sm:w-88 max-h-[72vh] overflow-y-auto bg-white rounded-2xl shadow-2xl border border-slate-200 p-3 text-slate-800 space-y-2.5 animate-fade-in">
                 <div className="flex items-center justify-between border-b border-slate-100 pb-1.5">
                   <span className="text-xs font-extrabold uppercase tracking-wider text-slate-500">
                     Tuỳ Chỉnh Giải Phẫu & Kinh Lạc 3D
@@ -3442,7 +3390,7 @@ export const Human3DMeridianViewer: React.FC = () => {
                   >
                     <span className="flex items-center gap-2">
                       <Heart className="w-4 h-4 text-rose-600" />
-                      Nội Tạng Tạng Phủ 3D (Click xem kinh)
+                      19 Tạng Phủ & Phủ Kỳ Hằng 3D (Click xem kinh)
                     </span>
                     <span
                       className={`px-2 py-0.5 rounded-full text-[11px] ${
@@ -3606,7 +3554,7 @@ export const Human3DMeridianViewer: React.FC = () => {
             </button>
 
           {showCameraPopover && (
-            <div className="mt-2 w-56 bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-slate-200 p-2.5 text-slate-800 space-y-1 animate-fade-in">
+            <div className="mt-2 w-56 bg-white rounded-2xl shadow-2xl border border-slate-200 p-2.5 text-slate-800 space-y-1 animate-fade-in">
               <div className="px-2 py-1 text-[11px] font-extrabold uppercase tracking-wider text-slate-400 border-b border-slate-100">
                 Góc Nhìn Giải Phẫu 3D
               </div>
@@ -3687,7 +3635,7 @@ export const Human3DMeridianViewer: React.FC = () => {
                   setAnatomicalMode('skin_skeleton');
                 }
               }}
-              title="Hiển thị 3D Tạng Phủ (Tim, Phổi, Gan, Dạ Dày, Thận, Bàng Quang...)"
+              title="Hiển thị 19 Tạng Phủ, Phủ Kỳ Hằng & Nội Tiết 3D (Não, Tủy Sống, Tim, Phổi, Gan, Tụy, Thượng Thận...)"
               className={`px-2 py-1 rounded-lg text-[10px] sm:text-xs font-bold shadow-sm border transition-all flex items-center gap-1 cursor-pointer ${
                 showOrgans
                   ? 'bg-rose-700 text-white border-rose-800'
@@ -3734,7 +3682,7 @@ export const Human3DMeridianViewer: React.FC = () => {
             SEARCH MODAL OVERLAY (Triggered by top-left 🔍 button)
            =================================================================== */}
         {showSearchModal && (
-          <div className="absolute top-16 left-3 sm:left-4 z-30 w-80 sm:w-96 bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-slate-200 p-3.5 text-slate-900 animate-fade-in">
+          <div className="absolute top-16 left-3 sm:left-4 z-30 w-80 sm:w-96 bg-white rounded-2xl shadow-2xl border border-slate-200 p-3.5 text-slate-900 animate-fade-in">
             <div className="flex items-center gap-2 border-b border-slate-200 pb-2.5">
               <Search className="w-4 h-4 text-slate-400 shrink-0" />
               <input
@@ -3789,160 +3737,64 @@ export const Human3DMeridianViewer: React.FC = () => {
         )}
 
         {/* ===================================================================
-            SELECTED ACUPOINT CLINICAL DETAIL CARD
+            COMPACT BOTTOM-EDGE SELECTED ACUPOINT PILL (Never blocks the 3D body or needle)
+            Full clinical detail card renders cleanly below the 3D viewport.
            =================================================================== */}
         {selectedPoint && (
-          <div className="absolute top-16 left-3 sm:left-4 z-30 max-w-sm w-[calc(100%-1.5rem)] max-h-[68vh] overflow-y-auto bg-white/95 backdrop-blur-md border border-slate-200 rounded-2xl p-4 shadow-2xl text-slate-900 space-y-2.5 animate-fade-in">
-            <div className="flex items-start justify-between gap-2 border-b border-slate-100 pb-2">
-              <div>
-                <div className="flex items-center gap-2 flex-wrap">
-                  <span className="px-2 py-0.5 rounded-md bg-[#d93829] text-white font-mono text-xs font-extrabold">
-                    {selectedPoint.code}
-                  </span>
-                  <h4 className="text-base font-extrabold text-slate-900">
-                    {selectedPoint.name}
-                  </h4>
-                  {selectedPoint.chineseName &&
-                    selectedPoint.chineseName !== selectedPoint.code && (
-                      <span className="text-xs text-slate-500 font-serif">
-                        ({selectedPoint.chineseName})
-                      </span>
-                    )}
-                </div>
-                <p className="text-xs font-bold text-rose-700 mt-0.5">
-                  {selectedPoint.meridianName}
-                </p>
-              </div>
-              <div className="flex items-center gap-1 shrink-0">
-                <button
-                  type="button"
-                  onClick={() => setShowNeedle(!showNeedle)}
-                  title="Bật/Tắt Kim Châm 3D mô phỏng hướng & góc châm"
-                  className={`px-2 py-1 rounded-lg text-[10px] font-bold flex items-center gap-1 cursor-pointer border ${
-                    showNeedle
-                      ? 'bg-amber-50 border-amber-300 text-amber-800'
-                      : 'bg-slate-50 border-slate-200 text-slate-600'
-                  }`}
-                >
-                  <Syringe className="w-3 h-3" />
-                  <span>{showNeedle ? 'Kim 3D' : 'Tắt kim'}</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setSelectedPoint(null)}
-                  className="p-1 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 cursor-pointer"
-                >
-                  <X className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
-
-            <div className="space-y-1.5 text-xs leading-relaxed">
-              {selectedPoint.specialRole && (
-                <div className="px-2.5 py-1.5 rounded-lg bg-amber-50 border border-amber-200/80 text-amber-900">
-                  <span className="font-bold">Đặc tính huyệt: </span>
-                  <span>{selectedPoint.specialRole}</span>
-                </div>
-              )}
-              {safetyWarningText && (
-                <div className="px-2.5 py-1.5 rounded-lg bg-rose-50 border border-rose-300 text-rose-900 flex items-start gap-1.5">
-                  <AlertTriangle className="w-3.5 h-3.5 text-rose-600 shrink-0 mt-0.5" />
-                  <span>
-                    <span className="font-bold">Lưu ý an toàn giải phẫu: </span>
-                    {safetyWarningText}
-                  </span>
-                </div>
-              )}
-              <div>
-                <span className="font-bold text-slate-900">• Vị trí giải phẫu: </span>
-                <span className="text-slate-700">{selectedPoint.location}</span>
-              </div>
-              <div>
-                <span className="font-bold text-slate-900">• Giải phẫu thần kinh - cơ: </span>
-                <span className="text-slate-700">{selectedPoint.anatomy}</span>
-              </div>
-              <div>
-                <span className="font-bold text-slate-900">• Công năng: </span>
-                <span className="text-slate-700">{selectedPoint.actions}</span>
-              </div>
-              <div>
-                <span className="font-bold text-slate-900">• Kỹ thuật châm: </span>
-                <span className="text-slate-700">{selectedPoint.depth}</span>
-              </div>
-              {selectedPoint.indications && selectedPoint.indications.length > 0 && (
-                <div className="pt-1 border-t border-slate-100">
-                  <span className="font-bold text-rose-700">• Chủ trị lâm sàng: </span>
-                  <span className="text-slate-700">
-                    {selectedPoint.indications.join('; ')}.
-                  </span>
-                </div>
-              )}
-            </div>
-          </div>
-        )}
-
-        {/* ===================================================================
-            SELECTED 3D ZANG-FU INTERNAL ORGAN CARD
-           =================================================================== */}
-        {selectedOrgan && !selectedPoint && (
-          <div className="absolute top-16 left-3 sm:left-4 z-30 max-w-sm w-[calc(100%-1.5rem)] bg-white/95 backdrop-blur-md border border-rose-200 rounded-2xl p-4 shadow-2xl text-slate-900 space-y-2.5 animate-fade-in">
-            <div className="flex items-start justify-between gap-2 border-b border-slate-100 pb-2">
-              <div>
-                <div className="flex items-center gap-2">
-                  <span
-                    className="w-3 h-3 rounded-full shrink-0"
-                    style={{ backgroundColor: selectedOrgan.baseColor }}
-                  />
-                  <h4 className="text-sm sm:text-base font-extrabold text-slate-900">
-                    {selectedOrgan.name}
-                  </h4>
-                  <span className="text-xs text-slate-500 font-serif">
-                    ({selectedOrgan.chineseName})
-                  </span>
-                </div>
-                <p className="text-[11px] font-bold text-rose-700 mt-0.5">
-                  {selectedOrgan.category} • Tương ứng Kinh {selectedOrgan.meridianIds.join(' / ')}
-                </p>
-              </div>
+          <div className="absolute bottom-2.5 inset-x-2.5 z-20 flex justify-center pointer-events-none">
+            <div className="pointer-events-auto max-w-full bg-white/95 border border-slate-200/95 rounded-full px-2.5 py-1 shadow-lg flex items-center gap-1.5 text-slate-900 animate-fade-in">
+              <span className="px-1.5 py-0.5 rounded-full bg-[#d93829] text-white font-mono text-[10px] font-extrabold shrink-0">
+                {selectedPoint.code}
+              </span>
+              <span className="text-xs font-extrabold text-slate-900 truncate max-w-[140px] sm:max-w-[220px]">
+                {selectedPoint.name}
+              </span>
               <button
                 type="button"
-                onClick={() => setSelectedOrgan(null)}
-                className="p-1 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 cursor-pointer"
+                onClick={() => {
+                  const next = !showNeedle;
+                  setShowNeedle(next);
+                  if (next) {
+                    focusOnPoint(selectedPoint);
+                  }
+                }}
+                title="Bật/Tắt Kim Châm 3D mô phỏng hướng & góc châm"
+                className={`px-2 py-0.5 rounded-full text-[10px] font-bold flex items-center gap-1 cursor-pointer border shrink-0 transition-colors ${
+                  showNeedle
+                    ? 'bg-amber-50 border-amber-300 text-amber-800'
+                    : 'bg-slate-50 border-slate-200 text-slate-600'
+                }`}
               >
-                <X className="w-4 h-4" />
+                <Syringe className="w-3 h-3" />
+                <span>{showNeedle ? 'Kim 3D' : 'Tắt kim'}</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => focusOnPoint(selectedPoint)}
+                title="Soi cận cảnh huyệt & kim 3D"
+                className="p-1 rounded-full text-slate-600 hover:text-rose-700 hover:bg-rose-50 cursor-pointer shrink-0"
+              >
+                <Crosshair className="w-3.5 h-3.5" />
+              </button>
+              <button
+                type="button"
+                onClick={() => setSelectedPoint(null)}
+                title="Đóng thông tin huyệt"
+                className="p-1 rounded-full text-slate-400 hover:text-slate-700 hover:bg-slate-100 cursor-pointer shrink-0"
+              >
+                <X className="w-3.5 h-3.5" />
               </button>
             </div>
-
-            <div className="space-y-1.5 text-xs leading-relaxed">
-              <div>
-                <span className="font-bold text-slate-900">• Công năng Tạng Phủ: </span>
-                <span className="text-slate-700">{selectedOrgan.physiology}</span>
-              </div>
-              <div>
-                <span className="font-bold text-slate-900">• Định vị giải phẫu: </span>
-                <span className="text-slate-700">{selectedOrgan.clinicalNotes}</span>
-              </div>
-            </div>
-
-            <button
-              type="button"
-              onClick={() => {
-                setActiveMeridianIds(selectedOrgan.meridianIds);
-                setSelectedOrgan(null);
-              }}
-              className="w-full py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
-            >
-              <Navigation className="w-3.5 h-3.5" />
-              <span>Hiện Đường Kinh & Chiều Khí Của {selectedOrgan.id}</span>
-            </button>
           </div>
         )}
+
+        {/* Selected Acupoint & Selected Zang-Fu organ cards render outside & below the 3D viewport so text never covers the 3D body or needle */}
 
         {/* ===================================================================
             LEFT MENU DRAWER (Triggered by ☰ button on bottom bar)
            =================================================================== */}
         {showMenuDrawer && (
-          <div className="absolute bottom-2 left-2 z-30 w-80 sm:w-96 bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-slate-200 p-4 text-slate-900 space-y-3 animate-fade-in">
+          <div className="absolute bottom-2 left-2 z-30 w-80 sm:w-96 bg-white rounded-2xl shadow-2xl border border-slate-200 p-4 text-slate-900 space-y-3 animate-fade-in">
             <div className="flex items-center justify-between border-b border-slate-200 pb-2">
               <div>
                 <h3 className="text-sm font-extrabold text-slate-900">
@@ -4048,6 +3900,232 @@ export const Human3DMeridianViewer: React.FC = () => {
           </div>
         )}
       </div>
+
+      {/* =====================================================================
+          SELECTED ACUPOINT CLINICAL DETAIL CARD (Below & Outside 3D Canvas)
+         ===================================================================== */}
+      {selectedPoint && (
+        <div className="w-full bg-white border-t border-slate-200 px-3.5 py-3 sm:px-4 sm:py-3.5 text-slate-900 space-y-2.5">
+          <div className="flex items-start justify-between gap-2 border-b border-slate-100 pb-2">
+            <div>
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="px-2 py-0.5 rounded-md bg-[#d93829] text-white font-mono text-xs font-extrabold">
+                  {selectedPoint.code}
+                </span>
+                <h4 className="text-sm sm:text-base font-extrabold text-slate-900">
+                  {selectedPoint.name}
+                </h4>
+                {selectedPoint.chineseName &&
+                  selectedPoint.chineseName !== selectedPoint.code && (
+                    <span className="text-xs text-slate-500 font-serif">
+                      ({selectedPoint.chineseName})
+                    </span>
+                  )}
+              </div>
+              <p className="text-xs font-bold text-rose-700 mt-0.5">
+                {selectedPoint.meridianName}
+              </p>
+            </div>
+            <div className="flex items-center gap-1.5 shrink-0">
+              <button
+                type="button"
+                onClick={() => {
+                  focusOnPoint(selectedPoint);
+                  mountRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }}
+                title="Soi cận cảnh huyệt & kim 3D trên mô hình"
+                className="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-800 text-[11px] font-bold flex items-center gap-1 cursor-pointer"
+              >
+                <Crosshair className="w-3.5 h-3.5 text-rose-600" />
+                <span>Soi 3D</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  const next = !showNeedle;
+                  setShowNeedle(next);
+                  if (next) {
+                    focusOnPoint(selectedPoint);
+                    mountRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                  }
+                }}
+                title="Bật/Tắt Kim Châm 3D mô phỏng hướng & góc châm"
+                className={`px-2.5 py-1 rounded-lg text-[11px] font-bold flex items-center gap-1 cursor-pointer border ${
+                  showNeedle
+                    ? 'bg-amber-50 border-amber-300 text-amber-800'
+                    : 'bg-slate-50 border-slate-200 text-slate-600'
+                }`}
+              >
+                <Syringe className="w-3.5 h-3.5" />
+                <span>{showNeedle ? 'Kim 3D' : 'Tắt kim'}</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setSelectedPoint(null)}
+                title="Đóng chi tiết huyệt"
+                className="p-1 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 cursor-pointer"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+
+          <div className="space-y-1.5 text-xs leading-relaxed">
+            {selectedPoint.specialRole && (
+              <div className="px-2.5 py-1.5 rounded-lg bg-amber-50 border border-amber-200/80 text-amber-900">
+                <span className="font-bold">Đặc tính huyệt: </span>
+                <span>{selectedPoint.specialRole}</span>
+              </div>
+            )}
+            {safetyWarningText && (
+              <div className="px-2.5 py-1.5 rounded-lg bg-rose-50 border border-rose-300 text-rose-900 flex items-start gap-1.5">
+                <AlertTriangle className="w-3.5 h-3.5 text-rose-600 shrink-0 mt-0.5" />
+                <span>
+                  <span className="font-bold">Lưu ý an toàn giải phẫu: </span>
+                  {safetyWarningText}
+                </span>
+              </div>
+            )}
+            <div>
+              <span className="font-bold text-slate-900">• Vị trí giải phẫu: </span>
+              <span className="text-slate-700">{selectedPoint.location}</span>
+            </div>
+            <div>
+              <span className="font-bold text-slate-900">• Giải phẫu thần kinh - cơ: </span>
+              <span className="text-slate-700">{selectedPoint.anatomy}</span>
+            </div>
+            <div>
+              <span className="font-bold text-slate-900">• Công năng: </span>
+              <span className="text-slate-700">{selectedPoint.actions}</span>
+            </div>
+            <div>
+              <span className="font-bold text-slate-900">• Kỹ thuật châm: </span>
+              <span className="text-slate-700">{selectedPoint.depth}</span>
+            </div>
+            {selectedPoint.indications && selectedPoint.indications.length > 0 && (
+              <div className="pt-1 border-t border-slate-100">
+                <span className="font-bold text-rose-700">• Chủ trị lâm sàng: </span>
+                <span className="text-slate-700">
+                  {selectedPoint.indications.join('; ')}.
+                </span>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* =====================================================================
+          19 ZANG-FU & EXTRAORDINARY ORGANS QUICK PICKER + CLINICAL CARD
+          (Placed outside & below the 3D canvas so it never occludes the body)
+         ===================================================================== */}
+      {showOrgans && (
+        <div className="w-full bg-rose-50/75 border-t border-rose-200/80 px-2.5 py-2 space-y-2">
+          <div className="flex items-center gap-1.5 overflow-x-auto scrollbar-none pb-0.5">
+            <span className="text-[11px] font-extrabold text-rose-800 whitespace-nowrap flex items-center gap-1 pr-1 shrink-0">
+              <Heart className="w-3 h-3 text-rose-600" />
+              <span>19 Tạng Phủ:</span>
+            </span>
+            {ZANG_FU_ORDER.map((organId) => {
+              const organ = ZANG_FU_ORGANS_INFO[organId];
+              if (!organ) return null;
+              const isFocused = selectedOrgan?.id === organ.id;
+              return (
+                <button
+                  key={organ.id}
+                  type="button"
+                  onClick={() => {
+                    if (isFocused) {
+                      setSelectedOrgan(null);
+                    } else {
+                      focusOnOrgan(organ);
+                    }
+                  }}
+                  title={`${organ.name} (${organ.category})`}
+                  className={`px-2 py-1 rounded-lg text-[11px] font-bold whitespace-nowrap flex items-center gap-1.5 border transition-colors cursor-pointer shrink-0 ${
+                    isFocused
+                      ? 'bg-rose-700 text-white border-rose-800 shadow-xs'
+                      : 'bg-white text-slate-700 border-rose-200/80 hover:bg-rose-100/70'
+                  }`}
+                >
+                  <span
+                    className={`w-2 h-2 rounded-full shrink-0 ${
+                      isFocused ? 'ring-1 ring-white/80' : ''
+                    }`}
+                    style={{ backgroundColor: organ.baseColor }}
+                  />
+                  <span>{organ.shortLabel}</span>
+                </button>
+              );
+            })}
+          </div>
+
+          {selectedOrgan && (
+            <div className="w-full bg-white border border-rose-200 rounded-xl p-3 sm:p-3.5 text-slate-900 space-y-2 shadow-xs">
+              <div className="flex items-start justify-between gap-2 border-b border-slate-100 pb-2">
+                <div className="min-w-0">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span
+                      className="w-3 h-3 rounded-full shrink-0"
+                      style={{ backgroundColor: selectedOrgan.baseColor }}
+                    />
+                    <h4 className="text-xs sm:text-sm font-extrabold text-slate-900">
+                      {selectedOrgan.name}
+                    </h4>
+                    <span className="text-xs text-slate-500 font-serif">
+                      ({selectedOrgan.chineseName})
+                    </span>
+                  </div>
+                  <p className="text-[11px] font-bold text-rose-700 mt-0.5">
+                    {selectedOrgan.category} • Tương ứng Kinh{' '}
+                    {selectedOrgan.meridianIds.join(' / ')}
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setSelectedOrgan(null)}
+                  title="Đóng chi tiết tạng phủ"
+                  className="p-1 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 cursor-pointer shrink-0"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+
+              <div className="space-y-1 text-xs leading-relaxed">
+                <div>
+                  <span className="font-bold text-slate-900">• Công năng Tạng Phủ: </span>
+                  <span className="text-slate-700">{selectedOrgan.physiology}</span>
+                </div>
+                <div>
+                  <span className="font-bold text-slate-900">• Định vị giải phẫu: </span>
+                  <span className="text-slate-700">{selectedOrgan.clinicalNotes}</span>
+                </div>
+              </div>
+
+              <div className="flex gap-2">
+                <button
+                  type="button"
+                  onClick={() => focusOnOrgan(selectedOrgan)}
+                  className="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold flex items-center justify-center gap-1.5 transition-colors cursor-pointer shrink-0"
+                >
+                  <Crosshair className="w-3.5 h-3.5 text-rose-600" />
+                  <span>Soi Cận Cảnh</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setActiveMeridianIds(selectedOrgan.meridianIds);
+                    setSelectedPoint(null);
+                  }}
+                  className="flex-1 py-1.5 px-3 rounded-lg bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+                >
+                  <Navigation className="w-3.5 h-3.5" />
+                  <span>Hiện Đường Kinh & Chiều Khí ({selectedOrgan.shortLabel})</span>
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
 
       {/* =====================================================================
           CATEGORY FILTER STRIP + BOTTOM WHITE ACU ATLAS 3D MERIDIAN BAR
