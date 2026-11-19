@@ -1,3 +1,7 @@
+import { HERBAL_MATERIA_BENSKY_PART1 } from './herbalMateriaBenskyPart1';
+import { HERBAL_MATERIA_BENSKY_PART2 } from './herbalMateriaBenskyPart2';
+import { HERBAL_MATERIA_BENSKY_PART3 } from './herbalMateriaBenskyPart3';
+
 export interface Herb {
   id: string;
   vietnameseName: string;
@@ -17,7 +21,7 @@ export interface Herb {
   benskyNotes: string;
 }
 
-export const HERBAL_MATERIA: Herb[] = [
+const CORE_HERBAL_MATERIA: Herb[] = [
   {
     id: 'ma-huang',
     vietnameseName: 'Ma hoàng',
@@ -476,7 +480,7 @@ export const HERBAL_MATERIA: Herb[] = [
     chineseCharacters: '石膏',
     category: '2. Thuốc Thanh Nhiệt (Clear Heat)',
     properties: {
-      nature: 'Rất hàn',
+      nature: 'Đại hàn',
       flavors: ["Cam", "Tân"],
       channels: ["Phế", "Vị"]
     },
@@ -712,7 +716,7 @@ export const HERBAL_MATERIA: Herb[] = [
     properties: {
       nature: 'Hàn',
       flavors: ["Cam", "Mặn"],
-      channels: ["Tâm", "Gan"]
+      channels: ["Tâm", "Can"]
     },
     dosageGram: '3 - 9g',
     actions: ["Thanh nhiệt lương huyết", "Hoạt huyết thấu chẩn mọc ban", "Giải độc tiêu ung"],
@@ -746,7 +750,7 @@ export const HERBAL_MATERIA: Herb[] = [
     chineseCharacters: '水牛角',
     category: '2. Thuốc Thanh Nhiệt (Clear Heat)',
     properties: {
-      nature: 'Rất hàn',
+      nature: 'Đại hàn',
       flavors: ["Khổ", "Mặn"],
       channels: ["Tâm", "Can"]
     },
@@ -800,7 +804,7 @@ export const HERBAL_MATERIA: Herb[] = [
     chineseCharacters: '黃連',
     category: '2. Thuốc Thanh Nhiệt (Clear Heat)',
     properties: {
-      nature: 'Rất hàn',
+      nature: 'Đại hàn',
       flavors: ["Rất đắng"],
       channels: ["Tâm", "Vị", "Can", "Đại tràng"]
     },
@@ -836,7 +840,7 @@ export const HERBAL_MATERIA: Herb[] = [
     chineseCharacters: '龍膽草',
     category: '2. Thuốc Thanh Nhiệt (Clear Heat)',
     properties: {
-      nature: 'Rất hàn',
+      nature: 'Đại hàn',
       flavors: ["Rất đắng"],
       channels: ["Can", "Đởm"]
     },
@@ -1018,7 +1022,7 @@ export const HERBAL_MATERIA: Herb[] = [
     properties: {
       nature: 'Bình',
       flavors: ["Cam", "Đạm"],
-      channels: ["Gan", "Vị"]
+      channels: ["Can", "Vị"]
     },
     dosageGram: '15 - 60g',
     actions: ["Giải độc trừ thấp", "Thông lợi khớp xương chỉ thống (Gout)", "Giải độc Thủy ngân"],
@@ -1070,7 +1074,7 @@ export const HERBAL_MATERIA: Herb[] = [
     chineseCharacters: '芒硝',
     category: '3. Thuốc Tả Hạ (Downward-Draining)',
     properties: {
-      nature: 'Rất hàn',
+      nature: 'Đại hàn',
       flavors: ["Mặn", "Khổ"],
       channels: ["Vị", "Đại tràng"]
     },
@@ -1180,7 +1184,7 @@ export const HERBAL_MATERIA: Herb[] = [
     properties: {
       nature: 'Hơi hàn',
       flavors: ["Cam", "Đạm"],
-      channels: ["Gan", "Đởm", "Thận", "Bàng quang"]
+      channels: ["Can", "Đởm", "Thận", "Bàng quang"]
     },
     dosageGram: '15 - 60g',
     actions: ["Thanh nhiệt lợi thấp", "Thông lâm bài thạch (Thánh dược trị sỏi)", "Thanh gan lợi mật"],
@@ -1198,7 +1202,7 @@ export const HERBAL_MATERIA: Herb[] = [
     properties: {
       nature: 'Hơi hàn',
       flavors: ["Khổ", "Tân"],
-      channels: ["Gan", "Đởm", "Tỳ", "Vị"]
+      channels: ["Can", "Đởm", "Tỳ", "Vị"]
     },
     dosageGram: '9 - 30g',
     actions: ["Thanh nhiệt lợi thấp", "Thanh Can lợi mật thoái hoàng (Trị vàng da)"],
@@ -1648,7 +1652,7 @@ export const HERBAL_MATERIA: Herb[] = [
     properties: {
       nature: 'Bình',
       flavors: ["Khổ", "Cam"],
-      channels: ["Tâm", "Gan", "Phế", "Đại tràng"]
+      channels: ["Tâm", "Can", "Phế", "Đại tràng"]
     },
     dosageGram: '6 - 10g',
     actions: ["Hoạt huyết khứ ứ mạnh", "Nhuận tràng thông tiện", "Chỉ ho bình suyễn"],
@@ -1718,7 +1722,7 @@ export const HERBAL_MATERIA: Herb[] = [
     chineseCharacters: '附子',
     category: '11. Thuốc Ôn Lý Trừ Hàn (Warm Interior & Expel Cold)',
     properties: {
-      nature: 'Rất nhiệt (Độc)',
+      nature: 'Đại nhiệt (Có độc)',
       flavors: ["Tân", "Khổ"],
       channels: ["Tâm", "Thận", "Tỳ"]
     },
@@ -1736,7 +1740,7 @@ export const HERBAL_MATERIA: Herb[] = [
     chineseCharacters: '肉桂',
     category: '11. Thuốc Ôn Lý Trừ Hàn (Warm Interior & Expel Cold)',
     properties: {
-      nature: 'Rất nhiệt',
+      nature: 'Đại nhiệt',
       flavors: ["Tân", "Cam"],
       channels: ["Thận", "Tỳ", "Tâm", "Can"]
     },
@@ -1754,7 +1758,7 @@ export const HERBAL_MATERIA: Herb[] = [
     chineseCharacters: '干姜',
     category: '11. Thuốc Ôn Lý Trừ Hàn (Warm Interior & Expel Cold)',
     properties: {
-      nature: 'Rất nhiệt',
+      nature: 'Đại nhiệt',
       flavors: ["Tân"],
       channels: ["Tỳ", "Vị", "Tâm", "Phế"]
     },
@@ -1772,7 +1776,7 @@ export const HERBAL_MATERIA: Herb[] = [
     chineseCharacters: '吳茱萸',
     category: '11. Thuốc Ôn Lý Trừ Hàn (Warm Interior & Expel Cold)',
     properties: {
-      nature: 'Rất nhiệt (Độc nhẹ)',
+      nature: 'Đại nhiệt (Độc nhẹ)',
       flavors: ["Tân", "Khổ"],
       channels: ["Can", "Tỳ", "Vị", "Thận"]
     },
@@ -1808,7 +1812,7 @@ export const HERBAL_MATERIA: Herb[] = [
     chineseCharacters: '西洋參',
     category: '12. Thuốc Bổ Ích (Tonifying Herbs)',
     properties: {
-      nature: 'Mát (Lương)',
+      nature: 'Lương',
       flavors: ["Cam", "Hơi khổ"],
       channels: ["Tâm", "Phế", "Thận"]
     },
@@ -2332,7 +2336,7 @@ export const HERBAL_MATERIA: Herb[] = [
     properties: {
       nature: 'Lương',
       flavors: ["Khổ", "Cam"],
-      channels: ["Tâm", "Gan"]
+      channels: ["Tâm", "Can"]
     },
     dosageGram: '0.15 - 0.35g',
     actions: ["Thanh tâm giải độc", "Hóa đờm khai khiếu", "Tức phong chỉ kinh co giật"],
@@ -2420,7 +2424,7 @@ export const HERBAL_MATERIA: Herb[] = [
     chineseCharacters: '犀角/水牛角',
     category: '19. Nhóm Vị Thuốc Hạn Chế & Thay Thế (Obsolete)',
     properties: {
-      nature: 'Rất hàn',
+      nature: 'Đại hàn',
       flavors: ["Khổ", "Mặn"],
       channels: ["Tâm", "Can"]
     },
@@ -2872,7 +2876,7 @@ export const HERBAL_MATERIA: Herb[] = [
       ],
       "channels": [
         "Phế",
-        "Đại trường"
+        "Đại tràng"
       ]
     },
     "dosageGram": "5 - 10g",
@@ -3090,7 +3094,7 @@ export const HERBAL_MATERIA: Herb[] = [
       ],
       "channels": [
         "Can",
-        "Đại trường"
+        "Đại tràng"
       ]
     },
     "dosageGram": "6 - 15g",
@@ -3123,7 +3127,7 @@ export const HERBAL_MATERIA: Herb[] = [
       "channels": [
         "Phế",
         "Can",
-        "Đại trường"
+        "Đại tràng"
       ]
     },
     "dosageGram": "6 - 12g",
@@ -3449,7 +3453,7 @@ export const HERBAL_MATERIA: Herb[] = [
       "channels": [
         "Tỳ",
         "Vị",
-        "Đại trường"
+        "Đại tràng"
       ]
     },
     "dosageGram": "5 - 10g",
@@ -3675,7 +3679,7 @@ export const HERBAL_MATERIA: Herb[] = [
       "channels": [
         "Thận",
         "Bàng quang",
-        "Đại trường"
+        "Đại tràng"
       ]
     },
     "dosageGram": "6 - 12g",
@@ -3708,7 +3712,7 @@ export const HERBAL_MATERIA: Herb[] = [
       ],
       "channels": [
         "Phế",
-        "Đại trường"
+        "Đại tràng"
       ]
     },
     "dosageGram": "3 - 9g",
@@ -3742,7 +3746,7 @@ export const HERBAL_MATERIA: Herb[] = [
         "Can",
         "Tỳ",
         "Phế",
-        "Đại trường"
+        "Đại tràng"
       ]
     },
     "dosageGram": "3 - 10g",
@@ -3837,7 +3841,7 @@ export const HERBAL_MATERIA: Herb[] = [
       "channels": [
         "Tâm",
         "Thận",
-        "Đại trường"
+        "Đại tràng"
       ]
     },
     "dosageGram": "6 - 12g",
@@ -4092,7 +4096,7 @@ export const HERBAL_MATERIA: Herb[] = [
         "Đắng"
       ],
       "channels": [
-        "Đại trường"
+        "Đại tràng"
       ]
     },
     "dosageGram": "1.5 - 6g",
@@ -4252,7 +4256,7 @@ export const HERBAL_MATERIA: Herb[] = [
     chineseCharacters: '南洋參',
     category: '12. Thuốc Bổ Ích (Tonifying Herbs)',
     properties: {
-      nature: 'Mát',
+      nature: 'Lương',
       flavors: ['Ngọt', 'Hơi đắng'],
       channels: ['Phế', 'Tỳ', 'Thận', 'Tâm']
     },
@@ -4330,7 +4334,7 @@ export const HERBAL_MATERIA: Herb[] = [
     chineseCharacters: '天門冬',
     category: '12. Thuốc Bổ Ích (Tonifying Herbs)',
     properties: {
-      nature: 'Rất hàn',
+      nature: 'Đại hàn',
       flavors: ['Ngọt', 'Đắng'],
       channels: ['Phế', 'Thận']
     },
@@ -4564,7 +4568,7 @@ export const HERBAL_MATERIA: Herb[] = [
     chineseCharacters: '補骨脂',
     category: '12. Thuốc Bổ Ích (Tonifying Herbs)',
     properties: {
-      nature: 'Đại ôn',
+      nature: 'Ôn',
       flavors: ['Cay', 'Đắng'],
       channels: ['Thận', 'Tỳ']
     },
@@ -4954,7 +4958,7 @@ export const HERBAL_MATERIA: Herb[] = [
     chineseCharacters: '貞女皇宮',
     category: '2. Thuốc Thanh Nhiệt (Clear Heat)',
     properties: {
-      nature: 'Mát',
+      nature: 'Lương',
       flavors: ['Đắng', 'Chát'],
       channels: ['Can', 'Thận']
     },
@@ -5006,7 +5010,7 @@ export const HERBAL_MATERIA: Herb[] = [
     chineseCharacters: '朝鮮薊',
     category: '2. Thuốc Thanh Nhiệt (Clear Heat)',
     properties: {
-      nature: 'Mát',
+      nature: 'Lương',
       flavors: ['Đắng', 'Ngọt hậu'],
       channels: ['Can', 'Đởm', 'Thận']
     },
@@ -5030,7 +5034,7 @@ export const HERBAL_MATERIA: Herb[] = [
     pinyinName: 'Gao Ben',
     botanicalName: 'Rhizoma et Radix Ligustici',
     chineseCharacters: '藁本',
-    category: '1. Thuốc Giải Biểu (Release the Exterior)',
+    category: '1. Thuốc Giải Biểu (Release Exterior)',
     properties: {
       nature: 'Ôn',
       flavors: ['Cay'],
@@ -5056,7 +5060,7 @@ export const HERBAL_MATERIA: Herb[] = [
     pinyinName: 'Huong Nhu Tia',
     botanicalName: 'Herba Ocimi Sancti',
     chineseCharacters: '紫香薷',
-    category: '1. Thuốc Giải Biểu (Release the Exterior)',
+    category: '1. Thuốc Giải Biểu (Release Exterior)',
     properties: {
       nature: 'Ôn',
       flavors: ['Cay', 'Thơm'],
@@ -5082,7 +5086,7 @@ export const HERBAL_MATERIA: Herb[] = [
     pinyinName: 'Xi He Liu',
     botanicalName: 'Cacumen Tamarixis',
     chineseCharacters: '西河柳',
-    category: '1. Thuốc Giải Biểu (Release the Exterior)',
+    category: '1. Thuốc Giải Biểu (Release Exterior)',
     properties: {
       nature: 'Bình',
       flavors: ['Cay', 'Ngọt'],
@@ -5214,7 +5218,7 @@ export const HERBAL_MATERIA: Herb[] = [
     chineseCharacters: '貓鬚草',
     category: '4. Thuốc Lợi Thủy Thẩm Thấp (Drain Dampness)',
     properties: {
-      nature: 'Mát',
+      nature: 'Lương',
       flavors: ['Ngọt', 'Nhạt', 'Hơi đắng'],
       channels: ['Thận', 'Bàng quang', 'Đởm']
     },
@@ -5266,7 +5270,7 @@ export const HERBAL_MATERIA: Herb[] = [
     chineseCharacters: '寬筋藤',
     category: '5. Thuốc Khu Phong Trừ Thấp (Dispel Wind-Dampness)',
     properties: {
-      nature: 'Mát',
+      nature: 'Lương',
       flavors: ['Đắng'],
       channels: ['Can', 'Tỳ']
     },
@@ -6254,7 +6258,7 @@ export const HERBAL_MATERIA: Herb[] = [
     chineseCharacters: '西番蓮',
     category: '14. Thuốc An Thần (Calm the Spirit)',
     properties: {
-      nature: 'Mát',
+      nature: 'Lương',
       flavors: ['Ngọt', 'Hơi đắng'],
       channels: ['Tâm', 'Can']
     },
@@ -6664,4 +6668,18 @@ export const HERBAL_MATERIA: Herb[] = [
   }
 ];
 
+function getChapterOrder(category: string): number {
+  const m = category.match(/^(\d+)\./);
+  return m ? parseInt(m[1], 10) : 99;
+}
 
+const ALL_COMBINED_HERBS: Herb[] = [
+  ...CORE_HERBAL_MATERIA,
+  ...HERBAL_MATERIA_BENSKY_PART1,
+  ...HERBAL_MATERIA_BENSKY_PART2,
+  ...HERBAL_MATERIA_BENSKY_PART3
+];
+
+export const HERBAL_MATERIA: Herb[] = ALL_COMBINED_HERBS.slice().sort(
+  (a, b) => getChapterOrder(a.category) - getChapterOrder(b.category)
+);

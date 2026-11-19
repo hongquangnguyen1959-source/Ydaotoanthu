@@ -1427,6 +1427,11 @@ export const Human3DMeridianViewer: React.FC = () => {
   const organsRigRef = useRef<ZangFuOrgansRig | null>(null);
   const cunGuidesRigRef = useRef<CunGuidesRig | null>(null);
   const needleRigRef = useRef<AcupunctureNeedleRig | null>(null);
+  const selectedNeedlePoseRef = useRef<{
+    pointId: string;
+    position: [number, number, number];
+    normal: [number, number, number];
+  } | null>(null);
   const meridiansGroupRef = useRef<THREE.Group | null>(null);
   const flowArrowsGroupRef = useRef<THREE.Group | null>(null);
   const qiBeadsMeshRef = useRef<THREE.InstancedMesh | null>(null);
@@ -1740,7 +1745,11 @@ export const Human3DMeridianViewer: React.FC = () => {
     setSelectedPoint(pt);
     setSelectedOrgan(null);
     if (!cameraRef.current || !controlsRef.current) return;
-    const [x, y, z] = pt.position;
+    const posePos =
+      selectedNeedlePoseRef.current && selectedNeedlePoseRef.current.pointId === pt.id
+        ? selectedNeedlePoseRef.current.position
+        : pt.position;
+    const [x, y, z] = posePos;
     const zDir = z >= -0.01 ? 1 : -1;
     camFlightRef.current.camPos.set(x * 1.15, y + 0.03, z + zDir * 0.68);
     camFlightRef.current.target.set(x * 0.6, y, z * 0.6);
@@ -2204,7 +2213,19 @@ export const Human3DMeridianViewer: React.FC = () => {
             obj = obj.parent;
           }
           if (obj?.userData?.point) {
-            setSelectedPoint(obj.userData.point as Acupoint3D);
+            const pt = obj.userData.point as Acupoint3D;
+            const anchorPos = obj.userData.anchorPos as THREE.Vector3 | undefined;
+            const outNorm = obj.userData.outwardNormal as THREE.Vector3 | undefined;
+            if (anchorPos && outNorm) {
+              selectedNeedlePoseRef.current = {
+                pointId: pt.id,
+                position: [anchorPos.x, anchorPos.y, anchorPos.z],
+                normal: [outNorm.x, outNorm.y, outNorm.z],
+              };
+            } else {
+              selectedNeedlePoseRef.current = null;
+            }
+            setSelectedPoint(pt);
             setSelectedOrgan(null);
             handledHit = true;
           }
@@ -2788,18 +2809,30 @@ export const Human3DMeridianViewer: React.FC = () => {
       return;
     }
 
+    const clickedPose =
+      selectedNeedlePoseRef.current &&
+      selectedNeedlePoseRef.current.pointId === selectedPoint.id
+        ? selectedNeedlePoseRef.current
+        : null;
+
     const plotted = allPlottedPoints.find(
       (p) => p.detail.id === selectedPoint.id || p.displayCode === selectedPoint.code
     );
     const exactNorm =
-      (plotted?.snappedNormal) ||
+      clickedPose?.normal ||
+      plotted?.snappedNormal ||
       (plotted && surfaceData?.normals?.[plotted.code]);
-    const [px, py, pz] = selectedPoint.position;
+    const targetPos = clickedPose?.position || selectedPoint.position;
+    const [px, py, pz] = targetPos;
     const outwardNormal = exactNorm
       ? new THREE.Vector3(exactNorm[0], exactNorm[1], exactNorm[2]).normalize()
       : computeOutwardSurfaceNormal(px, py, pz);
 
-    needle.setTarget(selectedPoint.position, outwardNormal, selectedPoint.depth);
+    needle.setTarget(targetPos, outwardNormal, selectedPoint.depth, {
+      code: selectedPoint.code,
+      name: selectedPoint.name,
+      location: selectedPoint.location,
+    });
     needle.setVisible(true);
     needsRenderRef.current = true;
   }, [selectedPoint, showNeedle, allPlottedPoints, surfaceData]);

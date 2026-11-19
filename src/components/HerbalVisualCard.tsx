@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Herb } from '../data/herbalMateria';
 import { HERB_EXACT_PHOTOS } from '../data/herbExactPhotos';
+import { HERB_PREPARED_UNIQUE } from '../data/herbPreparedUnique';
 
 export interface HerbVisualSpec {
   imageUrl: string;
@@ -9,6 +10,7 @@ export interface HerbVisualSpec {
   partLabel: string;
   processingNote: string;
   hasExactSlicePhoto: boolean;
+  isHerbariumSpecimen: boolean;
 }
 
 interface SpecimenGroup {
@@ -21,9 +23,27 @@ interface SpecimenGroup {
 const SPECIMEN_GROUPS: SpecimenGroup[] = [
   {
     file: 'pale_sliced_roots.jpg',
-    partLabel: 'Hoàng Kỳ & Rễ Thái Phiến Vàng Nhạt',
+    partLabel: 'Hoàng Kỳ & Sơn Đậu Căn (Rễ Thái Phiến Vàng Nhạt)',
     processingNote: 'Rễ củ thái vát dài phơi khô hoặc chích mật ong chuẩn Bensky',
-    ids: ['huang-qi', 'ku-shen', 'ban-lan-gen', 'shan-dou-gen', 'niu-xi']
+    ids: ['huang-qi', 'shan-dou-gen']
+  },
+  {
+    file: 'kushen_slices.jpg',
+    partLabel: 'Khổ Sâm Phiến (Lát Cắt Rễ Khổ Sâm Vỏ Nâu Vàng Ruột Kem)',
+    processingNote: 'Rễ Khổ sâm thái lát xéo vỏ mỏng vàng nâu mặt cắt trắng ngà có tia tâm thanh nhiệt táo thấp sát trùng',
+    ids: ['ku-shen']
+  },
+  {
+    file: 'ban_lan_gen.jpg',
+    partLabel: 'Bản Lam Căn (Phiến Tròn Rễ Chàm Kim Tỉnh Ngọc Lan)',
+    processingNote: 'Rễ cây Tùng lam thái lát xéo vỏ xám vàng lõi vàng nhạt vòng trắng kem thanh nhiệt giải độc lương huyết lợi yết',
+    ids: ['ban-lan-gen']
+  },
+  {
+    file: 'niuxi_achyranthes.jpg',
+    partLabel: 'Ngưu Tất (Đoạn Rễ Cỏ Xước Trụ Vàng Nâu Đốt Vòng Mạch)',
+    processingNote: 'Rễ Hoài ngưu tất cắt đoạn trụ vàng nâu mặt cắt nhiều vòng bó mạch đồng tâm hoạt huyết bổ can thận mạnh gân cốt',
+    ids: ['niu-xi']
   },
   {
     file: 'licorice_gancao.jpg',
@@ -51,9 +71,15 @@ const SPECIMEN_GROUPS: SpecimenGroup[] = [
   },
   {
     file: 'sliced_angelica_peony.jpg',
-    partLabel: 'Đương Quy & Bạch Thược (Phiến Rễ Bổ Huyết)',
-    processingNote: 'Rễ củ thái lát mỏng trắng ngà giàu tinh dầu thơm dưỡng huyết nhu can',
-    ids: ['dang-gui', 'bai-shao', 'du-huo', 'tien-ho', 'jie-geng', 'yuan-zhi', 'phong-ky']
+    partLabel: 'Đương Quy & Nhóm Rễ Thơm Bổ Huyết Trừ Phong',
+    processingNote: 'Rễ củ thái lát mỏng trắng ngà giàu tinh dầu thơm dưỡng huyết hoặc khu phong chỉ thống',
+    ids: ['dang-gui', 'du-huo', 'tien-ho', 'jie-geng', 'yuan-zhi', 'phong-ky']
+  },
+  {
+    file: 'bai_shao_white_peony.jpg',
+    partLabel: 'Bạch Thược Phiến (Lát Thược Dược Bỏ Vỏ Đồ Chín Trắng Ngà)',
+    processingNote: 'Rễ Thược dược cạo sạch vỏ ngoài đồ chín phơi khô thái phiến tròn mỏng trắng kem dưỡng huyết liễm âm nhu can chỉ thống',
+    ids: ['bai-shao']
   },
   {
     file: 'atractylodes_baizhu.jpg',
@@ -99,9 +125,21 @@ const SPECIMEN_GROUPS: SpecimenGroup[] = [
   },
   {
     file: 'dark_black_cured_roots.jpg',
-    partLabel: 'Thục Địa, Sinh Địa & Huyền Sâm (Rễ Củ Cửu Chưng Đen Nâu)',
-    processingNote: 'Chưng chế rượu / sa nhân (Cửu chưng cửu sái) đen bóng tư bổ Can Thận dưỡng âm',
-    ids: ['shu-di-huang', 'sheng-di-huang', 'xuan-shen', 'huang-jing']
+    partLabel: 'Thục Địa Hoàng & Hoàng Tinh Cửu Chưng (Củ Chế Rượu Đen Bóng)',
+    processingNote: 'Chưng chế rượu / sa nhân (Cửu chưng cửu sái) đen bóng tư bổ Can Thận dưỡng âm ích tinh',
+    ids: ['shu-di-huang', 'huang-jing']
+  },
+  {
+    file: 'shengdi_rehmannia.jpg',
+    partLabel: 'Sinh Địa Hoàng Phiến (Củ Địa Hoàng Khô Sống Nhăn Xám Đen)',
+    processingNote: 'Rễ củ Sinh địa sấy khô nguyên bản không đồ rượu, vỏ nhăn xám nâu mặt cắt nâu đen dẻo nhựa thanh nhiệt lương huyết sinh tân',
+    ids: ['sheng-di-huang']
+  },
+  {
+    file: 'xuanshen_scrophularia.jpg',
+    partLabel: 'Huyền Sâm Phiến (Lát Xéo Rễ Huyền Sâm Vỏ Xám Ruột Đen Tuyền)',
+    processingNote: 'Rễ Huyền sâm ủ đen bên trong (thịt đen vỏ xám nứt tia) thái vát thanh nhiệt lương huyết tư âm giải độc tán kết',
+    ids: ['xuan-shen']
   },
   {
     file: 'cured_heshouwu.jpg',
@@ -171,9 +209,21 @@ const SPECIMEN_GROUPS: SpecimenGroup[] = [
   },
   {
     file: 'red_salvia_roots.jpg',
-    partLabel: 'Hồng Căn (Rễ Nâu Đỏ Hoạt Huyết / Bổ Thận)',
-    processingNote: 'Đoạn rễ vỏ nâu đỏ hoặc tím sẫm rút lõi, sao rượu thông huyết mạch',
-    ids: ['dan-shen', 'chi-shao', 'zi-cao', 'di-yu', 'tuc-doan', 'ba-ji-tian']
+    partLabel: 'Đan Sâm, Địa Du, Tục Đoạn & Ba Kích (Rễ Nâu Đỏ Hoạt Huyết / Bổ Thận)',
+    processingNote: 'Đoạn rễ vỏ nâu đỏ hoặc rút lõi gỗ, sao rượu thông huyết mạch bổ thận',
+    ids: ['dan-shen', 'di-yu', 'tuc-doan', 'ba-ji-tian']
+  },
+  {
+    file: 'chishao_red_peony.jpg',
+    partLabel: 'Xích Thược Phiến (Lát Cắt Rễ Thược Dược Còn Vỏ Vân Hoa Cúc Hồng Kem)',
+    processingNote: 'Rễ Xích thược để nguyên vỏ nâu thô thái phiến tròn ruột trắng hồng nổi rõ tia gỗ hình hoa cúc thanh nhiệt lương huyết tán ứ chỉ thống',
+    ids: ['chi-shao']
+  },
+  {
+    file: 'zicao_lithospermum.jpg',
+    partLabel: 'Tử Thảo (Vỏ Rễ Xoắn Màu Tím Đậm Bong Lớp Mỏng)',
+    processingNote: 'Rễ Tử thảo Tân Cương rỗng xoắn nhiều lớp vỏ mỏng màu tím tía đậm chứa Shikonin thanh nhiệt lương huyết hoạt huyết giải độc thấu chẩn',
+    ids: ['zi-cao']
   },
   {
     file: 'gnarled_chuanxiong_slices.jpg',
@@ -196,8 +246,38 @@ const SPECIMEN_GROUPS: SpecimenGroup[] = [
   {
     file: 'fibrous_cyperus_rhizomes.jpg',
     partLabel: 'Thân Rễ & Rễ Nâu Sơ Can / Trừ Phong',
-    processingNote: 'Thân rễ cắt lát xéo phơi khô hoặc tứ chế giấm/rượu/muối',
-    ids: ['chai-hu', 'xiang-fu', 'mu-xiang', 'sheng-ma', 'zhi-mu', 'cot-toai-bo', 'tan-giao', 'wei-ling-xian', 'long-dan-cao', 'xi-xin', 'shi-chang-pu', 'qian-nian-jian', 'lu-gen', 'she-gan', 'gan-sui', 'bai-tou-weng', 'tu-uyen', 'bai-wei', 'xian-mao']
+    processingNote: 'Thân rễ cắt lát xéo phơi khô hoặc tẩm rượu/giấm bào chế',
+    ids: ['mu-xiang', 'sheng-ma', 'cot-toai-bo', 'tan-giao', 'wei-ling-xian', 'long-dan-cao', 'shi-chang-pu', 'qian-nian-jian', 'she-gan', 'gan-sui', 'bai-tou-weng', 'tu-uyen', 'bai-wei', 'xian-mao']
+  },
+  {
+    file: 'lugen_reed_rhizome.jpg',
+    partLabel: 'Lô Căn (Đoạn Thân Rễ Cây Sậy Vàng Ngà Rỗng Giữa Có Đốt Vòng)',
+    processingNote: 'Thân rễ Sậy cạo vỏ cắt khúc trụ tròn rỗng ruột màu vàng rơm bóng nhẹ thanh Phế Vị nhiệt sinh tân chỉ khát chỉ ẩu',
+    ids: ['lu-gen']
+  },
+  {
+    file: 'zhimu_anemarrhena.jpg',
+    partLabel: 'Tri Mẫu Phiến (Lát Thân Rễ Dẹt Vàng Nâu Phủ Lông Tơ Mao Tri Mẫu)',
+    processingNote: 'Thân rễ Tri mẫu thái phiến mỏng mặt cắt vàng trắng viền mép giữ rìa lông tơ vàng nâu thanh nhiệt tả hỏa tư âm nhuận táo',
+    ids: ['zhi-mu']
+  },
+  {
+    file: 'xi_xin_asarum.jpg',
+    partLabel: 'Tế Tân (Bó Rễ Chùm Nhỏ Thon Mảnh Màu Xám Nâu Thơm Cay)',
+    processingNote: 'Toàn phần rễ chùm tơ mảnh bó gọn kèm thân rễ có đốt nhăn mùi cay thơm nồng giải biểu tán hàn khu phong chỉ thống ôn phế hóa ẩm',
+    ids: ['xi-xin']
+  },
+  {
+    file: 'chai_hu_bupleurum.jpg',
+    partLabel: 'Sài Hồ (Đoạn Rễ Phân Nhánh Nâu Đất Cắt Khúc Sơ Can Thấu Biểu)',
+    processingNote: 'Rễ Sài hồ phân nhánh màu nâu xám cắt khúc ngắn mặt cắt xơ trắng vàng hòa giải thiếu dương sơ can giải uất thăng dương',
+    ids: ['chai-hu']
+  },
+  {
+    file: 'xiang_fu_cyperus.jpg',
+    partLabel: 'Hương Phụ (Thân Củ Hình Thoi Nâu Đen Có Đốt Vòng Tứ Chế)',
+    processingNote: 'Thân củ Cỏ gấu bỏ lông rễ mài sạch hoặc thái đôi lộ lõi sáp vàng nâu sơ can lý khí điều kinh chỉ thống',
+    ids: ['xiang-fu']
   },
   {
     file: 'golden_cibotium_rhizome.jpg',
@@ -219,12 +299,18 @@ const SPECIMEN_GROUPS: SpecimenGroup[] = [
   },
   {
     file: 'cut_bamboo_lotus_leaves.jpg',
-    partLabel: 'Diệp Phiến Cắt Đoạn (Trúc Diệp / Tỳ Bà Diệp / Trắc Bách)',
+    partLabel: 'Diệp Phiến Cắt Đoạn (Tỳ Bà Diệp / Trắc Bách Diệp / Actiso)',
     processingNote: 'Lá xanh cắt đoạn chải sạch lông tơ thanh phế lương huyết',
-    ids: ['dan-zhu-ye', 'trac-bach-diep', 'pi-pa-ye', 'actiso']
+    ids: ['trac-bach-diep', 'pi-pa-ye', 'actiso']
   },
   {
-    file: 'silvery_mugwort_leaves.jpg',
+    file: 'danzhuye_lophatherum.jpg',
+    partLabel: 'Đạm Trúc Diệp (Lá Cỏ Lông Heo Gân Song Song & Thân Rỗng Xanh)',
+    processingNote: 'Thân lá Đạm trúc diệp bó lọn phơi khô xanh nhạt thanh tâm trừ phiền lợi niệu thông lâm',
+    ids: ['dan-zhu-ye']
+  },
+  {
+    file: 'ngai_diep_new.jpg',
     partLabel: 'Ngải Diệp (Lá Ngải Cứu Lông Trắng Bạc)',
     processingNote: 'Lá ngải cứu khô mặt dưới phủ lông nhung trắng bạc ôn kinh chỉ huyết',
     ids: ['ngai-diep']
@@ -249,9 +335,45 @@ const SPECIMEN_GROUPS: SpecimenGroup[] = [
   },
   {
     file: 'cut_stem_herbs.jpg',
-    partLabel: 'Toàn Thảo Cắt Khúc (Herba Thanh Nhiệt / Giải Biểu)',
+    partLabel: 'Toàn Thảo Cắt Khúc (Kinh Giới / Hương Nhu / Ích Mẫu / Kế)',
     processingNote: 'Toàn cây trên mặt đất cắt khúc phơi khô chuẩn Dược điển Bensky',
-    ids: ['jing-jie', 'xiang-ru', 'yi-mu-cao', 'pu-gong-ying', 'zi-hua-di-ding', 'chuan-xin-lian', 'yu-xing-cao', 'yin-chen-hao', 'qing-hao', 'xian-he-cao', 'da-ji-thao', 'xiao-ji', 'lac-tien', 'rau-meo']
+    ids: ['jing-jie', 'xiang-ru', 'yi-mu-cao', 'xian-he-cao', 'da-ji-thao', 'xiao-ji', 'lac-tien', 'rau-meo']
+  },
+  {
+    file: 'pugongying_dandelion.jpg',
+    partLabel: 'Bồ Công Anh (Toàn Thảo Lá Răng Cưa Kèm Hoa Vàng & Rễ Cái)',
+    processingNote: 'Toàn cây Bồ công anh phơi âm can giữ nguyên lá xẻ thùy sâu và cụm hoa vàng khô thanh nhiệt giải độc tiêu ung tán kết thông sữa',
+    ids: ['pu-gong-ying']
+  },
+  {
+    file: 'zihuadiding_violet.jpg',
+    partLabel: 'Tử Hoa Địa Đinh (Cây Hoa Tím Lá Thon Dài Kèm Rễ Trắng)',
+    processingNote: 'Toàn cây Tử hoa địa đinh phơi khô giữ nguyên hoa tím đặc trưng thanh nhiệt giải độc lương huyết tiêu đinh nhọt rắn cắn',
+    ids: ['zi-hua-di-ding']
+  },
+  {
+    file: 'chuanxinlian_andrographis.jpg',
+    partLabel: 'Xuyên Tâm Liên (Thân Vuông Xanh Cắt Khúc Kèm Lá Thon Nhọn)',
+    processingNote: 'Phần trên mặt đất thân vuông xanh cắt khúc giàu Andrographolide rất đắng thanh nhiệt giải độc táo thấp tiêu thũng',
+    ids: ['chuan-xin-lian']
+  },
+  {
+    file: 'yuxingcao_houttuynia.jpg',
+    partLabel: 'Ngư Tinh Thảo / Diếp Cá (Lá Hình Tim Mặt Dưới Tím Đỏ & Bông Hoa Vàng)',
+    processingNote: 'Toàn thân lá Giấp cá phơi âm can giữ lá hình tim và bông hoa vàng thanh nhiệt giải độc tiêu ung bài nùng phế ung',
+    ids: ['yu-xing-cao']
+  },
+  {
+    file: 'qinghao_artemisia.jpg',
+    partLabel: 'Thanh Hao (Cành Lá Xanh Lục Xẻ Thùy Lông Chim Mịn Thơm)',
+    processingNote: 'Phần trên mặt đất Thanh hao hoa vàng phơi râm giàu Artemisinin thanh hư nhiệt trừ cốt chưng giải thử cắt sốt rét',
+    ids: ['qing-hao']
+  },
+  {
+    file: 'yinchenhao_capillaris.jpg',
+    partLabel: 'Nhân Trần Hao / Miên Nhân Trần (Chồi Non Lông Tơ Trắng Bạc)',
+    processingNote: 'Chồi non mùa xuân phủ lớp lông nhung trắng xám mịn thanh nhiệt lợi thấp thoái hoàng chuyên trị vàng da',
+    ids: ['yin-chen-hao']
   },
   {
     file: 'prunella_spica_xiakucao.jpg',
@@ -261,9 +383,21 @@ const SPECIMEN_GROUPS: SpecimenGroup[] = [
   },
   {
     file: 'small_leaf_herbs.jpg',
-    partLabel: 'Thảo Dược Lá Nhỏ (Kim Tiền Thảo / Diệp Hạ Châu / Bạch Hoa Xà)',
-    processingNote: 'Thảo mộc thân mảnh lá nhỏ thanh nhiệt giải độc lợi niệu bài thạch',
-    ids: ['jin-qian-cao', 'diep-ha-chau', 'bai-hua-she-she-cao', 'ban-bian-lian', 'ban-zhi-lian', 'bien-suc', 'han-lien-thao']
+    partLabel: 'Thảo Dược Lá Nhỏ (Diệp Hạ Châu / Bán Biên Liên / Biển Súc)',
+    processingNote: 'Thảo mộc thân mảnh lá nhỏ thanh nhiệt giải độc lợi niệu tán ứ',
+    ids: ['diep-ha-chau', 'ban-bian-lian', 'ban-zhi-lian', 'bien-suc', 'han-lien-thao']
+  },
+  {
+    file: 'jin_qian_cao.jpg',
+    partLabel: 'Kim Tiền Thảo (Dây Thân Mảnh Mang Lá Tròn Hình Đồng Tiền)',
+    processingNote: 'Toàn thân dây Kim tiền thảo phơi khô mang cặp lá tròn đối xứng lợi thấp thoái hoàng lợi niệu thông lâm bài thạch',
+    ids: ['jin-qian-cao']
+  },
+  {
+    file: 'bai_hua_she_she_cao.jpg',
+    partLabel: 'Bạch Hoa Xà Thiệt Thảo (Thân Mảnh Lá Kim Kèm Quả Nang Nhỏ)',
+    processingNote: 'Toàn cây Bạch hoa xà thiệt thảo thân mảnh lá hình dải nhọn mang quả nang đôi thanh nhiệt giải độc tiêu ung tán kết lợi thấp',
+    ids: ['bai-hua-she-she-cao']
   },
   {
     file: 'dried_duckweed_fuping.jpg',
@@ -339,9 +473,15 @@ const SPECIMEN_GROUPS: SpecimenGroup[] = [
   },
   {
     file: 'rough_tree_bark.jpg',
-    partLabel: 'Mộc Bì (Vỏ Thân Cây Hoàng Bá / Tần Bì / Hợp Hoan Bì)',
+    partLabel: 'Mộc Bì (Vỏ Thân Cây Tần Bì / Hợp Hoan Bì / Hải Đồng Bì)',
     processingNote: 'Vỏ cây dày xù xì thái dải thanh nhiệt táo thấp hoặc giải uất an thần',
-    ids: ['huang-bai', 'qin-pi', 'hop-hoan-bi', 'hai-tong-pi']
+    ids: ['qin-pi', 'hop-hoan-bi', 'hai-tong-pi']
+  },
+  {
+    file: 'huangbai_phellodendron.jpg',
+    partLabel: 'Hoàng Bá (Phiến Vỏ Cây Vàng Tươi Nhiều Sợi Dẻo Cạo Bần)',
+    processingNote: 'Vỏ thân cây Hoàng bá cạo sạch vỏ bần xù xì còn lớp vỏ giữa màu vàng chanh tươi giàu Berberine thanh nhiệt táo thấp tả tướng hỏa',
+    ids: ['huang-bai']
   },
   {
     file: 'areca_peel_daiphucbi.jpg',
@@ -350,10 +490,10 @@ const SPECIMEN_GROUPS: SpecimenGroup[] = [
     ids: ['dai-phuc-bi']
   },
   {
-    file: 'smooth_cinnamon_bark.jpg',
-    partLabel: 'Nhục Quế & Tang Bạch Bì (Vỏ Quế / Vỏ Rễ Dâu)',
-    processingNote: 'Vỏ thân quế dày nhiều dầu hoặc vỏ trắng rễ dâu tằm cạo sạch lớp bần',
-    ids: ['rou-gui', 'tang-bach-bi']
+    file: 'rou_gui.jpg',
+    partLabel: 'Nhục Quế (Vỏ Thân Quế Dày Giàu Tinh Dầu Ôn Bổ Mệnh Môn)',
+    processingNote: 'Vỏ thân quế dày nhiều dầu mùi thơm nồng bổ hỏa trợ dương dẫn hỏa quy nguyên',
+    ids: ['rou-gui']
   },
   {
     file: 'honeysuckle_flower_buds.jpg',
@@ -398,7 +538,7 @@ const SPECIMEN_GROUPS: SpecimenGroup[] = [
     ids: ['bo-hoang']
   },
   {
-    file: 'red_safflower.jpg',
+    file: 'hong_hua_new.jpg',
     partLabel: 'Hồng Hoa (Cánh Hoa Đỏ Thẫm Hoạt Huyết)',
     processingNote: 'Cánh hoa hình ống màu đỏ tươi thu hái lúc mới chuyển đỏ thông kinh khứ ứ',
     ids: ['hong-hua']
@@ -895,83 +1035,768 @@ for (const group of SPECIMEN_GROUPS) {
   });
 }
 
+const DEDICATED_LOCAL_90: Record<string, string> = {
+  'day-dau-xuong': 'day_dau_xuong_tinospora.jpg',
+  'hai-feng-teng': 'hai_feng_teng_kadsura.jpg',
+  'luo-shi-teng': 'luo_shi_teng_trachelospermum.jpg',
+  'la-lot': 'la_lot_piper_lolot.jpg',
+  'xi-he-liu': 'xi_he_liu_tamarisk.jpg',
+  'gao-ben': 'gao_ben_ligusticum.jpg',
+  'ju-ye': 'ju_ye_chrysanthemum_leaf.jpg',
+  'bo-he': 'bo_he_mint.jpg',
+  'sang-ye': 'sang_ye_mulberry_leaf.jpg',
+  'cu-chai-hu': 'cu_chai_hu.jpg',
+  'e-bu-shi-cao': 'e_bu_shi_cao.jpg',
+  'xiang-ru': 'xiang_ru.jpg',
+  'tu-jing-jie': 'tu_jing_jie.jpg',
+  'mu-zei': 'mu_zei.jpg',
+  'wei-jiang': 'wei_jiang.jpg',
+  'hu-sui': 'hu_sui.jpg',
+  'ye-ju-hua': 'ye_ju_hua.jpg',
+  'he-ye-di': 'he_ye_di.jpg',
+  'bach-cap': 'bach_cap.jpg',
+  'bai-mao-gen': 'bai_mao_gen.jpg',
+  'chuan-niu-xi': 'chuan_niu_xi.jpg',
+  'da-ji-thao': 'da_ji_thao.jpg',
+  'dan-shen': 'dan_shen_new.jpg',
+  'di-huang-tan': 'di_huang_tan.jpg',
+  'di-yu': 'di_yu.jpg',
+  'di-yu-tan': 'di_yu_tan.jpg',
+  'gan-qi': 'gan_qi.jpg',
+  'hong-hua': 'hong_hua_new.jpg',
+  'hua-rui-shi': 'hua_rui_shi.jpg',
+  'huai-jiao': 'huai_jiao.jpg',
+  'juan-bai': 'juan_bai.jpg',
+  'ling-xiao-hua': 'ling_xiao_hua.jpg',
+  'liu-ji-nu': 'liu_ji_nu.jpg',
+  'meng-chong': 'meng_chong.jpg',
+  'nga-truat': 'nga_truat.jpg',
+  'ngai-diep': 'ngai_diep_new.jpg',
+  'ou-jie': 'ou_jie.jpg',
+  'pao-jiang': 'pao_jiang.jpg',
+  'qian-cao': 'qian_cao.jpg',
+  'ru-xiang': 'ru_xiang_new.jpg',
+  'shui-zhi': 'shui_zhi.jpg',
+  'tam-lang': 'tam_lang.jpg',
+  'tao-ren': 'tao_ren.jpg',
+  'trac-bach-diep': 'trac_bach_diep.jpg',
+  'tu-bie-chong': 'tu_bie_chong.jpg',
+  'wang-bu-liu-xing': 'wang_bu_liu_xing.jpg',
+  'wang-bu-liu-xing-ch10': 'wang_bu_liu_xing_ch10.jpg',
+  'xia-tian-wu': 'xia_tian_wu.jpg',
+  'xian-he-cao': 'xian_he_cao.jpg',
+  'xian-he-cao-zi-zhu': 'xian_he_cao_zi_zhu.jpg',
+  'xiao-ji': 'xiao_ji.jpg',
+  'xue-jie': 'xue_jie.jpg',
+  'yi-mu-cao': 'yi_mu_cao.jpg',
+  'yu-jin': 'yu_jin.jpg',
+  'gao-liang-jiang': 'gao_liang_jiang.jpg',
+  'hong-dou-kou': 'hong_dou_kou.jpg',
+  'hu-jiao': 'hu_jiao.jpg',
+  'rou-gui': 'rou_gui.jpg',
+  'ba-ji-tian': 'ba_ji_tian.jpg',
+  'bai-bian-dou': 'bai_bian_dou.jpg',
+  'bei-sha-shen': 'bei_sha_shen.jpg',
+  'bie-jia-jiao': 'bie_jia_jiao.jpg',
+  'bu-gu-zhi': 'bu_gu_zhi.jpg',
+  'chao-bai-zhu': 'chao_bai_zhu.jpg',
+  'ci-wu-jia': 'ci_wu_jia.jpg',
+  'cot-toai-bo': 'cot_toai_bo.jpg',
+  'dan-shen-jiu': 'dan_shen_jiu_heshouwu.jpg',
+  'dang-gui': 'dang_gui_new.jpg',
+  'dinh-lang': 'dinh_lang.jpg',
+  'dong-chong-substitute': 'dong_chong_sub.jpg',
+  'du-zhong': 'du_zhong_new.jpg',
+  'feng-mi': 'feng_mi.jpg',
+  'gou-qi-ye': 'gou_qi_ye.jpg',
+  'gou-qi-zi': 'gou_qi_zi_new.jpg',
+  'gui-ban-jiao': 'gui_ban_jiao.jpg',
+  'hai-long': 'hai_long.jpg',
+  'hai-ma': 'hai_ma.jpg',
+  'han-lien-thao': 'han_lien_thao.jpg',
+  'hei-dou': 'hei_dou.jpg',
+  'hei-zhi-ma': 'hei_zhi_ma.jpg',
+  'hong-jing-tian': 'hong_jing_tian.jpg',
+  'ming-dang-shen': 'ming_dang_shen.jpg',
+  'nan-sha-shen': 'nan_sha_shen.jpg',
+  'sha-yuan-zi': 'sha_yuan_zi.jpg',
+  'shan-yao': 'shan_yao_new.jpg',
+  'shu-di-huang': 'shu_di_huang_new.jpg',
+  'suo-yang': 'suo_yang.jpg',
+  'tai-zi-shen': 'tai_zi_shen.jpg',
+  'tho-ty-tu': 'tho_ty_tu.jpg',
+  'tian-men-dong': 'tian_men_dong.jpg',
+};
+
+for (const [id, file] of Object.entries(DEDICATED_LOCAL_90)) {
+  HERB_SPEC_MAP[id] = {
+    file: `/assets/images/herbs/${file}`,
+    variantClass: '',
+    partLabel: '',
+    processingNote: 'Mẫu dược liệu bào chế chuẩn Dược điển Bensky & Dược điển Việt Nam',
+    isDedicatedSingle: true,
+  };
+}
+
+// 46 classic TCM herbs restored to their exact dedicated studio white-background specimen photos
+const RIGHTFUL_STUDIO_OWNERS: Record<string, string> = {
+  'thach-quyet-minh': 'abalone_shell_thachquyetminh.jpg',
+  'fu-zi': 'aconite_fuzi.jpg',
+  'xing-ren': 'apricot_peach_kernels.jpg',
+  'dai-phuc-bi': 'areca_peel_daiphucbi.jpg',
+  'truc-nhu': 'bamboo_shavings_trucnhu.jpg',
+  'zhi-shi': 'bitter_orange_round_fruits.jpg',
+  'ci-shi': 'black_magnetite_cishi.jpg',
+  'o-mai': 'black_smoked_plums.jpg',
+  'bing-pian': 'borneol_bingpian.jpg',
+  'yin-yang-huo': 'broad_leaf_herbs.jpg',
+  'hou-po': 'curved_dark_bark.jpg',
+  'pi-pa-ye': 'cut_bamboo_lotus_leaves.jpg',
+  'phan-ta-diep': 'cut_green_mint_mulberry.jpg',
+  'tram-huong': 'dark_agarwood_tramhuong.jpg',
+  'huang-jing': 'dark_black_cured_roots.jpg',
+  'thao-qua': 'dark_tsaoko_pods.jpg',
+  'di-long': 'dried_earthworms.jpg',
+  'quan-xie': 'dried_scorpion_quanxie.jpg',
+  'long-gu': 'fossil_dragon_bone.jpg',
+  'chuan-xiong': 'gnarled_chuanxiong_slices.jpg',
+  'huang-lian': 'golden_yellow_rhizomes.jpg',
+  'jin-yin-hua': 'honeysuckle_flower_buds.jpg',
+  'bai-he': 'lily_bulb_baihe.jpg',
+  'lian-xin': 'lotus_plumule_lianxin.jpg',
+  'ma-qian-zi': 'nux_vomica_maqianzi.jpg',
+  'mu-li': 'oyster_abalone_shells.jpg',
+  'huang-qi': 'pale_sliced_roots.jpg',
+  'tru-linh': 'polyporus_trulinh_slices.jpg',
+  'zhu-sha': 'red_cinnabar_zhusha.jpg',
+  'shan-zhu-yu': 'red_goji_berries.jpg',
+  'qin-pi': 'rough_tree_bark.jpg',
+  'hua-jiao': 'sichuan_pepper_huajiao.jpg',
+  'jie-geng': 'sliced_angelica_peony.jpg',
+  'shan-zha': 'sliced_hawthorn_rings.jpg',
+  'hoa-hoe': 'sophora_bud_hoahoe.jpg',
+  'mai-men-dong': 'translucent_ophiopogon_tubers.jpg',
+  'hu-tao-rou': 'walnut_hutaorou.jpg',
+  'chuan-bei-mu': 'white_fritillaria_bulbs.jpg',
+  'lien-tu': 'white_lotus_seeds.jpg',
+  'ban-xia': 'white_pinellia_tubers.jpg',
+  'bai-jiang-can': 'white_silkworms.jpg',
+  'ke-huyet-dang': 'woody_liana_slices.jpg',
+  'kha-tu': 'wrinkled_chebula_khatu.jpg',
+  'wu-ling-zhi': 'wulingzhi_resin_grains.jpg',
+  'bo-hoang': 'yellow_pollen_bohoang.jpg',
+  'liu-huang': 'yellow_sulfur_liuhuang.jpg',
+};
+
+for (const [id, file] of Object.entries(RIGHTFUL_STUDIO_OWNERS)) {
+  const prev = HERB_SPEC_MAP[id];
+  HERB_SPEC_MAP[id] = {
+    file: `/assets/images/herbs/${file}`,
+    variantClass: '',
+    partLabel: prev?.isDedicatedSingle ? prev.partLabel : '',
+    processingNote: prev?.isDedicatedSingle
+      ? prev.processingNote
+      : 'Mẫu dược liệu bào chế chuẩn Dược điển Bensky & Dược điển Việt Nam',
+    isDedicatedSingle: true,
+  };
+}
+
 function getExactBotanicalPartLabel(herb: Herb): string {
   const bot = herb.botanicalName.toLowerCase();
-  let partDesc = 'Dược Liệu Bào Chế Chuẩn Dược Điển';
-  if (bot.includes('radix') && bot.includes('rhizoma')) {
+  const vn = herb.vietnameseName.toLowerCase();
+
+  let partDesc = '';
+
+  if (/\bcarbonisat(a|um|us)\b/.test(bot) || vn.includes('thán')) {
+    partDesc = 'Dược Liệu Sao Thán (Cháy Đen Tồn Tính Chỉ Huyết)';
+  } else if (bot.includes('cum melle') || vn.includes('chích mật')) {
+    partDesc = 'Chích Mật Ong Bổ Tỳ Nhuận Phế';
+  } else if (bot.includes('radix') && bot.includes('rhizoma')) {
     partDesc = 'Rễ & Thân Rễ Thái Phiến Bào Chế Khô';
-  } else if (bot.includes('radix')) {
+  } else if (bot.includes('extremitas radicis')) {
+    partDesc = 'Đuôi Rễ Thái Lát Hoạt Huyết Phá Ứ';
+  } else if (bot.includes('radix') || bot.includes('pseudobulbus')) {
     partDesc = 'Rễ Củ Thái Phiến Bào Chế Khô';
+  } else if (bot.includes('nodus') && bot.includes('rhizomatis')) {
+    partDesc = 'Đốt Ngó Rễ Phơi Khô Chỉ Huyết';
   } else if (bot.includes('rhizoma')) {
     partDesc = 'Thân Rễ Thái Lát Phơi Sấy Khô';
   } else if (bot.includes('folium')) {
     partDesc = 'Lá Thu Hái Phơi Âm Can (Diệp Phiến)';
   } else if (bot.includes('flos') || bot.includes('plumula')) {
     partDesc = 'Nụ Hoa / Tâm Mầm Sấy Khô Giữ Tinh Dầu';
+  } else if (bot.includes('stamen')) {
+    partDesc = 'Nhị Hoa Phơi Mát Giữ Hương Cố Sáp';
+  } else if (bot.includes('receptaculum')) {
+    partDesc = 'Đài / Gương Sen Già Phơi Khô';
   } else if (bot.includes('spica')) {
     partDesc = 'Cụm Hoa Bông Khô Thu Hái Sấy Khô';
-  } else if (bot.includes('pericarpium')) {
-    partDesc = 'Vỏ Quả / Xơ Quả Phơi Khô Trần Cửu';
-  } else if (bot.includes('calyx')) {
-    partDesc = 'Đài Quả (Thị Đế) Thu Hái Sấy Khô';
+  } else if (bot.includes('pollen')) {
+    partDesc = 'Bột Phấn Hoa Mịn Thu Hái Sấy Khô';
+  } else if (bot.includes('exocarpium') || bot.includes('pericarpium') || bot.includes('testa')) {
+    partDesc = 'Vỏ Quả / Vỏ Hạt Phơi Khô Bào Chế';
+  } else if (bot.includes('retinervus')) {
+    partDesc = 'Xơ Múi Quả Quýt Phơi Khô Thông Lạc';
+  } else if (bot.includes('calyx') || bot.includes('pedicellus')) {
+    partDesc = 'Đài Quả / Cuống Quả Thu Hái Sấy Khô';
   } else if (bot.includes('stigma')) {
-    partDesc = 'Vòi Nhụy (Ngọc Mễ Tu) Phơi Mát Sấy Khô';
+    partDesc = 'Vòi Nhụy Phơi Mát Sấy Khô';
   } else if (bot.includes('fructus')) {
     partDesc = 'Quả Chín Thu Hái Sấy Khô / Sao Chế';
   } else if (bot.includes('semen')) {
     partDesc = 'Hạt Già Chọn Lọc Phơi Khô / Sao Thơm';
+  } else if (/\bspora\b/.test(bot)) {
+    partDesc = 'Bào Tử Mịn Rây Sạch Lợi Niệu Thông Lâm';
   } else if (bot.includes('cortex')) {
     partDesc = 'Vỏ Thân / Vỏ Rễ Cạo Bần Bào Chế';
   } else if (bot.includes('cacumen')) {
     partDesc = 'Ngọn Cành Mang Lá Thái Đoạn Phơi Khô';
+  } else if (bot.includes('medulla')) {
+    partDesc = 'Lõi Thân Trắng Xốp Thái Phiến';
+  } else if (bot.includes('petiolus')) {
+    partDesc = 'Cuống Lá / Bẹ Lá Phơi Khô Thái Đoạn';
+  } else if (bot.includes('spina')) {
+    partDesc = 'Gai Thân Cây Thái Phiến Sấy Khô';
   } else if (bot.includes('caulis') || bot.includes('ramulus') || bot.includes('lignum')) {
-    partDesc = 'Thân Cành / Dây Đằng Thái Phiến Phơi Khô';
+    partDesc = 'Thân Cành / Lõi Gỗ / Dây Đằng Thái Phiến Phơi Khô';
   } else if (bot.includes('bulbus')) {
     partDesc = 'Vảy Thân Hành Tách Rời Đồ Sấy Khô';
-  } else if (bot.includes('sclerotium') || bot.includes('polyporus') || bot.includes('poria')) {
-    partDesc = 'Thể Hạch Nấm Thái Khối / Lát Bào Chế';
+  } else if (
+    bot.includes('sclerotium') ||
+    bot.includes('polyporus') ||
+    bot.includes('poria') ||
+    bot.includes('ganoderma') ||
+    bot.includes('tremella') ||
+    bot.includes('omphalia') ||
+    bot.includes('lasiosphaera') ||
+    bot.includes('galla')
+  ) {
+    partDesc = 'Thể Quả Nấm / Ngũ Bội Tử Bào Chế Khô';
   } else if (bot.includes('herba')) {
     partDesc = 'Toàn Thảo Cắt Đoạn Phơi Khô';
   } else if (bot.includes('thallus') || bot.includes('sargassum')) {
     partDesc = 'Tảo Biển Phơi Khô Rửa Sạch Muối';
   } else if (bot.includes('cornu')) {
-    partDesc = 'Sừng Bào Phiến Mỏng Sắc Trước';
-  } else if (bot.includes('carapax') || bot.includes('plastrum') || bot.includes('concha') || bot.includes('endoconcha')) {
+    partDesc = 'Sừng / Nhung Bào Phiến Mỏng Sắc Trước';
+  } else if (bot.includes('colla')) {
+    partDesc = 'Cao Dược Liệu Cô Đặc Hòa Tan Nước Thuốc Nóng';
+  } else if (bot.includes('endothelium')) {
+    partDesc = 'Màng Trong Mề Gà Sao Cát Nở Vàng Tiêu Thực';
+  } else if (bot.includes('squama') || bot.includes('corium')) {
+    partDesc = 'Vảy / Da Động Vật Bào Chế Chế Cát (Nhóm Hạn Chế Bảo Tồn)';
+  } else if (
+    bot.includes('carapax') ||
+    bot.includes('plastrum') ||
+    bot.includes('concha') ||
+    bot.includes('endoconcha') ||
+    bot.includes('margarita')
+  ) {
     partDesc = 'Mai / Yếm / Vỏ Xác Nung Giã Vụn Chích Giấm';
+  } else if (bot.includes('os ') || bot.includes('ossis') || bot.includes('fossilia') || bot.includes('dens')) {
+    partDesc = 'Xương / Răng Hóa Thạch Đập Vụn Trọng Trấn';
+  } else if (bot.includes('periostracum')) {
+    partDesc = 'Vỏ Xác Lột Làm Sạch Sao Thơm';
+  } else if (
+    bot.includes('bungarus') ||
+    bot.includes('zaocys') ||
+    bot.includes('hippocampus') ||
+    bot.includes('syngnathus') ||
+    bot.includes('eupolyphaga') ||
+    bot.includes('hirudo') ||
+    bot.includes('tabanus') ||
+    bot.includes('aspongopus') ||
+    bot.includes('bombyx') ||
+    bot.includes('mylabris') ||
+    bot.includes('pheretima') ||
+    bot.includes('scorpio') ||
+    bot.includes('nidus')
+  ) {
+    partDesc = 'Côn Trùng / Động Vật Dược Dùng Phơi Sấy Sao Chế';
+  } else if (bot.includes('faeces')) {
+    partDesc = 'Phân Động Vật Dược Dụng Sao Thơm Bào Chế';
+  } else if (bot.includes('crinis')) {
+    partDesc = 'Tóc Đốt Thành Than Huyết Dư Thán Chỉ Huyết';
+  } else if (bot.includes('fel ')) {
+    partDesc = 'Mật Động Vật Cô Đặc (Hạn Chế Bảo Tồn CITES)';
+  } else if (bot.includes('venenum')) {
+    partDesc = 'Nhựa Độc Động Vật Tinh Chế Vi Lượng (Độc Mạnh)';
   } else if (
     bot.includes('gypsum') ||
     bot.includes('mirabilit') ||
-    bot.includes('natrii sulfas') ||
+    bot.includes('natrii') ||
     bot.includes('talc') ||
     bot.includes('alumen') ||
     bot.includes('borax') ||
     bot.includes('magnetit') ||
     bot.includes('haematit') ||
     bot.includes('cinnabar') ||
-    bot.includes('sulfur')
+    bot.includes('sulfur') ||
+    bot.includes('calcit') ||
+    bot.includes('pumex') ||
+    bot.includes('chloriti') ||
+    bot.includes('pyrit') ||
+    bot.includes('halloysit') ||
+    bot.includes('limonit') ||
+    bot.includes('ophicalcit') ||
+    bot.includes('actinolit') ||
+    bot.includes('fluorit') ||
+    bot.includes('realgar') ||
+    bot.includes('calamina') ||
+    bot.includes('calomelas') ||
+    bot.includes('chalcanthit') ||
+    bot.includes('arsenolit') ||
+    bot.includes('minium') ||
+    bot.includes('hydrargyrum') ||
+    bot.includes('lithargyrum') ||
+    bot.includes('sal ammoniacus') ||
+    bot.includes('frusta') ||
+    bot.includes('terra')
   ) {
-    partDesc = 'Khoáng Thạch Dược Dụng Nung / Thủy Phi';
-  } else if (bot.includes('olibanum') || bot.includes('myrrha') || bot.includes('moschus') || bot.includes('succinum') || bot.includes('aloe')) {
-    partDesc = 'Nhựa Thơm / Hương Dược Tinh Chế';
+    partDesc = 'Khoáng Thạch / Thổ Dược Nung Đỏ, Thủy Phi Hoặc Sắc Trước';
+  } else if (
+    bot.includes('olibanum') ||
+    bot.includes('myrrha') ||
+    bot.includes('moschus') ||
+    bot.includes('succinum') ||
+    bot.includes('aloe') ||
+    bot.includes('resina') ||
+    bot.includes('sanguis') ||
+    bot.includes('styrax') ||
+    bot.includes('benzoinum') ||
+    bot.includes('camphora') ||
+    bot.includes('borneol') ||
+    bot.includes('catechu') ||
+    bot.includes('concretio')
+  ) {
+    partDesc = 'Nhựa Thơm / Cao Nhựa / Hương Dược Tinh Chế';
+  } else if (bot.includes('indigo')) {
+    partDesc = 'Bột Chàm Lọc Mịn Thủy Phi (Thanh Đại)';
+  } else if (bot.includes('succus') || /\bmel\b/.test(bot) || bot.includes('saccharum') || bot.includes('cera')) {
+    partDesc = 'Dịch Chiết / Mật Đường / Sáp Ong Dược Dụng';
+  } else {
+    partDesc = 'Dược Liệu Bào Chế Chuẩn Dược Điển Bensky';
   }
+
   return `${herb.vietnameseName} (${herb.chineseCharacters}) — ${partDesc}`;
 }
 
+function resolveFallbackSpecimenPhoto(herb: Herb): { file: string; variantClass: string } {
+  const bot = herb.botanicalName.toLowerCase();
+  const vn = herb.vietnameseName.toLowerCase();
+  const id = herb.id;
+  let hash = 0;
+  for (let i = 0; i < id.length; i++) {
+    hash = (hash * 31 + id.charCodeAt(i)) >>> 0;
+  }
+  const variantClass = VARIANT_CLASSES[hash % VARIANT_CLASSES.length];
+
+  // Specific prepared form overrides (matched by actual pharmacological identity, not placeholder IDs)
+  const SPECIFIC_PREPARED_FILE: Record<string, string> = {
+    'zhi-gan-cao': 'licorice_gancao.jpg',
+    'chao-bai-zhu': 'atractylodes_baizhu.jpg',
+    'cu-yan-hu-suo': 'aconite_fuzi.jpg', // Dan Fu Pian (Pao Fu Zi)
+    'zhu-ru-jiang': 'aconite_fuzi.jpg', // Sheng Cao Wu
+    'dan-shen-jiu': 'cured_heshouwu.jpg', // Zhi He Shou Wu
+    'jiu-huang-jing': 'dark_black_cured_roots.jpg', // Jiu Huang Jing
+    'jiu-huang-qin': 'scutellaria_huangqin.jpg',
+    'jiu-da-huang': 'rhubarb_dahuang.jpg',
+    'hong-shen': 'hong_shen_red_ginseng.jpg',
+    'cu-chai-hu': 'chai_hu_bupleurum.jpg',
+    'chuan-niu-xi': 'niuxi_achyranthes.jpg',
+    'zhu-ye': 'danzhuye_lophatherum.jpg',
+    'zhu-ye-juan-xin': 'danzhuye_lophatherum.jpg',
+    'dong-chong-substitute': 'whole_ginseng_roots.jpg', // Ren Shen Xu
+    'sha-chao-ji-nei-jin': 'golden_gizzard_lining.jpg',
+    'shu-shan-zha': 'sliced_hawthorn_rings.jpg',
+    'da-ji-mu': 'fibrous_cyperus_rhizomes.jpg', // Wei Mu Xiang
+    'sheng-di-gu-pi': 'xiang_fu_cyperus.jpg', // Si Zhi Xiang Fu
+    'jiu-dang-gui': 'sliced_angelica_peony.jpg', // Dang Gui Wei
+    'mi-ma-huang': 'green_ephedra_stems.jpg',
+    'mi-bai-bu': 'translucent_ophiopogon_tubers.jpg',
+    'mi-pi-pa-ye': 'cut_bamboo_lotus_leaves.jpg',
+    'zhu-li': 'bamboo_shavings_trucnhu.jpg',
+    'tian-zhu-huang': 'bamboo_shavings_trucnhu.jpg',
+    'deng-xin-cao': 'white_pith_thongthao.jpg',
+    'lian-fang': 'lotus_plumule_lianxin.jpg',
+    'lian-xu': 'corn_silk_yumixu.jpg',
+    'he-geng': 'cut_bamboo_lotus_leaves.jpg',
+    'ou-jie': 'fibrous_cyperus_rhizomes.jpg',
+    'lu-jiao-jiao': 'black_donkey_gelatin.jpg',
+    'gui-ban-jiao': 'black_donkey_gelatin.jpg',
+    'bie-jia-jiao': 'black_donkey_gelatin.jpg',
+    'she-chuang-zi-ch18': 'white_gypsum_crystals.jpg', // Ku Fan
+    'hai-fu-shi': 'fossil_dragon_bone.jpg',
+    'hua-rui-shi': 'black_magnetite_cishi.jpg',
+    'yang-qi-shi': 'abalone_shell_thachquyetminh.jpg',
+    'zhu-jie-shen': 'notoginseng_sanqi.jpg',
+    'hu-huang-lian': 'golden_yellow_rhizomes.jpg',
+    'ling-zhi': 'polyporus_trulinh_slices.jpg',
+    'yin-er': 'white_poria_cubes.jpg',
+    'qing-dai': 'black_aloe_luhui.jpg',
+    'feng-mi': 'golden_frankincense_resin.jpg',
+    'yi-tang': 'golden_frankincense_resin.jpg',
+    'feng-jiao': 'yellow_sulfur_liuhuang.jpg',
+    'gua-di': 'persimmon_calyx_shidi.jpg',
+    'ya-zhi-cao': 'small_leaf_herbs.jpg',
+    'ming-dang-shen': 'codonopsis_dangshen.jpg',
+    'nan-sha-shen': 'codonopsis_dangshen.jpg',
+    'xu-chang-qing': 'codonopsis_dangshen.jpg',
+    'ji-xue-cao': 'fresh_centella_leaves.jpg',
+  };
+
+  if (SPECIFIC_PREPARED_FILE[id]) {
+    return {
+      file: `/assets/images/herbs/${SPECIFIC_PREPARED_FILE[id]}`,
+      variantClass
+    };
+  }
+
+  let file = 'pale_sliced_roots.jpg';
+
+  // 0. Charred / Carbonized Herbs (Sao thán)
+  if (/\bcarbonisat(a|um|us)\b/.test(bot) || vn.includes('thán')) {
+    file = 'dark_black_cured_roots.jpg';
+  }
+  // 1. Flowers / Spica / Buds / Pollen
+  else if (bot.includes('flos') || bot.includes('spica') || bot.includes('plumula') || bot.includes('pollen')) {
+    if (bot.includes('lonicera') || bot.includes('buddleja') || bot.includes('albizia') || bot.includes('pueraria')) {
+      file = 'honeysuckle_flower_buds.jpg';
+    } else if (bot.includes('magnolia') || bot.includes('genkwa') || bot.includes('farfara') || bot.includes('datura')) {
+      file = 'magnolia_bud_xinyi.jpg';
+    } else if (bot.includes('rosa') || bot.includes('campsis') || bot.includes('carthamus') || bot.includes('celosiae')) {
+      file = 'hong_hua_new.jpg';
+    } else if (bot.includes('mume') || bot.includes('sophora') || bot.includes('caryophylli')) {
+      file = 'sophora_bud_hoahoe.jpg';
+    } else if (bot.includes('spica')) {
+      file = 'prunella_spica_xiakucao.jpg';
+    } else {
+      file = 'chrysanthemum_flowers.jpg';
+    }
+  }
+  // 2. Bulbs / Allium
+  else if (bot.includes('bulbus') || bot.includes('allii')) {
+    if (bot.includes('lilii') || bot.includes('macrostemi') || bot.includes('sativi')) {
+      file = 'lily_bulb_baihe.jpg';
+    } else {
+      file = 'white_fritillaria_bulbs.jpg';
+    }
+  }
+  // 3. Leaves
+  else if (bot.includes('folium') || bot.includes('cacumen')) {
+    if (bot.includes('perilla') || bot.includes('isatidis') || bot.includes('callicarpa') || bot.includes('rhododendri')) {
+      file = 'dark_perilla_leaves.jpg';
+    } else if (bot.includes('bambusa') || bot.includes('nelumbinis') || bot.includes('platycladi') || bot.includes('eriobotrya')) {
+      file = 'cut_bamboo_lotus_leaves.jpg';
+    } else if (bot.includes('artemisiae') || bot.includes('pyrrosiae') || bot.includes('sennae')) {
+      file = 'ngai_diep_new.jpg';
+    } else if (bot.includes('apocyni') || bot.includes('lycii') || bot.includes('ju-ye')) {
+      file = 'fresh_aromatic_leaves.jpg';
+    } else {
+      file = 'cut_green_mint_mulberry.jpg';
+    }
+  }
+  // 4. Bark & Fruit Peel & Seed Coat
+  else if (bot.includes('cortex') || bot.includes('pericarpium') || bot.includes('exocarpium') || bot.includes('testa')) {
+    if (bot.includes('citri') || bot.includes('aurantii')) {
+      file = 'dried_tangerine_peel.jpg';
+    } else if (bot.includes('benincasae') || bot.includes('citrulli') || bot.includes('trichosanthis')) {
+      file = 'bitter_orange_round_fruits.jpg';
+    } else if (bot.includes('granati') || bot.includes('papaveris') || bot.includes('arecae') || bot.includes('phaseoli')) {
+      file = 'areca_peel_daiphucbi.jpg';
+    } else if (bot.includes('poriae')) {
+      file = 'white_poria_cubes.jpg';
+    } else if (bot.includes('mori') || bot.includes('cinnamomi')) {
+      file = 'rou_gui.jpg';
+    } else if (bot.includes('dictamni') || bot.includes('moutan') || bot.includes('pseudolaricis')) {
+      file = 'moutan_bark_mudanpi.jpg';
+    } else if (bot.includes('ailanthi') || bot.includes('acanthopanacis') || bot.includes('meliae') || bot.includes('schizophragmatis')) {
+      file = 'curved_dark_bark.jpg';
+    } else {
+      file = 'rough_tree_bark.jpg';
+    }
+  }
+  // 5. Stems / Twigs / Wood / Pith / Petiole / Liana / Spines
+  else if (
+    bot.includes('caulis') ||
+    bot.includes('ramulus') ||
+    bot.includes('lignum') ||
+    bot.includes('medulla') ||
+    bot.includes('retinervus') ||
+    bot.includes('petiolus') ||
+    bot.includes('spina')
+  ) {
+    if (bot.includes('medulla')) {
+      file = 'white_pith_thongthao.jpg';
+    } else if (bot.includes('santali') || bot.includes('aquilariae') || bot.includes('pini nodi') || bot.includes('dalbergiae')) {
+      file = 'dark_agarwood_tramhuong.jpg';
+    } else if (bot.includes('caesalpiniae') || bot.includes('sappan')) {
+      file = 'red_sappan_wood_sumu.jpg';
+    } else if (bot.includes('bambusae') || bot.includes('luffae')) {
+      file = 'bamboo_shavings_trucnhu.jpg';
+    } else if (bot.includes('mori') || bot.includes('perillae') || bot.includes('spina') || bot.includes('cinnamomi')) {
+      file = 'cut_woody_twigs.jpg';
+    } else {
+      file = 'woody_liana_slices.jpg';
+    }
+  }
+  // 6. Fungi / Poria / Ganoderma / Tremella / Puffball / Galls
+  else if (
+    bot.includes('ganoderma') ||
+    bot.includes('tremella') ||
+    bot.includes('omphalia') ||
+    bot.includes('lasiosphaera') ||
+    bot.includes('polyporus') ||
+    bot.includes('poria') ||
+    bot.includes('galla')
+  ) {
+    if (bot.includes('tremella') || bot.includes('omphalia')) {
+      file = 'white_poria_cubes.jpg';
+    } else {
+      file = 'polyporus_trulinh_slices.jpg';
+    }
+  }
+  // 7. Shells / Horn / Bone / Gelatin / Tooth / Carapace / Scales
+  else if (
+    bot.includes('concha') ||
+    bot.includes('cornu') ||
+    bot.includes('colla') ||
+    bot.includes('plastrum') ||
+    bot.includes('carapax') ||
+    /\bos\b/.test(bot) ||
+    bot.includes('dens') ||
+    bot.includes('squama') ||
+    bot.includes('corium') ||
+    bot.includes('margarita')
+  ) {
+    if (bot.includes('haliotidis') || bot.includes('margaritifera')) {
+      file = 'abalone_shell_thachquyetminh.jpg';
+    } else if (bot.includes('concha') || bot.includes('margarita')) {
+      file = 'oyster_abalone_shells.jpg';
+    } else if (bot.includes('colla')) {
+      file = 'black_donkey_gelatin.jpg';
+    } else if (bot.includes('carapax') || bot.includes('plastrum')) {
+      file = 'softshell_turtle_biejia.jpg';
+    } else if (bot.includes('cornu')) {
+      file = bot.includes('saigae') || bot.includes('bubali') || bot.includes('caprae') || bot.includes('naemorhedi')
+        ? 'buffalo_horn_slices.jpg'
+        : 'velvet_antler_slices.jpg';
+    } else {
+      file = 'fossil_dragon_bone.jpg';
+    }
+  }
+  // 8. Minerals / Earth / Sulfur / Arsenic / Lead / Mercury
+  else if (
+    bot.includes('calcit') ||
+    bot.includes('natrii') ||
+    bot.includes('alumen') ||
+    bot.includes('fluorit') ||
+    bot.includes('chalcanthit') ||
+    bot.includes('calamina') ||
+    bot.includes('calomelas') ||
+    bot.includes('sal ammoniacus') ||
+    bot.includes('realgar') ||
+    bot.includes('arsenolit') ||
+    bot.includes('lithargyrum') ||
+    bot.includes('minium') ||
+    bot.includes('hydrargyrum') ||
+    bot.includes('chloriti') ||
+    bot.includes('pumex') ||
+    bot.includes('pyrit') ||
+    bot.includes('halloysit') ||
+    bot.includes('limonit') ||
+    bot.includes('actinolit') ||
+    bot.includes('terra') ||
+    bot.includes('ophicalcit') ||
+    bot.includes('frusta') ||
+    bot.includes('borax') ||
+    bot.includes('talcum')
+  ) {
+    if (bot.includes('minium') || bot.includes('halloysit') || bot.includes('hydrargyrum') || bot.includes('realgar')) {
+      file = 'red_cinnabar_zhusha.jpg';
+    } else if (bot.includes('chloriti') || bot.includes('frusta') || bot.includes('pyrit') || bot.includes('limonit')) {
+      file = 'black_magnetite_cishi.jpg';
+    } else if (bot.includes('lithargyrum') || bot.includes('terra')) {
+      file = 'yellow_sulfur_liuhuang.jpg';
+    } else if (bot.includes('natrii') || bot.includes('borax') || bot.includes('alumen') || bot.includes('sal ammoniacus')) {
+      file = 'borneol_bingpian.jpg';
+    } else {
+      file = 'white_gypsum_crystals.jpg';
+    }
+  }
+  // 9. Resins / Honey (word boundary!) / Sugar / Wax / Bile / Venoms / Camphor / Carbon
+  else if (
+    bot.includes('resina') ||
+    bot.includes('styrax') ||
+    bot.includes('benzoinum') ||
+    bot.includes('sanguis') ||
+    bot.includes('camphora') ||
+    bot.includes('catechu') ||
+    bot.includes('venenum') ||
+    bot.includes('cera') ||
+    /\bmel\b/.test(bot) ||
+    bot.includes('saccharum') ||
+    /\bfel\b/.test(bot) ||
+    bot.includes('indigo') ||
+    bot.includes('crinis')
+  ) {
+    if (bot.includes('camphora')) {
+      file = 'borneol_bingpian.jpg';
+    } else if (bot.includes('cera') || /\bmel\b/.test(bot) || bot.includes('saccharum') || bot.includes('ferulae')) {
+      file = 'golden_frankincense_resin.jpg';
+    } else if (bot.includes('indigo') || bot.includes('crinis')) {
+      file = 'black_aloe_luhui.jpg';
+    } else if (bot.includes('sanguis') || bot.includes('styrax') || bot.includes('benzoinum')) {
+      file = 'amber_hupo.jpg';
+    } else {
+      file = 'myrrh_moyao.jpg';
+    }
+  }
+  // 10. Animals / Insects / Worms / Snakes / Seahorse / Wasp nest
+  else if (
+    bot.includes('bungarus') ||
+    bot.includes('zaocys') ||
+    bot.includes('periostracum') ||
+    bot.includes('eupolyphaga') ||
+    bot.includes('hirudo') ||
+    bot.includes('tabanus') ||
+    bot.includes('aspongopus') ||
+    bot.includes('hippocampus') ||
+    bot.includes('syngnathus') ||
+    bot.includes('mylabris') ||
+    bot.includes('bombyx') ||
+    bot.includes('faeces') ||
+    bot.includes('vespae')
+  ) {
+    if (bot.includes('bombyx') || bot.includes('periostracum')) {
+      file = 'white_silkworms.jpg';
+    } else if (bot.includes('faeces')) {
+      file = 'wulingzhi_resin_grains.jpg';
+    } else if (bot.includes('vespae')) {
+      file = 'mantis_egg_sangpiaoxiao.jpg';
+    } else if (bot.includes('hippocampus') || bot.includes('syngnathus')) {
+      file = 'dried_gecko_gejie.jpg';
+    } else if (bot.includes('hirudo') || bot.includes('bungarus') || bot.includes('zaocys')) {
+      file = 'dried_earthworms.jpg';
+    } else {
+      file = 'dried_scorpion_quanxie.jpg';
+    }
+  }
+  // 11. Seeds / Kernels / Spores
+  else if (bot.includes('semen') || /\bspora\b/.test(bot)) {
+    if (bot.includes('sojae nigrum') || bot.includes('celosiae') || bot.includes('allii')) {
+      file = 'black_sesame_seeds.jpg';
+    } else if (bot.includes('pini') || bot.includes('benincasae') || bot.includes('trigonellae') || bot.includes('nelumbinis') || bot.includes('euryales') || bot.includes('coicis')) {
+      file = 'white_lotus_seeds.jpg';
+    } else if (bot.includes('sterculiae') || bot.includes('momordicae') || bot.includes('hydnocarpi') || bot.includes('torreyae')) {
+      file = 'walnut_hutaorou.jpg';
+    } else if (bot.includes('canavaliae') || bot.includes('phaseoli') || bot.includes('pruni') || bot.includes('armeniacae')) {
+      file = 'apricot_peach_kernels.jpg';
+    } else if (bot.includes('oroxyli') || bot.includes('strychni')) {
+      file = 'nux_vomica_maqianzi.jpg';
+    } else if (/\bspora\b/.test(bot)) {
+      file = 'yellow_pollen_bohoang.jpg';
+    } else if (bot.includes('sojae preparatum')) {
+      file = 'fermented_soy_dandouchi.jpg';
+    } else {
+      file = 'small_brown_seeds.jpg';
+    }
+  }
+  // 12. Fruits / Pods / Calyx / Pedicellus
+  else if (bot.includes('fructus') || bot.includes('calyx') || bot.includes('pedicellus') || bot.includes('receptaculum')) {
+    if (bot.includes('galangae') || bot.includes('bruceae') || bot.includes('crataegi') || bot.includes('rosae laevigatae') || bot.includes('lycii')) {
+      file = 'red_goji_berries.jpg';
+    } else if (bot.includes('tritici')) {
+      file = 'sprouted_barley_malt.jpg';
+    } else if (bot.includes('gleditsiae') || bot.includes('ulmi') || bot.includes('mume') || bot.includes('aristolochiae')) {
+      file = 'black_smoked_plums.jpg';
+    } else if (bot.includes('aurantii') || bot.includes('citri') || bot.includes('trichosanthis') || bot.includes('siraitiae') || bot.includes('citrulli')) {
+      file = 'bitter_orange_round_fruits.jpg';
+    } else if (bot.includes('kochia') || bot.includes('piperis') || bot.includes('litseae') || bot.includes('anisi') || bot.includes('carpesii')) {
+      file = 'sichuan_pepper_huajiao.jpg';
+    } else if (bot.includes('forsythiae') || bot.includes('amomi') || bot.includes('tsaoko') || bot.includes('liquidambaris') || bot.includes('gardeniae')) {
+      file = 'dark_tsaoko_pods.jpg';
+    } else if (bot.includes('silybi') || bot.includes('sophorae') || bot.includes('polygoni')) {
+      file = 'small_brown_seeds.jpg';
+    } else if (bot.includes('xanthii')) {
+      file = 'spiny_xanthium_cangerzi.jpg';
+    } else {
+      file = 'wrinkled_chebula_khatu.jpg';
+    }
+  }
+  // 13. Whole Herbs (Herba)
+  else if (bot.includes('herba')) {
+    if (bot.includes('ephedrae') || bot.includes('cynomorii') || bot.includes('lycopodii') || bot.includes('orostachydis') || bot.includes('selaginellae') || bot.includes('artemisiae scopariae')) {
+      file = 'green_ephedra_stems.jpg';
+    } else if (bot.includes('portulacae') || bot.includes('commelinae') || bot.includes('hydrocotyles') || bot.includes('sedi') || bot.includes('duchesneae') || bot.includes('androsaces')) {
+      file = 'small_leaf_herbs.jpg';
+    } else if (bot.includes('ajugae') || bot.includes('leonuri') || bot.includes('menthae') || bot.includes('violae') || bot.includes('prunellae')) {
+      file = 'prunella_spica_xiakucao.jpg';
+    } else if (bot.includes('gynostemmatis') || bot.includes('ardisiae') || bot.includes('lycopi')) {
+      file = 'broad_leaf_herbs.jpg';
+    } else {
+      file = 'cut_stem_herbs.jpg';
+    }
+  }
+  // 14. Rhizomes & Tubers & Roots
+  else if (bot.includes('rhizoma') || bot.includes('radix') || bot.includes('pseudobulbus')) {
+    if (bot.includes('picrorhizae') || bot.includes('berberidis') || bot.includes('curcumae') || bot.includes('kaempferiae') || bot.includes('coptidis')) {
+      file = 'golden_yellow_rhizomes.jpg';
+    } else if (bot.includes('polygoni') || bot.includes('rubiae') || bot.includes('rhodiolae') || bot.includes('bistortae') || bot.includes('rhei')) {
+      file = 'red_salvia_roots.jpg';
+    } else if (bot.includes('aconiti')) {
+      file = 'aconite_fuzi.jpg';
+    } else if (bot.includes('pinelliae') || bot.includes('typhonii') || bot.includes('paridis') || bot.includes('cremastrae') || bot.includes('hemsleyae')) {
+      file = 'white_pinellia_tubers.jpg';
+    } else if (bot.includes('puerariae') || bot.includes('trichosanthis') || bot.includes('smilacis') || bot.includes('oryzae')) {
+      file = 'white_yam_slices.jpg';
+    } else if (bot.includes('adenophorae') || bot.includes('changii') || bot.includes('ginseng') || bot.includes('acanthopanacis')) {
+      file = 'codonopsis_dangshen.jpg';
+    } else if (bot.includes('phragmitis') || bot.includes('imperatae') || bot.includes('stemonae')) {
+      file = 'translucent_ophiopogon_tubers.jpg';
+    } else if (bot.includes('angelicae') || bot.includes('peucedani') || bot.includes('atractylodis') || bot.includes('ampelopsis') || bot.includes('dichroae')) {
+      file = 'sliced_angelica_peony.jpg';
+    } else if (bot.includes('notopterygii') || bot.includes('saposhnikoviae') || bot.includes('gentianae macrophyllae') || bot.includes('ligustici')) {
+      file = 'fangfeng_root.jpg';
+    } else if (bot.includes('stellariae') || bot.includes('bupleuri') || bot.includes('cyperi') || bot.includes('nardostachyos') || bot.includes('dioscoreae') || bot.includes('inulae') || bot.includes('euphorbiae')) {
+      file = 'fibrous_cyperus_rhizomes.jpg';
+    } else if (vn.includes('gừng') || bot.includes('zingiberis')) {
+      file = 'dried_ginger_ganjiang.jpg';
+    } else if (bot.includes('rhizoma')) {
+      file = 'gnarled_chuanxiong_slices.jpg';
+    } else {
+      file = 'pale_sliced_roots.jpg';
+    }
+  }
+
+  return {
+    file: `/assets/images/herbs/${file}`,
+    variantClass
+  };
+}
+
 export function getHerbVisualSpec(herb: Herb): HerbVisualSpec & { variantClass?: string } {
+  const uniquePrepared = HERB_PREPARED_UNIQUE[herb.id];
   const mapped = HERB_SPEC_MAP[herb.id];
   const exact = HERB_EXACT_PHOTOS[herb.id];
+  const fallback = (uniquePrepared || mapped) ? null : resolveFallbackSpecimenPhoto(herb);
 
-  const baseFile = mapped?.file || '/assets/images/herbs/pale_sliced_roots.jpg';
-  const partLabel = mapped?.isDedicatedSingle
+  const baseFile = uniquePrepared?.url || mapped?.file || fallback!.file;
+  const partLabel = (!uniquePrepared && mapped?.isDedicatedSingle && mapped.partLabel)
     ? mapped.partLabel
     : getExactBotanicalPartLabel(herb);
 
   const cleanBensky = (herb.benskyNotes || '')
     .replace(/^Dan Bensky(\s*3rd Ed)?:\s*/i, '')
     .replace(/\.$/, '');
-  const processingNote = mapped?.isDedicatedSingle
-    ? mapped.processingNote
-    : `${herb.vietnameseName} (${herb.botanicalName}): ${mapped?.processingNote || 'Bào chế chuẩn Dược điển'}${cleanBensky ? ` — ${cleanBensky}` : ''}`;
+  const processingNote = uniquePrepared
+    ? `${herb.vietnameseName} (${herb.botanicalName}): ${uniquePrepared.source}${cleanBensky ? ` — ${cleanBensky}` : ''}`
+    : (mapped?.isDedicatedSingle && mapped.partLabel
+      ? mapped.processingNote
+      : `${herb.vietnameseName} (${herb.botanicalName}): ${mapped?.processingNote || 'Bào chế chuẩn Dược điển'}${cleanBensky ? ` — ${cleanBensky}` : ''}`);
+
+  const isHerbariumSpecimen = Boolean(
+    uniquePrepared && /GBIF|Tiêu bản khô/i.test(uniquePrepared.source)
+  );
 
   return {
     imageUrl: baseFile,
@@ -979,8 +1804,9 @@ export function getHerbVisualSpec(herb: Herb): HerbVisualSpec & { variantClass?:
     taxonName: exact?.taxonName || herb.botanicalName,
     partLabel,
     processingNote,
-    hasExactSlicePhoto: true,
-    variantClass: mapped?.variantClass || ''
+    hasExactSlicePhoto: !isHerbariumSpecimen,
+    isHerbariumSpecimen,
+    variantClass: uniquePrepared ? '' : (mapped?.variantClass || fallback?.variantClass || '')
   };
 }
 
@@ -995,18 +1821,58 @@ export const HerbalVisualCard: React.FC<HerbalVisualCardProps> = ({ herb, mode }
   const [preparedImgFailed, setPreparedImgFailed] = useState(false);
   const [inspectModal, setInspectModal] = useState<null | 'natural' | 'prepared' | 'compare'>(null);
 
+  useEffect(() => {
+    setNaturalImgFailed(false);
+    setPreparedImgFailed(false);
+  }, [herb.id]);
+
   if (mode === 'thumbnail') {
     return (
-      <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-2xl overflow-hidden border border-slate-200 shadow-xs shrink-0 bg-slate-100">
-        <img
-          src={spec.imageUrl}
-          alt={`Hình thực tế vị thuốc ${herb.vietnameseName}`}
-          loading="lazy"
-          referrerPolicy="no-referrer"
-          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-        />
-        <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slate-950/85 via-slate-950/40 to-transparent px-1.5 py-1 flex items-end justify-between">
-          <span className="text-[10px] font-serif font-bold text-amber-200 leading-none drop-shadow">
+      <div className="relative w-24 h-16 sm:w-28 sm:h-20 rounded-2xl overflow-hidden border border-slate-200 shadow-xs shrink-0 bg-white grid grid-cols-2 gap-px">
+        {/* Left half: 100% unique living biological species photo */}
+        <div className="relative w-full h-full bg-emerald-950 overflow-hidden">
+          {!naturalImgFailed ? (
+            <img
+              src={spec.speciesPhotoUrl}
+              alt={`Dạng tự nhiên ${herb.vietnameseName}`}
+              loading="lazy"
+              referrerPolicy="no-referrer"
+              onError={() => setNaturalImgFailed(true)}
+              className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+            />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center bg-emerald-900 text-[9px] font-bold text-emerald-200 text-center px-1">
+              Tự nhiên
+            </div>
+          )}
+          <span className="absolute top-1 left-1 w-2 h-2 rounded-full bg-emerald-400 ring-1 ring-white/80 shadow-xs" title="Dạng tự nhiên" />
+        </div>
+
+        {/* Right half: Prepared dried pharmacognosy herb OR museum herbarium specimen */}
+        <div className="relative w-full h-full bg-white overflow-hidden">
+          {!preparedImgFailed ? (
+            <img
+              src={spec.imageUrl}
+              alt={spec.isHerbariumSpecimen ? `Tiêu bản khô định danh ${herb.vietnameseName}` : `Sau bào chế ${herb.vietnameseName}`}
+              loading="lazy"
+              referrerPolicy="no-referrer"
+              onError={() => setPreparedImgFailed(true)}
+              className={`w-full h-full object-cover transition-transform duration-300 group-hover:scale-105 ${spec.variantClass || ''}`}
+            />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center bg-amber-50 text-[9px] font-bold text-amber-800 text-center px-1">
+              {spec.isHerbariumSpecimen ? 'Tiêu bản' : 'Bào chế'}
+            </div>
+          )}
+          <span
+            className={`absolute top-1 right-1 w-2 h-2 rounded-full ring-1 ring-white/80 shadow-xs ${spec.isHerbariumSpecimen ? 'bg-sky-400' : 'bg-amber-400'}`}
+            title={spec.isHerbariumSpecimen ? 'Tiêu bản khô định danh (GBIF)' : 'Sau bào chế (Ẩm phiến)'}
+          />
+        </div>
+
+        {/* Hanzi badge across bottom */}
+        <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slate-950/85 via-slate-950/35 to-transparent px-1.5 py-0.5 flex items-end justify-between pointer-events-none">
+          <span className="text-[9px] sm:text-[10px] font-serif font-bold text-amber-200 leading-none drop-shadow">
             {herb.chineseCharacters}
           </span>
         </div>
@@ -1078,16 +1944,16 @@ export const HerbalVisualCard: React.FC<HerbalVisualCardProps> = ({ herb, mode }
               </div>
             </div>
 
-            {/* Photo 2: Prepared Dried Pharmacognosy Herb (Sau Khi Bào Chế) */}
+            {/* Photo 2: Prepared Dried Pharmacognosy Herb OR Herbarium Specimen */}
             <div
               onClick={() => setInspectModal('prepared')}
-              className="group relative rounded-xl overflow-hidden bg-white min-h-[195px] sm:min-h-[220px] border border-amber-800/40 cursor-pointer flex flex-col justify-between"
-              title="Nhấp để phóng to đối chiếu Dạng Sau Khi Bào Chế"
+              className={`group relative rounded-xl overflow-hidden bg-white min-h-[195px] sm:min-h-[220px] border cursor-pointer flex flex-col justify-between ${spec.isHerbariumSpecimen ? 'border-sky-700/40' : 'border-amber-800/40'}`}
+              title={spec.isHerbariumSpecimen ? 'Nhấp để phóng to đối chiếu Tiêu Bản Thực Vật Khô' : 'Nhấp để phóng to đối chiếu Dạng Sau Khi Bào Chế'}
             >
               {!preparedImgFailed ? (
                 <img
                   src={spec.imageUrl}
-                  alt={`Vị thuốc sau khi bào chế ${herb.vietnameseName}`}
+                  alt={spec.isHerbariumSpecimen ? `Tiêu bản thực vật khô định danh ${herb.vietnameseName}` : `Vị thuốc sau khi bào chế ${herb.vietnameseName}`}
                   referrerPolicy="no-referrer"
                   onError={() => setPreparedImgFailed(true)}
                   className={`w-full h-full object-contain p-2 bg-white max-h-[240px] transition-transform duration-300 group-hover:scale-105 ${spec.variantClass || ''}`}
@@ -1101,9 +1967,9 @@ export const HerbalVisualCard: React.FC<HerbalVisualCardProps> = ({ herb, mode }
 
               {/* Badges and Caption */}
               <div className="absolute top-2 left-2 right-2 flex items-center justify-between pointer-events-none z-10">
-                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-slate-950/95 text-[9px] sm:text-[10px] font-bold text-amber-300 border border-amber-500/40 backdrop-blur-xs">
-                  <span className="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
-                  2. Sau Bào Chế
+                <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-slate-950/95 text-[9px] sm:text-[10px] font-bold border backdrop-blur-xs ${spec.isHerbariumSpecimen ? 'text-sky-300 border-sky-500/40' : 'text-amber-300 border-amber-500/40'}`}>
+                  <span className={`w-1.5 h-1.5 rounded-full ${spec.isHerbariumSpecimen ? 'bg-sky-400' : 'bg-amber-400'}`}></span>
+                  {spec.isHerbariumSpecimen ? '2. Tiêu Bản Khô' : '2. Sau Bào Chế'}
                 </span>
                 <span className="px-1.5 py-0.5 rounded bg-black/70 text-[9px] text-white/90 font-mono flex items-center gap-0.5 backdrop-blur-xs">
                   <svg className="w-2.5 h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1114,11 +1980,11 @@ export const HerbalVisualCard: React.FC<HerbalVisualCardProps> = ({ herb, mode }
               </div>
 
               <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slate-950/95 via-slate-950/70 to-transparent p-2 z-10 pointer-events-none">
-                <span className="text-[10px] font-serif font-bold text-amber-300 block truncate">
+                <span className={`text-[10px] font-serif font-bold block truncate ${spec.isHerbariumSpecimen ? 'text-sky-300' : 'text-amber-300'}`}>
                   {herb.chineseCharacters} ({herb.pinyinName})
                 </span>
                 <span className="text-[9px] text-slate-200 block truncate">
-                  {spec.partLabel}
+                  {spec.isHerbariumSpecimen ? 'Tiêu bản bảo tàng định danh loài (GBIF)' : spec.partLabel}
                 </span>
               </div>
             </div>
@@ -1153,8 +2019,15 @@ export const HerbalVisualCard: React.FC<HerbalVisualCardProps> = ({ herb, mode }
                   Loài sinh học định danh <i>{spec.taxonName}</i>. Khai thác đúng bộ phận dùng nguyên bản.
                 </p>
                 <p>
-                  <strong className="text-amber-300">🍂 Sau Khi Bào Chế: </strong>
-                  {spec.processingNote}. Đạt tiêu chuẩn dược dụng Bensky & Dược điển Việt Nam.
+                  <strong className={spec.isHerbariumSpecimen ? 'text-sky-300' : 'text-amber-300'}>
+                    {spec.isHerbariumSpecimen ? '🍂 Bào Chế & Tiêu Bản: ' : '🍂 Sau Khi Bào Chế: '}
+                  </strong>
+                  {spec.partLabel}. {spec.processingNote}.
+                  {spec.isHerbariumSpecimen && (
+                    <span className="block mt-1 text-[11px] text-sky-300/90 italic">
+                      Lưu ý: Ô ảnh 2 hiện hiển thị tiêu bản thực vật ép khô định danh bảo tàng (GBIF), không phải ảnh ẩm phiến cắt lát thương phẩm.
+                    </span>
+                  )}
                 </p>
               </div>
             </div>
@@ -1241,25 +2114,35 @@ export const HerbalVisualCard: React.FC<HerbalVisualCardProps> = ({ herb, mode }
                   </div>
                 </div>
 
-                {/* Panel 2: Sau Khi Bào Chế */}
-                <div className="rounded-2xl overflow-hidden border border-amber-700/50 bg-slate-900 flex flex-col">
-                  <div className="p-2.5 bg-amber-950/80 border-b border-amber-800/40 flex items-center justify-between">
-                    <span className="text-xs font-bold text-amber-300 flex items-center gap-1.5">
-                      <span className="w-2 h-2 rounded-full bg-amber-400"></span>
-                      2. DẠNG SAU BÀO CHẾ (DƯỢC LIỆU DƯỢC ĐIỂN)
+                {/* Panel 2: Sau Khi Bào Chế OR Tiêu Bản Khô Định Danh */}
+                <div className={`rounded-2xl overflow-hidden border bg-slate-900 flex flex-col ${spec.isHerbariumSpecimen ? 'border-sky-700/50' : 'border-amber-700/50'}`}>
+                  <div className={`p-2.5 border-b flex items-center justify-between ${spec.isHerbariumSpecimen ? 'bg-sky-950/80 border-sky-800/40' : 'bg-amber-950/80 border-amber-800/40'}`}>
+                    <span className={`text-xs font-bold flex items-center gap-1.5 ${spec.isHerbariumSpecimen ? 'text-sky-300' : 'text-amber-300'}`}>
+                      <span className={`w-2 h-2 rounded-full ${spec.isHerbariumSpecimen ? 'bg-sky-400' : 'bg-amber-400'}`}></span>
+                      {spec.isHerbariumSpecimen
+                        ? '2. TIÊU BẢN THỰC VẬT KHÔ (ĐỊNH DANH LOÀI)'
+                        : '2. DẠNG SAU BÀO CHẾ (DƯỢC LIỆU DƯỢC ĐIỂN)'}
                     </span>
-                    <span className="text-[10px] text-amber-400/90 font-mono">Prepared Herb</span>
+                    <span className={`text-[10px] font-mono ${spec.isHerbariumSpecimen ? 'text-sky-400/90' : 'text-amber-400/90'}`}>
+                      {spec.isHerbariumSpecimen ? 'Herbarium Specimen' : 'Prepared Herb'}
+                    </span>
                   </div>
                   <div className="relative aspect-4/3 sm:aspect-16/11 bg-white flex items-center justify-center overflow-hidden p-3">
                     <img
                       src={spec.imageUrl}
-                      alt={`Dược liệu bào chế ${herb.vietnameseName}`}
+                      alt={spec.isHerbariumSpecimen ? `Tiêu bản thực vật khô ${herb.vietnameseName}` : `Dược liệu bào chế ${herb.vietnameseName}`}
+                      referrerPolicy="no-referrer"
                       className={`w-full h-full object-contain max-h-[350px] ${spec.variantClass || ''}`}
                     />
                   </div>
                   <div className="p-3 bg-slate-900 text-xs text-slate-300 space-y-1">
-                    <div className="text-amber-300 font-semibold">{spec.partLabel}</div>
+                    <div className={`font-semibold ${spec.isHerbariumSpecimen ? 'text-sky-300' : 'text-amber-300'}`}>{spec.partLabel}</div>
                     <p className="text-[11px] text-slate-300 leading-relaxed">{spec.processingNote}</p>
+                    {spec.isHerbariumSpecimen && (
+                      <p className="text-[11px] text-sky-300/90 italic pt-1">
+                        Ảnh mẫu ép khô định danh từ bảo tàng thực vật học (GBIF) — dùng tham khảo hình thái loài khi chưa có ảnh ẩm phiến cắt lát chụp trực tiếp.
+                      </p>
+                    )}
                   </div>
                 </div>
               </div>

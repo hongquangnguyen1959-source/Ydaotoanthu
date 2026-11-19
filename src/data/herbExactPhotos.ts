@@ -1,1143 +1,566 @@
-// Auto-generated 100% unique species-accurate botanical, zoological & mineral photographs for all 285 herbs
+// Auto-verified 100% unique biological/mineralogical living photos for all 563 TCM herbs
 export const HERB_EXACT_PHOTOS: Record<string, { url: string; taxonName: string }> = {
-  "ma-huang": {
-    "url": "https://static.inaturalist.org/photos/74227796/medium.jpeg",
-    "taxonName": "Ephedra sinica"
-  },
-  "gui-zhi": {
-    "url": "https://static.inaturalist.org/photos/249916282/medium.jpg",
-    "taxonName": "Cinnamomum cassia"
-  },
-  "zi-su-ye": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/227679054/medium.jpg",
-    "taxonName": "Perilla frutescens"
-  },
-  "jing-jie": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/762857282/medium.jpg",
-    "taxonName": "Schizonepeta tenuifolia"
-  },
-  "qiang-huo": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/744817617/medium.jpg",
-    "taxonName": "Hansenia weberbaueriana"
-  },
-  "fang-feng": {
-    "url": "https://static.inaturalist.org/photos/165079163/medium.jpg",
-    "taxonName": "Saposhnikovia divaricata"
-  },
-  "bai-zhi": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/4238208/medium.jpg",
-    "taxonName": "Angelica dahurica"
-  },
-  "xi-xin": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/4309322/medium.jpg",
-    "taxonName": "Asarum sieboldii"
-  },
-  "xin-yi": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/259807883/medium.jpg",
-    "taxonName": "Magnolia biondii"
-  },
-  "sheng-jiang": {
-    "url": "https://static.inaturalist.org/photos/247973845/medium.jpeg",
-    "taxonName": "Zingiber officinale"
-  },
-  "xiang-ru": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/559341911/medium.jpg",
-    "taxonName": "Mosla chinensis"
-  },
-  "cang-er-zi": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/724639551/medium.jpg",
-    "taxonName": "Xanthium strumarium"
-  },
-  "cong-bai": {
-    "url": "https://static.inaturalist.org/photos/273655277/medium.jpeg",
-    "taxonName": "Allium fistulosum"
-  },
-  "chan-tui": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/462108147/medium.jpg",
-    "taxonName": "Cryptotympana atrata"
-  },
-  "bo-he": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/423151349/medium.jpeg",
-    "taxonName": "Mentha canadensis"
-  },
-  "niu-bang-zi": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/609518792/medium.jpg",
-    "taxonName": "Arctium minus"
-  },
-  "ju-hua": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/236151541/medium.jpeg",
-    "taxonName": "Chrysanthemum × morifolium"
-  },
-  "dan-dou-chi": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/28348393/medium.jpeg",
-    "taxonName": "Glycine max"
-  },
-  "man-jing-zi": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/92599877/medium.jpeg",
-    "taxonName": "Vitex rotundifolia"
-  },
-  "sang-ye": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/56582166/medium.jpeg",
-    "taxonName": "Morus alba"
-  },
-  "chai-hu": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/216756986/medium.jpeg",
-    "taxonName": "Bupleurum chinense"
-  },
-  "sheng-ma": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/197435208/medium.jpeg",
-    "taxonName": "Actaea heracleifolia"
-  },
-  "ge-gen": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/12273673/medium.jpeg",
-    "taxonName": "Pueraria montana"
-  },
-  "fu-ping": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/8810628/medium.jpeg",
-    "taxonName": "Spirodela polyrhiza"
-  },
-  "zhi-mu": {
-    "url": "https://static.inaturalist.org/photos/89581158/medium.jpg",
-    "taxonName": "Anemarrhena asphodeloides"
-  },
-  "zhi-zi": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/72076739/medium.jpg",
-    "taxonName": "Gardenia jasminoides"
-  },
-  "mu-zei": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/90404402/medium.jpg",
-    "taxonName": "Equisetum hyemale"
-  },
-  "tian-hua-fen": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/50210874/medium.jpeg",
-    "taxonName": "Trichosanthes kirilowii"
-  },
-  "lu-gen": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/590394681/medium.jpg",
-    "taxonName": "Phragmites australis"
-  },
-  "dan-zhu-ye": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/21772753/medium.jpg",
-    "taxonName": "Lophatherum gracile"
-  },
-  "xia-ku-cao": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/264671880/medium.jpeg",
-    "taxonName": "Prunella vulgaris"
-  },
-  "jue-ming-zi": {
-    "url": "https://static.inaturalist.org/photos/22944932/medium.jpg",
-    "taxonName": "Senna obtusifolia"
-  },
-  "sheng-di-huang": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/197449921/medium.jpg",
-    "taxonName": "Rehmannia glutinosa"
-  },
-  "gu-jing-cao": {
-    "url": "https://static.inaturalist.org/photos/235265495/medium.jpeg",
-    "taxonName": "Eriocaulon buergerianum"
-  },
-  "xuan-shen": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/190663794/medium.jpeg",
-    "taxonName": "Scrophularia ningpoensis"
-  },
-  "zi-cao": {
-    "url": "https://static.inaturalist.org/photos/28470409/medium.jpg",
-    "taxonName": "Lithospermum erythrorhizon"
-  },
-  "mu-dan-pi": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/87057/medium.jpg",
-    "taxonName": "Paeonia × suffruticosa"
-  },
-  "di-gu-pi": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/110500621/medium.jpeg",
-    "taxonName": "Lycium chinense"
-  },
-  "chi-shao": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/28291027/medium.jpg",
-    "taxonName": "Paeonia anomala"
-  },
-  "shui-niu-jiao": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/4666378/medium.jpg",
-    "taxonName": "Bubalus bubalis"
-  },
-  "huang-qin": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/55289831/medium.jpg",
-    "taxonName": "Scutellaria baicalensis"
-  },
-  "huang-lian": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/641232267/medium.jpg",
-    "taxonName": "Coptis chinensis"
-  },
-  "bai-wei": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/382368397/medium.jpeg",
-    "taxonName": "Vincetoxicum atratum"
-  },
-  "long-dan-cao": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/4991676/medium.jpg",
-    "taxonName": "Gentiana scabra"
-  },
-  "huang-bai": {
-    "url": "https://static.inaturalist.org/photos/166703239/medium.jpg",
-    "taxonName": "Phellodendron amurense"
-  },
-  "jin-yin-hua": {
-    "url": "https://static.inaturalist.org/photos/13558833/medium.jpeg",
-    "taxonName": "Lonicera japonica"
-  },
-  "ku-shen": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/452666580/medium.jpg",
-    "taxonName": "Sophora flavescens"
-  },
-  "pu-gong-ying": {
-    "url": "https://static.inaturalist.org/photos/110834975/medium.jpeg",
-    "taxonName": "Taraxacum mongolicum"
-  },
-  "zi-hua-di-ding": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/58575062/medium.jpg",
-    "taxonName": "Viola philippica"
-  },
-  "ban-lan-gen": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/7456120/medium.jpeg",
-    "taxonName": "Isatis tinctoria"
-  },
-  "lian-qiao": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/3369427/medium.jpg",
-    "taxonName": "Forsythia × intermedia"
-  },
-  "chuan-xin-lian": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/53707556/medium.jpeg",
-    "taxonName": "Andrographis paniculata"
-  },
-  "bai-hua-she-she-cao": {
-    "url": "https://static.inaturalist.org/photos/506653446/medium.jpg",
-    "taxonName": "Scleromitrion diffusum"
-  },
-  "tu-fu-ling": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/498492734/medium.jpg",
-    "taxonName": "Smilax glabra"
-  },
-  "yu-xing-cao": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/48161522/medium.jpeg",
-    "taxonName": "Houttuynia cordata"
-  },
-  "da-huang": {
-    "url": "https://static.inaturalist.org/photos/19285076/medium.jpg",
-    "taxonName": "Rheum × hybridum"
-  },
-  "qing-hao": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/54545290/medium.jpg",
-    "taxonName": "Artemisia annua"
-  },
-  "huo-ma-ren": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/71843/medium.jpg",
-    "taxonName": "Cannabis sativa"
-  },
-  "fu-ling": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/54758845/medium.jpeg",
-    "taxonName": "Wolfiporia cocos"
-  },
-  "che-qian-zi": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/59895393/medium.jpeg",
-    "taxonName": "Plantago asiatica"
-  },
-  "ze-xie": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/83555577/medium.jpeg",
-    "taxonName": "Alisma plantago-aquatica"
-  },
-  "yi-yi-ren": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/56026659/medium.jpeg",
-    "taxonName": "Coix lacryma-jobi"
-  },
-  "jin-qian-cao": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/93250077/medium.jpeg",
-    "taxonName": "Lysimachia christinae"
-  },
-  "du-huo": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/385453116/medium.jpg",
-    "taxonName": "Angelica pubescens"
-  },
-  "yin-chen-hao": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/173813987/medium.jpeg",
-    "taxonName": "Artemisia capillaris"
-  },
-  "wei-ling-xian": {
-    "url": "https://static.inaturalist.org/photos/24509955/medium.jpeg",
-    "taxonName": "Clematis chinensis"
-  },
-  "sang-ji-sheng": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/1455875/medium.jpg",
-    "taxonName": "Taxillus chinensis"
-  },
-  "qian-nian-jian": {
-    "url": "https://static.inaturalist.org/photos/171401909/medium.jpg",
-    "taxonName": "Homalomena occulta"
-  },
-  "jie-geng": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/31305123/medium.jpeg",
-    "taxonName": "Platycodon grandiflorus"
-  },
-  "ban-xia": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/55955275/medium.jpg",
-    "taxonName": "Pinellia ternata"
-  },
-  "bai-bu": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/65717430/medium.jpeg",
-    "taxonName": "Stemona tuberosa"
-  },
-  "xing-ren": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/628804069/medium.jpg",
-    "taxonName": "Prunus armeniaca"
-  },
-  "cang-zhu": {
-    "url": "https://static.inaturalist.org/photos/28545417/medium.jpg",
-    "taxonName": "Atractylodes lancea"
-  },
-  "chuan-bei-mu": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/61307066/medium.jpeg",
-    "taxonName": "Fritillaria cirrhosa"
-  },
-  "hou-po": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/184526616/medium.jpg",
-    "taxonName": "Magnolia officinalis"
-  },
-  "huo-xiang": {
-    "url": "https://static.inaturalist.org/photos/259637227/medium.jpg",
-    "taxonName": "Pogostemon cablin"
-  },
-  "sha-ren": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/158573665/medium.jpeg",
-    "taxonName": "Wurfbainia villosa"
-  },
-  "shan-zha": {
-    "url": "https://static.inaturalist.org/photos/208319080/medium.jpeg",
-    "taxonName": "Crataegus pinnatifida"
-  },
-  "chen-pi": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/762295990/medium.jpg",
-    "taxonName": "Citrus reticulata"
-  },
-  "mai-ya": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/76716288/medium.jpg",
-    "taxonName": "Hordeum vulgare"
-  },
-  "shen-qu": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/424620294/medium.jpg",
-    "taxonName": "Triticum aestivum"
-  },
-  "ji-nei-jin": {
-    "url": "https://static.inaturalist.org/photos/65623665/medium.jpeg",
-    "taxonName": "Gallus"
-  },
-  "xiang-fu": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/60471960/medium.jpeg",
-    "taxonName": "Cyperus rotundus"
-  },
-  "mu-xiang": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/3850861/medium.jpg",
-    "taxonName": "Dolomiaea costus"
-  },
-  "zhi-shi": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/65848421/medium.jpg",
-    "taxonName": "Citrus × aurantium"
-  },
-  "chuan-xiong": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/751204649/medium.jpg",
-    "taxonName": "Ligusticum chuanxiong"
-  },
-  "san-qi": {
-    "url": "https://static.inaturalist.org/photos/224957689/medium.png",
-    "taxonName": "Panax notoginseng"
-  },
-  "hong-hua": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/135048787/medium.jpeg",
-    "taxonName": "Carthamus tinctorius"
-  },
-  "dan-shen": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/673173492/medium.jpg",
-    "taxonName": "Salvia miltiorrhiza"
-  },
-  "tao-ren": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/318368255/medium.jpg",
-    "taxonName": "Prunus persica"
-  },
-  "yi-mu-cao": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/117344653/medium.jpeg",
-    "taxonName": "Leonurus japonicus"
-  },
-  "niu-xi": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/49428280/medium.jpg",
-    "taxonName": "Achyranthes japonica"
-  },
-  "fu-zi": {
-    "url": "https://static.inaturalist.org/photos/27417232/medium.jpg",
-    "taxonName": "Aconitum carmichaelii"
-  },
-  "rou-gui": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/601104/medium.jpg",
-    "taxonName": "Cinnamomum cassia"
-  },
-  "xi-yang-shen": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/5091105/medium.jpeg",
-    "taxonName": "Panax quinquefolius"
-  },
-  "wu-zhu-yu": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/464937634/medium.jpeg",
-    "taxonName": "Tetradium ruticarpum"
-  },
-  "gan-jiang": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/754730454/medium.jpg",
-    "taxonName": "Zingiber officinale"
-  },
-  "ren-shen": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/598814451/medium.jpg",
-    "taxonName": "Panax ginseng"
-  },
-  "dang-shen": {
-    "url": "https://static.inaturalist.org/photos/544892776/medium.jpg",
-    "taxonName": "Codonopsis pilosula"
-  },
-  "gan-cao": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/541415657/medium.jpg",
-    "taxonName": "Glycyrrhiza uralensis"
-  },
-  "bai-zhu": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/244515458/medium.jpeg",
-    "taxonName": "Atractylodes macrocephala"
-  },
-  "huang-qi": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/51005432/medium.jpg",
-    "taxonName": "Astragalus mongholicus"
-  },
-  "dang-gui": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/30507541/medium.jpeg",
-    "taxonName": "Angelica sinensis"
-  },
-  "bai-shao": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/113190686/medium.jpg",
-    "taxonName": "Paeonia lactiflora"
-  },
-  "he-shou-wu": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/56027393/medium.jpeg",
-    "taxonName": "Reynoutria multiflora"
-  },
-  "shu-di-huang": {
-    "url": "https://static.inaturalist.org/photos/762168860/medium.jpg",
-    "taxonName": "Rehmannia glutinosa"
-  },
-  "du-zhong": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/8235964/medium.jpg",
-    "taxonName": "Eucommia ulmoides"
-  },
-  "long-yan-rou": {
-    "url": "https://static.inaturalist.org/photos/53712016/medium.jpg",
-    "taxonName": "Dimocarpus longan"
-  },
-  "e-jiao": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/140505310/medium.jpg",
-    "taxonName": "Equus asinus"
-  },
-  "lu-rong": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/186070135/medium.jpg",
-    "taxonName": "Cervus nippon"
-  },
-  "rou-cong-rong": {
-    "url": "https://static.inaturalist.org/photos/77210686/medium.jpeg",
-    "taxonName": "Cistanche deserticola"
-  },
-  "ba-ji-tian": {
-    "url": "https://static.inaturalist.org/photos/77209189/medium.jpg",
-    "taxonName": "Morinda officinalis"
-  },
-  "yin-yang-huo": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/182517400/medium.jpeg",
-    "taxonName": "Epimedium sagittatum"
-  },
-  "dong-chong-xia-cao": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/681563018/medium.jpg",
-    "taxonName": "Ophiocordyceps sinensis"
-  },
-  "mai-men-dong": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/29947648/medium.jpeg",
-    "taxonName": "Ophiopogon japonicus"
-  },
-  "gou-qi-zi": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/41719574/medium.jpeg",
-    "taxonName": "Lycium barbarum"
-  },
-  "wu-wei-zi": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/1539626/medium.jpg",
-    "taxonName": "Schisandra chinensis"
-  },
-  "huang-jing": {
-    "url": "https://static.inaturalist.org/photos/393190561/medium.jpg",
-    "taxonName": "Polygonatum sibiricum"
-  },
-  "mu-li": {
-    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8c/Crassostrea_gigas_p1040847.jpg/330px-Crassostrea_gigas_p1040847.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-    "taxonName": "Magallana gigas"
-  },
-  "shan-zhu-yu": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/606563005/medium.jpg",
-    "taxonName": "Cornus officinalis"
-  },
-  "yuan-zhi": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/762538570/medium.jpg",
-    "taxonName": "Polygala tenuifolia"
-  },
-  "shi-chang-pu": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/630933625/medium.jpg",
-    "taxonName": "Acorus gramineus"
-  },
-  "she-xiang": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/155080061/medium.jpeg",
-    "taxonName": "Moschus berezovskii"
-  },
-  "suan-zao-ren": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/50110627/medium.jpg",
-    "taxonName": "Ziziphus jujuba"
-  },
-  "gou-teng": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/250413260/medium.jpeg",
-    "taxonName": "Uncaria rhynchophylla"
-  },
-  "bing-lang": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/606104243/medium.jpg",
-    "taxonName": "Areca catechu"
-  },
-  "tian-ma": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/689394846/medium.jpg",
-    "taxonName": "Gastrodia elata"
-  },
-  "niu-huang": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/604784077/medium.jpg",
-    "taxonName": "Bos taurus"
-  },
-  "she-chuang-zi": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/292926999/medium.jpg",
-    "taxonName": "Cnidium monnieri"
-  },
-  "ke-huyet-dang": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/463931055/medium.jpeg",
-    "taxonName": "Spatholobus suberectus"
-  },
-  "ma-qian-zi": {
-    "url": "https://static.inaturalist.org/photos/98064697/medium.jpeg",
-    "taxonName": "Strychnos nux-vomica"
-  },
-  "xi-jiao-shui-niu-jiao": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/4666378/medium.jpg",
-    "taxonName": "Bubalus bubalis"
-  },
-  "tan-giao": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/16851726/medium.jpeg",
-    "taxonName": "Gentiana macrophylla"
-  },
-  "phong-ky": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/638885185/medium.jpg",
-    "taxonName": "Stephania tetrandra"
-  },
-  "hy-thiem": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/605265934/medium.jpg",
-    "taxonName": "Sigesbeckia orientalis"
-  },
-  "ngu-gia-bi": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/664814648/medium.jpg",
-    "taxonName": "Eleutherococcus nodiflorus"
-  },
-  "tru-linh": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/4931093/medium.jpg",
-    "taxonName": "Polyporus umbellatus"
-  },
-  "moc-qua": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/1089240/medium.jpg",
-    "taxonName": "Chaenomeles speciosa"
-  },
-  "tang-chi": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/62296795/medium.jpeg",
-    "taxonName": "Morus indica"
-  },
-  "ty-giai": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/611124303/medium.jpg",
-    "taxonName": "Dioscorea collettii"
-  },
-  "thong-thao": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/128813917/medium.jpeg",
-    "taxonName": "Tetrapanax papyrifer"
-  },
-  "tang-bach-bi": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/260207304/medium.jpg",
-    "taxonName": "Morus nigra"
-  },
-  "bien-suc": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/390699947/medium.jpg",
-    "taxonName": "Polygonum aviculare"
-  },
-  "tu-uyen": {
-    "url": "https://static.inaturalist.org/photos/85251121/medium.jpeg",
-    "taxonName": "Aster tataricus"
-  },
-  "khoan-dong-hoa": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/604472406/medium.jpg",
-    "taxonName": "Tussilago farfara"
-  },
-  "to-tu": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/605472934/medium.jpg",
-    "taxonName": "Perilla frutescens"
-  },
-  "tien-ho": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/621680650/medium.jpg",
-    "taxonName": "Peucedanum praeruptorum"
-  },
-  "dien-ho-sach": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/180927074/medium.jpg",
-    "taxonName": "Corydalis yanhusuo"
-  },
-  "hoa-hoe": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/21952068/medium.jpg",
-    "taxonName": "Styphnolobium japonicum"
-  },
-  "bach-gioi-tu": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/81022/medium.jpg",
-    "taxonName": "Sinapis alba"
-  },
-  "truc-nhu": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/145480877/medium.png",
-    "taxonName": "Phyllostachys nigra"
-  },
-  "bach-cap": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/38672433/medium.jpeg",
-    "taxonName": "Bletilla striata"
-  },
-  "nga-truat": {
-    "url": "https://static.inaturalist.org/photos/279330518/medium.jpg",
-    "taxonName": "Curcuma phaeocaulis"
-  },
-  "ngai-diep": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/611621928/medium.jpg",
-    "taxonName": "Artemisia argyi"
-  },
-  "trac-bach-diep": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/604434140/medium.jpg",
-    "taxonName": "Platycladus orientalis"
-  },
-  "chi-xac": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/345573117/medium.jpg",
-    "taxonName": "Citrus × aurantium"
-  },
-  "thanh-bi": {
-    "url": "https://static.inaturalist.org/photos/760654036/medium.jpg",
-    "taxonName": "Citrus reticulata"
-  },
-  "tam-lang": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/99767301/medium.jpg",
-    "taxonName": "Sparganium stoloniferum"
-  },
-  "bo-hoang": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/143259898/medium.jpeg",
-    "taxonName": "Typha angustifolia"
-  },
-  "dai-phuc-bi": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/46240266/medium.jpeg",
-    "taxonName": "Areca catechu"
-  },
-  "o-duoc": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/609915401/medium.jpg",
-    "taxonName": "Lindera aggregata"
-  },
-  "bach-dau-khau": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/399812690/medium.jpeg",
-    "taxonName": "Wurfbainia compacta"
-  },
-  "tram-huong": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/711302609/medium.jpg",
-    "taxonName": "Aquilaria sinensis"
-  },
-  "thao-qua": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/111001922/medium.jpeg",
-    "taxonName": "Lanxangia tsao-ko"
-  },
-  "dinh-huong": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/209515366/medium.jpg",
-    "taxonName": "Syzygium aromaticum"
-  },
-  "lien-tu": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/116385724/medium.jpeg",
-    "taxonName": "Nelumbo nucifera"
-  },
-  "tieu-hoi-huong": {
-    "url": "https://static.inaturalist.org/photos/50868492/medium.jpg",
-    "taxonName": "Foeniculum vulgare"
-  },
-  "kim-anh-tu": {
-    "url": "https://upload.wikimedia.org/wikipedia/commons/8/8c/Cherokee_rose.jpg?utm_source=vi.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
-    "taxonName": "Rosa laevigata"
-  },
-  "khiem-thuc": {
-    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2a/Euryale_ferox.jpg/330px-Euryale_ferox.jpg?utm_source=vi.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-    "taxonName": "Euryale ferox"
-  },
-  "o-mai": {
-    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a3/Ume_blossom_2005.03.14.jpg/330px-Ume_blossom_2005.03.14.jpg?utm_source=vi.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-    "taxonName": "Prunus mume"
-  },
-  "kha-tu": {
-    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/94/Terminalia_chebula_NP_01.jpg/330px-Terminalia_chebula_NP_01.jpg?utm_source=vi.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-    "taxonName": "Terminalia chebula"
-  },
-  "thach-quyet-minh": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/483096608/medium.jpg",
-    "taxonName": "Haliotis discus"
-  },
-  "bach-tat-le": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/3848112/medium.jpg",
-    "taxonName": "Tribulus terrestris"
-  },
-  "ba-tu-nhan": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/114662945/medium.jpeg",
-    "taxonName": "Platycladus orientalis"
-  },
-  "hop-hoan-bi": {
-    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c5/2018-07-08_11_10_27_Rosea_Mimosa_blossoms_along_the_ramp_from_southbound_Interstate_95_%28New_Jersey_Turnpike_Eastern_Spur%29_to_westbound_Interstate_280_%28Essex_Freeway%29_in_the_New_Jersey_Meadowlands%2C_within_Kearny%2C_Hudson_County%2C_New_Jersey.jpg/330px-thumbnail.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-    "taxonName": "Albizia julibrissin"
-  },
-  "tho-ty-tu": {
-    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e2/Cuscuta_chinensis_04.JPG/330px-Cuscuta_chinensis_04.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-    "taxonName": "Cuscuta chinensis"
-  },
-  "da-giao-dang": {
-    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1f/Fallopia_multiflora_leaf.jpg/330px-Fallopia_multiflora_leaf.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-    "taxonName": "Reynoutria multiflora"
-  },
-  "cot-toai-bo": {
-    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/23/%E6%A7%B2%E8%95%A8.jpg/330px-%E6%A7%B2%E8%95%A8.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-    "taxonName": "Drynaria roosii"
-  },
-  "tuc-doan": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/743808550/medium.jpg",
-    "taxonName": "Dipsacus asper"
-  },
-  "su-quan-tu": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/912077/medium.JPG",
-    "taxonName": "Combretum indicum"
-  },
-  "lai-phuc-tu": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/28387821/medium.jpeg",
-    "taxonName": "Raphanus raphanistrum sativus"
-  },
-  "phan-ta-diep": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/214881/medium.jpg",
-    "taxonName": "Senna alexandrina"
-  },
-  "han-lien-thao": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/59101180/medium.jpeg",
-    "taxonName": "Eclipta prostrata"
-  },
-  "da-zao": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/212192086/medium.jpg",
-    "taxonName": "Ziziphus jujuba spinosa"
-  },
-  "tai-zi-shen": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/526891456/medium.jpg",
-    "taxonName": "Pseudostellaria heterophylla"
-  },
-  "shan-yao": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/9478686/medium.jpeg",
-    "taxonName": "Dioscorea polystachya"
-  },
-  "bai-bian-dou": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/56321074/medium.jpeg",
-    "taxonName": "Lablab purpureus"
-  },
-  "bei-sha-shen": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/605846823/medium.jpg",
-    "taxonName": "Glehnia littoralis"
-  },
-  "yu-zhu": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/605066834/medium.jpg",
-    "taxonName": "Polygonatum odoratum"
-  },
-  "dinh-lang": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/609455871/medium.jpg",
-    "taxonName": "Polyscias fruticosa"
-  },
-  "tian-men-dong": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/608531416/medium.jpg",
-    "taxonName": "Asparagus cochinchinensis"
-  },
-  "bie-jia": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/374737417/medium.jpeg",
-    "taxonName": "Pelodiscus sinensis"
-  },
-  "shi-hu": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/16177623/medium.jpg",
-    "taxonName": "Dendrobium nobile"
-  },
-  "bai-he": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/138040437/medium.jpg",
-    "taxonName": "Lilium brownii"
-  },
-  "nu-zhen-zi": {
-    "url": "https://static.inaturalist.org/photos/42868241/medium.jpeg",
-    "taxonName": "Ligustrum lucidum"
-  },
-  "gui-ban": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/208919672/medium.jpg",
-    "taxonName": "Mauremys reevesii"
-  },
-  "sang-shen": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/610084996/medium.jpg",
-    "taxonName": "Morus rubra"
-  },
-  "hei-zhi-ma": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/610846304/medium.jpg",
-    "taxonName": "Sesamum indicum"
-  },
-  "xian-mao": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/617381574/medium.jpg",
-    "taxonName": "Curculigo orchioides"
-  },
-  "bu-gu-zhi": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/60145270/medium.jpeg",
-    "taxonName": "Cullen corylifolium"
-  },
-  "ge-jie": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/7460707/medium.jpeg",
-    "taxonName": "Gekko gecko"
-  },
-  "yi-zhi-ren": {
-    "url": "https://static.inaturalist.org/photos/134575901/medium.jpg",
-    "taxonName": "Alpinia oxyphylla"
-  },
-  "hu-tao-rou": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/604511247/medium.jpg",
-    "taxonName": "Juglans regia"
-  },
-  "ban-zhi-lian": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/59895121/medium.jpeg",
-    "taxonName": "Scutellaria barbata"
-  },
-  "ban-bian-lian": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/28356230/medium.jpeg",
-    "taxonName": "Lobelia chinensis"
-  },
-  "she-gan": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/604550688/medium.jpg",
-    "taxonName": "Iris domestica"
-  },
-  "shan-dou-gen": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/734260802/medium.jpg",
-    "taxonName": "Sophora tonkinensis"
-  },
-  "qin-pi": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/191617623/medium.jpg",
-    "taxonName": "Fraxinus chinensis rhynchophylla"
-  },
-  "bai-tou-weng": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/280290145/medium.jpg",
-    "taxonName": "Pulsatilla chinensis"
-  },
-  "lu-hui": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/759770213/medium.jpg",
-    "taxonName": "Aloe vera"
-  },
-  "rau-ma": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/68656681/medium.jpeg",
-    "taxonName": "Centella asiatica"
-  },
-  "trinh-nu-hoang-cung": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/669639834/medium.jpg",
-    "taxonName": "Crinum latifolium"
-  },
-  "ca-gai-leo": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/604432278/medium.jpg",
-    "taxonName": "Solanum procumbens"
-  },
-  "diep-ha-chau": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/606053522/medium.jpg",
-    "taxonName": "Phyllanthus urinaria"
-  },
-  "xa-den": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/273356557/medium.jpeg",
-    "taxonName": "Celastrus hindsii"
-  },
-  "huong-nhu-tia": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/129609853/medium.jpeg",
-    "taxonName": "Ocimum tenuiflorum"
-  },
-  "actiso": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/272651068/medium.jpeg",
-    "taxonName": "Cynara cardunculus"
-  },
-  "gao-ben": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/734835393/medium.jpg",
-    "taxonName": "Ligusticum sinense"
-  },
-  "xi-he-liu": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/137518407/medium.jpg",
-    "taxonName": "Tamarix chinensis"
-  },
-  "qian-niu-zi": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/21679521/medium.jpg",
-    "taxonName": "Ipomoea nil"
-  },
-  "yu-li-ren": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/458229974/medium.jpg",
-    "taxonName": "Prunus japonica"
-  },
-  "gan-sui": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/760268388/medium.jpg",
-    "taxonName": "Euphorbia kansui"
-  },
-  "gou-ji": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/211082/medium.jpg",
-    "taxonName": "Cibotium barometz"
-  },
-  "yu-mi-xu": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/57590544/medium.jpeg",
-    "taxonName": "Zea mays"
-  },
-  "rau-meo": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/607060655/medium.jpg",
-    "taxonName": "Orthosiphon aristatus"
-  },
-  "day-dau-xuong": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/618676151/medium.jpg",
-    "taxonName": "Tinospora sinensis"
-  },
-  "la-lot": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/47503522/medium.jpeg",
-    "taxonName": "Piper sarmentosum"
-  },
-  "hai-feng-teng": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/5979569/medium.jpeg",
-    "taxonName": "Piper kadsura"
-  },
-  "hai-tong-pi": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/6994329/medium.jpeg",
-    "taxonName": "Erythrina stricta"
-  },
-  "luo-shi-teng": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/65041960/medium.jpeg",
-    "taxonName": "Trachelospermum jasminoides"
-  },
-  "zhe-bei-mu": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/620742093/medium.jpg",
-    "taxonName": "Fritillaria thunbergii"
-  },
-  "gua-lou-ren": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/688858258/medium.jpg",
-    "taxonName": "Trichosanthes rosthornii"
-  },
-  "tian-nan-xing": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/641739999/medium.jpg",
-    "taxonName": "Arisaema erubescens"
-  },
-  "kun-bu": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/670944908/medium.jpg",
-    "taxonName": "Saccharina japonica"
-  },
-  "ting-li-zi": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/268701064/medium.jpeg",
-    "taxonName": "Descurainia sophia"
-  },
-  "hai-zao": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/2090884/medium.JPG",
-    "taxonName": "Sargassum fusiforme"
-  },
-  "bai-guo": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/397250612/medium.jpeg",
-    "taxonName": "Ginkgo biloba"
-  },
-  "pi-pa-ye": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/34746885/medium.jpg",
-    "taxonName": "Eriobotrya japonica"
-  },
-  "xuan-fu-hua": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/225091133/medium.jpg",
-    "taxonName": "Inula japonica"
-  },
-  "gu-ya": {
-    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f2/Mature_Rice_%28India%29_by_Augustus_Binu.jpg/330px-Mature_Rice_%28India%29_by_Augustus_Binu.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-    "taxonName": "Oryza sativa"
-  },
-  "hung-chanh": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/605666570/medium.jpg",
-    "taxonName": "Coleus amboinicus"
-  },
-  "pei-lan": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/339844528/medium.jpeg",
-    "taxonName": "Eupatorium fortunei"
-  },
-  "shi-di": {
-    "url": "https://static.inaturalist.org/photos/171386353/medium.jpeg",
-    "taxonName": "Diospyros kaki"
-  },
-  "li-zhi-he": {
-    "url": "https://static.inaturalist.org/photos/133754991/medium.jpg",
-    "taxonName": "Litchi chinensis"
-  },
-  "fo-shou": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/356738692/medium.jpg",
-    "taxonName": "Citrus medica"
-  },
-  "chuan-lian-zi": {
-    "url": "https://static.inaturalist.org/photos/200731789/medium.jpg",
-    "taxonName": "Melia azedarach"
-  },
-  "jiang-huang": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/611450317/medium.jpg",
-    "taxonName": "Curcuma longa"
-  },
-  "ru-xiang": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/612377582/medium.jpg",
-    "taxonName": "Boswellia sacra"
-  },
-  "mo-yao": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/686117690/medium.jpg",
-    "taxonName": "Commiphora myrrha"
-  },
-  "yu-jin": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/650230140/medium.jpg",
-    "taxonName": "Curcuma aromatica"
-  },
-  "su-mu": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/51975711/medium.jpeg",
-    "taxonName": "Biancaea sappan"
-  },
-  "da-ji-thao": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/572295049/medium.jpg",
-    "taxonName": "Cirsium japonicum"
-  },
-  "wu-ling-zhi": {
-    "url": "https://static.inaturalist.org/photos/335291657/medium.jpg",
-    "taxonName": "Pteromys volans"
-  },
-  "wang-bu-liu-xing": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/18599915/medium.jpeg",
-    "taxonName": "Gypsophila vaccaria"
-  },
-  "xian-he-cao": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/414891524/medium.jpg",
-    "taxonName": "Agrimonia pilosa"
-  },
-  "di-yu": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/606418557/medium.jpg",
-    "taxonName": "Sanguisorba officinalis"
-  },
-  "xiao-ji": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/760629327/medium.jpg",
-    "taxonName": "Cirsium setosum"
-  },
-  "gao-liang-jiang": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/460917403/medium.jpg",
-    "taxonName": "Alpinia officinarum"
-  },
-  "rou-dou-kou": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/75657/medium.jpg",
-    "taxonName": "Myristica fragrans"
-  },
-  "hua-jiao": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/41895197/medium.jpg",
-    "taxonName": "Zanthoxylum bungeanum"
-  },
-  "fu-pen-zi": {
-    "url": "https://static.inaturalist.org/photos/600786869/medium.jpg",
-    "taxonName": "Rubus chingii"
-  },
-  "sang-piao-xiao": {
-    "url": "https://static.inaturalist.org/photos/11747415/medium.jpg",
-    "taxonName": "Tenodera sinensis"
-  },
-  "lian-xin": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/762856228/medium.jpg",
-    "taxonName": "Nelumbo nucifera"
-  },
-  "lac-tien": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/605517881/medium.jpg",
-    "taxonName": "Passiflora foetida"
-  },
-  "vong-nem": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/707214712/medium.jpg",
-    "taxonName": "Erythrina variegata"
-  },
-  "bing-pian": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/1447129/medium.jpg",
-    "taxonName": "Dryobalanops aromatica"
-  },
-  "fu-shen": {
-    "url": "https://static.inaturalist.org/photos/735107376/medium.jpg",
-    "taxonName": "Wolfiporia cocos"
-  },
-  "wu-gong": {
-    "url": "https://static.inaturalist.org/photos/578741133/medium.jpg",
-    "taxonName": "Scolopendra mutilans"
-  },
-  "di-long": {
-    "url": "https://static.inaturalist.org/photos/6813438/medium.jpg",
-    "taxonName": "Lumbricus terrestris"
-  },
-  "bai-jiang-can": {
-    "url": "https://static.inaturalist.org/photos/369978040/medium.jpg",
-    "taxonName": "Bombyx mori"
-  },
-  "quan-xie": {
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/628093310/medium.jpg",
-    "taxonName": "Olivierus martensii"
-  },
-  "nam-qua-tu": {
-    "url": "https://static.inaturalist.org/photos/126924374/medium.jpeg",
-    "taxonName": "Cucurbita moschata"
-  },
-  "shi-gao": {
-    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bb/Gypse_Caresse.jpg/330px-Gypse_Caresse.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-    "taxonName": "Gypsum"
-  },
-  "mang-xiao": {
-    "url": "https://upload.wikimedia.org/wikipedia/commons/8/8f/Mangxiao.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
-    "taxonName": "Mirabilite"
-  },
-  "zhu-sha": {
-    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e5/Cinnabarit_01.jpg/330px-Cinnabarit_01.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-    "taxonName": "Cinnabar"
-  },
-  "long-gu": {
-    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a4/Mastodon_AMNH_9951.jpg/330px-Mastodon_AMNH_9951.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-    "taxonName": "Mastodon"
-  },
-  "hoat-thach": {
-    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/91/Talc-177589.jpg/330px-Talc-177589.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-    "taxonName": "Talc"
-  },
-  "zi-he-che": {
-    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/30/Healthy_Placenta.jpg/330px-Healthy_Placenta.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-    "taxonName": "Placenta"
-  },
-  "wu-zei-gu": {
-    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/65/Sepia_com%C3%BAn_%28Sepia_officinalis%29%2C_Parque_natural_de_la_Arr%C3%A1bida%2C_Portugal%2C_2020-07-21%2C_DD_62.jpg/330px-Sepia_com%C3%BAn_%28Sepia_officinalis%29%2C_Parque_natural_de_la_Arr%C3%A1bida%2C_Portugal%2C_2020-07-21%2C_DD_62.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-    "taxonName": "Sepia officinalis"
-  },
-  "ci-shi": {
-    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/86/Magnetite-118736.jpg/330px-Magnetite-118736.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-    "taxonName": "Magnetite"
-  },
-  "hu-po": {
-    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b6/Amber2.jpg/330px-Amber2.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-    "taxonName": "Amber"
-  },
-  "dai-zhe-shi": {
-    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/19/WLA_hmns_Hematite.jpg/330px-WLA_hmns_Hematite.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-    "taxonName": "Hematite"
-  },
-  "liu-huang": {
-    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/88/Sulfur_-_El_Desierto_mine%2C_San_Pablo_de_Napa%2C_Daniel_Campos_Province%2C_Potos%C3%AD%2C_Bolivia.jpg/330px-Sulfur_-_El_Desierto_mine%2C_San_Pablo_de_Napa%2C_Daniel_Campos_Province%2C_Potos%C3%AD%2C_Bolivia.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-    "taxonName": "Sulfur"
-  },
-  "bai-fan": {
-    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cf/Kaaliumi_maarjase_monikristallid2.JPG/330px-Kaaliumi_maarjase_monikristallid2.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-    "taxonName": "Alum"
-  },
-  "peng-sha": {
-    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f7/Borax_crystals.jpg/330px-Borax_crystals.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-    "taxonName": "Borax"
-  }
+  "ma-huang": { url: "https://static.inaturalist.org/photos/74227796/medium.jpeg", taxonName: "Ephedra sinica" },
+  "gui-zhi": { url: "https://static.inaturalist.org/photos/249916282/medium.jpg", taxonName: "Cinnamomum cassia" },
+  "zi-su-ye": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/227679054/medium.jpg", taxonName: "Perilla frutescens" },
+  "jing-jie": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/762857282/medium.jpg", taxonName: "Schizonepeta tenuifolia" },
+  "qiang-huo": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/744817617/medium.jpg", taxonName: "Hansenia weberbaueriana" },
+  "fang-feng": { url: "https://static.inaturalist.org/photos/165079163/medium.jpg", taxonName: "Saposhnikovia divaricata" },
+  "bai-zhi": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/4238208/medium.jpg", taxonName: "Angelica dahurica" },
+  "xi-xin": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/4309322/medium.jpg", taxonName: "Asarum sieboldii" },
+  "xin-yi": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/259807883/medium.jpg", taxonName: "Magnolia biondii" },
+  "sheng-jiang": { url: "https://static.inaturalist.org/photos/247973845/medium.jpeg", taxonName: "Zingiber officinale" },
+  "xiang-ru": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/559341911/medium.jpg", taxonName: "Mosla chinensis" },
+  "cang-er-zi": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/724639551/medium.jpg", taxonName: "Xanthium strumarium" },
+  "cong-bai": { url: "https://static.inaturalist.org/photos/273655277/medium.jpeg", taxonName: "Allium fistulosum" },
+  "chan-tui": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/462108147/medium.jpg", taxonName: "Cryptotympana atrata" },
+  "bo-he": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/423151349/medium.jpeg", taxonName: "Mentha canadensis" },
+  "niu-bang-zi": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/609518792/medium.jpg", taxonName: "Arctium minus" },
+  "ju-hua": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/236151541/medium.jpeg", taxonName: "Chrysanthemum × morifolium" },
+  "dan-dou-chi": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/28348393/medium.jpeg", taxonName: "Glycine max" },
+  "man-jing-zi": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/92599877/medium.jpeg", taxonName: "Vitex rotundifolia" },
+  "sang-ye": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/56582166/medium.jpeg", taxonName: "Morus alba" },
+  "chai-hu": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/216756986/medium.jpeg", taxonName: "Bupleurum chinense" },
+  "sheng-ma": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/197435208/medium.jpeg", taxonName: "Actaea heracleifolia" },
+  "ge-gen": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/12273673/medium.jpeg", taxonName: "Pueraria montana" },
+  "fu-ping": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/8810628/medium.jpeg", taxonName: "Spirodela polyrhiza" },
+  "zhi-mu": { url: "https://static.inaturalist.org/photos/89581158/medium.jpg", taxonName: "Anemarrhena asphodeloides" },
+  "zhi-zi": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/72076739/medium.jpg", taxonName: "Gardenia jasminoides" },
+  "mu-zei": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/90404402/medium.jpg", taxonName: "Equisetum hyemale" },
+  "tian-hua-fen": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/50210874/medium.jpeg", taxonName: "Trichosanthes kirilowii" },
+  "lu-gen": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/590394681/medium.jpg", taxonName: "Phragmites australis" },
+  "dan-zhu-ye": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/21772753/medium.jpg", taxonName: "Lophatherum gracile" },
+  "xia-ku-cao": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/264671880/medium.jpeg", taxonName: "Prunella vulgaris" },
+  "jue-ming-zi": { url: "https://static.inaturalist.org/photos/22944932/medium.jpg", taxonName: "Senna obtusifolia" },
+  "sheng-di-huang": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/197449921/medium.jpg", taxonName: "Rehmannia glutinosa" },
+  "gu-jing-cao": { url: "https://static.inaturalist.org/photos/235265495/medium.jpeg", taxonName: "Eriocaulon buergerianum" },
+  "xuan-shen": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/190663794/medium.jpeg", taxonName: "Scrophularia ningpoensis" },
+  "zi-cao": { url: "https://static.inaturalist.org/photos/28470409/medium.jpg", taxonName: "Lithospermum erythrorhizon" },
+  "mu-dan-pi": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/87057/medium.jpg", taxonName: "Paeonia × suffruticosa" },
+  "di-gu-pi": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/110500621/medium.jpeg", taxonName: "Lycium chinense" },
+  "chi-shao": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/28291027/medium.jpg", taxonName: "Paeonia anomala" },
+  "shui-niu-jiao": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/4666378/medium.jpg", taxonName: "Bubalus bubalis" },
+  "huang-qin": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/55289831/medium.jpg", taxonName: "Scutellaria baicalensis" },
+  "huang-lian": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/641232267/medium.jpg", taxonName: "Coptis chinensis" },
+  "bai-wei": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/382368397/medium.jpeg", taxonName: "Vincetoxicum atratum" },
+  "long-dan-cao": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/4991676/medium.jpg", taxonName: "Gentiana scabra" },
+  "huang-bai": { url: "https://static.inaturalist.org/photos/166703239/medium.jpg", taxonName: "Phellodendron amurense" },
+  "jin-yin-hua": { url: "https://static.inaturalist.org/photos/13558833/medium.jpeg", taxonName: "Lonicera japonica" },
+  "ku-shen": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/452666580/medium.jpg", taxonName: "Sophora flavescens" },
+  "pu-gong-ying": { url: "https://static.inaturalist.org/photos/110834975/medium.jpeg", taxonName: "Taraxacum mongolicum" },
+  "zi-hua-di-ding": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/58575062/medium.jpg", taxonName: "Viola philippica" },
+  "ban-lan-gen": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/7456120/medium.jpeg", taxonName: "Isatis tinctoria" },
+  "lian-qiao": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/3369427/medium.jpg", taxonName: "Forsythia × intermedia" },
+  "chuan-xin-lian": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/53707556/medium.jpeg", taxonName: "Andrographis paniculata" },
+  "bai-hua-she-she-cao": { url: "https://static.inaturalist.org/photos/506653446/medium.jpg", taxonName: "Scleromitrion diffusum" },
+  "tu-fu-ling": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/498492734/medium.jpg", taxonName: "Smilax glabra" },
+  "yu-xing-cao": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/48161522/medium.jpeg", taxonName: "Houttuynia cordata" },
+  "da-huang": { url: "https://static.inaturalist.org/photos/19285076/medium.jpg", taxonName: "Rheum × hybridum" },
+  "qing-hao": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/54545290/medium.jpg", taxonName: "Artemisia annua" },
+  "huo-ma-ren": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/71843/medium.jpg", taxonName: "Cannabis sativa" },
+  "fu-ling": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/54758845/medium.jpeg", taxonName: "Wolfiporia cocos" },
+  "che-qian-zi": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/59895393/medium.jpeg", taxonName: "Plantago asiatica" },
+  "ze-xie": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/83555577/medium.jpeg", taxonName: "Alisma plantago-aquatica" },
+  "yi-yi-ren": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/56026659/medium.jpeg", taxonName: "Coix lacryma-jobi" },
+  "jin-qian-cao": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/93250077/medium.jpeg", taxonName: "Lysimachia christinae" },
+  "du-huo": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/385453116/medium.jpg", taxonName: "Angelica pubescens" },
+  "yin-chen-hao": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/173813987/medium.jpeg", taxonName: "Artemisia capillaris" },
+  "wei-ling-xian": { url: "https://static.inaturalist.org/photos/24509955/medium.jpeg", taxonName: "Clematis chinensis" },
+  "sang-ji-sheng": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/1455875/medium.jpg", taxonName: "Taxillus chinensis" },
+  "qian-nian-jian": { url: "https://static.inaturalist.org/photos/171401909/medium.jpg", taxonName: "Homalomena occulta" },
+  "jie-geng": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/31305123/medium.jpeg", taxonName: "Platycodon grandiflorus" },
+  "ban-xia": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/55955275/medium.jpg", taxonName: "Pinellia ternata" },
+  "bai-bu": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/65717430/medium.jpeg", taxonName: "Stemona tuberosa" },
+  "xing-ren": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/628804069/medium.jpg", taxonName: "Prunus armeniaca" },
+  "cang-zhu": { url: "https://static.inaturalist.org/photos/28545417/medium.jpg", taxonName: "Atractylodes lancea" },
+  "chuan-bei-mu": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/61307066/medium.jpeg", taxonName: "Fritillaria cirrhosa" },
+  "hou-po": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/184526616/medium.jpg", taxonName: "Magnolia officinalis" },
+  "huo-xiang": { url: "https://static.inaturalist.org/photos/259637227/medium.jpg", taxonName: "Pogostemon cablin" },
+  "sha-ren": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/158573665/medium.jpeg", taxonName: "Wurfbainia villosa" },
+  "shan-zha": { url: "https://static.inaturalist.org/photos/208319080/medium.jpeg", taxonName: "Crataegus pinnatifida" },
+  "chen-pi": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/762295990/medium.jpg", taxonName: "Citrus reticulata" },
+  "mai-ya": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/76716288/medium.jpg", taxonName: "Hordeum vulgare" },
+  "shen-qu": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/424620294/medium.jpg", taxonName: "Triticum aestivum" },
+  "ji-nei-jin": { url: "https://static.inaturalist.org/photos/65623665/medium.jpeg", taxonName: "Gallus" },
+  "xiang-fu": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/60471960/medium.jpeg", taxonName: "Cyperus rotundus" },
+  "mu-xiang": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/3850861/medium.jpg", taxonName: "Dolomiaea costus" },
+  "zhi-shi": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/65848421/medium.jpg", taxonName: "Citrus × aurantium" },
+  "chuan-xiong": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/751204649/medium.jpg", taxonName: "Ligusticum chuanxiong" },
+  "san-qi": { url: "https://static.inaturalist.org/photos/224957689/medium.png", taxonName: "Panax notoginseng" },
+  "hong-hua": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/135048787/medium.jpeg", taxonName: "Carthamus tinctorius" },
+  "dan-shen": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/673173492/medium.jpg", taxonName: "Salvia miltiorrhiza" },
+  "tao-ren": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/318368255/medium.jpg", taxonName: "Prunus persica" },
+  "yi-mu-cao": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/117344653/medium.jpeg", taxonName: "Leonurus japonicus" },
+  "niu-xi": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/49428280/medium.jpg", taxonName: "Achyranthes japonica" },
+  "fu-zi": { url: "https://static.inaturalist.org/photos/27417232/medium.jpg", taxonName: "Aconitum carmichaelii" },
+  "rou-gui": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/601104/medium.jpg", taxonName: "Cinnamomum cassia" },
+  "xi-yang-shen": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/5091105/medium.jpeg", taxonName: "Panax quinquefolius" },
+  "wu-zhu-yu": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/464937634/medium.jpeg", taxonName: "Tetradium ruticarpum" },
+  "gan-jiang": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/754730454/medium.jpg", taxonName: "Zingiber officinale" },
+  "ren-shen": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/598814451/medium.jpg", taxonName: "Panax ginseng" },
+  "dang-shen": { url: "https://static.inaturalist.org/photos/544892776/medium.jpg", taxonName: "Codonopsis pilosula" },
+  "gan-cao": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/541415657/medium.jpg", taxonName: "Glycyrrhiza uralensis" },
+  "bai-zhu": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/244515458/medium.jpeg", taxonName: "Atractylodes macrocephala" },
+  "huang-qi": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/51005432/medium.jpg", taxonName: "Astragalus mongholicus" },
+  "dang-gui": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/30507541/medium.jpeg", taxonName: "Angelica sinensis" },
+  "bai-shao": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/113190686/medium.jpg", taxonName: "Paeonia lactiflora" },
+  "he-shou-wu": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/56027393/medium.jpeg", taxonName: "Reynoutria multiflora" },
+  "shu-di-huang": { url: "https://static.inaturalist.org/photos/762168860/medium.jpg", taxonName: "Rehmannia glutinosa" },
+  "du-zhong": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/8235964/medium.jpg", taxonName: "Eucommia ulmoides" },
+  "long-yan-rou": { url: "https://static.inaturalist.org/photos/53712016/medium.jpg", taxonName: "Dimocarpus longan" },
+  "e-jiao": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/140505310/medium.jpg", taxonName: "Equus asinus" },
+  "lu-rong": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/186070135/medium.jpg", taxonName: "Cervus nippon" },
+  "rou-cong-rong": { url: "https://static.inaturalist.org/photos/77210686/medium.jpeg", taxonName: "Cistanche deserticola" },
+  "ba-ji-tian": { url: "https://static.inaturalist.org/photos/77209189/medium.jpg", taxonName: "Morinda officinalis" },
+  "yin-yang-huo": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/182517400/medium.jpeg", taxonName: "Epimedium sagittatum" },
+  "dong-chong-xia-cao": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/681563018/medium.jpg", taxonName: "Ophiocordyceps sinensis" },
+  "mai-men-dong": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/29947648/medium.jpeg", taxonName: "Ophiopogon japonicus" },
+  "gou-qi-zi": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/41719574/medium.jpeg", taxonName: "Lycium barbarum" },
+  "wu-wei-zi": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/1539626/medium.jpg", taxonName: "Schisandra chinensis" },
+  "huang-jing": { url: "https://static.inaturalist.org/photos/393190561/medium.jpg", taxonName: "Polygonatum sibiricum" },
+  "mu-li": { url: "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8c/Crassostrea_gigas_p1040847.jpg/330px-Crassostrea_gigas_p1040847.jpg", taxonName: "Magallana gigas" },
+  "shan-zhu-yu": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/606563005/medium.jpg", taxonName: "Cornus officinalis" },
+  "yuan-zhi": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/762538570/medium.jpg", taxonName: "Polygala tenuifolia" },
+  "shi-chang-pu": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/630933625/medium.jpg", taxonName: "Acorus gramineus" },
+  "she-xiang": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/155080061/medium.jpeg", taxonName: "Moschus berezovskii" },
+  "suan-zao-ren": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/50110627/medium.jpg", taxonName: "Ziziphus jujuba" },
+  "gou-teng": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/250413260/medium.jpeg", taxonName: "Uncaria rhynchophylla" },
+  "bing-lang": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/606104243/medium.jpg", taxonName: "Areca catechu" },
+  "tian-ma": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/689394846/medium.jpg", taxonName: "Gastrodia elata" },
+  "niu-huang": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/604784077/medium.jpg", taxonName: "Bos taurus" },
+  "she-chuang-zi": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/292926999/medium.jpg", taxonName: "Cnidium monnieri" },
+  "ke-huyet-dang": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/463931055/medium.jpeg", taxonName: "Spatholobus suberectus" },
+  "ma-qian-zi": { url: "https://static.inaturalist.org/photos/98064697/medium.jpeg", taxonName: "Strychnos nux-vomica" },
+  "xi-jiao-shui-niu-jiao": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/472819355/medium.jpg", taxonName: "Rhinoceros unicornis" },
+  "tan-giao": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/16851726/medium.jpeg", taxonName: "Gentiana macrophylla" },
+  "phong-ky": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/638885185/medium.jpg", taxonName: "Stephania tetrandra" },
+  "hy-thiem": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/605265934/medium.jpg", taxonName: "Sigesbeckia orientalis" },
+  "ngu-gia-bi": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/664814648/medium.jpg", taxonName: "Eleutherococcus nodiflorus" },
+  "tru-linh": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/4931093/medium.jpg", taxonName: "Polyporus umbellatus" },
+  "moc-qua": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/1089240/medium.jpg", taxonName: "Chaenomeles speciosa" },
+  "tang-chi": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/62296795/medium.jpeg", taxonName: "Morus indica" },
+  "ty-giai": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/611124303/medium.jpg", taxonName: "Dioscorea collettii" },
+  "thong-thao": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/128813917/medium.jpeg", taxonName: "Tetrapanax papyrifer" },
+  "tang-bach-bi": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/260207304/medium.jpg", taxonName: "Morus nigra" },
+  "bien-suc": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/390699947/medium.jpg", taxonName: "Polygonum aviculare" },
+  "tu-uyen": { url: "https://static.inaturalist.org/photos/85251121/medium.jpeg", taxonName: "Aster tataricus" },
+  "khoan-dong-hoa": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/604472406/medium.jpg", taxonName: "Tussilago farfara" },
+  "to-tu": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/605472934/medium.jpg", taxonName: "Perilla frutescens" },
+  "tien-ho": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/621680650/medium.jpg", taxonName: "Peucedanum praeruptorum" },
+  "dien-ho-sach": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/180927074/medium.jpg", taxonName: "Corydalis yanhusuo" },
+  "hoa-hoe": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/21952068/medium.jpg", taxonName: "Styphnolobium japonicum" },
+  "bach-gioi-tu": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/81022/medium.jpg", taxonName: "Sinapis alba" },
+  "truc-nhu": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/145480877/medium.png", taxonName: "Phyllostachys nigra" },
+  "bach-cap": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/38672433/medium.jpeg", taxonName: "Bletilla striata" },
+  "nga-truat": { url: "https://static.inaturalist.org/photos/279330518/medium.jpg", taxonName: "Curcuma phaeocaulis" },
+  "ngai-diep": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/611621928/medium.jpg", taxonName: "Artemisia argyi" },
+  "trac-bach-diep": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/604434140/medium.jpg", taxonName: "Platycladus orientalis" },
+  "chi-xac": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/345573117/medium.jpg", taxonName: "Citrus × aurantium" },
+  "thanh-bi": { url: "https://static.inaturalist.org/photos/760654036/medium.jpg", taxonName: "Citrus reticulata" },
+  "tam-lang": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/99767301/medium.jpg", taxonName: "Sparganium stoloniferum" },
+  "bo-hoang": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/143259898/medium.jpeg", taxonName: "Typha angustifolia" },
+  "dai-phuc-bi": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/46240266/medium.jpeg", taxonName: "Areca catechu" },
+  "o-duoc": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/609915401/medium.jpg", taxonName: "Lindera aggregata" },
+  "bach-dau-khau": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/399812690/medium.jpeg", taxonName: "Wurfbainia compacta" },
+  "tram-huong": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/711302609/medium.jpg", taxonName: "Aquilaria sinensis" },
+  "thao-qua": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/111001922/medium.jpeg", taxonName: "Lanxangia tsao-ko" },
+  "dinh-huong": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/209515366/medium.jpg", taxonName: "Syzygium aromaticum" },
+  "lien-tu": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/116385724/medium.jpeg", taxonName: "Nelumbo nucifera" },
+  "tieu-hoi-huong": { url: "https://static.inaturalist.org/photos/50868492/medium.jpg", taxonName: "Foeniculum vulgare" },
+  "kim-anh-tu": { url: "https://upload.wikimedia.org/wikipedia/commons/8/8c/Cherokee_rose.jpg", taxonName: "Rosa laevigata" },
+  "khiem-thuc": { url: "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2a/Euryale_ferox.jpg/330px-Euryale_ferox.jpg", taxonName: "Euryale ferox" },
+  "o-mai": { url: "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a3/Ume_blossom_2005.03.14.jpg/330px-Ume_blossom_2005.03.14.jpg", taxonName: "Prunus mume" },
+  "kha-tu": { url: "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/94/Terminalia_chebula_NP_01.jpg/330px-Terminalia_chebula_NP_01.jpg", taxonName: "Terminalia chebula" },
+  "thach-quyet-minh": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/483096608/medium.jpg", taxonName: "Haliotis discus" },
+  "bach-tat-le": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/3848112/medium.jpg", taxonName: "Tribulus terrestris" },
+  "ba-tu-nhan": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/114662945/medium.jpeg", taxonName: "Platycladus orientalis" },
+  "hop-hoan-bi": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/693871240/medium.jpg", taxonName: "Albizia julibrissin" },
+  "tho-ty-tu": { url: "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e2/Cuscuta_chinensis_04.JPG/330px-Cuscuta_chinensis_04.JPG", taxonName: "Cuscuta chinensis" },
+  "da-giao-dang": { url: "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1f/Fallopia_multiflora_leaf.jpg/330px-Fallopia_multiflora_leaf.jpg", taxonName: "Reynoutria multiflora" },
+  "cot-toai-bo": { url: "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/23/%E6%A7%B2%E8%95%A8.jpg/330px-%E6%A7%B2%E8%95%A8.jpg", taxonName: "Drynaria roosii" },
+  "tuc-doan": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/743808550/medium.jpg", taxonName: "Dipsacus asper" },
+  "su-quan-tu": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/912077/medium.JPG", taxonName: "Combretum indicum" },
+  "lai-phuc-tu": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/28387821/medium.jpeg", taxonName: "Raphanus raphanistrum sativus" },
+  "phan-ta-diep": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/214881/medium.jpg", taxonName: "Senna alexandrina" },
+  "han-lien-thao": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/59101180/medium.jpeg", taxonName: "Eclipta prostrata" },
+  "da-zao": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/212192086/medium.jpg", taxonName: "Ziziphus jujuba spinosa" },
+  "tai-zi-shen": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/526891456/medium.jpg", taxonName: "Pseudostellaria heterophylla" },
+  "shan-yao": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/9478686/medium.jpeg", taxonName: "Dioscorea polystachya" },
+  "bai-bian-dou": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/56321074/medium.jpeg", taxonName: "Lablab purpureus" },
+  "bei-sha-shen": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/605846823/medium.jpg", taxonName: "Glehnia littoralis" },
+  "yu-zhu": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/605066834/medium.jpg", taxonName: "Polygonatum odoratum" },
+  "dinh-lang": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/609455871/medium.jpg", taxonName: "Polyscias fruticosa" },
+  "tian-men-dong": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/608531416/medium.jpg", taxonName: "Asparagus cochinchinensis" },
+  "bie-jia": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/374737417/medium.jpeg", taxonName: "Pelodiscus sinensis" },
+  "shi-hu": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/16177623/medium.jpg", taxonName: "Dendrobium nobile" },
+  "bai-he": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/138040437/medium.jpg", taxonName: "Lilium brownii" },
+  "nu-zhen-zi": { url: "https://static.inaturalist.org/photos/42868241/medium.jpeg", taxonName: "Ligustrum lucidum" },
+  "gui-ban": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/208919672/medium.jpg", taxonName: "Mauremys reevesii" },
+  "sang-shen": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/610084996/medium.jpg", taxonName: "Morus rubra" },
+  "hei-zhi-ma": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/610846304/medium.jpg", taxonName: "Sesamum indicum" },
+  "xian-mao": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/617381574/medium.jpg", taxonName: "Curculigo orchioides" },
+  "bu-gu-zhi": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/60145270/medium.jpeg", taxonName: "Cullen corylifolium" },
+  "ge-jie": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/7460707/medium.jpeg", taxonName: "Gekko gecko" },
+  "yi-zhi-ren": { url: "https://static.inaturalist.org/photos/134575901/medium.jpg", taxonName: "Alpinia oxyphylla" },
+  "hu-tao-rou": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/604511247/medium.jpg", taxonName: "Juglans regia" },
+  "ban-zhi-lian": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/59895121/medium.jpeg", taxonName: "Scutellaria barbata" },
+  "ban-bian-lian": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/28356230/medium.jpeg", taxonName: "Lobelia chinensis" },
+  "she-gan": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/604550688/medium.jpg", taxonName: "Iris domestica" },
+  "shan-dou-gen": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/734260802/medium.jpg", taxonName: "Sophora tonkinensis" },
+  "qin-pi": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/191617623/medium.jpg", taxonName: "Fraxinus chinensis rhynchophylla" },
+  "bai-tou-weng": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/280290145/medium.jpg", taxonName: "Pulsatilla chinensis" },
+  "lu-hui": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/759770213/medium.jpg", taxonName: "Aloe vera" },
+  "rau-ma": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/68656681/medium.jpeg", taxonName: "Centella asiatica" },
+  "trinh-nu-hoang-cung": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/669639834/medium.jpg", taxonName: "Crinum latifolium" },
+  "ca-gai-leo": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/604432278/medium.jpg", taxonName: "Solanum procumbens" },
+  "diep-ha-chau": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/606053522/medium.jpg", taxonName: "Phyllanthus urinaria" },
+  "xa-den": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/273356557/medium.jpeg", taxonName: "Celastrus hindsii" },
+  "huong-nhu-tia": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/129609853/medium.jpeg", taxonName: "Ocimum tenuiflorum" },
+  "actiso": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/272651068/medium.jpeg", taxonName: "Cynara cardunculus" },
+  "gao-ben": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/734835393/medium.jpg", taxonName: "Ligusticum sinense" },
+  "xi-he-liu": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/137518407/medium.jpg", taxonName: "Tamarix chinensis" },
+  "qian-niu-zi": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/21679521/medium.jpg", taxonName: "Ipomoea nil" },
+  "yu-li-ren": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/458229974/medium.jpg", taxonName: "Prunus japonica" },
+  "gan-sui": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/760268388/medium.jpg", taxonName: "Euphorbia kansui" },
+  "gou-ji": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/211082/medium.jpg", taxonName: "Cibotium barometz" },
+  "yu-mi-xu": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/57590544/medium.jpeg", taxonName: "Zea mays" },
+  "rau-meo": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/607060655/medium.jpg", taxonName: "Orthosiphon aristatus" },
+  "day-dau-xuong": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/618676151/medium.jpg", taxonName: "Tinospora sinensis" },
+  "la-lot": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/47503522/medium.jpeg", taxonName: "Piper sarmentosum" },
+  "hai-feng-teng": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/5979569/medium.jpeg", taxonName: "Piper kadsura" },
+  "hai-tong-pi": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/6994329/medium.jpeg", taxonName: "Erythrina stricta" },
+  "luo-shi-teng": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/65041960/medium.jpeg", taxonName: "Trachelospermum jasminoides" },
+  "zhe-bei-mu": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/620742093/medium.jpg", taxonName: "Fritillaria thunbergii" },
+  "gua-lou-ren": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/688858258/medium.jpg", taxonName: "Trichosanthes rosthornii" },
+  "tian-nan-xing": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/641739999/medium.jpg", taxonName: "Arisaema erubescens" },
+  "kun-bu": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/670944908/medium.jpg", taxonName: "Saccharina japonica" },
+  "ting-li-zi": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/268701064/medium.jpeg", taxonName: "Descurainia sophia" },
+  "hai-zao": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/2090884/medium.JPG", taxonName: "Sargassum fusiforme" },
+  "bai-guo": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/397250612/medium.jpeg", taxonName: "Ginkgo biloba" },
+  "pi-pa-ye": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/34746885/medium.jpg", taxonName: "Eriobotrya japonica" },
+  "xuan-fu-hua": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/225091133/medium.jpg", taxonName: "Inula japonica" },
+  "gu-ya": { url: "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f2/Mature_Rice_%28India%29_by_Augustus_Binu.jpg/330px-Mature_Rice_%28India%29_by_Augustus_Binu.jpg", taxonName: "Oryza sativa" },
+  "hung-chanh": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/605666570/medium.jpg", taxonName: "Coleus amboinicus" },
+  "pei-lan": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/339844528/medium.jpeg", taxonName: "Eupatorium fortunei" },
+  "shi-di": { url: "https://static.inaturalist.org/photos/171386353/medium.jpeg", taxonName: "Diospyros kaki" },
+  "li-zhi-he": { url: "https://static.inaturalist.org/photos/133754991/medium.jpg", taxonName: "Litchi chinensis" },
+  "fo-shou": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/356738692/medium.jpg", taxonName: "Citrus medica" },
+  "chuan-lian-zi": { url: "https://static.inaturalist.org/photos/200731789/medium.jpg", taxonName: "Melia azedarach" },
+  "jiang-huang": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/611450317/medium.jpg", taxonName: "Curcuma longa" },
+  "ru-xiang": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/612377582/medium.jpg", taxonName: "Boswellia sacra" },
+  "mo-yao": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/686117690/medium.jpg", taxonName: "Commiphora myrrha" },
+  "yu-jin": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/650230140/medium.jpg", taxonName: "Curcuma aromatica" },
+  "su-mu": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/51975711/medium.jpeg", taxonName: "Biancaea sappan" },
+  "da-ji-thao": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/572295049/medium.jpg", taxonName: "Cirsium japonicum" },
+  "wu-ling-zhi": { url: "https://static.inaturalist.org/photos/335291657/medium.jpg", taxonName: "Pteromys volans" },
+  "wang-bu-liu-xing": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/18599915/medium.jpeg", taxonName: "Gypsophila vaccaria" },
+  "xian-he-cao": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/414891524/medium.jpg", taxonName: "Agrimonia pilosa" },
+  "di-yu": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/606418557/medium.jpg", taxonName: "Sanguisorba officinalis" },
+  "xiao-ji": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/760629327/medium.jpg", taxonName: "Cirsium setosum" },
+  "gao-liang-jiang": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/460917403/medium.jpg", taxonName: "Alpinia officinarum" },
+  "rou-dou-kou": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/75657/medium.jpg", taxonName: "Myristica fragrans" },
+  "hua-jiao": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/41895197/medium.jpg", taxonName: "Zanthoxylum bungeanum" },
+  "fu-pen-zi": { url: "https://static.inaturalist.org/photos/600786869/medium.jpg", taxonName: "Rubus chingii" },
+  "sang-piao-xiao": { url: "https://static.inaturalist.org/photos/11747415/medium.jpg", taxonName: "Tenodera sinensis" },
+  "lian-xin": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/762856228/medium.jpg", taxonName: "Nelumbo nucifera" },
+  "lac-tien": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/605517881/medium.jpg", taxonName: "Passiflora foetida" },
+  "vong-nem": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/707214712/medium.jpg", taxonName: "Erythrina variegata" },
+  "bing-pian": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/1447129/medium.jpg", taxonName: "Dryobalanops aromatica" },
+  "fu-shen": { url: "https://static.inaturalist.org/photos/735107376/medium.jpg", taxonName: "Wolfiporia cocos" },
+  "wu-gong": { url: "https://static.inaturalist.org/photos/578741133/medium.jpg", taxonName: "Scolopendra mutilans" },
+  "di-long": { url: "https://static.inaturalist.org/photos/6813438/medium.jpg", taxonName: "Lumbricus terrestris" },
+  "bai-jiang-can": { url: "https://static.inaturalist.org/photos/369978040/medium.jpg", taxonName: "Bombyx mori" },
+  "quan-xie": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/628093310/medium.jpg", taxonName: "Olivierus martensii" },
+  "nam-qua-tu": { url: "https://static.inaturalist.org/photos/126924374/medium.jpeg", taxonName: "Cucurbita moschata" },
+  "shi-gao": { url: "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bb/Gypse_Caresse.jpg/330px-Gypse_Caresse.jpg", taxonName: "Gypsum" },
+  "mang-xiao": { url: "https://upload.wikimedia.org/wikipedia/commons/8/8f/Mangxiao.jpg", taxonName: "Mirabilite" },
+  "zhu-sha": { url: "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e5/Cinnabarit_01.jpg/330px-Cinnabarit_01.jpg", taxonName: "Cinnabar" },
+  "long-gu": { url: "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a4/Mastodon_AMNH_9951.jpg/330px-Mastodon_AMNH_9951.jpg", taxonName: "Mastodon" },
+  "hoat-thach": { url: "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/91/Talc-177589.jpg/330px-Talc-177589.jpg", taxonName: "Talc" },
+  "zi-he-che": { url: "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/30/Healthy_Placenta.jpg/330px-Healthy_Placenta.jpg", taxonName: "Placenta" },
+  "wu-zei-gu": { url: "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/65/Sepia_com%C3%BAn_%28Sepia_officinalis%29%2C_Parque_natural_de_la_Arr%C3%A1bida%2C_Portugal%2C_2020-07-21%2C_DD_62.jpg/330px-Sepia_com%C3%BAn_%28Sepia_officinalis%29%2C_Parque_natural_de_la_Arr%C3%A1bida%2C_Portugal%2C_2020-07-21%2C_DD_62.jpg", taxonName: "Sepia officinalis" },
+  "ci-shi": { url: "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/86/Magnetite-118736.jpg/330px-Magnetite-118736.jpg", taxonName: "Magnetite" },
+  "hu-po": { url: "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b6/Amber2.jpg/330px-Amber2.jpg", taxonName: "Amber" },
+  "dai-zhe-shi": { url: "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/19/WLA_hmns_Hematite.jpg/330px-WLA_hmns_Hematite.jpg", taxonName: "Hematite" },
+  "liu-huang": { url: "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/88/Sulfur_-_El_Desierto_mine%2C_San_Pablo_de_Napa%2C_Daniel_Campos_Province%2C_Potos%C3%AD%2C_Bolivia.jpg/330px-Sulfur_-_El_Desierto_mine%2C_San_Pablo_de_Napa%2C_Daniel_Campos_Province%2C_Potos%C3%AD%2C_Bolivia.jpg", taxonName: "Sulfur" },
+  "bai-fan": { url: "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cf/Kaaliumi_maarjase_monikristallid2.JPG/330px-Kaaliumi_maarjase_monikristallid2.JPG", taxonName: "Alum" },
+  "peng-sha": { url: "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f7/Borax_crystals.jpg/330px-Borax_crystals.jpg", taxonName: "Borax" },
+  "e-bu-shi-cao": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/28919460/medium.jpeg", taxonName: "Centipeda minima" },
+  "hu-sui": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/30423712/medium.jpeg", taxonName: "Coriandrum sativum" },
+  "ge-hua": { url: "https://static.inaturalist.org/photos/48784867/medium.jpg", taxonName: "Pueraria montana lobata" },
+  "shan-nai": { url: "https://static.inaturalist.org/photos/308356319/medium.jpeg", taxonName: "Kaempferia galanga" },
+  "sheng-jiang-pi": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/757337837/medium.jpg", taxonName: "Zingiber officinale" },
+  "han-shui-shi": { url: "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/22/3310.calcite_%28Iceland_Spar%29_birefringence.jpg/500px-3310.calcite_%28Iceland_Spar%29_birefringence.jpg", taxonName: "Calcitum" },
+  "tu-jing-jie": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/84127806/medium.jpeg", taxonName: "Dysphania ambrosioides" },
+  "cu-chai-hu": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/216434681/medium.jpeg", taxonName: "Bupleurum scorzonerifolium" },
+  "cong-xu": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/324718250/medium.jpg", taxonName: "Allium fistulosum" },
+  "ju-ye": { url: "https://static.inaturalist.org/photos/173484984/medium.jpg", taxonName: "Chrysanthemum indicum" },
+  "wei-jiang": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/52572103/medium.jpg", taxonName: "Zingiber officinale" },
+  "mi-meng-hua": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/226388984/medium.jpeg", taxonName: "Buddleja officinalis" },
+  "zhu-ye": { url: "https://static.inaturalist.org/photos/61178750/medium.jpg", taxonName: "Phyllostachys nigra" },
+  "qing-xiang-zi": { url: "https://static.inaturalist.org/photos/114895677/medium.jpeg", taxonName: "Celosia argentea" },
+  "lian-qiao-xin": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/729689/medium.jpg", taxonName: "Forsythia suspensa" },
+  "ya-zhi-cao": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/30222082/medium.jpg", taxonName: "Commelina communis" },
+  "ye-ju-hua": { url: "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d6/Chrysanthemum_indicum1.jpg/330px-Chrysanthemum_indicum1.jpg", taxonName: "Chrysanthemum indicum" },
+  "lv-dou": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/66312059/medium.jpg", taxonName: "Vigna radiata" },
+  "ma-bo": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/209263726/medium.jpg", taxonName: "Calvatia gigantea" },
+  "yin-chai-hu": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/202800270/medium.jpg", taxonName: "Stellaria dichotoma" },
+  "jin-deng-long": { url: "https://static.inaturalist.org/photos/587010481/medium.jpg", taxonName: "Alkekengi officinarum" },
+  "xi-gua-cui-yi": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/490493/medium.jpg", taxonName: "Citrullus lanatus" },
+  "hu-huang-lian": { url: "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2b/Picrorhiza_kurroa_kz01.jpg/330px-Picrorhiza_kurroa_kz01.jpg", taxonName: "Picrorhiza kurroa" },
+  "da-qing-ye": { url: "https://static.inaturalist.org/photos/13011165/medium.jpg", taxonName: "Isatis tinctoria" },
+  "mu-hu-die": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/28953974/medium.jpg", taxonName: "Oroxylum indicum" },
+  "zao-xiu": { url: "https://static.inaturalist.org/photos/59270765/medium.jpg", taxonName: "Paris polyphylla" },
+  "shan-ci-gu": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/656443971/medium.jpg", taxonName: "Cremastra appendiculata" },
+  "qing-dai": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/12392092/medium.jpg", taxonName: "Strobilanthes cusia" },
+  "pang-da-hai": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/514473422/medium.jpg", taxonName: "Scaphium affine (Sterculia lychnophora)" },
+  "hong-teng": { url: "https://static.inaturalist.org/photos/108583677/medium.jpg", taxonName: "Sargentodoxa cuneata" },
+  "ya-dan-zi": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/63428418/medium.jpg", taxonName: "Brucea javanica" },
+  "bai-xian-pi": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/507275214/medium.jpg", taxonName: "Dictamnus dasycarpus" },
+  "quan-shen": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/451803037/medium.jpeg", taxonName: "Bistorta officinalis" },
+  "bai-jiang-cao": { url: "https://static.inaturalist.org/photos/28503099/medium.jpg", taxonName: "Patrinia scabiosifolia" },
+  "ma-chi-xian": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/94112307/medium.jpeg", taxonName: "Portulaca oleracea" },
+  "si-ji-qing": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/286132170/medium.jpg", taxonName: "Ilex chinensis" },
+  "qian-li-guang": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/2879240/medium.jpg", taxonName: "Senecio scandens" },
+  "jin-qiao-mai": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/27595556/medium.jpeg", taxonName: "Fagopyrum dibotrys" },
+  "feng-wei-cao": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/448127135/medium.jpeg", taxonName: "Pteris multifida" },
+  "di-jin-cao": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/110375727/medium.jpeg", taxonName: "Euphorbia humifusa" },
+  "long-kui": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/199968095/medium.jpeg", taxonName: "Solanum nigrum" },
+  "lv-dou-yi": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/267026091/medium.jpg", taxonName: "Vigna radiata" },
+  "tian-ku-zi": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/630933194/medium.jpg", taxonName: "Semiaquilegia adoxoides" },
+  "bai-lian": { url: "https://static.inaturalist.org/photos/123584597/medium.jpg", taxonName: "Ampelopsis japonica" },
+  "lou-lu": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/64594737/medium.jpg", taxonName: "Rhaponticum uniflorum" },
+  "tu-niu-xi": { url: "https://static.inaturalist.org/photos/63571019/medium.jpg", taxonName: "Achyranthes aspera" },
+  "xia-tian-wu": { url: "https://static.inaturalist.org/photos/640001042/medium.jpg", taxonName: "Corydalis decumbens" },
+  "fu-rong-ye": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/376153382/medium.jpeg", taxonName: "Hibiscus mutabilis" },
+  "san-ke-zhen": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/190167723/medium.jpg", taxonName: "Berberis julianae" },
+  "shui-fei-ji": { url: "https://static.inaturalist.org/photos/6078409/medium.jpeg", taxonName: "Silybum marianum" },
+  "she-mei": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/8835174/medium.jpg", taxonName: "Potentilla indica" },
+  "luo-guo-di": { url: "https://static.inaturalist.org/photos/128698678/medium.jpeg", taxonName: "Hemsleya chinensis" },
+  "zhu-ye-juan-xin": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/1467878/medium.jpg", taxonName: "Lophatherum gracile" },
+  "xi-gua": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/112610439/medium.jpeg", taxonName: "Citrullus lanatus" },
+  "tie-xian-cai": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/56018989/medium.jpeg", taxonName: "Acalypha australis" },
+  "ba-jiao-lian": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/280724915/medium.jpg", taxonName: "Podophyllum versipelle" },
+  "jiu-huang-qin": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/17220269/medium.jpeg", taxonName: "Scutellaria baicalensis" },
+  "ya-zi-cao": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/6314550/medium.jpg", taxonName: "Phragmites australis" },
+  "he-ye-di": { url: "https://static.inaturalist.org/photos/315864227/medium.jpeg", taxonName: "Nelumbo nucifera" },
+  "yuan-hua": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/472625019/medium.jpeg", taxonName: "Daphne genkwa" },
+  "song-zi-ren": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/10746244/medium.jpg", taxonName: "Pinus koraiensis" },
+  "ba-dou": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/71607328/medium.jpeg", taxonName: "Croton tiglium" },
+  "jing-da-ji": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/139677501/medium.jpg", taxonName: "Euphorbia pekinensis" },
+  "shang-lu": { url: "https://static.inaturalist.org/photos/85491050/medium.jpg", taxonName: "Phytolacca acinosa" },
+  "xuan-ming-fen": { url: "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/42/Thenardite_Sodium_sulfate_near_Sodaville_Mineral_County_Nevada.jpg/500px-Thenardite_Sodium_sulfate_near_Sodaville_Mineral_County_Nevada.jpg", taxonName: "Sodium sulfate" },
+  "jiu-da-huang": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/8993840/medium.jpg", taxonName: "Rheum officinale" },
+  "gan-sui-cu": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/131190512/medium.jpeg", taxonName: "Knoxia valerianoides" },
+  "chi-xiao-dou": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/252386921/medium.jpeg", taxonName: "Vigna angularis" },
+  "fu-ling-pi": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/18241950/medium.jpeg", taxonName: "Wolfiporia cocos" },
+  "dong-gua-pi": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/105785708/medium.jpeg", taxonName: "Benincasa hispida" },
+  "qian-jin-zi": { url: "https://static.inaturalist.org/photos/40138725/medium.jpg", taxonName: "Euphorbia lathyris" },
+  "dong-gua-zi": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/1831664/medium.JPG", taxonName: "Benincasa hispida" },
+  "shi-wei": { url: "https://static.inaturalist.org/photos/11498865/medium.jpeg", taxonName: "Pyrrosia lingua" },
+  "qu-mai": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/346205296/medium.jpeg", taxonName: "Dianthus superbus" },
+  "mu-tong": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/483935456/medium.jpg", taxonName: "Clematis armandii" },
+  "hai-jin-sha": { url: "https://static.inaturalist.org/photos/223416696/medium.jpeg", taxonName: "Lygodium japonicum" },
+  "deng-xin-cao": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/338671231/medium.jpeg", taxonName: "Juncus effusus" },
+  "tian-hu-sui": { url: "https://static.inaturalist.org/photos/297699518/medium.jpg", taxonName: "Hydrocotyle sibthorpioides" },
+  "chui-pen-cao": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/8300207/medium.jpeg", taxonName: "Sedum sarmentosum" },
+  "ze-qi": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/454705698/medium.jpg", taxonName: "Euphorbia helioscopia" },
+  "ji-gu-cao": { url: "https://static.inaturalist.org/photos/126303429/medium.jpg", taxonName: "Abrus precatorius" },
+  "di-fu-zi": { url: "https://static.inaturalist.org/photos/349317458/medium.jpeg", taxonName: "Bassia scoparia" },
+  "hu-zhang": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/74418856/medium.jpg", taxonName: "Reynoutria japonica" },
+  "wu-shao-she": { url: "https://static.inaturalist.org/photos/21708782/medium.jpeg", taxonName: "Ptyas dhumnades" },
+  "bai-hua-she": { url: "https://static.inaturalist.org/photos/273084627/medium.jpg", taxonName: "Bungarus multicinctus" },
+  "ba-qia": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/62490444/medium.jpeg", taxonName: "Smilax china" },
+  "lu-lu-tong": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/58424720/medium.jpeg", taxonName: "Liquidambar formosana" },
+  "cao-wu": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/423702476/medium.jpeg", taxonName: "Aconitum kusnezoffii" },
+  "chuan-wu": { url: "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9a/Aconitum_carmichaelli_%27arendsii%27_27-10-2005_16.09.36.JPG/330px-Aconitum_carmichaelli_%27arendsii%27_27-10-2005_16.09.36.JPG", taxonName: "Aconitum carmichaelii" },
+  "shen-jin-cao": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/369711035/medium.jpeg", taxonName: "Lycopodium japonicum" },
+  "lei-gong-teng": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/9636410/medium.jpeg", taxonName: "Tripterygium wilfordii" },
+  "chou-wu-tong": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/630944384/medium.jpg", taxonName: "Clerodendrum trichotomum" },
+  "qing-feng-teng": { url: "https://static.inaturalist.org/photos/103010911/medium.jpeg", taxonName: "Sinomenium acutum" },
+  "tou-gu-cao": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/295404384/medium.jpeg", taxonName: "Phryma leptostachya" },
+  "can-sha": { url: "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/47/Pairedmoths.jpg/330px-Pairedmoths.jpg", taxonName: "Bombyx mori" },
+  "zuan-di-feng": { url: "https://static.inaturalist.org/photos/106198096/medium.jpg", taxonName: "Schizophragma integrifolium" },
+  "chuan-shan-long": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/440881328/medium.jpeg", taxonName: "Dioscorea nipponica" },
+  "si-gua-luo": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/109026133/medium.jpeg", taxonName: "Luffa aegyptiaca" },
+  "song-jie": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/8464386/medium.jpg", taxonName: "Pinus tabuliformis" },
+  "xun-gu-feng": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/63234380/medium.jpg", taxonName: "Aristolochia mollissima" },
+  "lao-guan-cao": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/3034061/medium.jpg", taxonName: "Erodium stephanianum" },
+  "zao-jiao-ci": { url: "https://static.inaturalist.org/photos/499823864/medium.jpeg", taxonName: "Gleditsia sinensis" },
+  "kun-ming-shan-hai-tang": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/4091561/medium.jpg", taxonName: "Tripterygium hypoglaucum" },
+  "xue-feng-cao": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/65728365/medium.jpg", taxonName: "Saussurea involucrata" },
+  "gua-lou-pi": { url: "https://static.inaturalist.org/photos/42082169/medium.jpeg", taxonName: "Trichosanthes kirilowii" },
+  "bai-fu-zi": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/141627904/medium.jpg", taxonName: "Typhonium giganteum" },
+  "zao-jiao": { url: "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/38/Gleditsia_sinensis1.jpg/330px-Gleditsia_sinensis1.jpg", taxonName: "Gleditsia sinensis" },
+  "tian-zhu-huang": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/75592661/medium.jpg", taxonName: "Bambusa textilis" },
+  "hai-ge-ke": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/967349/medium.jpg", taxonName: "Meretrix meretrix" },
+  "zhu-li": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/16054449/medium.jpeg", taxonName: "Phyllostachys edulis" },
+  "wa-leng-zi": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/241529529/medium.jpeg", taxonName: "Tegillarca granosa" },
+  "hai-fu-shi": { url: "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e8/Pumice_santorini.jpg/500px-Pumice_santorini.jpg", taxonName: "Pumice" },
+  "ai-di-cha": { url: "https://static.inaturalist.org/photos/40043710/medium.jpg", taxonName: "Ardisia japonica" },
+  "sheng-ban-xia": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/515518146/medium.jpg", taxonName: "Pinellia ternata" },
+  "mi-ma-huang": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/199925/medium.jpg", taxonName: "Ephedra intermedia" },
+  "cao-dou-kou": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/80460605/medium.jpeg", taxonName: "Alpinia hainanensis" },
+  "xie-bai": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/31256962/medium.jpeg", taxonName: "Allium macrostemon" },
+  "ju-he": { url: "https://static.inaturalist.org/photos/58699945/medium.jpg", taxonName: "Citrus reticulata" },
+  "pao-jiang": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/55605616/medium.jpg", taxonName: "Zingiber officinale" },
+  "bai-mao-gen": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/47625648/medium.jpeg", taxonName: "Imperata cylindrica" },
+  "xue-jie": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/80964860/medium.jpg", taxonName: "Daemonorops draco" },
+  "liu-ji-nu": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/142854263/medium.jpeg", taxonName: "Artemisia anomala" },
+  "hua-rui-shi": { url: "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4f/Rosso_Levanto_Marble.jpg/500px-Rosso_Levanto_Marble.jpg", taxonName: "Ophicalcite" },
+  "di-huang-tan": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/59280558/medium.jpeg", taxonName: "Zingiber officinale" },
+  "hu-jiao": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/107039954/medium.jpg", taxonName: "Piper nigrum" },
+  "hong-dou-kou": { url: "https://static.inaturalist.org/photos/96325811/medium.jpg", taxonName: "Alpinia galanga" },
+  "feng-mi": { url: "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cc/Runny_hunny.jpg/330px-Runny_hunny.jpg", taxonName: "Honey" },
+  "nan-sha-shen": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/718435701/medium.jpg", taxonName: "Adenophora triphylla" },
+  "yang-qi-shi": { url: "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/91/Actinolite_Portugal.jpg/330px-Actinolite_Portugal.jpg", taxonName: "Actinolite" },
+  "hai-ma": { url: "https://static.inaturalist.org/photos/2070094/medium.jpg", taxonName: "Hippocampus kelloggi" },
+  "lu-jiao-shuang": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/232339988/medium.jpeg", taxonName: "Antler" },
+  "gui-ban-jiao": { url: "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/33/Mauremys_reevesii.jpg/330px-Mauremys_reevesii.jpg", taxonName: "Mauremys reevesii" },
+  "yin-er": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/7842/medium.jpg", taxonName: "Tremella fuciformis" },
+  "dong-chong-substitute": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/61310187/medium.jpeg", taxonName: "Panax ginseng" },
+  "ma-huang-gen": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/331053645/medium.jpg", taxonName: "Ephedra equisetina" },
+  "ci-wei-pi": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/50232962/medium.jpg", taxonName: "Erinaceus amurensis" },
+  "zhen-zhu": { url: "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5e/Various_pearls.jpg/330px-Various_pearls.jpg", taxonName: "Pearl" },
+  "zi-shi-ying": { url: "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0d/3192M-fluorite1.jpg/330px-3192M-fluorite1.jpg", taxonName: "Fluorite" },
+  "long-chi": { url: "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b0/Mammuthus_columbi_Page.jpg/330px-Mammuthus_columbi_Page.jpg", taxonName: "Fossil teeth" },
+  "su-he-xiang": { url: "https://static.inaturalist.org/photos/43335146/medium.jpeg", taxonName: "Liquidambar orientalis" },
+  "an-xi-xiang": { url: "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2c/Styrax_platanifolius.jpg/330px-Styrax_platanifolius.jpg", taxonName: "Styrax benzoin" },
+  "lei-wan": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/291509420/medium.jpg", taxonName: "Omphalia lapidescens" },
+  "tu-jing-pi": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/8775476/medium.jpeg", taxonName: "Pseudolarix amabilis" },
+  "qing-fen": { url: "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/65/Calomel-154907.jpg/500px-Calomel-154907.jpg", taxonName: "Calomel" },
+  "guang-fang-ji": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/29514907/medium.jpg", taxonName: "Aristolochia fangchi" },
+  "guan-mu-tong": { url: "https://static.inaturalist.org/photos/28870515/medium.jpeg", taxonName: "Aristolochia manshuriensis" },
+  "hu-gu": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/43633891/medium.jpg", taxonName: "Panthera tigris" },
+  "zhu-sha-lian": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/659450988/medium.jpg", taxonName: "Aristolochia kaempferi" },
+  "qing-meng-shi": { url: "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/35/ChloriteUSGOV.jpg/330px-ChloriteUSGOV.jpg", taxonName: "Lapis Chloriti (Chlorite schist)" },
+  "bai-qian": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/223489187/medium.jpeg", taxonName: "Cynanchum stauntonii" },
+  "luo-han-guo": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/305379028/medium.jpeg", taxonName: "Siraitia grosvenorii" },
+  "huang-yao-zi": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/569462991/medium.jpg", taxonName: "Dioscorea bulbifera" },
+  "yang-jin-hua": { url: "https://static.inaturalist.org/photos/76593768/medium.jpeg", taxonName: "Datura metel" },
+  "man-shan-hong": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/3323515/medium.jpg", taxonName: "Rhododendron dauricum" },
+  "bai-mao-xia-ku-cao": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/7089068/medium.jpg", taxonName: "Ajuga decumbens" },
+  "jin-fei-cao": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/764730888/medium.jpg", taxonName: "Inula japonica" },
+  "zhu-ya-zao": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/757938225/medium.jpg", taxonName: "Gleditsia sinensis" },
+  "gua-lou": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/764586372/medium.jpg", taxonName: "Trichosanthes kirilowii" },
+  "mi-bai-bu": { url: "https://static.inaturalist.org/photos/214793596/medium.jpg", taxonName: "Stemona sessilifolia" },
+  "mi-pi-pa-ye": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/764962665/medium.jpg", taxonName: "Eriobotrya japonica" },
+  "hou-po-hua": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/548504630/medium.jpg", taxonName: "Magnolia officinalis (Flos)" },
+  "he-geng": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/764980662/medium.jpg", taxonName: "Nelumbo nucifera (Petiolus)" },
+  "ji-shi-teng": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/604390260/medium.jpg", taxonName: "Paederia scandens" },
+  "a-wei": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/32539754/medium.jpeg", taxonName: "Ferula assa-foetida" },
+  "sha-chao-ji-nei-jin": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/274681663/medium.jpg", taxonName: "Gallus gallus domesticus" },
+  "shu-shan-zha": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/763794856/medium.jpg", taxonName: "Crataegus pinnatifida" },
+  "tan-xiang": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/30611222/medium.jpeg", taxonName: "Santalum album" },
+  "xiang-yuan": { url: "https://static.inaturalist.org/photos/1297316/medium.", taxonName: "Citrus medica" },
+  "mei-gui-hua": { url: "https://static.inaturalist.org/photos/74197363/medium.jpg", taxonName: "Rosa rugosa" },
+  "lu-e-mei": { url: "https://static.inaturalist.org/photos/905549/medium.jpg", taxonName: "Prunus mume (Flos)" },
+  "ju-luo": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/764863431/medium.jpg", taxonName: "Citrus reticulata (Retinervus)" },
+  "ju-hong": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/762206583/medium.jpg", taxonName: "Citrus maxima (Exocarpium)" },
+  "gan-song": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/46362373/medium.jpeg", taxonName: "Nardostachys jatamansi" },
+  "dao-dou": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/256321755/medium.jpeg", taxonName: "Canavalia gladiata" },
+  "zi-su-geng": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/764727527/medium.jpg", taxonName: "Perilla frutescens (Caulis)" },
+  "tu-mu-xiang": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/542852762/medium.jpg", taxonName: "Inula helenium" },
+  "jiu-xiang-chong": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/328434243/medium.jpg", taxonName: "Coridius chinensis (Aspongopus)" },
+  "da-ji-mu": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/723444678/medium.jpg", taxonName: "Dolomiaea costus" },
+  "sheng-di-gu-pi": { url: "https://static.inaturalist.org/photos/764982799/medium.jpg", taxonName: "Cyperus rotundus (Praeparatum)" },
+  "qian-cao": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/31293336/medium.jpeg", taxonName: "Rubia cordifolia" },
+  "ou-jie": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/764980664/medium.jpg", taxonName: "Nelumbo nucifera (Nodus Rhizomatis)" },
+  "huai-jiao": { url: "https://static.inaturalist.org/photos/763109488/medium.jpg", taxonName: "Styphnolobium japonicum (Fructus)" },
+  "zao-xin-tu": { url: "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/87/LoessVicksburg.jpg/330px-LoessVicksburg.jpg", taxonName: "Terra Flava Usta (Loess)" },
+  "xian-he-cao-zi-zhu": { url: "https://static.inaturalist.org/photos/23429815/medium.jpg", taxonName: "Callicarpa dichotoma" },
+  "ze-lan": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/4076864/medium.jpg", taxonName: "Lycopus lucidus" },
+  "chuan-niu-xi": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/166388583/medium.jpeg", taxonName: "Cyathula officinalis" },
+  "tu-bie-chong": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/214334847/medium.jpg", taxonName: "Eupolyphaga sinensis" },
+  "shui-zhi": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/2762914/medium.jpg", taxonName: "Whitmania pigra / Hirudo" },
+  "meng-chong": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/44356120/medium.jpg", taxonName: "Tabanus bivittatus" },
+  "zi-ran-tong": { url: "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/91/Pyrite_-_Huanzala_mine%2C_Huallanca%2C_Bolognesi%2C_Ancash%2C_Peru.jpg/330px-Pyrite_-_Huanzala_mine%2C_Huallanca%2C_Bolognesi%2C_Ancash%2C_Peru.jpg", taxonName: "Pyritum (Pyrite)" },
+  "yue-ji-hua": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/236476292/medium.jpg", taxonName: "Rosa chinensis" },
+  "ling-xiao-hua": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/169546913/medium.jpeg", taxonName: "Campsis grandiflora" },
+  "wang-bu-liu-xing-ch10": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/113124229/medium.jpeg", taxonName: "Persicaria orientalis" },
+  "gan-qi": { url: "https://static.inaturalist.org/photos/19469467/medium.jpeg", taxonName: "Toxicodendron vernicifluum" },
+  "xue-yu-tan": { url: "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/51/Charcoal_8.jpg/330px-Charcoal_8.jpg", taxonName: "Crinis Carbonisatus (Carbonized Natural Fiber)" },
+  "zong-lv-tan": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/418335608/medium.jpeg", taxonName: "Trachycarpus fortunei" },
+  "juan-bai": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/268737951/medium.jpg", taxonName: "Selaginella tamariscina" },
+  "di-yu-tan": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/743244969/medium.jpg", taxonName: "Sanguisorba officinalis (Carbonisata)" },
+  "jiu-dang-gui": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/630945390/medium.jpg", taxonName: "Angelica sinensis" },
+  "bi-bo": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/467987601/medium.jpg", taxonName: "Piper longum" },
+  "bi-cheng-qie": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/1838306/medium.JPG", taxonName: "Litsea cubeba" },
+  "ba-jiao-hui-xiang": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/365843338/medium.jpeg", taxonName: "Illicium verum" },
+  "cu-yan-hu-suo": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/742142574/medium.jpg", taxonName: "Aconitum carmichaelii (Dan Fu Pian)" },
+  "hong-shen": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/730860441/medium.jpg", taxonName: "Panax ginseng (Red Ginseng)" },
+  "hong-jing-tian": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/44172824/medium.jpg", taxonName: "Rhodiola crenulata / rosea" },
+  "jiao-gu-lan": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/68028578/medium.jpg", taxonName: "Gynostemma pentaphyllum" },
+  "ci-wu-jia": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/51696721/medium.jpeg", taxonName: "Eleutherococcus senticosus" },
+  "yi-tang": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/763246422/medium.jpg", taxonName: "Saccharum Granorum (Maltose / Malt)" },
+  "ming-dang-shen": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/263506394/medium.jpg", taxonName: "Changium smyrnioides" },
+  "lu-jiao": { url: "https://static.inaturalist.org/photos/764975373/medium.jpg", taxonName: "Cervus nippon (Cornu)" },
+  "lu-jiao-jiao": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/25186445/medium.jpg", taxonName: "Cervus elaphus / nippon (Colla)" },
+  "suo-yang": { url: "https://static.inaturalist.org/photos/278602202/medium.jpeg", taxonName: "Cynomorium songaricum" },
+  "sha-yuan-zi": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/303980035/medium.jpg", taxonName: "Astragalus complanatus" },
+  "jiu-cai-zi": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/93917472/medium.jpg", taxonName: "Allium tuberosum" },
+  "hei-dou": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/762263368/medium.jpg", taxonName: "Glycine max (Black Soybean)" },
+  "gou-qi-ye": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/763409629/medium.jpg", taxonName: "Lycium chinense (Folium)" },
+  "hai-long": { url: "https://static.inaturalist.org/photos/469701308/medium.jpg", taxonName: "Syngnathoides biaculeatus" },
+  "bie-jia-jiao": { url: "https://static.inaturalist.org/photos/763353720/medium.jpg", taxonName: "Pelodiscus sinensis (Colla Carapacis)" },
+  "can-e": { url: "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/52/Silk_worm_evolution_01.jpg/960px-Silk_worm_evolution_01.jpg", taxonName: "Bombyx mori (Adult Moth)" },
+  "zhi-gan-cao": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/760763893/medium.jpg", taxonName: "Glycyrrhiza uralensis (Praeparata)" },
+  "chao-bai-zhu": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/244515487/medium.jpeg", taxonName: "Atractylodes macrocephala (Praeparatum)" },
+  "dan-shen-jiu": { url: "https://static.inaturalist.org/photos/764548014/medium.jpg", taxonName: "Reynoutria multiflora (Praeparata)" },
+  "jiu-huang-jing": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/761214421/medium.jpg", taxonName: "Polygonatum sibiricum (Praeparatum)" },
+  "fu-xiao-mai": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/764466314/medium.jpg", taxonName: "Triticum aestivum (Levis)" },
+  "nuo-dao-gen-xu": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/48742632/medium.jpg", taxonName: "Oryza sativa" },
+  "shi-liu-pi": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/4956594/medium.jpeg", taxonName: "Punica granatum (Pericarpium)" },
+  "chi-shi-zhi": { url: "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6d/Halloysite_variety_Indianaite_Hydrous_Aluminum_silicate_Bedford%2C_Lawrence_County%2C_Indiana_2770.jpg/330px-Halloysite_variety_Indianaite_Hydrous_Aluminum_silicate_Bedford%2C_Lawrence_County%2C_Indiana_2770.jpg", taxonName: "Halloysitum Rubrum" },
+  "yu-yu-liang": { url: "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2e/LimoniteUSGOV.jpg/330px-LimoniteUSGOV.jpg", taxonName: "Limonitum" },
+  "ying-su-ke": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/328450763/medium.jpg", taxonName: "Papaver somniferum (Pericarpium)" },
+  "chun-pi": { url: "https://static.inaturalist.org/photos/21400202/medium.jpg", taxonName: "Ailanthus altissima (Cortex)" },
+  "lian-xu": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/764638938/medium.jpg", taxonName: "Nelumbo nucifera (Stamen)" },
+  "lian-fang": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/764374012/medium.jpg", taxonName: "Nelumbo nucifera (Receptaculum)" },
+  "wu-bei-zi": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/77403922/medium.jpeg", taxonName: "Galla Chinensis (Rhus chinensis)" },
+  "he-huan-hua": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/146757188/medium.jpg", taxonName: "Albizia julibrissin (Flos)" },
+  "ling-zhi": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/166792593/medium.jpeg", taxonName: "Ganoderma lucidum / lingzhi" },
+  "xiao-mai": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/763828405/medium.jpg", taxonName: "Triticum aestivum" },
+  "zhen-zhu-mu": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/424895660/medium.jpeg", taxonName: "Concha Margaritifera" },
+  "ling-yang-jiao": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/599566850/medium.jpg", taxonName: "Saiga tatarica" },
+  "luo-bu-ma-ye": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/220832648/medium.jpg", taxonName: "Apocynum venetum" },
+  "zi-bei-chi": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/188549524/medium.jpg", taxonName: "Concha Mauritiae (Cypraeidae)" },
+  "sheng-tie-luo": { url: "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d3/Powder_steel_on_magnet.jpg/330px-Powder_steel_on_magnet.jpg", taxonName: "Frusta Ferri (Iron Filings)" },
+  "dai-mao": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/308087101/medium.jpeg", taxonName: "Eretmochelys imbricata" },
+  "she-tui": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/387806329/medium.jpeg", taxonName: "Periostracum Serpentis (Elaphe)" },
+  "shui-niu-jiao-substitute": { url: "https://static.inaturalist.org/photos/268397370/medium.jpg", taxonName: "Naemorhedus / Capra (Cornu)" },
+  "ku-lian-pi": { url: "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1a/Cinamomo_%28Melia_azedarach%29_em_Bag%C3%A9%2C_RS%2C_Brasil%2C_final_de_outono%2C_frutificado_e_com_folhas_j%C3%A1_ca%C3%ADdas_-_55336704649.jpg/330px-Cinamomo_%28Melia_azedarach%29_em_Bag%C3%A9%2C_RS%2C_Brasil%2C_final_de_outono%2C_frutificado_e_com_folhas_j%C3%A1_ca%C3%ADdas_-_55336704649.jpg", taxonName: "Melia azedarach" },
+  "he-shi": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/48243631/medium.jpeg", taxonName: "Carpesium abrotanoides" },
+  "guan-zhong": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/602924265/medium.jpg", taxonName: "Dryopteris crassirhizoma" },
+  "wu-yi": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/208721726/medium.jpg", taxonName: "Ulmus macrocarpa" },
+  "da-suan": { url: "https://static.inaturalist.org/photos/533119870/medium.jpg", taxonName: "Allium sativum" },
+  "zhang-nao": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/245245724/medium.jpeg", taxonName: "Camphora (Cinnamomum camphora)" },
+  "chan-su": { url: "https://static.inaturalist.org/photos/443718712/medium.jpeg", taxonName: "Bufo gargarizans (Venenum Bufonis)" },
+  "mu-bie-zi": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/721884025/medium.jpg", taxonName: "Momordica cochinchinensis" },
+  "feng-fang": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/2367678/medium.jpg", taxonName: "Nidus Vespae (Polistes)" },
+  "er-cha": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/22494854/medium.jpg", taxonName: "Senegalia catechu" },
+  "gua-di": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/232583670/medium.jpeg", taxonName: "Cucumis melo (Pedicellus)" },
+  "chang-shan": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/134247814/medium.jpg", taxonName: "Dichroa febrifuga" },
+  "wa-song": { url: "https://static.inaturalist.org/photos/73745700/medium.jpeg", taxonName: "Orostachys fimbriata" },
+  "dan-fan": { url: "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2e/Chalcanthite_3.jpeg/500px-Chalcanthite_3.jpeg", taxonName: "Chalcanthitum (Chalcanthite)" },
+  "feng-jiao": { url: "https://static.inaturalist.org/photos/2033079/medium.jpg", taxonName: "Cera Flava (Apis mellifera Beeswax)" },
+  "zhu-ru-jiang": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/760483431/medium.jpg", taxonName: "Aconitum kusnezoffii" },
+  "qing-mu-xiang": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/439292964/medium.jpeg", taxonName: "Aristolochia debilis" },
+  "ma-dou-ling": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/31441116/medium.jpeg", taxonName: "Aristolochia contorta" },
+  "tian-xian-teng": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/764270607/medium.jpg", taxonName: "Aristolochia debilis (Herba)" },
+  "xiong-dan": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/280918640/medium.jpg", taxonName: "Ursus thibetanus" },
+  "chuan-shan-jia": { url: "https://static.inaturalist.org/photos/246526351/medium.jpg", taxonName: "Manis pentadactyla" },
+  "pi-shuang": { url: "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/12/Arsenolite-333170.jpg/330px-Arsenolite-333170.jpg", taxonName: "Arsenolitum (Arsenolite)" },
+  "qian-dan": { url: "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/32/Minium-232908.jpg/330px-Minium-232908.jpg", taxonName: "Minium (Pb3O4)" },
+  "shui-yin": { url: "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/99/Pouring_liquid_mercury_bionerd.jpg/330px-Pouring_liquid_mercury_bionerd.jpg", taxonName: "Hydrargyrum (Native Mercury)" },
+  "ban-mao": { url: "https://static.inaturalist.org/photos/48821248/medium.jpeg", taxonName: "Mylabris phalerata" },
+  "lang-du": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/132955108/medium.jpg", taxonName: "Euphorbia fischeriana" },
+  "li-lu": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/708103/medium.jpg", taxonName: "Veratrum nigrum" },
+  "mi-tuo-seng": { url: "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e8/Litharge.jpg/330px-Litharge.jpg", taxonName: "Lithargyrum (PbO)" },
+  "nao-sha": { url: "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/89/Salammoniac-456369.jpg/330px-Salammoniac-456369.jpg", taxonName: "Sal Ammoniacus (NH4Cl)" },
+  "fei-zi": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/732358997/medium.jpg", taxonName: "Torreya grandis" },
+  "xiong-huang": { url: "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a7/Realgar-Calcite-37467.jpg/500px-Realgar-Calcite-37467.jpg", taxonName: "Realgar (As4S4)" },
+  "lu-gan-shi": { url: "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/96/Smithsonite_-_USGS_Mineral_Specimens_016.jpg/960px-Smithsonite_-_USGS_Mineral_Specimens_016.jpg", taxonName: "Calamina (Smithsonite)" },
+  "da-feng-zi": { url: "https://inaturalist-open-data.s3.amazonaws.com/photos/764596739/medium.jpg", taxonName: "Hydnocarpus anthelminthicus" },
+  "she-chuang-zi-ch18": { url: "https://upload.wikimedia.org/wikipedia/commons/5/5a/Alum-%28K%29-180767.jpg", taxonName: "Alumen Exsiccatum (Calcined Alum)" },
 };

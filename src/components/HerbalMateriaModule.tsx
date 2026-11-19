@@ -11,10 +11,15 @@ export const HerbalMateriaModule: React.FC = () => {
   };
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('ALL');
+  const [visibleLimit, setVisibleLimit] = useState<number>(48);
 
-  // Extract unique categories from HERBAL_MATERIA database
+  // Extract unique categories from HERBAL_MATERIA database sorted strictly by chapter 1..19
   const categoriesList = useMemo(() => {
-    const cats = Array.from(new Set(HERBAL_MATERIA.map((h) => h.category)));
+    const cats = Array.from(new Set(HERBAL_MATERIA.map((h) => h.category))).sort((a, b) => {
+      const na = parseInt(a.match(/^(\d+)\./)?.[1] || '99', 10);
+      const nb = parseInt(b.match(/^(\d+)\./)?.[1] || '99', 10);
+      return na - nb;
+    });
     return ['ALL', ...cats];
   }, []);
 
@@ -38,6 +43,20 @@ export const HerbalMateriaModule: React.FC = () => {
     });
   }, [searchQuery, selectedCategory]);
 
+  const displayedHerbs = useMemo(() => {
+    return filteredHerbs.slice(0, visibleLimit);
+  }, [filteredHerbs, visibleLimit]);
+
+  const handleCategoryChange = (cat: string) => {
+    setSelectedCategory(cat);
+    setVisibleLimit(48);
+  };
+
+  const handleSearchChange = (q: string) => {
+    setSearchQuery(q);
+    setVisibleLimit(48);
+  };
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
       {/* Botanical Hero Banner */}
@@ -50,10 +69,10 @@ export const HerbalMateriaModule: React.FC = () => {
               <span>Nam Dược Tuệ Tĩnh & Đỗ Tất Lợi</span>
             </div>
             <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 font-serif tracking-tight">
-              Toàn Bộ 19 Chương & Kho Vị Thuốc Cốt Lõi Dược Điển Bensky ({HERBAL_MATERIA.length} Vị Thuốc)
+              Toàn Bộ 19 Chương Dược Điển Dan Bensky (3rd Ed) — {HERBAL_MATERIA.length} Vị Thuốc
             </h2>
             <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-              Tích hợp chuẩn mực từ bộ dược điển <i>Chinese Herbal Medicine: Materia Medica</i> (Dan Bensky) và Nam dược Việt Nam: Hình ảnh dược liệu thực tế, Tên Pinyin, Tên Khoa Học Latin, Chữ Hán Cổ, Tính Vị Quy Kinh, Công Năng Chủ Trị, Liều Lượng Gram Chuẩn và Hoạt Chất Dược Lý.
+              Cập nhật đầy đủ bộ dược điển <i>Chinese Herbal Medicine: Materia Medica</i> (Dan Bensky, Steven Clavey, Erich Stöger — 3rd Edition) cùng Nam dược Việt Nam: Tên Pinyin, Tên Khoa Học Latin, Chữ Hán Cổ, Tính Vị Quy Kinh, Công Năng Chủ Trị, Liều Lượng Gram Chuẩn, Bào Chế & Cảnh Báo Độc Tính.
             </p>
           </div>
 
@@ -81,7 +100,7 @@ export const HerbalMateriaModule: React.FC = () => {
             <BookOpen className="w-4 h-4 text-emerald-700 shrink-0" />
             <select
               value={selectedCategory}
-              onChange={(e) => setSelectedCategory(e.target.value)}
+              onChange={(e) => handleCategoryChange(e.target.value)}
               className="w-full py-2.5 px-3 rounded-xl bg-white border border-slate-300 text-xs font-bold text-slate-800 focus:outline-none focus:border-emerald-500 shadow-2xs"
             >
               <option value="ALL">Tất Cả 19 Chương Bensky ({HERBAL_MATERIA.length} Vị Thuốc)</option>
@@ -102,7 +121,7 @@ export const HerbalMateriaModule: React.FC = () => {
             <input
               type="text"
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={(e) => handleSearchChange(e.target.value)}
               placeholder="Tìm theo tên vị thuốc, Pinyin (Ma Huang, Gui Zhi, Chai Hu, Ren Shen, Fu Zi...), tên Latin hoặc công năng..."
               className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white border border-slate-300 text-slate-900 text-xs placeholder-slate-400 focus:outline-none focus:border-emerald-500 shadow-2xs"
             />
@@ -113,7 +132,7 @@ export const HerbalMateriaModule: React.FC = () => {
         <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
           <Filter className="w-3.5 h-3.5 text-emerald-700 shrink-0 mr-1" />
           <button
-            onClick={() => setSelectedCategory('ALL')}
+            onClick={() => handleCategoryChange('ALL')}
             className={`px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap border transition-all ${
               selectedCategory === 'ALL'
                 ? 'bg-emerald-700 text-white border-emerald-800 shadow-xs'
@@ -129,7 +148,7 @@ export const HerbalMateriaModule: React.FC = () => {
             return (
               <button
                 key={cat}
-                onClick={() => setSelectedCategory(cat)}
+                onClick={() => handleCategoryChange(cat)}
                 className={`px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap border transition-all ${
                   isActive
                     ? 'bg-emerald-700 text-white border-emerald-800 shadow-xs'
@@ -143,6 +162,23 @@ export const HerbalMateriaModule: React.FC = () => {
         </div>
       </div>
 
+      {/* Results counter */}
+      <div className="flex items-center justify-between text-xs text-slate-600 mb-3 px-1">
+        <span>
+          Đang hiển thị <strong className="text-emerald-800">{displayedHerbs.length}</strong> /{' '}
+          <strong>{filteredHerbs.length}</strong> vị thuốc
+        </span>
+        {filteredHerbs.length > displayedHerbs.length && (
+          <button
+            type="button"
+            onClick={() => setVisibleLimit(filteredHerbs.length)}
+            className="text-emerald-700 font-bold hover:underline cursor-pointer"
+          >
+            Xem toàn bộ ({filteredHerbs.length})
+          </button>
+        )}
+      </div>
+
       {/* Herb Cards List with Immediate Inline Expansion */}
       <div className="space-y-3">
         <div className="space-y-3">
@@ -151,7 +187,7 @@ export const HerbalMateriaModule: React.FC = () => {
               Không tìm thấy vị thuốc phù hợp với từ khóa tra cứu.
             </div>
           ) : (
-            filteredHerbs.map((herb) => {
+            displayedHerbs.map((herb) => {
               const isSelected = selectedHerb?.id === herb.id;
               const spec = getHerbVisualSpec(herb);
               return (
@@ -316,6 +352,26 @@ export const HerbalMateriaModule: React.FC = () => {
             })
           )}
         </div>
+
+        {/* Pagination / Load More Controls */}
+        {filteredHerbs.length > displayedHerbs.length && (
+          <div className="pt-4 flex flex-wrap items-center justify-center gap-3">
+            <button
+              type="button"
+              onClick={() => setVisibleLimit((prev) => prev + 60)}
+              className="px-5 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-600 text-white text-xs font-bold shadow-xs transition-all cursor-pointer"
+            >
+              Hiển thị thêm {Math.min(60, filteredHerbs.length - displayedHerbs.length)} vị thuốc
+            </button>
+            <button
+              type="button"
+              onClick={() => setVisibleLimit(filteredHerbs.length)}
+              className="px-4 py-2.5 rounded-xl bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 text-xs font-bold shadow-2xs transition-all cursor-pointer"
+            >
+              Xem tất cả ({filteredHerbs.length - displayedHerbs.length} vị còn lại)
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

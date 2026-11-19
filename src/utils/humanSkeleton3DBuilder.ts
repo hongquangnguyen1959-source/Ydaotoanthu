@@ -787,6 +787,239 @@ export function buildCompleteAnatomicalSkeleton3D(onLoaded?: () => void): THREE.
       const cartilageGeos: THREE.BufferGeometry[] = [];
       const identityMat = new THREE.Matrix4();
 
+      const applyAnatomicalJointAlignment = (
+        geo: THREE.BufferGeometry,
+        name: string
+      ) => {
+        const pos = geo.attributes.position;
+        const count = pos.count;
+        if (count === 0) return;
+
+        // NOTE: THREE.MathUtils.smoothstep(x, min, max) strictly requires min < max!
+        const rampDown = (v: number, low: number, high: number) =>
+          1 - THREE.MathUtils.smoothstep(v, low, high);
+
+        if (name === 'mandible') {
+          for (let i = 0; i < count; i++) {
+            const y = pos.getY(i);
+            const z = pos.getZ(i);
+            const anteriorT = Math.max(0, Math.min(1, (z - 0.088) / 0.032));
+            pos.setY(i, y - 0.0092 * anteriorT);
+            pos.setZ(i, z - 0.0006 * anteriorT);
+          }
+          pos.needsUpdate = true;
+          return;
+        }
+
+        if (
+          name === 'manubrium-of-sternum' ||
+          name === 'body-of-sternum' ||
+          name === 'xiphoid-process'
+        ) {
+          // Bring sternum forward onto the true anterior thoracic wall plane so all 7 costal cartilages articulate flush
+          for (let i = 0; i < count; i++) {
+            const y = pos.getY(i);
+            const z = pos.getZ(i);
+            const yFrac = THREE.MathUtils.clamp((1.470 - y) / (1.470 - 1.268), 0, 1);
+            const dz = THREE.MathUtils.lerp(0.0056, 0.0124, yFrac);
+            const dy = THREE.MathUtils.lerp(
+              0.0022,
+              0.0005,
+              THREE.MathUtils.clamp((1.470 - y) / 0.060, 0, 1)
+            );
+            pos.setY(i, y + dy);
+            pos.setZ(i, z + dz);
+          }
+          pos.needsUpdate = true;
+          return;
+        }
+
+        if (
+          name.includes('costal-cartilage') &&
+          !name.includes('lower-costal')
+        ) {
+          // Lock lateral end (maxAbsX) 100% onto bony rib (tMed = 0), taper medial tip into sternal costal notch (<1.8mm)
+          let minAbsX = Infinity;
+          let maxAbsX = -Infinity;
+          for (let i = 0; i < count; i++) {
+            const ax = Math.abs(pos.getX(i));
+            if (ax < minAbsX) minAbsX = ax;
+            if (ax > maxAbsX) maxAbsX = ax;
+          }
+          const spanX = Math.max(0.008, maxAbsX - minAbsX);
+          const side = name.startsWith('left') ? 1 : -1;
+          let dxIn = 0.0044;
+          let dyOff = -0.0018;
+          let dzOff = 0.0012;
+          if (name.includes('first')) {
+            dxIn = 0.0046;
+            dyOff = -0.0025;
+            dzOff = -0.0004;
+          } else if (name.includes('second')) {
+            dxIn = 0.0082;
+            dyOff = -0.0018;
+            dzOff = 0.0018;
+          } else if (name.includes('third')) {
+            dxIn = 0.0068;
+            dyOff = -0.0022;
+            dzOff = 0.0014;
+          } else if (name.includes('fourth')) {
+            dxIn = 0.0060;
+            dyOff = -0.0018;
+            dzOff = 0.0012;
+          } else if (name.includes('fifth')) {
+            dxIn = 0.0054;
+            dyOff = -0.0018;
+            dzOff = 0.0014;
+          } else if (name.includes('sixth')) {
+            dxIn = 0.0054;
+            dyOff = -0.0010;
+            dzOff = 0.0010;
+          } else if (name.includes('seventh')) {
+            dxIn = 0.0018;
+            dyOff = 0.0012;
+            dzOff = 0.0006;
+          }
+
+          for (let i = 0; i < count; i++) {
+            const x = pos.getX(i);
+            const y = pos.getY(i);
+            const z = pos.getZ(i);
+            const tMed = rampDown(Math.abs(x), minAbsX + 0.001, minAbsX + spanX * 0.62);
+            pos.setXYZ(
+              i,
+              x - side * dxIn * tMed,
+              y + dyOff * tMed,
+              z + dzOff * tMed
+            );
+          }
+          pos.needsUpdate = true;
+          return;
+        }
+
+        if (name === 'left-clavicle' || name === 'right-clavicle') {
+          // Keep lateral AC joint locked; seat medial sternoclavicular head directly into manubrium notch
+          const side = name.startsWith('left') ? 1 : -1;
+          for (let i = 0; i < count; i++) {
+            const x = pos.getX(i);
+            const y = pos.getY(i);
+            const z = pos.getZ(i);
+            const tMed = rampDown(Math.abs(x), 0.014, 0.088);
+            pos.setXYZ(
+              i,
+              x - side * 0.0022 * tMed,
+              y - 0.0016 * tMed,
+              z + 0.0055 * tMed
+            );
+          }
+          pos.needsUpdate = true;
+          return;
+        }
+
+        if (name === 'left-humerus' || name === 'right-humerus') {
+          // Seat humeral head cleanly inside the glenoid cavity under the acromion and align elbow condyles
+          const side = name.startsWith('left') ? 1 : -1;
+          for (let i = 0; i < count; i++) {
+            const x = pos.getX(i);
+            const y = pos.getY(i);
+            const z = pos.getZ(i);
+            const tDist = THREE.MathUtils.clamp((Math.abs(x) - 0.170) / (0.361 - 0.170), 0, 1);
+            pos.setXYZ(
+              i,
+              x - side * 0.0135 * Math.pow(1 - tDist, 1.35),
+              y + THREE.MathUtils.lerp(-0.0145, -0.0120, tDist),
+              z + THREE.MathUtils.lerp(-0.0085, -0.0020, tDist)
+            );
+          }
+          pos.needsUpdate = true;
+          return;
+        }
+
+        if (
+          name === 'left-radius' ||
+          name === 'right-radius' ||
+          name === 'left-ulna' ||
+          name === 'right-ulna'
+        ) {
+          // Align proximal elbow to humeral trochlea/capitulum while keeping distal wrist locked
+          let minAbsX = Infinity;
+          let maxAbsX = -Infinity;
+          for (let i = 0; i < count; i++) {
+            const ax = Math.abs(pos.getX(i));
+            if (ax < minAbsX) minAbsX = ax;
+            if (ax > maxAbsX) maxAbsX = ax;
+          }
+          const isRadius = name.includes('radius');
+          const side = name.startsWith('left') ? 1 : -1;
+          const spanX = Math.max(0.01, maxAbsX - minAbsX);
+          for (let i = 0; i < count; i++) {
+            const x = pos.getX(i);
+            const y = pos.getY(i);
+            const z = pos.getZ(i);
+            const tFore = THREE.MathUtils.clamp((Math.abs(x) - minAbsX) / spanX, 0, 1);
+            let nx = x;
+            let ny = y + THREE.MathUtils.lerp(-0.0120, 0.0, Math.pow(tFore, 0.9));
+            const nz = z + THREE.MathUtils.lerp(-0.0020, 0.0, tFore);
+            if (isRadius) {
+              const tProx = Math.pow(1 - tFore, 2.2);
+              nx -= side * 0.0022 * tProx;
+              ny += 0.0028 * tProx;
+            }
+            pos.setXYZ(i, nx, ny, nz);
+          }
+          pos.needsUpdate = true;
+          return;
+        }
+
+        if (name === 'left-hip-bone' || name === 'right-hip-bone') {
+          // Symmetrically close only the anterior pubic symphysis cleft from 7.6mm down to crisp ~2.5mm
+          const side = name.startsWith('left') ? 1 : -1;
+          for (let i = 0; i < count; i++) {
+            const x = pos.getX(i);
+            const y = pos.getY(i);
+            const z = pos.getZ(i);
+            const symT =
+              rampDown(Math.abs(x), 0.005, 0.032) *
+              rampDown(y, 0.892, 0.935) *
+              THREE.MathUtils.smoothstep(z, 0.025, 0.058);
+            pos.setX(i, x - side * 0.0026 * symT);
+          }
+          pos.needsUpdate = true;
+          return;
+        }
+
+        if (name === 'left-femur' || name === 'right-femur') {
+          // Seat bilateral femoral heads symmetrically deep inside acetabular sockets (~1.0mm joint space) while locking knee
+          const side = name.startsWith('left') ? 1 : -1;
+          for (let i = 0; i < count; i++) {
+            const x = pos.getX(i);
+            const y = pos.getY(i);
+            const z = pos.getZ(i);
+            const tProx = THREE.MathUtils.smoothstep(y, 0.62, 0.88);
+            pos.setXYZ(
+              i,
+              x - side * 0.0046 * tProx,
+              y + 0.0036 * tProx,
+              z + 0.0034 * tProx
+            );
+          }
+          pos.needsUpdate = true;
+          return;
+        }
+
+        if (name === 'left-fibula' || name === 'right-fibula') {
+          // Snug distal lateral malleolus subtly into the ankle mortise alongside the talus
+          const side = name.startsWith('left') ? 1 : -1;
+          for (let i = 0; i < count; i++) {
+            const x = pos.getX(i);
+            const y = pos.getY(i);
+            const tDist = rampDown(y, 0.08, 0.22);
+            pos.setX(i, x - side * 0.0018 * tDist);
+          }
+          pos.needsUpdate = true;
+        }
+      };
+
       root.traverse((child) => {
         if (!(child as THREE.Mesh).isMesh) return;
         const mesh = child as THREE.Mesh;
@@ -799,17 +1032,7 @@ export function buildCompleteAnatomicalSkeleton3D(onLoaded?: () => void): THREE.
           geo.applyMatrix4(mesh.matrixWorld);
         }
 
-        if (name === 'mandible') {
-          const pos = geo.attributes.position;
-          for (let i = 0; i < pos.count; i++) {
-            const y = pos.getY(i);
-            const z = pos.getZ(i);
-            const anteriorT = Math.max(0, Math.min(1, (z - 0.088) / 0.032));
-            pos.setY(i, y - 0.0092 * anteriorT);
-            pos.setZ(i, z - 0.0006 * anteriorT);
-          }
-          pos.needsUpdate = true;
-        }
+        applyAnatomicalJointAlignment(geo, name);
 
         const cavity = smoothAndAnalyzeBoneGeometry(geo, 1, true);
         applyAnatomicalBoneVertexColors(geo, name, cavity);

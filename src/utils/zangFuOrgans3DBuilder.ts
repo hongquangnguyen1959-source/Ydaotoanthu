@@ -1458,7 +1458,10 @@ function loadVisceraTemplateOnce(onReady: () => void): void {
           geo.applyMatrix4(mesh.matrixWorld);
         }
 
-        // Recess anterior cervical larynx & trachea slightly posteriorly so thyroid cartilage never protrudes outside neck skin
+        // Smooth anatomical containment inside bony thoracic cage & true pelvis (prevents bone clipping or protrusion)
+        const rampDown = (v: number, low: number, high: number) =>
+          1 - THREE.MathUtils.smoothstep(v, low, high);
+
         if (rawTag === 'organ_LU_cartilage' || rawTag === 'organ_LU_trachea') {
           const p = geo.attributes.position;
           for (let i = 0; i < p.count; i++) {
@@ -1473,6 +1476,117 @@ function loadVisceraTemplateOnce(onReady: () => void): void {
               }
               p.setXYZ(i, x, y, z);
             }
+          }
+          p.needsUpdate = true;
+        } else if (rawTag === 'organ_BL') {
+          // Seat urinary bladder inside retropubic true pelvis posterior to pubic symphysis and above pelvic floor
+          const p = geo.attributes.position;
+          for (let i = 0; i < p.count; i++) {
+            const x = p.getX(i);
+            const y = p.getY(i);
+            const z = p.getZ(i);
+            p.setXYZ(
+              i,
+              (x + 0.0086) * 0.85,
+              0.903 + (y - 0.883) * 0.86,
+              0.015 + (z - 0.052) * 0.76
+            );
+          }
+          p.needsUpdate = true;
+        } else if (rawTag === 'organ_KI_ureter') {
+          // Keep distal ureters connected cleanly into the posterolateral bladder base
+          const p = geo.attributes.position;
+          for (let i = 0; i < p.count; i++) {
+            const x = p.getX(i);
+            const y = p.getY(i);
+            const z = p.getZ(i);
+            const distT = rampDown(y, 0.885, 0.960);
+            p.setXYZ(
+              i,
+              x * (1 - 0.14 * distT),
+              y + 0.011 * distT,
+              z - 0.028 * distT
+            );
+          }
+          p.needsUpdate = true;
+        } else if (rawTag === 'organ_LI') {
+          // Compact ascending/transverse/descending colon inside lower costal arch & iliac wings, lift low perineal tip
+          const p = geo.attributes.position;
+          for (let i = 0; i < p.count; i++) {
+            const x = p.getX(i);
+            const y = p.getY(i);
+            const z = p.getZ(i);
+            const pelvicT = rampDown(y, 0.865, 0.960);
+            p.setXYZ(
+              i,
+              x * 0.855,
+              y + 0.024 * pelvicT,
+              0.036 + (z - 0.045) * 0.85
+            );
+          }
+          p.needsUpdate = true;
+        } else if (rawTag === 'organ_SI') {
+          // Compact small intestinal coils neatly within the abdominal & pelvic brim envelope
+          const p = geo.attributes.position;
+          for (let i = 0; i < p.count; i++) {
+            const x = p.getX(i);
+            const y = p.getY(i);
+            const z = p.getZ(i);
+            p.setXYZ(
+              i,
+              0.002 + (x - 0.008) * 0.835,
+              1.095 + (y - 1.095) * 0.96,
+              0.055 + (z - 0.070) * 0.81
+            );
+          }
+          p.needsUpdate = true;
+        } else if (rawTag === 'organ_LU_lung') {
+          // Provide 4-6mm pleural clearance inside ribs 1-8 and sternum
+          const p = geo.attributes.position;
+          for (let i = 0; i < p.count; i++) {
+            const x = p.getX(i);
+            const y = p.getY(i);
+            const z = p.getZ(i);
+            p.setXYZ(
+              i,
+              x * 0.905,
+              1.385 + (y - 1.385) * 0.96,
+              0.038 + (z - 0.042) * 0.905
+            );
+          }
+          p.needsUpdate = true;
+        } else if (
+          rawTag === 'organ_LR_liver' ||
+          rawTag === 'organ_LR_ligament' ||
+          rawTag === 'organ_GB'
+        ) {
+          // Tuck liver & gallbladder smoothly inside right ribs 6-10 and subcostal arch
+          const p = geo.attributes.position;
+          for (let i = 0; i < p.count; i++) {
+            const x = p.getX(i);
+            const y = p.getY(i);
+            const z = p.getZ(i);
+            p.setXYZ(
+              i,
+              -0.012 + (x + 0.012) * 0.865,
+              1.258 + (y - 1.255) * 0.94,
+              0.040 + (z - 0.048) * 0.865
+            );
+          }
+          p.needsUpdate = true;
+        } else if (rawTag === 'organ_ST' || rawTag === 'organ_SP') {
+          // Tuck stomach & spleen cleanly inside left costal arch and posterior 9-11 ribs
+          const p = geo.attributes.position;
+          for (let i = 0; i < p.count; i++) {
+            const x = p.getX(i);
+            const y = p.getY(i);
+            const z = p.getZ(i);
+            p.setXYZ(
+              i,
+              x * 0.860,
+              y,
+              0.042 + (z - 0.042) * 0.90
+            );
           }
           p.needsUpdate = true;
         }
@@ -1703,7 +1817,7 @@ export function buildZangFuOrgans3D(onLoaded?: () => void): ZangFuOrgansRig {
   // COMPLEMENTARY ORGAN 4: DIAPHRAGM (Tam Tiêu - TE)
   // Asymmetric musculotendinous dome arching smoothly over real liver (maxY 1.337) & stomach (maxY 1.288)
   // --------------------------------------------------------------------------
-  const diaphragmGeo = new THREE.SphereGeometry(0.114, 48, 20, 0, Math.PI * 2, 0, Math.PI * 0.28);
+  const diaphragmGeo = new THREE.SphereGeometry(0.104, 48, 20, 0, Math.PI * 2, 0, Math.PI * 0.28);
   const dPos = diaphragmGeo.attributes.position;
   const dColors = new Float32Array(dPos.count * 3);
   const cTendon = new THREE.Color('#e3cfd6');
@@ -1715,15 +1829,15 @@ export function buildZangFuOrgans3D(onLoaded?: () => void): ZangFuOrgansRig {
     const vx = dPos.getX(i);
     const vy = dPos.getY(i);
     const vz = dPos.getZ(i);
-    const r = Math.hypot(vx, vz) / 0.114;
+    const r = Math.hypot(vx, vz) / 0.104;
     const ang = Math.atan2(vz, vx);
     // Asymmetric double dome matching VH Liver on right (-X, high dome) & Stomach on left (+X)
-    const rightLift = vx < 0 ? 0.015 * Math.exp(-Math.pow((vx + 0.056) / 0.044, 2)) : 0;
-    const leftLift = vx > 0 ? 0.006 * Math.exp(-Math.pow((vx - 0.052) / 0.042, 2)) : 0;
+    const rightLift = vx < 0 ? 0.015 * Math.exp(-Math.pow((vx + 0.052) / 0.040, 2)) : 0;
+    const leftLift = vx > 0 ? 0.006 * Math.exp(-Math.pow((vx - 0.048) / 0.038, 2)) : 0;
     const centralDip = -0.008 * Math.exp(-Math.pow(r / 0.30, 2));
     const ribStriation = 0.0014 * Math.sin(ang * 30) * Math.max(0, r - 0.35);
 
-    dPos.setXYZ(i, vx * 0.98, vy * 0.28 + rightLift + leftLift + centralDip + ribStriation, vz * 0.56);
+    dPos.setXYZ(i, vx * 0.96, vy * 0.28 + rightLift + leftLift + centralDip + ribStriation, vz * 0.54);
 
     const cloverT = 0.38 + 0.08 * Math.cos(ang * 3 - 0.4);
     const tendonBlend = THREE.MathUtils.clamp(1 - (r - 0.14) / cloverT, 0, 1);
@@ -1746,7 +1860,7 @@ export function buildZangFuOrgans3D(onLoaded?: () => void): ZangFuOrgansRig {
     clearcoat: 0.46,
     side: THREE.DoubleSide,
   });
-  diaphragmMesh.position.set(0, 1.278, 0.044);
+  diaphragmMesh.position.set(0, 1.278, 0.041);
 
   // --------------------------------------------------------------------------
   // COMPLEMENTARY ORGAN 5: BILATERAL ADRENAL GLANDS (Thượng Thận - ADR)
